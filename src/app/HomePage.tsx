@@ -423,10 +423,10 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                Təz-təz Verilən Suallar
+                Tez-tez Verilən Suallar
               </h2>
               <p className="text-xl text-gray-600">
-                Şəxsi aşpaz və keterinq xidməti haqqında ən çox verilən suallar
+                Şəxsi aşpaz və katerinq xidməti haqqında ən çox verilən suallar
               </p>
             </div>
             
@@ -442,7 +442,7 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
               
               <div className="bg-gray-50 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  Hansi sahələrdə xidmət göstərirsiniz?
+                  Hansı sahələrdə xidmət göstərirsiniz?
                 </h3>
                 <p className="text-gray-600">
                   Bakı, Sumqayıt, Abşeron rayonu və ətraf bölgələrdə xidmət göstəririk. Uzaq məsafələr üçün əlavə nəqliyyat xərci tətbiq olunur.

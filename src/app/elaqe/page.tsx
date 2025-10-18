@@ -163,7 +163,7 @@ export default function ContactPage() {
               <Card>
                 <CardContent className="p-6">
                   <h3 className="font-semibold text-lg mb-2">
-                    Hansi sahələrdə xidmət göstərirsiniz?
+                    Hansı sahələrdə xidmət göstərirsiniz?
                   </h3>
                   <p className="text-gray-600">
                     Bakı, Sumqayıt, Abşeron rayonu və ətraf bölgələrdə xidmət göstəririk. 
