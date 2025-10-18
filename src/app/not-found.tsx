@@ -1,25 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ChefHat, Home, Phone, Search, ArrowLeft } from 'lucide-react';
-
-// Client component for back navigation
-function BackButton() {
-  'use client';
-  
-  return (
-    <Button 
-      variant="outline" 
-      size="lg" 
-      className="border-2 border-gray-300 hover:border-red-600 hover:text-red-600 px-8 py-4 text-lg rounded-full transition-all duration-300"
-      onClick={() => window.history.back()}
-    >
-      <ArrowLeft className="mr-2 h-5 w-5" />
-      Geri Qayıt
-    </Button>
-  );
-}
 
 export default function NotFound() {
   return (
@@ -146,7 +131,15 @@ export default function NotFound() {
                 </Link>
               </Button>
               
-              <BackButton />
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="border-2 border-gray-300 hover:border-red-600 hover:text-red-600 px-8 py-4 text-lg rounded-full transition-all duration-300"
+                onClick={() => window.history.back()}
+              >
+                <ArrowLeft className="mr-2 h-5 w-5" />
+                Geri Qayıt
+              </Button>
             </div>
 
             {/* Fun Message */}
