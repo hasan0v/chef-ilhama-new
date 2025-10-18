@@ -20,8 +20,8 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı | Azərbaycan Mətbəxi",
-  description: "Bakının ən yaxşı şəxsi aşpazı. Keterinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın. +994 10 379 45 77",
-  keywords: "aşpaz Bakı, şəxsi aşpaz, keterinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, catering Baku, personal chef",
+  description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın. +994 10 379 45 77",
+  keywords: "aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, catering Baku, personal chef",
   authors: [{ name: "Chef İlhamə" }],
   robots: {
     index: true,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakının ən yaxşı şəxsi aşpazı. Keterinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın.",
+    description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın.",
     type: "website",
     locale: "az_AZ",
     url: "https://chef-ilhama.food",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakının ən yaxşı şəxsi aşpazı. Keterinq xidməti, toy yeməkləri, şirkət tədbirləri.",
+    description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.",
     images: ["https://chef-ilhama.food/ilhama.png"],
   },
   alternates: {
@@ -108,7 +108,7 @@ export default function RootLayout({
               "@type": "LocalBusiness",
               "@id": "https://chef-ilhama.food/#business",
               "name": "Chef İlhamə",
-              "description": "Professional şəxsi aşpaz və keterinq xidməti Bakıda",
+              "description": "Professional şəxsi aşpaz və katerinq xidməti Bakıda",
               "url": "https://chef-ilhama.food",
               "telephone": "+994 10 379 45 77",
               "email": "info@chef-ilhama.food",
@@ -176,8 +176,8 @@ export default function RootLayout({
                     "@type": "Offer",
                     "itemOffered": {
                       "@type": "Service",
-                      "name": "Keterinq Xidməti",
-                      "description": "Toy və tədbirlər üçün professional keterinq"
+                      "name": "Katerinq Xidməti",
+                      "description": "Toy və tədbirlər üçün professional katerinq"
                     }
                   }
                 ]

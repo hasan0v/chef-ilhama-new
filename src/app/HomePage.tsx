@@ -226,7 +226,7 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
               variants={itemVariants}
               className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto mb-12 leading-relaxed"
             >
-              Bakının ən professional şəxsi aşpazı. Keterinq xidməti, toy yeməkləri, şirkət tədbirləri.
+              Bakının ən professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.
               <br className="hidden md:block" />
               15+ il təcrübə ilə Azərbaycan mətbəxinin ən dadlı reseptlərini hazırlayırıq.
             </motion.p>
@@ -463,7 +463,7 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
                   Toy yeməkləri üçün nə kimi xidmətlər təqdim edirsiniz?
                 </h3>
                 <p className="text-gray-600">
-                  Toy menüsunum hazırlanması, bütün yeməklərin hazırlanması, təqdim edilməsi və xidmət personalinin təmin olunması. Ənənəvi Azərbaycan toy yeməklərindən tutmuş müasir banket menülarına qədər.
+                  Toy menyusunun hazırlanması, bütün yeməklərin hazırlanması, təqdim edilməsi və xidmət personalinin təmin olunması. Ənənəvi Azərbaycan toy yeməklərindən tutmuş müasir banket menyularına qədər.
                 </p>
               </div>
               
@@ -472,7 +472,7 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
                   Xüsusi pəhriz tələblərini nəzərə alırsınız?
                 </h3>
                 <p className="text-gray-600">
-                  Bəli, vegetarian, halal, diabet və digər xüsi pəhriz tələblərini nəzərə alaraq menyu hazırlayırıq. Sifariş zamanı xüsi istəklərinizi bildirin.
+                  Bəli, vegetarian, halal, diabet və digər xüsusi pəhriz tələblərini nəzərə alaraq menyu hazırlayırıq. Sifariş zamanı xüsusi istəklərinizi bildirin.
                 </p>
               </div>
             </div>

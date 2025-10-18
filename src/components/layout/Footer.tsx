@@ -22,7 +22,7 @@ export default function Footer() {
               <span className="font-bold text-xl">Chef İlhamə</span>
             </div>
             <p className="text-gray-300 text-sm">
-              Bakının ən professional şəxsi aşpazı. Keterinq xidməti, toy yeməkləri, 
+              Bakının ən professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, 
               şirkət tədbirləri üçün 15+ il təcrübə ilə xidmətinizdəyik.
             </p>
             <div className="flex space-x-4">
@@ -49,7 +49,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/xidmetler" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Keterinq Xidməti
+                  Katerinq Xidməti
                 </Link>
               </li>
               <li>

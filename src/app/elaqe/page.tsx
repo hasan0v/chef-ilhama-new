@@ -178,8 +178,8 @@ export default function ContactPage() {
                     Xüsusi pəhriz tələblərini nəzərə alırsınız?
                   </h3>
                   <p className="text-gray-600">
-                    Bəli, vegetarian, halal, diabet və digər xüsi pəhriz tələblərini nəzərə alaraq 
-                    menyu hazırlayırıq. Sifariş zamanı xüsi istəklərinizi bildirin.
+                    Bəli, vegetarian, halal, diabet və digər xüsusi pəhriz tələblərini nəzərə alaraq 
+                    menyu hazırlayırıq. Sifariş zamanı xüsusi istəklərinizi bildirin.
                   </p>
                 </CardContent>
               </Card>

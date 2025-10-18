@@ -51,7 +51,7 @@ export default function NotFound() {
                               Aşpaz Xidməti
                             </div>
                             <div className="text-sm text-gray-500">
-                              Professional keterinq və şəxsi aşpaz
+                              Professional katerinq və şəxsi aşpaz
                             </div>
                           </div>
                         </div>
