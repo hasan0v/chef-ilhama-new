@@ -226,7 +226,7 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
               variants={itemVariants}
               className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto mb-12 leading-relaxed"
             >
-              Bakının ən professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.
+              Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.
               <br className="hidden md:block" />
               15+ il təcrübə ilə Azərbaycan mətbəxinin ən dadlı reseptlərini hazırlayırıq.
             </motion.p>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChefHat, Facebook, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { ChefHat, Instagram, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   const quickLinks = [
@@ -22,13 +22,10 @@ export default function Footer() {
               <span className="font-bold text-xl">Chef İlhamə</span>
             </div>
             <p className="text-gray-300 text-sm">
-              Bakının ən professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, 
+              Bakıda professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, 
               şirkət tədbirləri üçün 15+ il təcrübə ilə xidmətinizdəyik.
             </p>
             <div className="flex space-x-4">
-              <a href="https://www.facebook.com/chef.ilhama.baku" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
               <a href="https://www.instagram.com/chef.ilhama" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
