@@ -1,0 +1,242 @@
+// Supabase-based Contact Service for Chef İlhamə
+import { PrismaClient } from '../../generated/prisma'
+import type { ContactMessage } from '../../database/models'
+
+const prisma = new PrismaClient()
+
+export class SupabaseContactService {
+  // Create a new contact message
+  async createMessage(data: {
+    name: string
+    email: string
+    subject: string
+    message: string
+  }): Promise<ContactMessage> {
+    try {
+      const contactMessage = await prisma.contactMessage.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          isRead: false,
+          isReplied: false,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+      })
+
+      // Update website stats
+      await this.updateContactStats()
+
+      return {
+        id: contactMessage.id,
+        name: contactMessage.name,
+        email: contactMessage.email,
+        subject: contactMessage.subject,
+        message: contactMessage.message,
+        isRead: contactMessage.isRead,
+        isReplied: contactMessage.isReplied,
+        createdAt: contactMessage.createdAt.toISOString()
+      }
+    } catch (error) {
+      console.error('Error creating contact message:', error)
+      throw new Error('Failed to send message')
+    }
+  }
+
+  // Get all contact messages (for admin)
+  async getAllMessages(options?: {
+    limit?: number
+    offset?: number
+    isRead?: boolean
+    isReplied?: boolean
+  }): Promise<{ messages: ContactMessage[]; total: number }> {
+    try {
+      const {
+        limit = 50,
+        offset = 0,
+        isRead,
+        isReplied
+      } = options || {}
+
+      const where: { isRead?: boolean; isReplied?: boolean } = {}
+      if (isRead !== undefined) where.isRead = isRead
+      if (isReplied !== undefined) where.isReplied = isReplied
+
+      const messages = await prisma.contactMessage.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        skip: offset
+      })
+
+      const total = await prisma.contactMessage.count({ where })
+
+      const transformedMessages: ContactMessage[] = messages.map(msg => ({
+        id: msg.id,
+        name: msg.name,
+        email: msg.email,
+        subject: msg.subject,
+        message: msg.message,
+        isRead: msg.isRead,
+        isReplied: msg.isReplied,
+        createdAt: msg.createdAt.toISOString()
+      }))
+
+      return { messages: transformedMessages, total }
+    } catch (error) {
+      console.error('Error fetching contact messages:', error)
+      return { messages: [], total: 0 }
+    }
+  }
+
+  // Get message by ID
+  async getMessageById(id: string): Promise<ContactMessage | null> {
+    try {
+      const message = await prisma.contactMessage.findUnique({
+        where: { id }
+      })
+
+      if (!message) return null
+
+      return {
+        id: message.id,
+        name: message.name,
+        email: message.email,
+        subject: message.subject,
+        message: message.message,
+        isRead: message.isRead,
+        isReplied: message.isReplied,
+        createdAt: message.createdAt.toISOString()
+      }
+    } catch (error) {
+      console.error('Error fetching contact message:', error)
+      return null
+    }
+  }
+
+  // Mark message as read
+  async markAsRead(id: string): Promise<boolean> {
+    try {
+      await prisma.contactMessage.update({
+        where: { id },
+        data: { 
+          isRead: true,
+          updatedAt: new Date()
+        }
+      })
+      return true
+    } catch (error) {
+      console.error('Error marking message as read:', error)
+      return false
+    }
+  }
+
+  // Mark message as replied
+  async markAsReplied(id: string): Promise<boolean> {
+    try {
+      await prisma.contactMessage.update({
+        where: { id },
+        data: { 
+          isReplied: true,
+          updatedAt: new Date()
+        }
+      })
+      return true
+    } catch (error) {
+      console.error('Error marking message as replied:', error)
+      return false
+    }
+  }
+
+  // Delete message
+  async deleteMessage(id: string): Promise<boolean> {
+    try {
+      await prisma.contactMessage.delete({
+        where: { id }
+      })
+      
+      // Update contact stats
+      await this.updateContactStats()
+      
+      return true
+    } catch (error) {
+      console.error('Error deleting contact message:', error)
+      return false
+    }
+  }
+
+  // Get contact statistics
+  async getStats(): Promise<{
+    totalMessages: number
+    unreadMessages: number
+    repliedMessages: number
+    recentMessages: number
+  }> {
+    try {
+      const totalMessages = await prisma.contactMessage.count()
+      const unreadMessages = await prisma.contactMessage.count({
+        where: { isRead: false }
+      })
+      const repliedMessages = await prisma.contactMessage.count({
+        where: { isReplied: true }
+      })
+      
+      // Messages from last 7 days
+      const weekAgo = new Date()
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      const recentMessages = await prisma.contactMessage.count({
+        where: {
+          createdAt: {
+            gte: weekAgo
+          }
+        }
+      })
+
+      return {
+        totalMessages,
+        unreadMessages,
+        repliedMessages,
+        recentMessages
+      }
+    } catch (error) {
+      console.error('Error fetching contact stats:', error)
+      return {
+        totalMessages: 0,
+        unreadMessages: 0,
+        repliedMessages: 0,
+        recentMessages: 0
+      }
+    }
+  }
+
+  // Update website stats with contact count
+  private async updateContactStats(): Promise<void> {
+    try {
+      const totalContacts = await prisma.contactMessage.count()
+      
+      // Update or create website stats
+      await prisma.websiteStats.upsert({
+        where: { id: 'main' },
+        update: { 
+          totalContacts,
+          lastUpdated: new Date()
+        },
+        create: {
+          id: 'main',
+          totalViews: 0,
+          totalRecipes: await prisma.recipe.count(),
+          totalContacts,
+          lastUpdated: new Date()
+        }
+      })
+    } catch (error) {
+      console.error('Error updating contact stats:', error)
+    }
+  }
+}
+
+// Export singleton instance
+export const supabaseContactService = new SupabaseContactService()
+export default supabaseContactService

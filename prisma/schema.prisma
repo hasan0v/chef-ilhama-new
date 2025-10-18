@@ -1,0 +1,35 @@
+// Chef İlhamə Database Schema
+// Prisma schema for Azerbaijani recipe database - Based on CSV structure
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+// Recipe model - main recipes table based on CSV structure
+model Recipe {
+  id                    String   @id @default(cuid())
+  yemeyinAdi           String   // Yeməyin Adı (Recipe Name)
+  slug                 String   @unique // URL-friendly version
+  mense                String?  // Mənşə (Origin)
+  bolge                String?  // Bölgə (Region) 
+  kateqoriya           String   // Kateqoriya (Category)
+  terkibHisseleri      String   @db.Text // Tərkib hissələri (Ingredients)
+  hazirlanmaQaydasi    String   @db.Text // Hazırlanma qaydası (Instructions)
+  hazirlanmaMuddeti    String   // Hazırlanma müddəti (Prep Time)
+  cetinlikDerecesi     String   // Çətinlik dərəcəsi (Difficulty)
+  porsiyaSayi          String   // Porsiya sayı (Servings)
+  tarixiMelumat        String   @db.Text // Tarixi məlumat/Arxa plan (History/Background)
+  teqdimTeklifleri     String   @db.Text // Təqdim təklifləri (Serving Suggestions)
+  sekilLinki           String   // Şəkil Linki (Image Link)
+  featured             Boolean  @default(false)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  @@map("recipes")
+}

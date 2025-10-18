@@ -1,0 +1,1891 @@
+{
+  "recipes": [
+    {
+      "id": "recipe-1",
+      "name": "Soyutma (Uzun müddət bişmiş ət)",
+      "origin": "Bakı, ümumi Azərbaycan",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Quzu budu - 1 ədəd (2 kq)",
+        "Soğan - 4 ədəd böyük",
+        "Sarımsaq - 1 baş",
+        "Duz",
+        "qara istiot",
+        "Keşniş",
+        "şüyüd - 2 dəstə hərəsindən",
+        "Qurumuş alça - 1 stəkan"
+      ],
+      "instructions": [
+        "Əti soyuq suda gecə boyu saxlayın. Böyük qazanda su qaynadın",
+        "əti daxil edin. 4-5 saat zəif odda bişirin. Soğan",
+        "sarımsaq əlavə edin. Son 30 dəqiqədə alça və göyərtiləri daxil edin."
+      ],
+      "prepTime": "5-6 saat",
+      "difficulty": "Orta",
+      "servings": "08-Oct",
+      "history": "Azərbaycan mətbəxinin ən qədim yemək növlərindən biri olan soyutma, öz adını ətın soyuq halda da dadlı qalmasından götürür. Tarixi mənbələrdə bu yeməkdən IX əsrdən bəhs edilir.",
+      "servingSuggestions": "Təzə çörək və keşniş ilə. Qatıq və sumaq qarışığı ilə müşayiət edilir.",
+      "image": "https://flavorsofbaku.com/wp-content/uploads/2014/04/SoyutmaFOB-647x382.jpg",
+      "slug": "soyutma-uzun-muddet-bismis-et",
+      "tags": [
+        "Əsas yemək",
+        "Bakı",
+        "ümumi Azərbaycan",
+        "Orta",
+        "biş",
+        "qayna"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-2",
+      "name": "Qədim Naxçıvan Küftəsi (Balaca)",
+      "origin": "Naxçıvan, Qərbi Azərbaycan",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Dana əti (yağsız) - 500 qram",
+        "Düyü - 100 qram",
+        "Soğan - 2 ədəd",
+        "Yumurta - 1 ədəd",
+        "Duz",
+        "qara istiot",
+        "Keşniş - 1 dəstə",
+        "Un - 2 xörək qaşığı",
+        "Qarışıq ədviyyat"
+      ],
+      "instructions": [
+        "Əti iyirmə maşınından keçirin. Düyü qaynar suda 10 dəqiqə bişirin. Soğanı xırdalayın. Hamısını qarışdırın və balaca toplar hazırlayın. Qaynar suda 25-30 dəqiqə bişirin."
+      ],
+      "prepTime": "1 saat 30 dəq",
+      "difficulty": "Orta",
+      "servings": "04-Jun",
+      "history": "Naxçıvan xanlığının saray mətbəxindən gələn bu küftə növü, xüsusilə kiçik ölçüsü və zərif dadı ilə tanınır. Xan ailəsinin uşaq üzvləri üçün hazırlanardı.",
+      "servingSuggestions": "Şorba halında, keşniş və qatıqla birlikdə. Naxçıvan lavağı ilə mükəmməl uyğundur.",
+      "image": "https://azcookbook.com/wp-content/uploads/2014/02/kufte-bozbash-azerbaijani-meatball-soup-2.jpg",
+      "slug": "qedim-naxcivan-kuftesi-balaca",
+      "tags": [
+        "Əsas yemək",
+        "Naxçıvan",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş",
+        "qayna"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-3",
+      "name": "Qərbi Azərbaycan Balıq Dolması",
+      "origin": "Şəki, Qax, Qərbi Azərbaycan",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Kür balığı - 1 ədəd böyük (2 kq)",
+        "Düyü - 300 qram",
+        "Soğan - 3 ədəd",
+        "Keşniş",
+        "şüyüd",
+        "nanə - 1 dəstə hərəsindən",
+        "Qoz içi - 100 qram",
+        "Quru üzüm - 50 qram",
+        "Duz",
+        "istiot",
+        "Zəfəran - 1 tutam"
+      ],
+      "instructions": [
+        "Balığı təmizləyib içini çıxarın. Düyüləri soğanla birlikdə qızardın. Göyərti",
+        "qoz və quru üzüm əlavə edin. Balığın içini doldurub tikirin. Sobada və ya buxarda 45 dəqiqə bişirin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Çətin",
+      "servings": "06-Aug",
+      "history": "Qərbi Azərbaycan çaylarının balıq zənginliyindən yararlanan bu yemək, xüsusilə Şəki və Qax bölgələrində toy mərasimlərində hazırlanır.",
+      "servingSuggestions": "Limon və göyərti qarışığı ilə. Turşu və təzə salat müşayiəti.",
+      "image": "https://v3.fal.media/files/zebra/pi7Ods4bNqlpm4WvY9t8P.png",
+      "slug": "qerbi-azerbaycan-baliq-dolmasi",
+      "tags": [
+        "Əsas yemək",
+        "Şəki",
+        "Qax",
+        "Qərbi Azərbaycan",
+        "Çətin",
+        "biş",
+        "bux",
+        "soba"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-4",
+      "name": "Gəncə Ləvəngi (Balıqsız)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Badımcan - 6 ədəd orta boy",
+        "Qoz içi - 200 qram",
+        "Soğan - 3 ədəd",
+        "Keşniş - 2 dəstə",
+        "Sarımsaq - 4 diş",
+        "Nar turşusu - 2 xörək qaşığı",
+        "Duz",
+        "istiot",
+        "Zeytun yağı - 100 ml"
+      ],
+      "instructions": [
+        "Badımcanları bütöv şəkildə bişirin və içini boşaldın. Qoz",
+        "soğan",
+        "keşniş və sarımsağı qarışdırın. Nar turşusu əlavə edin. Badımcanları doldurub sobada 30 dəqiqə bişirin."
+      ],
+      "prepTime": "1 saat 15 dəq",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Gəncə şəhərinin özünəməxsus ləvəngi növü. Ənənəvi balıq ləvəngisindən fərqli olaraq, badımcan əsasında hazırlanır və vegetarian seçim təklif edir.",
+      "servingSuggestions": "İsti halda, üzərinə qoz və keşniş səpin. Qatıq sousu ilə təqdim edin.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "gence-levengi-baliqsiz",
+      "tags": [
+        "Əsas yemək",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş",
+        "soba"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-5",
+      "name": "Şəki Nərgizi (Köhnə resept)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "Unudulmuş yemək",
+      "ingredients": [
+        "Dana əti - 800 qram",
+        "Soğan - 4 ədəd",
+        "Badımcan - 3 ədəd",
+        "Pomidor - 4 ədəd",
+        "Yağ - 80 ml",
+        "Duz",
+        "istiot",
+        "Keşniş - 1 dəstə",
+        "Ərik turşusu - 2 xörək qaşığı"
+      ],
+      "instructions": [
+        "Əti kiçik hissələrə bölüb qızardın. Soğanı əlavə edin. Badımcan və pomidorları doğrayıb daxil edin. 1.5 saat yavaş odda bişirin. Ərik turşusu və keşniş əlavə edin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "05-Jun",
+      "history": "Şəki xanlığının saray mətbəxindən qalan nadir resept. Bu yemək adını nərgiz gülünün zərifliyindən alır və xüsusi hazırlanma texnikası ilə seçilir.",
+      "servingSuggestions": "Düyü ilə birlikdə. Təzə keşniş və sumaq ilə bəzəyin.",
+      "image": "https://azcookbook.com/wp-content/uploads/2014/03/nargiz-kufta-scotch-eggs-azerbaijani-style-3.jpg",
+      "slug": "seki-nergizi-kohne-resept",
+      "tags": [
+        "Unudulmuş yemək",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-6",
+      "name": "Naxçıvan Dərəlik (Qədim)",
+      "origin": "Naxçıvan, kənd rayonları",
+      "category": "Unudulmuş yemək",
+      "ingredients": [
+        "Quzu əti - 600 qram",
+        "Noxud - 200 qram",
+        "Kök - 3 ədəd",
+        "Kartof - 4 ədəd",
+        "Pomidor - 2 ədəd",
+        "Duz",
+        "istiot",
+        "Keşniş - 1 dəstə",
+        "Naxçıvan xörəyi - 1 xörək qaşığı"
+      ],
+      "instructions": [
+        "Noxudu gecədən isladın. Əti və noxudu birlikdə 1 saat bişirin. Doğranmış tərəvəzləri əlavə edin. Xörək və ədviyyatları daxil edib 45 dəqiqə bişirin."
+      ],
+      "prepTime": "2.5 saat",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Naxçıvanın kənd əhalisinin qədim qidalanma mənbəyi olan bu yemək, dağlıq ərazinin çətin qış şəraitində vitamim mənbəyi rolunu oynayırdı.",
+      "servingSuggestions": "İsti halda, təzə çörək və qatıq ilə. Naxçıvan turşusu mükəmməl əlavədir.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "naxcivan-derelik-qedim",
+      "tags": [
+        "Unudulmuş yemək",
+        "Naxçıvan",
+        "kənd rayonları",
+        "Orta",
+        "biş"
+      ],
+      "featured": true
+    },
+    {
+      "id": "recipe-7",
+      "name": "Qarabağ Mərsəri (Çobankələmi Dolu)",
+      "origin": "Qarabağ, dağlıq sahələr",
+      "category": "Unudulmuş yemək",
+      "ingredients": [
+        "Çobankələmi - 500 qram (təzə yarpaq)",
+        "Dana qiymə - 300 qram",
+        "Düyü - 150 qram",
+        "Soğan - 2 ədəd",
+        "Keşniş - 1 dəstə",
+        "Duz",
+        "istiot",
+        "Yumurta - 1 ədəd",
+        "Limon turşusu - 1 xörək qaşığı"
+      ],
+      "instructions": [
+        "Çobankələmi yarpaqlarını təmizləyin. Qiyməni düyü və soğanla qarışdırın. Yarpaqları doldurub sarın. Qaynar suda limon turşusu əlavə edib 40 dəqiqə bişirin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Çətin",
+      "servings": "06-Aug",
+      "history": "Qarabağın yay aylarında çoban ailələrinin hazırladığı bu yemək, təbii bitkilərdən istifadə edən sağlam qidalanma nümunəsidir.",
+      "servingSuggestions": "Qatıq və sarımsaq sousu ilə. İsti halda təqdim edin.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qarabag-merseri-cobankelemi-dolu",
+      "tags": [
+        "Unudulmuş yemək",
+        "Qarabağ",
+        "dağlıq sahələr",
+        "Çətin",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-8",
+      "name": "Şəki Düyü Aşı (Ənənəvi)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Düyü - 200 qram",
+        "Mal əti - 400 qram (sümüklü)",
+        "Soğan - 2 ədəd",
+        "Keşniş",
+        "nanə - 1 dəstə hərəsindən",
+        "Duz",
+        "istiot",
+        "Su - 2 litr",
+        "Yağ - 50 ml"
+      ],
+      "instructions": [
+        "Əti suda qaynadın",
+        "köpüyü təmizləyin. 1.5 saat bişirin. Düyü və soğan əlavə edin. 30 dəqiqə bişirin. Göyərtiləri əlavə edib servə hazır edin."
+      ],
+      "prepTime": "2.5 saat",
+      "difficulty": "Asan",
+      "servings": "06-Aug",
+      "history": "Şəki evlərinin ənənəvi səhər yeməyi. Xüsusilə soyuq qış günlərində qidalandırıcı və isidici təsiri üçün hazırlanır.",
+      "servingSuggestions": "İsti halda, limon və keşniş ilə. Təzə çörək müşayiəti.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "seki-duyu-asi-enenevi",
+      "tags": [
+        "Şorba/Aş",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Asan",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-9",
+      "name": "Gəncə Xəngəl Aşı (Ev usulu)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Un - 300 qram",
+        "Yumurta - 2 ədəd",
+        "Su - 100 ml",
+        "Duz",
+        "Toyuq əti - 500 qram",
+        "Soğan - 2 ədəd",
+        "Keşniş - 1 dəstə",
+        "Qara istiot",
+        "Su - şorba üçün 2 litr"
+      ],
+      "instructions": [
+        "Xəmir yoğurun",
+        "nazik açıb kiçik kvadratlara kəsin. Toyuq şorbası hazırlayın. Xəngəlləri şorbada 15 dəqiqə bişirin. Keşniş əlavə edin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Gəncə şəhərinin xüsusi xəmir yeməklərindən. Əsasən qış aylarında və xəstələr üçün qidalandırıcı yemək kimi hazırlanır.",
+      "servingSuggestions": "İsti halda, yoğurt və keşniş ilə. Sirkə və sumaq əlavə edilə bilər.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/10/Uzbek-lagman-noodles-2.jpg",
+      "slug": "gence-xengel-asi-ev-usulu",
+      "tags": [
+        "Şorba/Aş",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-10",
+      "name": "Naxçıvan Tərə Aşı (Dağ otu ilə)",
+      "origin": "Naxçıvan, dağlıq rayonlar",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Tərə - 400 qram (dağ tərəsi)",
+        "Quru lobya - 200 qram",
+        "Soğan - 2 ədəd",
+        "Sarımsaq - 4 diş",
+        "Un - 2 xörək qaşığı",
+        "Su - 2 litr",
+        "Duz",
+        "istiot",
+        "Zeytun yağı - 60 ml"
+      ],
+      "instructions": [
+        "Lobyaları gecədən isladın",
+        "səhər bişirin. Tərəni doğrayıb soğanla qızardın. Lobya ilə birləşdirin. Su əlavə edib 30 dəqiqə qaynadın. Un qarışığı ilə qatılaşdırın."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Asan",
+      "servings": "6",
+      "history": "Naxçıvanın dağlıq bölgələrində yetişən vəhşi tərədən hazırlanan bu aş, yüksək vitamin tərkibi ilə qış aylarının vitamin mənbəyidir.",
+      "servingSuggestions": "İsti halda, sarımsaq və qatıq ilə. Naxçıvan çörəyi ilə dadlanır.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/10/Uzbek-lagman-noodles-2.jpg",
+      "slug": "naxcivan-tere-asi-dag-otu-ile",
+      "tags": [
+        "Şorba/Aş",
+        "Naxçıvan",
+        "dağlıq rayonlar",
+        "Asan",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-11",
+      "name": "Şəki Halva Paxlavası (Qoz-badamlı)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Yufka xəmiri - 12 vərəq",
+        "Qoz içi - 300 qram",
+        "Badam - 200 qram",
+        "Şəkər - 400 qram",
+        "Yağ - 150 qram",
+        "Bal - 100 qram",
+        "Darçın - 1 çay qaşığı",
+        "Şərbət üçün: su",
+        "şəkər",
+        "limon"
+      ],
+      "instructions": [
+        "Qoz və badamı doğrayıb şəkər və darçınla qarışdırın. Yufka vərəqlərini yağlayıb qoz qarışığı arasında düzün. Kəsin və 180°C-də 30 dəqiqə bişirin. Bal-şəkər şərbəti tökün."
+      ],
+      "prepTime": "2.5 saat",
+      "difficulty": "Çətin",
+      "servings": "20-25",
+      "history": "Şəki halvaçılığının ən məşhur nümunəsi. XVIII əsrdən bəri Şəki şəhərinin simvolu sayılan bu şirniyyat, xüsusi texnika ilə hazırlanır.",
+      "servingSuggestions": "Çay ilə birlikdə. Xüsusilə bayram günlərində və qonaq süfrəsində.",
+      "image": "https://cms.seasonedtraveller.com/uploads/2019_ST_Azerbaijan_Sheki_6_1_e6d3d35f3f.jpg",
+      "slug": "seki-halva-paxlavasi-qoz-badamli",
+      "tags": [
+        "Şirniyyat",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Çətin",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-12",
+      "name": "Qarabağ Nar Halvası (Ənənəvi)",
+      "origin": "Qarabağ, Füzuli",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Nar şirəsi - 500 ml (təzə)",
+        "Şəkər - 300 qram",
+        "Nişasta - 100 qram",
+        "Qoz içi - 150 qram",
+        "Darçın - 1/2 çay qaşığı",
+        "Limon turşusu - 1 çimdik"
+      ],
+      "instructions": [
+        "Nar şirəsini qaynadın. Şəkər əlavə edin. Nişastanı soyuq suda həll edib tədricən əlavə edin. Qarışdıraraq qatılaşdırın. Qoz və darçın əlavə edib qəlibə tökün."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Orta",
+      "servings": "Dec-15",
+      "history": "Qarabağın məşhur nar bağlarının məhsulundan hazırlanan bu halva, bölgənin qədim şirniyyatçılıq ənənələrinin nümunəsidir.",
+      "servingSuggestions": "Soyuq halda, kiçik hissələr şəklində. Çay və qəhvə ilə mükəmməl uyğundur.",
+      "image": "https://cms.seasonedtraveller.com/uploads/2019_ST_Azerbaijan_Sheki_6_1_e6d3d35f3f.jpg",
+      "slug": "qarabag-nar-halvasi-enenevi",
+      "tags": [
+        "Şirniyyat",
+        "Qarabağ",
+        "Füzuli",
+        "Orta",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-13",
+      "name": "Naxçıvan Alma Halvası (Qurudulmuş)",
+      "origin": "Naxçıvan, Ordubad",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Alma - 2 kq (şirin növ)",
+        "Şəkər - 800 qram",
+        "Qoz içi - 200 qram",
+        "Darçın - 1 çay qaşığı",
+        "Limon - 1 ədəd",
+        "Mixək - 3-4 ədəd"
+      ],
+      "instructions": [
+        "Almaları soyub doğrayın. Şəkərlə birlikdə yavaş odda 2-3 saat qaynadın. Qarışdıraraq sıxlaşdırın. Ədviyyat və qoz əlavə edin. Qəlibə tökün və qurudun."
+      ],
+      "prepTime": "4 saat",
+      "difficulty": "Orta",
+      "servings": "15-20",
+      "history": "Naxçıvanın məşhur Ordubad almalarından hazırlanan təbii halva. Qədim zamanlardan qış ehtiyatı kimi saxlanılır.",
+      "servingSuggestions": "Çay ilə birlikdə. Uzun müddət saxlanıla bilər və səyahət yeməyi kimi istifadə olunur.",
+      "image": "https://cms.seasonedtraveller.com/uploads/2019_ST_Azerbaijan_Sheki_6_1_e6d3d35f3f.jpg",
+      "slug": "naxcivan-alma-halvasi-qurudulmus",
+      "tags": [
+        "Şirniyyat",
+        "Naxçıvan",
+        "Ordubad",
+        "Orta",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-14",
+      "name": "Qarabağ Qatığı (Ev südü ilə)",
+      "origin": "Qarabağ, kənd rayonları",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Kənd südü - 2 litr",
+        "Maya qatığı - 100 ml",
+        "Duz - 1 çay qaşığı",
+        "Keşniş - bəzək üçün"
+      ],
+      "instructions": [
+        "Südü 40°C-yə qədər qızdırın. Maya əlavə edin",
+        "qarışdırın. İsti yerdə 6-8 saat fermentləşməyə qoyun. Soyuducuda saxlayın."
+      ],
+      "prepTime": "8 saat",
+      "difficulty": "Asan",
+      "servings": "08-Oct",
+      "history": "Qarabağın kənd evlərində ənənəvi olaraq hazırlanan təzə qatıq. Ev heyvanlarının südündən hazırlanır və səhər süfrəsinin əsas elementidir.",
+      "servingSuggestions": "Təzə çörək və bal ilə. Keşniş və xiyar əlavə edib salat kimi.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qarabag-qatigi-ev-sudu-ile",
+      "tags": [
+        "Səhər yeməyi",
+        "Qarabağ",
+        "kənd rayonları",
+        "Asan"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-15",
+      "name": "Gəncə Qıymıqlı Çörək (Səhər üçün)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Çörək - 4 dilim",
+        "Qıymıq - 200 ml",
+        "Yumurta - 3 ədəd",
+        "Şəkər - 2 xörək qaşığı",
+        "Darçın - 1 tutam",
+        "Yağ - qızartmaq üçün"
+      ],
+      "instructions": [
+        "Qıymıq",
+        "yumurta və şəkəri qarışdırın. Çörək dilimlərini bu qarışığa batırın. Qızgın tavada hər tərəfdən 2-3 dəqiqə qızardın. Darçın səpin."
+      ],
+      "prepTime": "20 dəq",
+      "difficulty": "Asan",
+      "servings": "4",
+      "history": "Gəncə evlərinin ənənəvi səhər yeməyi. Xüsusilə bayram səhərlərində və xüsusi günlərdə hazırlanır.",
+      "servingSuggestions": "İsti halda bal və ya mürəbbə ilə. Çay ilə birlikdə klassik Azərbaycan səhəri.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/05/azerbaijani-flat-bread-tandir-chorak.jpg",
+      "slug": "gence-qiymiqli-corek-seher-ucun",
+      "tags": [
+        "Səhər yeməyi",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Asan"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-16",
+      "name": "Şəki Böyürtkən Mürəbbəsi Süfrəsi",
+      "origin": "Şəki, meşə əraziləri",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Böyürtkən - 1 kq",
+        "Şəkər - 1.2 kq",
+        "Su - 200 ml",
+        "Limon - 1 ədəd",
+        "Vanil - 1 tutam"
+      ],
+      "instructions": [
+        "Böyürtkənləri təmizləyin. Şəkər şərbəti qaynadın. Böyürtkənləri əlavə edib 20 dəqiqə bişirin. Limon və vanil əlavə edin. Qəlibə tökün."
+      ],
+      "prepTime": "1 saat",
+      "difficulty": "Asan",
+      "servings": "1.5 litr",
+      "history": "Şəkinin meşəlik ərazilərində toplanan vəhşi böyürtkəndən hazırlanan təbii mürəbbə. Vitamin ehtiyatı kimi qış aylarında istifadə edilir.",
+      "servingSuggestions": "Çörək üzərinə çəkilib, çay ilə. Qatıq və bal ilə qarışdırılıb da yeyilə bilər.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/03/easy-baklava-recipe-video.jpg",
+      "slug": "seki-boyurtken-murebbesi-sufresi",
+      "tags": [
+        "Səhər yeməyi",
+        "Şəki",
+        "meşə əraziləri",
+        "Asan",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-17",
+      "name": "Badımcan Küftəsi (Gəncə üslubu)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Qəlyanaltı",
+      "ingredients": [
+        "Badımcan - 4 ədəd orta boy",
+        "Qiymə (qarışıq ət) - 300 qram",
+        "Soğan - 2 ədəd orta boy",
+        "Yumurta - 2 ədəd",
+        "Un - 3 xörək qaşığı",
+        "Duz",
+        "istiot",
+        "Sarımsaq - 3 diş",
+        "Keşniş",
+        "şüyüd - 1 dəstə hərəsindən",
+        "Qızıl yağı - qızartmaq üçün"
+      ],
+      "instructions": [
+        "Badımcanları uzununa doğrayıb duzla çəkin",
+        "30 dəqiqə saxlayın. Qiyməni soğanla birlikdə qızardın",
+        "ədviyyat əlavə edin. Badımcanları suya yuyub qurudun",
+        "un çəkin. Qızgın yağda qızardın. Qiymə ilə doldurun və rulonlara sarıyın. Buxarda 20 dəqiqə bişirin."
+      ],
+      "prepTime": "1 saat 15 dəq",
+      "difficulty": "Orta",
+      "servings": "06-Aug",
+      "history": "Gəncə mətbəxinin nadir nümunələrindən biri olan bu yemək, şəhərin zəngin badımcan mədəniyyətini əks etdirir. Keçmişdə toy mərasimlərində və xüsusi qonaq ağırlamalarında hazırlanardı.",
+      "servingSuggestions": "İsti halda, üzərinə keşniş və sarımsaq sousu ilə. Çörək və qatıq ilə birlikdə təqdim edin.",
+      "image": "https://azcookbook.com/wp-content/uploads/2014/02/kufte-bozbash-azerbaijani-meatball-soup-2.jpg",
+      "slug": "badimcan-kuftesi-gence-uslubu",
+      "tags": [
+        "Qəlyanaltı",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş",
+        "bux"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-18",
+      "name": "Şəki Fəsəli (Gizli resept)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "Qəlyanaltı",
+      "ingredients": [
+        "Fasulye - 300 qram (məhəlli ağ)",
+        "Soğan - 2 ədəd",
+        "Pomidor - 3 ədəd",
+        "Sarımsaq - 4 diş",
+        "Şəki xörəyi - 1 xörək qaşığı",
+        "Duz",
+        "qara istiot",
+        "Çuçxa - 1/2 çay qaşığı",
+        "Zeytun yağı - 4 xörək qaşığı"
+      ],
+      "instructions": [
+        "Fasulyəni gecədən isladın. Səhər yumşaq olana qədər bişirin. Soğanı qızardın",
+        "pomidor əlavə edin. Sarımsaq və xörəyi qarışdırın. Fasulyə ilə birləşdirib 15 dəqiqə çəməyin. Soyuq servis edin."
+      ],
+      "prepTime": "2 saat (islama vaxtı daxil deyil)",
+      "difficulty": "Asan",
+      "servings": "04-Jun",
+      "history": "Şəki əhalisinin qədim yemək mədəniyyətindən qalan bu yemək, həm sadəliyi, həm də dadlılığı ilə seçilir. Şəki evlərinin günlük menyusunda mütəmadi olaraq yer alardı.",
+      "servingSuggestions": "Soyuq meze kimi, zeytun yağı və limon ilə. Təndir çörəyi ilə birlikdə ideal dadlanır.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/05/azerbaijani-green-beans-fasoli.jpg",
+      "slug": "seki-feseli-gizli-resept",
+      "tags": [
+        "Qəlyanaltı",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Asan",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-19",
+      "name": "Qarabağ Qəzənfəri",
+      "origin": "Qarabağ, Qərbi Azərbaycan",
+      "category": "Qəlyanaltı",
+      "ingredients": [
+        "Kartof - 4 ədəd orta boy",
+        "Pendir (məhəlli) - 200 qram",
+        "Yumurta - 3 ədəd",
+        "Soğan - 1 ədəd",
+        "Keşniş - 1 dəstə",
+        "Duz",
+        "ağ istiot",
+        "Un - 2 xörək qaşığı",
+        "Yağ - qızartmaq üçün"
+      ],
+      "instructions": [
+        "Kartofu qabıqlı halda bişirin",
+        "soyub əzin. Pendiri ufalayın",
+        "keşnişi doğrayın. Qarışıq hazırlayıb kiçik toplar düzəldib",
+        "un çəkin. Qızgın yağda qızıl rəngə qədər qızardın."
+      ],
+      "prepTime": "45 dəq",
+      "difficulty": "Asan",
+      "servings": "04-May",
+      "history": "Qarabağın zəngin pendir istehsalı ənənələrindən doğmuş bu yemək, bölgənin keçmiş refah dövrlərinin dadlı xatirəsidir.",
+      "servingSuggestions": "İsti halda, üzərinə qatıq və sarımsaq sousu ilə. Çay ilə birlikdə mükəmməl uyğundur.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-lamb-kebab-lule-kebab.jpg",
+      "slug": "qarabag-qezenferi",
+      "tags": [
+        "Qəlyanaltı",
+        "Qarabağ",
+        "Qərbi Azərbaycan",
+        "Asan",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-20",
+      "name": "Naxçıvan Balıq Kababı (Arax üslubu)",
+      "origin": "Naxçıvan, Arax çayı sahili",
+      "category": "Kabab/Manqal",
+      "ingredients": [
+        "Tərəvəz balığı - 1 kq (və ya Kür balığı)",
+        "Soğan - 3 ədəd",
+        "Sarımsaq - 6 diş",
+        "Limon - 2 ədəd",
+        "Zeytun yağı - 6 xörək qaşığı",
+        "Duz",
+        "qara istiot",
+        "Sumaq - 1 çay qaşığı",
+        "Keşniş - 1 dəstə"
+      ],
+      "instructions": [
+        "Balığı təmizləyib hissələrə bölün. Marinada (limon",
+        "sarımsaq",
+        "yağ",
+        "ədviyyat) 2 saat saxlayın. Manqalda və ya tavada orta odda hər tərəfdən 4-5 dəqiqə bişirin. Sumaq və keşnişlə bəzəyin."
+      ],
+      "prepTime": "30 dəq (marinasiya vaxtı daxil deyil)",
+      "difficulty": "Orta",
+      "servings": "04-Jun",
+      "history": "Arax çayı sahilində yaşayan əhali qədim zamanlardan bu üsulla balıq hazırlayır. Naxçıvanın xüsusi coğrafi şəraiti balığa özünəməxsus dad verir.",
+      "servingSuggestions": "Tərə salat və qrilled tərəvəz ilə. Naxçıvan çörəyi və turşu ilə mükəmməl uyğunluq təşkil edir.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "naxcivan-baliq-kababi-arax-uslubu",
+      "tags": [
+        "Kabab/Manqal",
+        "Naxçıvan",
+        "Arax çayı sahili",
+        "Orta",
+        "biş",
+        "manqal"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-21",
+      "name": "Qədim Gəncə Jujeh Kababı",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Kabab/Manqal",
+      "ingredients": [
+        "Toyuq (cücə) - 1 ədəd (1.5 kq)",
+        "Qatıq - 200 ml",
+        "Sarımsaq - 8 diş",
+        "Soğan - 2 ədəd",
+        "Zeytun yağı - 4 xörək qaşığı",
+        "Zəfəran - 1 tutam",
+        "Duz",
+        "ağ istiot",
+        "Limon - 1 ədəd"
+      ],
+      "instructions": [
+        "Toyuğu yarım kəsib",
+        "marinada (qatıq",
+        "sarımsaq",
+        "zəfəran",
+        "ədviyyat) 4 saat saxlayın. Manqalda sakit odda 25-30 dəqiqə bişirin",
+        "tez-tez çevirin və marinadan çəkin."
+      ],
+      "prepTime": "45 dəq (marinasiya vaxtı daxil deyil)",
+      "difficulty": "Orta",
+      "servings": "4",
+      "history": "Gəncə şəhərinin qədim kabab ənənəsindən qalan bu resept, xüsusilə zəfəranın istifadəsi ilə seçilir. Şəhərin zəngin tacir ailələrində hazırlanardı.",
+      "servingSuggestions": "Düyü və manqal pomidoru ilə. Gəncə çörəyi və sumaq soğanı ilə ənənəvi təqdim.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-lamb-kebab-lule-kebab.jpg",
+      "slug": "qedim-gence-jujeh-kababi",
+      "tags": [
+        "Kabab/Manqal",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş",
+        "manqal"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-22",
+      "name": "Şəki Şərbəti (Qədim resept)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "İçki/Şərbət",
+      "ingredients": [
+        "Tut - 500 qram (qarı tut)",
+        "Şəkər - 300 qram",
+        "Su - 1 litr",
+        "Limon turşusu - 1 çimdik",
+        "Darçın - 1 çubuq",
+        "Mixək - 3-4 ədəd",
+        "Buz - təqdim üçün"
+      ],
+      "instructions": [
+        "Tutu təmizləyib şəkər ilə qarışdırın",
+        "2 saat saxlayın. Su əlavə edib qaynadın. 15 dəqiqə qaynatsaqdan sonra süzün. Ədviyyat əlavə edib soyudun. Buz ilə təqdim edin."
+      ],
+      "prepTime": "30 dəq (gözləmə vaxtı daxil deyil)",
+      "difficulty": "Asan",
+      "servings": "06-Aug",
+      "history": "Şəki xanlığı dövründən qalan bu şərbət, həm sərinləşdirici, həm də müalicəvi xassələrə malikdir. Yay aylarında xüsusilə populyar olmuşdur.",
+      "servingSuggestions": "Buz parçaları və nanə yarpağı ilə. Şəki halvasının yanında mükəmməl təkməlləyicidir.",
+      "image": "https://azcookbook.com/wp-content/uploads/2014/03/azerbaijani-rose-petal-sherbet-gul-sharbati.jpg",
+      "slug": "seki-serbeti-qedim-resept",
+      "tags": [
+        "İçki/Şərbət",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Asan",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-23",
+      "name": "Qarabağ Alma Şirəsi (Fermentləşmiş)",
+      "origin": "Qarabağ, meyvə bağları",
+      "category": "İçki/Şərbət",
+      "ingredients": [
+        "Qarabağ alması - 2 kq (şirin növ)",
+        "Maya - 5 qram qurumuş",
+        "Şəkər - 100 qram",
+        "Su - 500 ml",
+        "Darçın - 1 çubuq"
+      ],
+      "instructions": [
+        "Almaları təmizləyib şirə çıxarın. Maya ilə qarışdırıb",
+        "şüşə qabda 5-7 gün ferment edin. Süzüb şəkər əlavə edin. Soyuq yerdə saxlayın."
+      ],
+      "prepTime": "7-10 gün (fermentasiya daxil)",
+      "difficulty": "Orta",
+      "servings": "10-Dec",
+      "history": "Qarabağın məşhur alma bağlarından istehsal olunan bu içki, bölgənin qədim şərabçılıq ənənələrinin bir hissəsidir.",
+      "servingSuggestions": "Soyuq halda kiçik stəkanlarda. Xüsusilə payız mövsümündə və milli bayramlarda təqdim olunur.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qarabag-alma-siresi-fermentlesmis",
+      "tags": [
+        "İçki/Şərbət",
+        "Qarabağ",
+        "meyvə bağları",
+        "Orta"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-24",
+      "name": "Qovurma Yumurta (Gəncə üslubu)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Yumurta - 6 ədəd",
+        "Qovurma əti - 200 qram",
+        "Soğan - 1 ədəd",
+        "Pomidor - 2 ədəd",
+        "Sarımsaq - 2 diş",
+        "Duz",
+        "istiot",
+        "Keşniş - bəzək üçün"
+      ],
+      "instructions": [
+        "Qovurmanı qızdırın",
+        "soğan əlavə edin. Pomidor daxil edib yumşalana qədər bişirin. Yumurtaları çalayıb əlavə edin",
+        "qarışdırın. Keşnişlə bəzəyin."
+      ],
+      "prepTime": "20 dəq",
+      "difficulty": "Asan",
+      "servings": "03-Apr",
+      "history": "Gəncə evlərinin ənənəvi səhər yeməyidir. Qış aylarında hazırlanmış qovurmanın səhər yeməkində istifadəsi qədim bir adətdir.",
+      "servingSuggestions": "İsti çörək və təzə keşniş ilə. Çay ilə birlikdə klassik Azərbaycan səhər süfrəsi.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qovurma-yumurta-gence-uslubu",
+      "tags": [
+        "Səhər yeməyi",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Asan",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-25",
+      "name": "Naxçıvan Suduklu (Süd və yumurta)",
+      "origin": "Naxçıvan",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Süd - 500 ml (kənd südü)",
+        "Yumurta - 4 ədəd",
+        "Şəkər - 2 xörək qaşığı",
+        "Vanil - 1/2 çay qaşığı",
+        "Darçın - 1 tutam",
+        "Qarğıdalı nişastası - 1 xörək qaşığı"
+      ],
+      "instructions": [
+        "Südü qızdırın",
+        "şəkər əlavə edin. Yumurtaları çalayıb tədricən əlavə edin",
+        "qarışdırın. Nişasta ilə qatılaşdırın. Darçın səpin."
+      ],
+      "prepTime": "15 dəq",
+      "difficulty": "Asan",
+      "servings": "4",
+      "history": "Naxçıvan məhəlli süd məhsullarının zənginliyindən yararlanan bu yemək, xüsusilə uşaqlar üçün hazırlanır və qidalı səhər yeməyi sayılır.",
+      "servingSuggestions": "İlıq halda, üzərinə darçın və qoz ilə. Bal və quru meyvələr əlavə edilə bilər.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "naxcivan-suduklu-sud-ve-yumurta",
+      "tags": [
+        "Səhər yeməyi",
+        "Naxçıvan",
+        "Asan"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-26",
+      "name": "Şəki Paxlavası (Müxtəlif qatlı)",
+      "origin": "Şəki, Qərbi Azərbaycan",
+      "category": "Şirniyyat/Xəmir",
+      "ingredients": [
+        "Yufka xəmiri - 10 vərəq",
+        "Qoz içi - 400 qram",
+        "Şəkər - 300 qram",
+        "Yağ - 200 qram (qarışıq)",
+        "Yumurta - 2 ədəd",
+        "Darçın - 1 çay qaşığı",
+        "Şərbət üçün: su - 500 ml",
+        "şəkər - 400 qram",
+        "limon - 1 ədəd"
+      ],
+      "instructions": [
+        "Qoz içini şəkər və darçınla qarışdırın. Yufka vərəqlərini yağlayıb qoz qarışığı ilə doldurın. Qatlayıb kəsin. 180°C-də 25-30 dəqiqə bişirin. Şərbəti qaynadıb soyuq paxlava üzərinə tökün."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Çətin",
+      "servings": "16-20",
+      "history": "Şəki şəhərinin ən məşhur şirniyyatı olan bu paklava, xüsusi qatlama texnikası ilə hazırlanır. Şəki xanlığı dövründən başlayaraq günümüzə kimi gəlib çatan ənənəvi reseptdir.",
+      "servingSuggestions": "Çay ilə birlikdə. Xüsusilə Novruz bayramında və toy mərasimlərində təqdim olunur.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "seki-paxlavasi-muxtelif-qatli",
+      "tags": [
+        "Şirniyyat/Xəmir",
+        "Şəki",
+        "Qərbi Azərbaycan",
+        "Çətin",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-27",
+      "name": "Qədim Gəncə Çörəyi (Təndir)",
+      "origin": "Gəncə, Qərbi Azərbaycan",
+      "category": "Çörək",
+      "ingredients": [
+        "Buğda unu - 1 kq",
+        "Maya - 20 qram təzə",
+        "Su - 600 ml ilıq",
+        "Duz - 1 xörək qaşığı",
+        "Şəkər - 1 çay qaşığı",
+        "Zeytun yağı - 3 xörək qaşığı",
+        "Çörəkotu - səpmək üçün"
+      ],
+      "instructions": [
+        "Mayani ilıq suda həll edin. Un",
+        "duz qarışığına əlavə edib xəmir yoğurun. 1.5 saat qaldırın. Formaları düzəldib 30 dəqiqə dincləndirin. Təndir və ya 220°C sobada 20-25 dəqiqə bişirin."
+      ],
+      "prepTime": "3 saat (qaldırma vaxtı daxil)",
+      "difficulty": "Orta",
+      "servings": "6-8 çörək",
+      "history": "Gəncə şəhərinin ənənəvi çörək növüdür. Təndir sobalarında bişirilən bu çörək, şəhərin tarixi çörəkçilik ənənələrini əks etdirir.",
+      "servingSuggestions": "İsti halda pendir və keşniş ilə. Bütün yeməklərə müşayiət kimi ideal.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qedim-gence-coreyi-tendir",
+      "tags": [
+        "Çörək",
+        "Gəncə",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş",
+        "soba",
+        "təndir"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-28",
+      "name": "Qarabağ Şahplov (Zəfəranlı)",
+      "origin": "Qarabağ, Şuşa",
+      "category": "Düyü/Plov",
+      "ingredients": [
+        "Düyü - 500 qram (uzuncrn)",
+        "Quzu əti - 600 qram",
+        "Soğan - 3 ədəd",
+        "Zəfəran - 2 tutam",
+        "Yağ - 100 ml",
+        "Duz",
+        "qara istiot",
+        "Alça - 150 qram",
+        "Keşniş",
+        "nanə - 1 dəstə hərəsindən"
+      ],
+      "instructions": [
+        "Əti hissələrə bölüb qızardın. Soğan əlavə edib şirələnənə qədər bişirin. Düyü əlavə edib 15 dəqiqə qarışdırın. Su tökün",
+        "zəfəran əlavə edin. Alça və göyərtiləri daxil edin. 40 dəqiqə bişirin."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Orta",
+      "servings": "06-Aug",
+      "history": "Qarabağın məşhur şah plovu, Şuşa şəhərinin əsilzadə ailələrində hazırlanan ənənəvi bayram yeməyidir. Xüsusilə zəfəranın bolluğu ilə seçilir.",
+      "servingSuggestions": "Qatıq və sumaq soğanı ilə. Turşu və təzə göyərti müşayiəti ilə.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qarabag-sahplov-zeferanli",
+      "tags": [
+        "Düyü/Plov",
+        "Qarabağ",
+        "Şuşa",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-29",
+      "name": "Naxçıvan Mərcan Plovı (İncə düyülü)",
+      "origin": "Naxçıvan, Culfa",
+      "category": "Düyü/Plov",
+      "ingredients": [
+        "İncə düyü - 400 qram",
+        "Toyuq əti - 500 qram",
+        "Soğan - 2 ədəd",
+        "Mərcan (qırmızı mercimək) - 200 qram",
+        "Yağ - 80 ml",
+        "Duz",
+        "zərdəçal",
+        "Qurumuş göyərti - dəstə"
+      ],
+      "instructions": [
+        "Mərcani yumşaq olana qədər bişirin. Toyuq ətini doğrayıb qızardın. Düyü əlavə edin",
+        "10 dəqiqə qarışdırın. Mərcan və su əlavə edib 35 dəqiqə bişirin. Göyərti səpin."
+      ],
+      "prepTime": "1 saat 20 dəq",
+      "difficulty": "Orta",
+      "servings": "05-Jun",
+      "history": "Naxçıvanın İran sərhədindəki əhalinin təsirilə yaranmış bu plov növü, mercimək və düyünün mükəmməl birləşməsidir.",
+      "servingSuggestions": "Naxçıvan turşusu və qatıq ilə. Çay ilə birlikdə təqdim olunur.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "naxcivan-mercan-plovi-i-nce-duyulu",
+      "tags": [
+        "Düyü/Plov",
+        "Naxçıvan",
+        "Culfa",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-30",
+      "name": "Şəki Gilas Mürəbbəsi (Çiyələkli)",
+      "origin": "Şəki, Qax",
+      "category": "Mürəbbə/Şirniyyat",
+      "ingredients": [
+        "Gilas - 1 kq (təzə)",
+        "Şəkər - 1.2 kq",
+        "Su - 300 ml",
+        "Limon turşusu - 1 çay qaşığı",
+        "Vanil - 1 tutam"
+      ],
+      "instructions": [
+        "Gilasları yuyub çəyirdəkləri çıxarın. Şəkər şərbəti hazırlayın. Gilasları şərbətə salıb 3 dəfə qaynadın",
+        "arada soyudun. Son qaynamada limon turşusu əlavə edin."
+      ],
+      "prepTime": "4 saat (soyutma vaxtı daxil)",
+      "difficulty": "Orta",
+      "servings": "1.5 litr",
+      "history": "Şəki və Qax bölgəsinin məşhur gilas bağlarından istifadə edən bu mürəbbə, qış hazırlığı kimi və qonaq təqdimatında istifadə olunur.",
+      "servingSuggestions": "Çay ilə birlikdə. Qış günlərində vitamin mənbəyi kimi.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/03/easy-baklava-recipe-video.jpg",
+      "slug": "seki-gilas-murebbesi-ciyelekli",
+      "tags": [
+        "Mürəbbə/Şirniyyat",
+        "Şəki",
+        "Qax",
+        "Orta",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-31",
+      "name": "Qarabağ Qarışıq Turşusu (7 növlü)",
+      "origin": "Qarabağ, kənd rayonları",
+      "category": "Turşu/Konserv",
+      "ingredients": [
+        "Badımcan - 500 qram",
+        "Xiyar - 300 qram",
+        "Pomidor - 400 qram",
+        "Bibər - 200 qram",
+        "Kələm - 300 qram",
+        "Soğan - 2 ədəd",
+        "Sarımsaq - 1 baş",
+        "Sirkə - 200 ml",
+        "Su - 800 ml",
+        "Duz - 3 xörək qaşığı",
+        "Şəkər - 2 xörək qaşığı",
+        "Ədviyyat qarışığı"
+      ],
+      "instructions": [
+        "Tərəvəzləri təmizləyib dilimləyin. Duzlu suda 20 dəqiqə qaynadın. Marinad hazırlayıb tərəvəzlərin üzərinə tökün. Şüşə qablarda 1 həftə ferment edin."
+      ],
+      "prepTime": "1 həftə",
+      "difficulty": "Asan",
+      "servings": "2-3 litr",
+      "history": "Qarabağın kənd təsərrüfatının zənginliyini əks etdirən bu turşu, qış aylarına hazırlıq kimi və yemək müşayiəti olaraq istifadə edilir.",
+      "servingSuggestions": "Ət yeməkləri və plovla birlikdə. Çörək üzərinə çəkilib meze kimi.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qarabag-qarisiq-tursusu-7-novlu",
+      "tags": [
+        "Turşu/Konserv",
+        "Qarabağ",
+        "kənd rayonları",
+        "Asan",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-32",
+      "name": "Gəncə Buğlama Kabab (Torpaq altında)",
+      "origin": "Gəncə, kənd əraziləri",
+      "category": "Ət yeməyi/Kabab",
+      "ingredients": [
+        "Quzu kürəyi - 1 kq",
+        "Kartof - 6 ədəd",
+        "Soğan - 4 ədəd",
+        "Pomidor - 4 ədəd",
+        "Sarımsaq - 1 baş",
+        "Duz",
+        "qara istiot",
+        "Keşniş",
+        "şüyüd - 2 dəstə",
+        "Yağ - 50 ml"
+      ],
+      "instructions": [
+        "Əti marinada (sarımsaq",
+        "ədviyyat) 2 saat saxlayın. Tərəvəzlərlə birlikdə folqaya sarıyın. Torpaq altında közərmə çuxurunda 3-4 saat bişirin. Və ya sobada 2 saat 160°C-də."
+      ],
+      "prepTime": "4 saat",
+      "difficulty": "Çətin",
+      "servings": "08-Oct",
+      "history": "Gəncə kəndlilərinin qədim bişirmə üsulu olan torpaq altında hazırlanma, ətə xüsusi dad və yumşaqlıq verir. Xüsusilə toy mərasimlərində hazırlanır.",
+      "servingSuggestions": "İsti halda, öz şirəsi ilə. Təzə çörək və göyərti ilə təqdim edin.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-lamb-kebab-lule-kebab.jpg",
+      "slug": "gence-buglama-kabab-torpaq-altinda",
+      "tags": [
+        "Ət yeməyi/Kabab",
+        "Gəncə",
+        "kənd əraziləri",
+        "Çətin",
+        "biş",
+        "soba"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-33",
+      "name": "Qax Qovut Şorbası (Dağ otu ilə)",
+      "origin": "Qax, Qərbi Azərbaycan",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Qovut otu - 300 qram (təzə)",
+        "Dana əti - 400 qram",
+        "Düyü - 150 qram",
+        "Soğan - 2 ədəd",
+        "Duz",
+        "istiot",
+        "Su - 2 litr",
+        "Yağ - 50 ml"
+      ],
+      "instructions": [
+        "Əti suda bişirin. Qovut otunu təmizləyib doğrayın. Düyü və soğanla birlikdə şorbaya əlavə edin. 45 dəqiqə bişirin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Qax dağlarının endemik bitkisindən hazırlanan nadir şorba. Yalnız yay aylarında təzə ot mövcud olduğu zaman hazırlanır.",
+      "servingSuggestions": "İsti halda keşniş və limon ilə. Qax çörəyi müşayiəti.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qax-qovut-sorbasi-dag-otu-ile",
+      "tags": [
+        "Şorba/Aş",
+        "Qax",
+        "Qərbi Azərbaycan",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-34",
+      "name": "Lənkəran Balıq Kürüsü (Xəzər balığı)",
+      "origin": "Lənkəran, Xəzər sahili",
+      "category": "Ət yeməyi/Balıq",
+      "ingredients": [
+        "Xəzər balığı - 1 kq",
+        "Düyü - 300 qram",
+        "Soğan - 3 ədəd",
+        "Zəfəran - 1 tutam",
+        "Keşniş - 2 dəstə",
+        "Duz",
+        "istiot",
+        "Yağ - 100 ml"
+      ],
+      "instructions": [
+        "Balığı təmizləyib hissələrə bölün. Düyü yarı bişirin. Balıq və düyüləri qatlayıb buxarda 40 dəqiqə hazırlayın. Zəfəran və keşniş əlavə edin."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Orta",
+      "servings": "06-Aug",
+      "history": "Lənkəranın Xəzər sahilində balıqçılar tərəfindən hazırlanan ənənəvi yemək. Xəzər balığının zənginliyindən yararlanan nadir resept.",
+      "servingSuggestions": "Sumaq soğanı və göyərti ilə. Lənkəran çayı ilə birlikdə.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "lenkeran-baliq-kurusu-xezer-baligi",
+      "tags": [
+        "Ət yeməyi/Balıq",
+        "Lənkəran",
+        "Xəzər sahili",
+        "Orta",
+        "biş",
+        "bux"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-35",
+      "name": "Ordubad Ərik Dolması (Şirin)",
+      "origin": "Ordubad, Naxçıvan",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "İri ərik - 20 ədəd",
+        "Qoz içi - 200 qram",
+        "Şəkər - 150 qram",
+        "Bal - 100 qram",
+        "Darçın - 1 çay qaşığı",
+        "Qıymıq - 100 ml"
+      ],
+      "instructions": [
+        "Əriklərin çəyirdəklərini çıxarın. Qoz",
+        "şəkər və darçın qarışığı ilə doldurun. Qıymıqda yavaş odda 20 dəqiqə bişirin. Bal əlavə edin."
+      ],
+      "prepTime": "1 saat",
+      "difficulty": "Orta",
+      "servings": "08-Oct",
+      "history": "Ordubadın məşhur ərik bağlarından istifadə edən xüsusi şirniyyat. Yay mövsümündə təzə ərik olduğu zaman hazırlanır.",
+      "servingSuggestions": "Soyuq halda, üzərinə qoz və darçın ilə. Çay və qəhvə müşayiəti.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-stuffed-grape-leaves-dolma-azcookbook.jpg",
+      "slug": "ordubad-erik-dolmasi-sirin",
+      "tags": [
+        "Şirniyyat",
+        "Ordubad",
+        "Naxçıvan",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-36",
+      "name": "Şamaxı Çay Kababı (Balıq əsaslı)",
+      "origin": "Şamaxı, çay sahili",
+      "category": "Kabab/Manqal",
+      "ingredients": [
+        "Çay balığı - 1.5 kq",
+        "Soğan - 4 ədəd",
+        "Pomidor - 4 ədəd",
+        "Limon - 2 ədəd",
+        "Zeytun yağı - 6 xörək qaşığı",
+        "Duz",
+        "istiot",
+        "Sumaq - 1 çay qaşığı"
+      ],
+      "instructions": [
+        "Balığı təmizləyib marinada 1 saat saxlayın. Tərəvəzlərlə birlikdə şişə taxın. Manqalda 15-20 dəqiqə bişirin."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Asan",
+      "servings": "6",
+      "history": "Şamaxının çay sahilində yaşayan əhalinin ənənəvi balıq hazırlama üsulu. Təbii çay mühitində özünəməxsus dad alır.",
+      "servingSuggestions": "Təzə tərəvəz və çörək ilə. Şamaxı üzümü müşayiəti.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "samaxi-cay-kababi-baliq-esasli",
+      "tags": [
+        "Kabab/Manqal",
+        "Şamaxı",
+        "çay sahili",
+        "Asan",
+        "biş",
+        "manqal"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-37",
+      "name": "Beyləqan Düyü Halım (Çəltik əsaslı)",
+      "origin": "Beyləqan, çəltik sahələri",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Çəltik düyüsü - 300 qram",
+        "Mal əti - 500 qram",
+        "Süd - 500 ml",
+        "Soğan - 2 ədəd",
+        "Yağ - 60 ml",
+        "Duz",
+        "istiot",
+        "Darçın"
+      ],
+      "instructions": [
+        "Əti suda yumşaq olana qədər bişirin. Düyü əlavə edin. Süd tökün və qarışdıraraq qatı halım hazırlayın. 2 saat yavaş odda bişirin."
+      ],
+      "prepTime": "3 saat",
+      "difficulty": "Orta",
+      "servings": "06-Aug",
+      "history": "Beyləqan çəltik sahələrinin məşhur məhsulundan hazırlanan qidalı halım. Regionun çəltikçilik ənənələrini əks etdirir.",
+      "servingSuggestions": "İsti halda darçın və şəkər ilə. Səhər yeməyi kimi ideal.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "beyleqan-duyu-halim-celtik-esasli",
+      "tags": [
+        "Səhər yeməyi",
+        "Beyləqan",
+        "çəltik sahələri",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-38",
+      "name": "Qəbələ Meşə Qozlu Halva",
+      "origin": "Qəbələ, meşə əraziləri",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Meşə qozu - 400 qram",
+        "Şəkər - 300 qram",
+        "Bal - 150 qram",
+        "Un - 100 qram",
+        "Yağ - 80 ml",
+        "Vanil - 1 tutam"
+      ],
+      "instructions": [
+        "Qozları doğrayın. Un və şəkəri qızardın. Qoz və bal əlavə edib qarışdırın. Qatı halva kütləsi hazırlayana qədər bişirin."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Orta",
+      "servings": "Dec-15",
+      "history": "Qəbələnin meşəlik ərazilərində toplanan təbii qozlardan hazırlanan halva. Meşənin təbii dadını əks etdirir.",
+      "servingSuggestions": "Çay ilə birlikdə. Həm bayram, həm də gündəlik istifadə üçün.",
+      "image": "https://cms.seasonedtraveller.com/uploads/2019_ST_Azerbaijan_Sheki_6_1_e6d3d35f3f.jpg",
+      "slug": "qebele-mese-qozlu-halva",
+      "tags": [
+        "Şirniyyat",
+        "Qəbələ",
+        "meşə əraziləri",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-39",
+      "name": "Astara Həmşireyi (Laz mətbəxindən)",
+      "origin": "Astara, Laz kəndləri",
+      "category": "Çörək/Xəmir",
+      "ingredients": [
+        "Qarğıdalı unu - 400 qram",
+        "Su - 600 ml",
+        "Duz - 1 çay qaşığı",
+        "Yağ - 50 ml",
+        "Pendir - 200 qram",
+        "Yumurta - 2 ədəd"
+      ],
+      "instructions": [
+        "Qarğıdalı unu və su ilə xəmir hazırlayın. Pendir və yumurta əlavə edin. Nazik açıb tavada hər tərəfdən bişirin."
+      ],
+      "prepTime": "45 dəq",
+      "difficulty": "Asan",
+      "servings": "06-Aug",
+      "history": "Astaranın Laz əhalisi tərəfindən hazırlanan ənənəvi çörək növü. Qarğıdalı əsaslı və çox qidalı.",
+      "servingSuggestions": "İsti halda bal və ya pendirlə. Çay müşayiəti ilə səhər yeməyi.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "astara-hemsireyi-laz-metbexinden",
+      "tags": [
+        "Çörək/Xəmir",
+        "Astara",
+        "Laz kəndləri",
+        "Asan",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-40",
+      "name": "Quba Xınqal (Dağ üslubu)",
+      "origin": "Quba, dağlıq rayonlar",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Un - 400 qram",
+        "Yumurta - 3 ədəd",
+        "Su - 150 ml",
+        "Quzu əti - 600 qram",
+        "Soğan - 3 ədəd",
+        "Qatıq - 300 ml",
+        "Sarımsaq - 4 diş"
+      ],
+      "instructions": [
+        "Xəmir yoğurun",
+        "nazik açıb xınqal kəsin. Ət şorbası hazırlayın. Xınqalları şorbada bişirin. Qatıq və sarımsaq sousu ilə təqdim edin."
+      ],
+      "prepTime": "2.5 saat",
+      "difficulty": "Çətin",
+      "servings": "06-Aug",
+      "history": "Quba dağlarının ənənəvi xəmir yeməyi. Dağ çobanları tərəfindən hazırlanır və çox qidalı.",
+      "servingSuggestions": "İsti halda qatıq sousu ilə. Təzə keşniş və sumaq əlavəsi.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "quba-xinqal-dag-uslubu",
+      "tags": [
+        "Əsas yemək",
+        "Quba",
+        "dağlıq rayonlar",
+        "Çətin",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-41",
+      "name": "Mingəçevir Balıq Köftəsi (Kür balığı)",
+      "origin": "Mingəçevir, Kür çayı",
+      "category": "Ət yeməyi/Balıq",
+      "ingredients": [
+        "Kür balığı əti - 800 qram",
+        "Soğan - 2 ədəd",
+        "Yumurta - 2 ədəd",
+        "Un - 3 xörək qaşığı",
+        "Keşniş",
+        "şüyüd - 1 dəstə hərəsindən",
+        "Duz",
+        "ağ istiot"
+      ],
+      "instructions": [
+        "Balıq ətini xırdalayın",
+        "soğan və göyərti əlavə edin. Yumurta və un qarışdırıb köftələr düzəldин. Qaynar suda və ya buxarda 20 dəqiqə bişirin."
+      ],
+      "prepTime": "1 saat",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Mingəçevirin Kür çayı sahilində balıqçılar tərəfindən hazırlanan xüsusi köftə. Kür balığının lezzətini qoruyub saxlayan nəfis hazırlanma üsulu.",
+      "servingSuggestions": "Limon və keşniş ilə. Düyü və ya salat müşayiəti.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "mingecevir-baliq-koftesi-kur-baligi",
+      "tags": [
+        "Ət yeməyi/Balıq",
+        "Mingəçevir",
+        "Kür çayı",
+        "Orta",
+        "biş",
+        "qayna",
+        "bux"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-42",
+      "name": "Ağdam Tut Halva (Qarı tutlu)",
+      "origin": "Ağdam, Qarabağ",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Qarı tut - 1 kq",
+        "Şəkər - 600 qram",
+        "Un - 200 qram",
+        "Yağ - 100 ml",
+        "Qoz içi - 150 qram",
+        "Darçın - 1 çay qaşığı"
+      ],
+      "instructions": [
+        "Tutu şirə halında sıxın. Şəkər əlavə edib qaynadın. Qızardılmış unla qarışdırın. Qoz və darçın əlavə edin. Qəlibə tökün."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "16-20",
+      "history": "Ağdam şəhərinin məşhur tut ağaclarından istifadə edən nadir halva növü. Qarabağın təbii şirinlik mənbəyindən yararlanan ənənəvi resept.",
+      "servingSuggestions": "Çay ilə birlikdə. Xüsusilə payız mövsümündə təzə tutlardan hazırlanır.",
+      "image": "https://cms.seasonedtraveller.com/uploads/2019_ST_Azerbaijan_Sheki_6_1_e6d3d35f3f.jpg",
+      "slug": "agdam-tut-halva-qari-tutlu",
+      "tags": [
+        "Şirniyyat",
+        "Ağdam",
+        "Qarabağ",
+        "Orta",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-43",
+      "name": "Zəngilan Ceyran Kababı (Vəhşi ət)",
+      "origin": "Zəngilan, Qarabağ dağları",
+      "category": "Kabab/Manqal",
+      "ingredients": [
+        "Ceyran əti - 1 kq (və ya maral əti)",
+        "Soğan - 4 ədəd",
+        "Sarımsaq - 6 diş",
+        "Zeytun yağı - 100 ml",
+        "Çuçxa - 1 çay qaşığı",
+        "Qara istiot",
+        "Duz"
+      ],
+      "instructions": [
+        "Əti marinada (sarımsaq",
+        "ədviyyat",
+        "yağ) 4 saat saxlayın. Şişə düzüb manqalda yavaş odda 30-40 dəqiqə bişirin. Tez-tez çevirin."
+      ],
+      "prepTime": "1.5 saat (marinasiya daxil deyil)",
+      "difficulty": "Çətin",
+      "servings": "08-Oct",
+      "history": "Zəngilan dağlarında ovçular tərəfindən hazırlanan ənənəvi kabab. Vəhşi heyvanların ətindən istifadə edən nadir Qarabağ mətbəxi nümunəsi.",
+      "servingSuggestions": "Lavaq və sumaq soğanı ilə. Dağ otları müşayiəti.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-lamb-kebab-lule-kebab.jpg",
+      "slug": "zengilan-ceyran-kababi-vehsi-et",
+      "tags": [
+        "Kabab/Manqal",
+        "Zəngilan",
+        "Qarabağ dağları",
+        "Çətin",
+        "biş",
+        "manqal"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-44",
+      "name": "Tərtər Yarpaq Aşı (Vəhşi göyərti)",
+      "origin": "Tərtər, Qarabağ",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Vəhşi ispanaq - 400 qram",
+        "Qara lobya - 200 qram",
+        "Dana əti - 300 qram",
+        "Soğan - 2 ədəd",
+        "Un - 2 xörək qaşığı",
+        "Su - 2 litr",
+        "Duz",
+        "istiot"
+      ],
+      "instructions": [
+        "Lobyaları gecədən islayın. Əti bişirin",
+        "lobya əlavə edin. Yarpaq və soğanı daxil edib 40 dəqiqə qaynadın. Un qarışığı ilə qatılaşdırın."
+      ],
+      "prepTime": "2.5 saat",
+      "difficulty": "Asan",
+      "servings": "06-Aug",
+      "history": "Tərtərin vəhşi bitkilərindən hazırlanan təbii aş. Qarabağın dağlıq ərazilərində yetişən bitkilərdən istifadə edir.",
+      "servingSuggestions": "Qatıq və keşniş ilə. İsti halda təqdim edin.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "terter-yarpaq-asi-vehsi-goyerti",
+      "tags": [
+        "Şorba/Aş",
+        "Tərtər",
+        "Qarabağ",
+        "Asan",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-45",
+      "name": "Füzuli Şaftalı Şərbəti",
+      "origin": "Füzuli, Qarabağ",
+      "category": "İçki/Şərbət",
+      "ingredients": [
+        "Şaftalı - 1 kq (yetişmiş)",
+        "Şəkər - 400 qram",
+        "Su - 1 litr",
+        "Limon - 1 ədəd",
+        "Nanə - 10 yarpaq",
+        "Buz"
+      ],
+      "instructions": [
+        "Şaftalını soyub doğrayın. Şəkər şərbəti hazırlayın. Şaftalını əlavə edib 15 dəqiqə qaynadın. Süzüb soyudun. Nanə və buz əlavə edin."
+      ],
+      "prepTime": "45 dəq",
+      "difficulty": "Asan",
+      "servings": "08-Oct",
+      "history": "Füzulinin məşhur şaftalı bağlarından hazırlanan təbii şərbət. Yay aylarında sərinləşdirici və vitamin mənbəyi.",
+      "servingSuggestions": "Soyuq halda buz və nanə yarpağı ilə. İftar və qonaq süfrəsində.",
+      "image": "https://azcookbook.com/wp-content/uploads/2014/03/azerbaijani-rose-petal-sherbet-gul-sharbati.jpg",
+      "slug": "fuzuli-saftali-serbeti",
+      "tags": [
+        "İçki/Şərbət",
+        "Füzuli",
+        "Qarabağ",
+        "Asan",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-46",
+      "name": "Kəlbəcər Dağ Pendir Böreyi",
+      "origin": "Kəlbəcər, Qarabağ dağları",
+      "category": "Çörək/Xəmir",
+      "ingredients": [
+        "Un - 500 qram",
+        "Yumurta - 2 ədəd",
+        "Su - 200 ml",
+        "Dağ pendiri - 300 qram",
+        "Keşniş - 1 dəstə",
+        "Duz",
+        "Yağ - qızartmaq üçün"
+      ],
+      "instructions": [
+        "Xəmir yoğurun",
+        "nazik açın. Pendir və keşniş qarışığı ilə doldurun. Üçbucaq börek düzəldib qızgın yağda qızardın."
+      ],
+      "prepTime": "1.5 saat",
+      "difficulty": "Orta",
+      "servings": "Dec-15",
+      "history": "Kəlbəcər dağlarında çobanlar tərəfindən hazırlanan dağ pendirindən istifadə edən börek. Yaylaq həyatının dadlı nümunəsi.",
+      "servingSuggestions": "İsti halda çay ilə birlikdə. Qatıq və ya ayran müşayiəti.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "kelbecer-dag-pendir-boreyi",
+      "tags": [
+        "Çörək/Xəmir",
+        "Kəlbəcər",
+        "Qarabağ dağları",
+        "Orta"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-47",
+      "name": "Laçın Kəklik Şorbası (Vəhşi quş)",
+      "origin": "Laçın, Qarabağ",
+      "category": "Şorba/Aş",
+      "ingredients": [
+        "Kəklik əti - 2 ədəd",
+        "Soğan - 3 ədəd",
+        "Kartof - 4 ədəd",
+        "Keşniş - 1 dəstə",
+        "Duz",
+        "qara istiot",
+        "Su - 2.5 litr",
+        "Sarımsaq - 4 diş"
+      ],
+      "instructions": [
+        "Kəklik ətini təmizləyib doğrayın. Suda qaynadın. Tərəvəzləri əlavə edin. 1.5 saat yavaş odda bişirin. Keşniş və sarımsaq əlavə edin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "6",
+      "history": "Laçın dağlarında ovçular tərəfindən vəhşi kəklik ətindən hazırlanan xüsusi şorba. Qədim ov ənənələrinin dadlı nəticəsi.",
+      "servingSuggestions": "İsti halda təzə çörək və keşniş ilə. Kəklik ətinin dadını qoruyub saxlayır.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "lacin-keklik-sorbasi-vehsi-qus",
+      "tags": [
+        "Şorba/Aş",
+        "Laçın",
+        "Qarabağ",
+        "Orta",
+        "biş",
+        "qayna"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-48",
+      "name": "Cəbrayıl Qara Balıq Kababı",
+      "origin": "Cəbrayıl, Araz çayı",
+      "category": "Kabab/Manqal",
+      "ingredients": [
+        "Qara balıq - 1.5 kq",
+        "Limon - 3 ədəd",
+        "Zeytun yağı - 8 xörək qaşığı",
+        "Sarımsaq - 8 diş",
+        "Sumaq - 2 çay qaşığı",
+        "Duz",
+        "istiot"
+      ],
+      "instructions": [
+        "Balığı dilimləyın. Marinada (limon",
+        "sarımsaq",
+        "yağ) 2 saat saxlayın. Manqalda orta odda hər tərəfdən 6-7 dəqiqə bişirin. Sumaq səpin."
+      ],
+      "prepTime": "40 dəq (marinasiya daxil deyil)",
+      "difficulty": "Orta",
+      "servings": "8",
+      "history": "Cəbrayılın Araz çayındakı qara balıqlardan hazırlanan kabab. Çayın təbii mühiti balığa xüsusi dad verir.",
+      "servingSuggestions": "Sumaq soğanı və göyərti ilə. Lavaq çörəyi müşayiəti.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/11/walnut-stuffed-fish.jpg",
+      "slug": "cebrayil-qara-baliq-kababi",
+      "tags": [
+        "Kabab/Manqal",
+        "Cəbrayıl",
+        "Araz çayı",
+        "Orta",
+        "biş",
+        "manqal"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-49",
+      "name": "Qubadlı Bal Çörəyi (Arı balı)",
+      "origin": "Qubadlı, Qarabağ",
+      "category": "Çörək/Xəmir",
+      "ingredients": [
+        "Un - 600 qram",
+        "Bal - 200 ml (təbii)",
+        "Yumurta - 3 ədəd",
+        "Yağ - 100 ml",
+        "Maya - 15 qram",
+        "Su - 300 ml ilıq",
+        "Duz - 1 çay qaşığı"
+      ],
+      "instructions": [
+        "Maya və balı ilıq suda əridin. Unla qarışdırıb xəmir yoğurun. 2 saat qaldırın. Çörək forması verib sobada 180°C-də 35 dəqiqə bişirin."
+      ],
+      "prepTime": "3 saat",
+      "difficulty": "Orta",
+      "servings": "08-Oct",
+      "history": "Qubadlının dağ arılarının balından hazırlanan xüsusi çörək. Təbii balın şirinliyi və ətri ilə seçilir.",
+      "servingSuggestions": "İsti halda pendir və ya qatıq ilə. Bal əlavə etməyə ehtiyac yoxdur.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "qubadli-bal-coreyi-ari-bali",
+      "tags": [
+        "Çörək/Xəmir",
+        "Qubadlı",
+        "Qarabağ",
+        "Orta",
+        "biş",
+        "soba"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-50",
+      "name": "Şuşa Çinar Halım (Çinar yarpağı)",
+      "origin": "Şuşa, Qarabağ",
+      "category": "Səhər yeməyi",
+      "ingredients": [
+        "Buğda - 300 qram",
+        "Mal əti - 500 qram",
+        "Çinar yarpağı - 20 ədəd (gənc)",
+        "Su - 2 litr",
+        "Yağ - 80 ml",
+        "Duz",
+        "darçın"
+      ],
+      "instructions": [
+        "Buğdanı gecədən islayın. Əti bişirin",
+        "buğda əlavə edin. Çinar yarpaqlarını doğrayıb daxil edin. 3 saat yavaş odda qarışdıraraq bişirin."
+      ],
+      "prepTime": "4 saat",
+      "difficulty": "Çətin",
+      "servings": "8",
+      "history": "Şuşanın məşhur çinar ağaclarının gənc yarpaqlarından hazırlanan xüsusi halım. Çox nadir və regional dad.",
+      "servingSuggestions": "İsti halda darçın və şəkər ilə. Xüsusi günlər üçün hazırlanır.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "susa-cinar-halim-cinar-yarpagi",
+      "tags": [
+        "Səhər yeməyi",
+        "Şuşa",
+        "Qarabağ",
+        "Çətin",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-51",
+      "name": "Xocavənd Cəfəri Dolması",
+      "origin": "Xocavənd, Qarabağ",
+      "category": "Əsas yemək",
+      "ingredients": [
+        "Cəfəri - 2 dəstə böyük",
+        "Qiymə - 400 qram",
+        "Düyü - 200 qram",
+        "Soğan - 2 ədəd",
+        "Pomidor - 3 ədəd",
+        "Duz",
+        "istiot",
+        "Keşniş - 1 dəstə"
+      ],
+      "instructions": [
+        "Cəfəri dəstələrini təmizləyin. Qiymə",
+        "düyü və soğan qarışığı hazırlayın. Cəfəri dəstələrini doldurun. Pomidor sousu ilə 45 dəqiqə bişirin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Çətin",
+      "servings": "06-Aug",
+      "history": "Xocavəndin cəfəri zənginliyindən yararlanan nadir dolma növü. Göyərtinin təbii dadını qoruyub saxlayır.",
+      "servingSuggestions": "Qatıq və limon ilə. İsti halda keşniş səpin.",
+      "image": "https://azcookbook.com/wp-content/uploads/2008/01/azerbaijani-stuffed-grape-leaves-dolma-azcookbook.jpg",
+      "slug": "xocavend-ceferi-dolmasi",
+      "tags": [
+        "Əsas yemək",
+        "Xocavənd",
+        "Qarabağ",
+        "Çətin",
+        "biş"
+      ],
+      "featured": false
+    },
+    {
+      "id": "recipe-52",
+      "name": "Ağcabədi Şəkərbura (Mini)",
+      "origin": "Ağcabədi",
+      "category": "Şirniyyat",
+      "ingredients": [
+        "Un - 400 qram",
+        "Yağ - 200 ml",
+        "Şəkər - 100 qram",
+        "Yumurta - 2 ədəd",
+        "Qoz içi - 300 qram",
+        "Badam - 100 qram",
+        "Darçın - 1 çay qaşığı"
+      ],
+      "instructions": [
+        "Xəmir hazırlayın. Qoz və badam qarışığı ilə doldurun. Kiçik şəkərbura formalarına düzün. 170°C-də 20 dəqiqə bişirin."
+      ],
+      "prepTime": "2 saat",
+      "difficulty": "Orta",
+      "servings": "25-30",
+      "history": "Ağcabədinin özünəməxsus kiçik şəkərbura növü. Novruz bayramında və xüsusi günlərdə hazırlanır.",
+      "servingSuggestions": "Çay ilə birlikdə. Şəkər pudrası səpin.",
+      "image": "https://nationalfoods.org/wp-content/uploads/2025/06/Plov-Shah-Pilaf-National-dish-of-Azerbaijan-Shah-Plov-cooked.jpg",
+      "slug": "agcabedi-sekerbura-mini",
+      "tags": [
+        "Şirniyyat",
+        "Ağcabədi",
+        "Orta",
+        "biş"
+      ],
+      "featured": false
+    }
+  ],
+  "categories": [
+    "Düyü/Plov",
+    "Kabab/Manqal",
+    "Mürəbbə/Şirniyyat",
+    "Qəlyanaltı",
+    "Səhər yeməyi",
+    "Turşu/Konserv",
+    "Unudulmuş yemək",
+    "Çörək",
+    "Çörək/Xəmir",
+    "İçki/Şərbət",
+    "Şirniyyat",
+    "Şirniyyat/Xəmir",
+    "Şorba/Aş",
+    "Əsas yemək",
+    "Ət yeməyi/Balıq",
+    "Ət yeməyi/Kabab"
+  ],
+  "regions": [
+    "Arax çayı sahili",
+    "Araz çayı",
+    "Astara",
+    "Ağcabədi",
+    "Ağdam",
+    "Bakı",
+    "Beyləqan",
+    "Culfa",
+    "Cəbrayıl",
+    "Füzuli",
+    "Gəncə",
+    "Kür çayı",
+    "Kəlbəcər",
+    "Laz kəndləri",
+    "Laçın",
+    "Lənkəran",
+    "Mingəçevir",
+    "Naxçıvan",
+    "Ordubad",
+    "Qarabağ",
+    "Qarabağ dağları",
+    "Qax",
+    "Quba",
+    "Qubadlı",
+    "Qəbələ",
+    "Qərbi Azərbaycan",
+    "Tərtər",
+    "Xocavənd",
+    "Xəzər sahili",
+    "Zəngilan",
+    "dağlıq rayonlar",
+    "dağlıq sahələr",
+    "kənd rayonları",
+    "kənd əraziləri",
+    "meyvə bağları",
+    "meşə əraziləri",
+    "çay sahili",
+    "çəltik sahələri",
+    "ümumi Azərbaycan",
+    "Şamaxı",
+    "Şuşa",
+    "Şəki"
+  ],
+  "lastUpdated": "2025-09-01T13:34:57.179Z",
+  "version": "1.0.0"
+}

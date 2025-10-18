@@ -1,0 +1,42 @@
+<!-- Better placeholder for food images -->
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" fill="url(#bg)"/>
+  
+  <!-- Plate -->
+  <circle cx="300" cy="220" r="120" fill="#ffffff" stroke="#e2e8f0" stroke-width="3"/>
+  
+  <!-- Food items -->
+  <circle cx="280" cy="200" r="20" fill="#f59e0b"/>
+  <circle cx="320" cy="190" r="25" fill="#dc2626"/>
+  <circle cx="300" cy="240" r="18" fill="#059669"/>
+  <ellipse cx="300" cy="220" rx="40" ry="15" fill="#f97316" opacity="0.7"/>
+  
+  <!-- Utensils -->
+  <g fill="#94a3b8" stroke="#64748b" stroke-width="2">
+    <!-- Fork -->
+    <line x1="180" y1="140" x2="180" y2="180"/>
+    <line x1="175" y1="140" x2="175" y2="150"/>
+    <line x1="185" y1="140" x2="185" y2="150"/>
+    <line x1="170" y1="140" x2="190" y2="140"/>
+    
+    <!-- Knife -->
+    <line x1="420" y1="140" x2="420" y2="180"/>
+    <path d="M415 140 L425 140 L425 155 L420 160 L415 155 Z"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="300" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="600" fill="#64748b">
+    Azərbaycan Mətbəxi
+  </text>
+  <text x="300" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#94a3b8">
+    Chef İlhamə Resepti
+  </text>
+</svg>

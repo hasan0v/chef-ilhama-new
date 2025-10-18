@@ -1,0 +1,31 @@
+{
+  "totalVisits": 0,
+  "totalRecipeViews": 27,
+  "totalShares": 0,
+  "totalPrints": 0,
+  "totalSearches": 0,
+  "popularRecipes": [
+    {
+      "slug": "naxcivan-derelik-qedim",
+      "count": 14
+    },
+    {
+      "slug": "qarabag-qarisiq-tursusu-7-novlu",
+      "count": 4
+    },
+    {
+      "slug": "zengilan-ceyran-kababi-vehsi-et",
+      "count": 4
+    },
+    {
+      "slug": "naxcivan-mercan-plovi-i-nce-duyulu",
+      "count": 4
+    },
+    {
+      "slug": "qarabag-alma-siresi-fermentlesmis",
+      "count": 1
+    }
+  ],
+  "topSearchTerms": [],
+  "lastUpdated": "2025-09-01T15:31:41.604Z"
+}
