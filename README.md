@@ -5,7 +5,7 @@ Professional Azerbaijani chef services and authentic recipe platform built with 
 ## 🎯 Features
 
 - **Recipe Database**: 100+ authentic Azerbaijani recipes with detailed instructions
-- **Professional Chef Services**: Personal chef and catering services
+- **Professional Chef Services**: Personal chef and katerinq services
 - **SEO Optimized**: Structured data, meta tags, and performance optimizations
 - **Responsive Design**: Mobile-first design with modern UI
 - **Performance**: Optimized with caching, lazy loading, and code splitting

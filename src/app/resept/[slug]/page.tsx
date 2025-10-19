@@ -85,9 +85,19 @@ export default async function RecipePage({ params }: RecipePageProps) {
 
 // Generate static params for all recipes
 export async function generateStaticParams() {
-  const recipes = await getRecipes();
-  
-  return recipes.map((recipe) => ({
-    slug: recipe.slug,
-  }));
+  try {
+    const recipes = await getRecipes();
+    
+    return recipes.map((recipe) => ({
+      slug: recipe.slug,
+    }));
+  } catch (error) {
+    console.log('Unable to fetch recipes during build (this is expected locally):', error);
+    // Return empty array to skip static generation during local build
+    return [];
+  }
 }
+
+// Force dynamic rendering to avoid build-time database calls
+export const dynamic = 'force-dynamic';
+export const revalidate = 300; // Revalidate every 5 minutes in production

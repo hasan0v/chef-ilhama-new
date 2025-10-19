@@ -248,11 +248,11 @@ function HomePage({ featuredRecipes, stats }: HomePageProps) {
                 variant="outline" 
                 size="lg" 
                 className="border-2 border-gray-300 hover:border-red-600 hover:text-red-600 px-8 py-4 text-lg rounded-full transition-all duration-300"
-                onClick={() => handleInstantNavigation('/haqqinda')}
-                onMouseEnter={() => router.prefetch('/haqqinda')}
+                onClick={() => handleInstantNavigation('/xidmetler')}
+                onMouseEnter={() => router.prefetch('/xidmetler')}
               >
                 <Heart className="mr-2 h-5 w-5" />
-                Haqqında
+                Xidmətlərimiz
               </Button>
             </motion.div>
 

@@ -13,19 +13,16 @@ import {
   Users, 
   Clock,
   Phone,
-  Mail,
   MapPin,
   Calendar,
   MessageCircle,
   CheckCircle2,
   Utensils,
-  Home,
   Building2,
   Crown,
   PartyPopper,
   GraduationCap,
-  ClipboardCheck,
-  Send
+  ClipboardCheck
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 
@@ -47,7 +44,7 @@ export default function ServicesPageClient() {
 
   const serviceOptions = [
     { id: 'personal-chef', label: 'Şəxsi Aşpaz Xidməti', icon: ChefHat, description: 'Evinizə gələrək peşəkar yemək hazırlama' },
-    { id: 'catering', label: 'Katerinq Xidməti', icon: Utensils, description: 'Tədbir üçün tam menyu hazırlığı' },
+    { id: 'katerinq', label: 'Katerinq Xidməti', icon: Utensils, description: 'Tədbir üçün tam menyu hazırlığı' },
     { id: 'wedding', label: 'Toy Yeməkləri', icon: Crown, description: 'Toy və böyük məclis xidməti' },
     { id: 'corporate', label: 'Korporativ Tədbirlər', icon: Building2, description: 'Şirkət və iş yeməkləri' },
     { id: 'party', label: 'Nişan və Şənliklər', icon: PartyPopper, description: 'Ailə mərasimləri və tədbirlər' },
@@ -105,14 +102,14 @@ export default function ServicesPageClient() {
     message += `📞 *Telefon:* ${formData.phone}\n`;
     if (formData.email) message += `📧 *Email:* ${formData.email}\n`;
     message += `\n🎯 *Xidmət Növü:*\n${selectedServiceNames}\n\n`;
-    message += `� *Tədbir Məlumatları:*\n`;
+    message += `📅 *Tədbir Məlumatları:*\n`;
     message += `• Növ: ${formData.eventType}\n`;
     if (formData.eventDate) message += `• Tarix: ${formData.eventDate}\n`;
     message += `• Qonaq sayı: ${formData.guestCount}\n`;
     if (formData.location) message += `• Yer: ${formData.location}\n`;
     
     if (formData.menuPreference) {
-      message += `\n� *Menyu üstünlüyü:*\n${formData.menuPreference}\n`;
+      message += `\n🍴 *Menyu üstünlüyü:*\n${formData.menuPreference}\n`;
     }
     
     if (formData.dietaryRequirements) {
@@ -120,7 +117,7 @@ export default function ServicesPageClient() {
     }
     
     if (formData.budget) {
-      message += `\n� *Büdcə:* ${formData.budget}\n`;
+      message += `\n💰 *Büdcə:* ${formData.budget}\n`;
     }
     
     if (formData.additionalNotes) {
@@ -509,370 +506,6 @@ export default function ServicesPageClient() {
           </div>
         </section>
 
-      </div>
-    </PageLayout>
-  );
-}
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-yellow-50">
-        {/* Hero Section */}
-        <section className="relative py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-orange-600/20" />
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center mb-16"
-            >
-              <div className="flex justify-center items-center mb-6">
-                <ChefHat className="h-16 w-16 text-red-600 mr-4" />
-                <Award className="h-12 w-12 text-orange-500" />
-              </div>
-              <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                Professional <span className="text-red-600">Catering</span> Xidmətləri
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto">
-                10+ il banket və məclis təcrübəsi • Freelance aşpaz və onsite catering • 
-                Banket, nişan, şənlik, korporativ tədbirlər • Fərdi menyu, dietik və halal seçimlər • 
-                Evə servis, master-klas və reseptlər
-              </p>
-              <div className="flex flex-wrap justify-center items-center gap-4 text-lg">
-                <Badge variant="secondary" className="px-4 py-2">
-                  <Clock className="h-4 w-4 mr-2" />
-                  10+ İl Təcrübə
-                </Badge>
-                <Badge variant="secondary" className="px-4 py-2">
-                  <Users className="h-4 w-4 mr-2" />
-                  1000+ Müştəri
-                </Badge>
-                <Badge variant="secondary" className="px-4 py-2">
-                  <Star className="h-4 w-4 mr-2" />
-                  Premium Keyfiyyət
-                </Badge>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Services Selection */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Xidmət Növlərimiz
-              </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Ehtiyacınıza uyğun xidmət növünü seçin və biz sizə ən yaxşı həlli təklif edərik
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {services.map((service, index) => (
-                <motion.div
-                  key={service.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                >
-                  <Card 
-                    className={`cursor-pointer transition-all duration-300 hover:shadow-xl ${
-                      selectedServices.includes(service.id) 
-                        ? 'ring-2 ring-red-500 bg-red-50' 
-                        : 'hover:shadow-lg'
-                    }`}
-                    onClick={() => handleServiceToggle(service.id)}
-                  >
-                    <CardHeader className="text-center">
-                      <div className="flex justify-center mb-4">
-                        <service.icon className={`h-12 w-12 ${
-                          selectedServices.includes(service.id) ? 'text-red-600' : 'text-orange-500'
-                        }`} />
-                      </div>
-                      <CardTitle className="text-xl mb-2">{service.title}</CardTitle>
-                      <p className="text-gray-600 text-sm">{service.description}</p>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        {service.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-center text-sm text-gray-700">
-                            <CheckCircle className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Event Size Selection */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Tədbir Ölçüsü
-              </h2>
-              <p className="text-lg text-gray-600">
-                Tədbirin ölçüsünü seçin ki, sizə uyğun qiymət və xidmət təklif edə bilək
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-              {eventSizes.map((size, index) => (
-                <motion.div
-                  key={size.value}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                >
-                  <Card 
-                    className={`cursor-pointer transition-all duration-300 text-center p-4 ${
-                      eventSize === size.value 
-                        ? 'ring-2 ring-red-500 bg-red-50' 
-                        : 'hover:shadow-lg hover:scale-105'
-                    }`}
-                    onClick={() => setEventSize(size.value)}
-                  >
-                    <div className="text-3xl mb-2">{size.icon}</div>
-                    <div className="font-semibold text-sm">{size.label}</div>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Menu Selection */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Menyu Seçimi
-              </h2>
-              <p className="text-lg text-gray-600">
-                Tədbirin menyusunu təşkil etmək üçün sevdiyiniz yeməkləri seçin
-              </p>
-            </motion.div>
-
-            {Object.entries(menuCategories).map(([categoryKey, category], categoryIndex) => (
-              <motion.div
-                key={categoryKey}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-                className="mb-12"
-              >
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-                  <span className="text-3xl mr-3">{category.icon}</span>
-                  {category.title}
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {category.items.map((item, itemIndex) => (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.4, delay: itemIndex * 0.05 }}
-                    >
-                      <Card 
-                        className={`cursor-pointer transition-all duration-300 h-full ${
-                          selectedDishes.includes(item.id) 
-                            ? 'ring-2 ring-red-500 bg-red-50' 
-                            : 'hover:shadow-lg hover:scale-105'
-                        }`}
-                        onClick={() => handleDishToggle(item.id)}
-                      >
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900 flex-1">
-                              {item.name}
-                            </h4>
-                            {selectedDishes.includes(item.id) && (
-                              <CheckCircle className="h-5 w-5 text-red-500 flex-shrink-0 ml-2" />
-                            )}
-                          </div>
-                          {item.description && (
-                            <p className="text-sm text-gray-600">{item.description}</p>
-                          )}
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Custom Dishes */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mt-12"
-            >
-              <Card className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Xüsusi Yeməklər
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Siyahıda olmayan yeməklər istəyirsinizsə, burada qeyd edin:
-                </p>
-                <Textarea
-                  placeholder="Məsələn: Xüsusi reseptlər, dietik yeməklər, allergen olmayan variantlar..."
-                  value={customDishes}
-                  onChange={(e) => setCustomDishes(e.target.value)}
-                  className="min-h-[100px]"
-                />
-              </Card>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Contact Form */}
-        <section className="py-16 bg-gradient-to-br from-red-50 to-orange-50">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl mx-auto"
-            >
-              <Card className="p-8">
-                <CardHeader className="text-center pb-6">
-                  <CardTitle className="text-2xl text-gray-900">
-                    Tədbir Məlumatları
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    Sizinlə əlaqə saxlamaq üçün məlumatları doldurun
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Adınız *
-                      </label>
-                      <Input
-                        placeholder="Adınızı daxil edin"
-                        value={contactName}
-                        onChange={(e) => setContactName(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Telefon nömrəsi *
-                      </label>
-                      <Input
-                        placeholder="+994 XX XXX XX XX"
-                        value={contactPhone}
-                        onChange={(e) => setContactPhone(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Tədbir tarixi
-                      </label>
-                      <Input
-                        type="date"
-                        value={eventDate}
-                        onChange={(e) => setEventDate(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Tədbir növü
-                      </label>
-                      <Input
-                        placeholder="Məsələn: Nişan, toy, korporativ..."
-                        value={eventType}
-                        onChange={(e) => setEventType(e.target.value)}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Əlavə qeydlər
-                    </label>
-                    <Textarea
-                      placeholder="Xüsusi tələblər, alergiylər, dietik məhdudiyyətlər və s."
-                      value={additionalNotes}
-                      onChange={(e) => setAdditionalNotes(e.target.value)}
-                      rows={4}
-                    />
-                  </div>
-
-                  <div className="pt-6">
-                    <Button
-                      onClick={generateWhatsAppMessage}
-                      disabled={!isFormValid()}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg"
-                      size="lg"
-                    >
-                      <MessageCircle className="h-5 w-5 mr-2" />
-                      WhatsApp ilə Sifariş Ver
-                    </Button>
-                    
-                    {!isFormValid() && (
-                      <p className="text-sm text-red-600 mt-2 text-center">
-                        Xahiş edirik, bütün vacib sahələri doldurun
-                      </p>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Contact Info */}
-        <section className="py-12 bg-gray-900 text-white">
-          <div className="container mx-auto px-4 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h3 className="text-2xl font-bold mb-4">Bizimlə əlaqə</h3>
-              <div className="flex flex-col md:flex-row justify-center items-center gap-6">
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-2 text-green-400" />
-                  <span className="text-lg">+994 10 379 45 77</span>
-                </div>
-                <div className="flex items-center">
-                  <MessageCircle className="h-5 w-5 mr-2 text-green-400" />
-                  <span>WhatsApp üzərindən sifariş</span>
-                </div>
-                <div className="flex items-center">
-                  <Clock className="h-5 w-5 mr-2 text-orange-400" />
-                  <span>24/7 Xidmət</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
       </div>
     </PageLayout>
   );

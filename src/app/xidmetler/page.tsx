@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Aşpaz Xidməti Bakı | Şəxsi Aşpaz və Katerinq | Chef İlhamə',
   description: 'Bakının ən yaxşı şəxsi aşpaz xidməti. Toy yeməkləri, katerinq, banket aşpazı və şirkət tədbirləri. 15+ il professional təcrübə. +994 10 379 45 77',
-  keywords: 'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, toy yeməkləri, banket aşpazı, aşpaz evə, catering Baku, personal chef, aşpaz qiyməti, professional aşpaz',
+  keywords: 'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, toy yeməkləri, banket aşpazı, aşpaz evə, katerinq Baku, personal chef, aşpaz qiyməti, professional aşpaz',
   robots: {
     index: true,
     follow: true,

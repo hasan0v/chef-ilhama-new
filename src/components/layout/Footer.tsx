@@ -22,7 +22,7 @@ export default function Footer() {
               <span className="font-bold text-xl">Chef İlhamə</span>
             </div>
             <p className="text-gray-300 text-sm">
-              Bakıda professional şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, 
+              Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, 
               şirkət tədbirləri üçün 15+ il təcrübə ilə xidmətinizdəyik.
             </p>
             <div className="flex space-x-4">

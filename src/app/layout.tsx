@@ -20,8 +20,8 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
   title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı | Azərbaycan Mətbəxi",
-  description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın. +994 10 379 45 77",
-  keywords: "aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, catering Baku, personal chef",
+  description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın. +994 10 379 45 77",
+  keywords: "aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef",
   authors: [{ name: "Chef İlhamə" }],
   robots: {
     index: true,
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın.",
+    description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın.",
     type: "website",
     locale: "az_AZ",
     url: "https://chef-ilhama.food",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakının ən yaxşı şəxsi aşpazı. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.",
+    description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.",
     images: ["https://chef-ilhama.food/ilhama.png"],
   },
   alternates: {
@@ -115,7 +115,7 @@ export default function RootLayout({
               "logo": "https://chef-ilhama.food/ilhama.png",
               "image": [
                 "https://chef-ilhama.food/ilhama.png",
-                "https://chef-ilhama.food/images/catering-1.jpg",
+                "https://chef-ilhama.food/images/katerinq-1.jpg",
                 "https://chef-ilhama.food/images/chef-cooking.jpg"
               ],
               "address": {
@@ -145,10 +145,10 @@ export default function RootLayout({
               ],
               "serviceType": [
                 "Personal Chef Services",
-                "Catering Services", 
+                "Katerinq Services", 
                 "Private Dining",
-                "Event Catering",
-                "Corporate Catering"
+                "Event Katerinq",
+                "Corporate Katerinq"
               ],
               "cuisine": [
                 "Azerbaijani",

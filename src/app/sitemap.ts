@@ -6,7 +6,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://chef-ilhama.food'
   
   // Get all recipes for dynamic pages
-  const recipes = await getRecipes()
+  let recipes: Recipe[] = [];
+  try {
+    recipes = await getRecipes();
+  } catch (error) {
+    console.log('Unable to fetch recipes for sitemap (this is expected during local build):', error);
+  }
   
   // Static pages
   const staticPages = [
