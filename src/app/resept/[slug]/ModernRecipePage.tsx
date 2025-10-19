@@ -16,7 +16,6 @@ import {
   ArrowLeft, 
   MapPin, 
   Star,
-  Heart,
   Share2,
   Printer,
   CheckCircle2,
@@ -126,9 +125,6 @@ export default function ModernRecipePage({ recipe }: ModernRecipePageProps) {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="absolute top-8 right-8 flex gap-2"
           >
-            <Button size="sm" className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30">
-              <Heart className="h-4 w-4" />
-            </Button>
             <Button size="sm" className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30">
               <Share2 className="h-4 w-4" />
             </Button>
