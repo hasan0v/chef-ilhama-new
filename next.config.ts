@@ -67,10 +67,6 @@ const nextConfig: NextConfig = {
     return config;
   },
   
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000, // 1 year
