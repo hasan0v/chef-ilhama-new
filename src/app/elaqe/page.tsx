@@ -13,10 +13,30 @@ export default function ContactPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
               Professional <span className="text-red-600">Aşpaz Xidməti</span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
               Toy, banket, korporativ tədbirlər və şəxsi aşpaz xidməti üçün 
               bizimlə əlaqə saxlayın. 15+ il təcrübə ilə xidmətinizdəyik.
             </p>
+            
+            {/* WhatsApp CTA Button */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+              <a 
+                href="https://wa.me/994103794577?text=Salam%20Chef%20İlhamə,%20aşpaz%20xidməti%20haqqında%20məlumat%20almaq%20istəyirəm" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              >
+                <Phone className="h-6 w-6 mr-2" />
+                WhatsApp ilə Sifariş Et
+              </a>
+              <a 
+                href="tel:+994103794577" 
+                className="inline-flex items-center px-8 py-4 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+              >
+                <Phone className="h-6 w-6 mr-2" />
+                Zəng Et
+              </a>
+            </div>
           </div>
         </section>
 

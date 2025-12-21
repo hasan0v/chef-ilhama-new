@@ -97,7 +97,18 @@ export default function RootLayout({
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="format-detection" content="telephone=yes" />
         
-        {/* Google Analytics 4 - Note: Replace G-YOUR-GA4-ID with actual ID */}
+        {/* Google Analytics 4 */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0DZ2LRYK9J"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-0DZ2LRYK9J');
+            `
+          }}
+        />
         
         {/* Business Schema JSON-LD */}
         <script
