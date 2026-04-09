@@ -23,6 +23,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
   keywords:
     'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef',
   authors: [{ name: siteConfig.name }],
