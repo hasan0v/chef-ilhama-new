@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-serif: var(--font-open-sans), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -44,38 +44,38 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: #fefefe;
-  --foreground: #1e293b;
-  --card: #ffffff;
-  --card-foreground: #1e293b;
-  --popover: #ffffff;
-  --popover-foreground: #1e293b;
-  --primary: #b91c1c; /* Deep Red - Azerbaijani flag inspired */
-  --primary-foreground: #ffffff;
-  --secondary: #059669; /* Emerald Green - nature and freshness */
-  --secondary-foreground: #ffffff;
-  --muted: #f8fafc;
-  --muted-foreground: #64748b;
-  --accent: #f59e0b; /* Gold - traditional craftsmanship */
-  --accent-foreground: #1e293b;
-  --destructive: #dc2626;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #b91c1c;
-  --chart-1: #b91c1c;
-  --chart-2: #059669;
-  --chart-3: #f59e0b;
-  --chart-4: #3b82f6;
-  --chart-5: #8b5cf6;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1e293b;
-  --sidebar-primary: #b91c1c;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f8fafc;
-  --sidebar-accent-foreground: #1e293b;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #b91c1c;
+  --radius: 1.25rem;
+  --background: #f7efe2;
+  --foreground: #241c18;
+  --card: rgba(255, 251, 246, 0.82);
+  --card-foreground: #241c18;
+  --popover: rgba(255, 251, 246, 0.96);
+  --popover-foreground: #241c18;
+  --primary: #8d3a24;
+  --primary-foreground: #fff7ef;
+  --secondary: #355441;
+  --secondary-foreground: #f7efe2;
+  --muted: #efe4d1;
+  --muted-foreground: #716154;
+  --accent: #c99645;
+  --accent-foreground: #241c18;
+  --destructive: #b94b34;
+  --border: rgba(98, 67, 45, 0.14);
+  --input: rgba(98, 67, 45, 0.14);
+  --ring: rgba(141, 58, 36, 0.28);
+  --chart-1: #8d3a24;
+  --chart-2: #355441;
+  --chart-3: #c99645;
+  --chart-4: #6f5d4d;
+  --chart-5: #af6c40;
+  --sidebar: rgba(255, 251, 246, 0.95);
+  --sidebar-foreground: #241c18;
+  --sidebar-primary: #8d3a24;
+  --sidebar-primary-foreground: #fff7ef;
+  --sidebar-accent: #efe4d1;
+  --sidebar-accent-foreground: #241c18;
+  --sidebar-border: rgba(98, 67, 45, 0.14);
+  --sidebar-ring: rgba(141, 58, 36, 0.28);
 }
 
 .dark {
@@ -116,11 +116,143 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at top left, rgba(201, 150, 69, 0.18), transparent 28%),
+      radial-gradient(circle at 85% 12%, rgba(53, 84, 65, 0.12), transparent 20%),
+      linear-gradient(180deg, rgba(255, 251, 246, 0.84), rgba(247, 239, 226, 0.94));
+    background-attachment: fixed;
   }
-  
-  /* Line clamp utilities */
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.32;
+    background-image:
+      linear-gradient(rgba(95, 59, 37, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(95, 59, 37, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.42), transparent 78%);
+  }
+}
+
+@layer components {
+  .display-title {
+    font-family: var(--font-cormorant), Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+  }
+
+  .eyebrow-chip {
+    border-radius: 999px;
+    padding: 0.55rem 0.95rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+  }
+
+  .section-shell {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.56);
+    background: linear-gradient(180deg, rgba(255, 252, 248, 0.86), rgba(255, 247, 239, 0.72));
+    box-shadow: 0 24px 80px rgba(57, 36, 23, 0.12);
+    backdrop-filter: blur(24px);
+  }
+
+  .section-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.34), transparent 52%);
+  }
+
+  .mesh-surface {
+    background-image:
+      radial-gradient(circle at top left, rgba(201, 150, 69, 0.18), transparent 30%),
+      radial-gradient(circle at right bottom, rgba(53, 84, 65, 0.14), transparent 22%),
+      linear-gradient(180deg, rgba(255, 251, 246, 0.92), rgba(255, 247, 239, 0.74));
+  }
+
+  .page-shell {
+    padding-top: 1rem;
+    padding-bottom: 4rem;
+  }
+
+  .section-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(95, 59, 37, 0.22), transparent);
+  }
+
+  .ambient-orb {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(52px);
+    opacity: 0.45;
+  }
+
+  .prose-list {
+    display: grid;
+    gap: 0.85rem;
+    padding-left: 1.25rem;
+  }
+
+  .prose-list li {
+    color: rgba(57, 44, 35, 0.78);
+    line-height: 1.8;
+  }
+}
+
+/* Performance-optimized CSS animations (replaces framer-motion where possible) */
+@keyframes float {
+  0%, 100% { transform: translateY(-10px); }
+  50% { transform: translateY(10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite 2s;
+}
+
+.animate-float-delayed-2 {
+  animation: float 6s ease-in-out infinite 4s;
+}
+
+/* Smooth fade-in for elements entering viewport */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Line clamp utilities */
+@layer utilities {
   .line-clamp-1 {
     overflow: hidden;
     display: -webkit-box;
@@ -141,8 +273,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
-  
-  /* Interactive element cursor styles */
+
   button,
   [role="button"],
   [type="button"],

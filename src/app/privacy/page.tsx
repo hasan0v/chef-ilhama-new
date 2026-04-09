@@ -1,137 +1,113 @@
-import PageLayout from '@/components/layout/PageLayout';
-import { Card, CardContent } from '@/components/ui/card';
+import type { Metadata } from 'next';
+import LegalPage from '@/components/site/pages/LegalPage';
+import { siteConfig } from '@/lib/site';
+
+export const metadata: Metadata = {
+  title: 'Məxfilik Siyasəti - Chef İlhamə',
+  description: 'Chef İlhamə saytında toplanan məlumatlar və onların necə qorunduğu barədə məlumat.',
+};
+
+const sections = [
+  {
+    index: '01',
+    title: 'Hansı məlumatlar toplanır',
+    content: (
+      <>
+        <p>
+          Saytda əlaqə formaları, WhatsApp keçidləri və analitika vasitəsilə məhdud həcmdə məlumat toplanır. Məqsəd sifarişləri cavablandırmaq və xidmət keyfiyyətini izləməkdir.
+        </p>
+        <ul className="prose-list list-disc">
+          <li>Ad və əlaqə məlumatları</li>
+          <li>Email və telefon nömrəsi</li>
+          <li>Tədbir və xidmət sorğusu qeydləri</li>
+          <li>Anonim sayt istifadə statistikaları</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    index: '02',
+    title: 'Məlumatların istifadə məqsədi',
+    content: (
+      <>
+        <p>Toplanan məlumatlar yalnız xidmət prosesini daha dəqiq və sürətli idarə etmək üçün istifadə olunur.</p>
+        <ul className="prose-list list-disc">
+          <li>Sifariş və sorğulara cavab vermək</li>
+          <li>Menyu və tədbir planlamasını uyğunlaşdırmaq</li>
+          <li>Əlaqə tarixçəsini və xidmət keyfiyyətini izləmək</li>
+          <li>Sayt performansını və istifadə axınlarını analiz etmək</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    index: '03',
+    title: 'Məlumatların qorunması',
+    content: (
+      <>
+        <p>Şəxsi məlumatların qorunması üçün texniki və əməliyyat səviyyəsində tədbirlər görülür.</p>
+        <ul className="prose-list list-disc">
+          <li>Təhlükəsiz hosting və giriş nəzarəti</li>
+          <li>Yalnız zəruri məlumatların saxlanması</li>
+          <li>Giriş hüquqlarının məhdudlaşdırılması</li>
+          <li>Üçüncü tərəf alətlərindən istifadə zamanı minimum data prinsipi</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    index: '04',
+    title: 'Üçüncü tərəf xidmətləri',
+    content: (
+      <>
+        <p>Saytda bəzi xarici xidmətlərdən istifadə olunur. Bu xidmətlər öz məxfilik şərtlərinə malikdir.</p>
+        <ul className="prose-list list-disc">
+          <li>Google Analytics analitik məqsədlər üçün</li>
+          <li>WhatsApp əlaqə və rezervasiya üçün</li>
+          <li>Hosting və email infrastrukturu xidmətin davamlılığı üçün</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    index: '05',
+    title: 'Sizin hüquqlarınız',
+    content: (
+      <>
+        <p>İstənilən vaxt saxlanılan şəxsi məlumatlarla bağlı sorğu göndərə bilərsiniz.</p>
+        <ul className="prose-list list-disc">
+          <li>Məlumatlara baxış və düzəliş tələbi</li>
+          <li>Məlumatların silinməsi ilə bağlı müraciət</li>
+          <li>Kommunikasiya razılığından imtina</li>
+          <li>Data emalı haqqında əlavə izah istəyi</li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    index: '06',
+    title: 'Əlaqə',
+    content: (
+      <>
+        <p>Məxfilik siyasəti ilə bağlı sual və ya müraciət üçün aşağıdakı kanallardan istifadə edə bilərsiniz.</p>
+        <ul className="prose-list list-disc">
+          <li>Email: {siteConfig.email}</li>
+          <li>WhatsApp: {siteConfig.phoneDisplay}</li>
+          <li>Xidmət əhatəsi: {siteConfig.serviceAreas.join(', ')}</li>
+        </ul>
+      </>
+    ),
+  },
+];
 
 export default function PrivacyPage() {
   return (
-    <PageLayout>
-      <div className="min-h-screen bg-gray-50">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-red-50 to-orange-50 py-20">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Məxfilik <span className="text-red-600">Siyasəti</span>
-            </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Chef İlhamə veb-saytında şəxsi məlumatlarınızın qorunması barədə məlumat
-            </p>
-          </div>
-        </section>
-
-        {/* Content Section */}
-        <section className="py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="space-y-8">
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Məlumat Toplama
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Veb-saytımızda aşağıdakı məlumatları toplaya bilərik:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>Ad və əlaqə məlumatları (əlaqə formu vasitəsilə)</li>
-                    <li>Email ünvanı (xidmət sifarişləri üçün)</li>
-                    <li>Telefon nömrəsi (WhatsApp əlaqəsi üçün)</li>
-                    <li>Veb-sayt istifadə statistikaları (Google Analytics)</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Məlumatların İstifadəsi
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Topladığımız məlumatları aşağıdakı məqsədlər üçün istifadə edirik:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>Aşpaz xidməti sifarişlərinin işlənməsi</li>
-                    <li>Müştəri dəstəyi və əlaqə</li>
-                    <li>Xidmət keyfiyyətinin yaxşılaşdırılması</li>
-                    <li>Veb-saytın performansının təhlili</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Məlumatların Qorunması
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Şəxsi məlumatlarınızın təhlükəsizliyini təmin etmək üçün:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>SSL şifrələmə texnologiyasından istifadə edirik</li>
-                    <li>Məlumatları təhlükəsiz serverlərdə saxlayırıq</li>
-                    <li>Yalnız səlahiyyətli personala giriş icazəsi veririk</li>
-                    <li>Müntəzəm təhlükəsizlik yoxlamaları aparırıq</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Üçüncü Tərəflər
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Şəxsi məlumatlarınızı üçüncü tərəflərə satmırıq. Lakin aşağıdakı hallarda paylaşa bilərik:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>Google Analytics (anonim statistik məlumatlar)</li>
-                    <li>WhatsApp (əlaqə üçün istifadə etdiyinizdə)</li>
-                    <li>Qanuni tələblər zamanı</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Sizin Hüquqlarınız
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Şəxsi məlumatlarınızla bağlı aşağıdakı hüquqlara maliksiniz:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
-                    <li>Məlumatlarınızı görməK və yeniləmək</li>
-                    <li>Məlumatlarınızın silinməsini tələb etmək</li>
-                    <li>Məlumat emalından imtina etmək</li>
-                    <li>Məlumatlarınızın portativliyini tələb etmək</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    Əlaqə
-                  </h2>
-                  <p className="text-gray-600 mb-4">
-                    Məxfilik siyasəti ilə bağlı suallarınız varsa, bizimlə əlaqə saxlayın:
-                  </p>
-                  <div className="space-y-2 text-gray-600">
-                    <p><strong>Email:</strong> info@chef-ilhama.food</p>
-                    <p><strong>WhatsApp:</strong> +994 10 379 45 77</p>
-                    <p><strong>Ünvan:</strong> Bakı, Azərbaycan</p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-8">
-                  <p className="text-sm text-gray-500">
-                    Bu məxfilik siyasəti sonuncu dəfə 29 sentyabr 2025-ci ildə yenilənmişdir.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-      </div>
-    </PageLayout>
+    <LegalPage
+      eyebrow="Məxfilik siyasəti"
+      title={<>Şəxsi məlumatların necə toplandığı, istifadə edildiyi və qorunduğu burada aydın şəkildə izah olunur.</>}
+      description="Bu səhifə də saytın yeni dizayn sistemi ilə uyğunlaşdırılıb: hüquqi məzmun daha oxunaqlı bloklara bölünüb və kontakt informasiyası daha aydın təqdim olunur."
+      sections={sections}
+      updatedAt="09.04.2026"
+    />
   );
 }

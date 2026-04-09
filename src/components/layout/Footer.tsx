@@ -1,77 +1,46 @@
 import Link from 'next/link';
-import { ChefHat, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { ChefHat, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+import { getWhatsAppHref, legalNavigation, mainNavigation, siteConfig } from '@/lib/site';
 
 export default function Footer() {
-  const quickLinks = [
-    { name: 'Ana Səhifə', href: '/' },
-    { name: 'Reseptlər', href: '/reseptler' },
-    { name: 'Haqqında', href: '/haqqinda' },
-    { name: 'Əlaqə', href: '/elaqe' }
-  ];
-
-
-
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <ChefHat className="h-8 w-8 text-red-500" />
-              <span className="font-bold text-xl">Chef İlhamə</span>
+    <footer className="px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pb-8 lg:pt-14">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.2rem] border border-[rgba(98,67,45,0.1)] bg-[linear-gradient(135deg,rgba(34,27,23,0.98),rgba(59,40,28,0.96))] text-white shadow-[0_28px_90px_rgba(26,18,12,0.34)]">
+        <div className="grid gap-10 px-6 py-10 sm:px-8 lg:grid-cols-[1.15fr_0.85fr_0.8fr_1fr] lg:px-12 lg:py-14">
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-[rgba(255,220,181,0.92)]">
+                <ChefHat className="h-6 w-6" />
+              </div>
+              <div>
+                <div className="display-title text-3xl leading-none text-white">Chef İlhamə</div>
+                <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-white/45">Curated dining experiences</div>
+              </div>
             </div>
-            <p className="text-gray-300 text-sm">
-              Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, 
-              şirkət tədbirləri üçün 15+ il təcrübə ilə xidmətinizdəyik.
+            <p className="max-w-md text-sm leading-7 text-white/68 sm:text-base">
+              Bakı və Abşeron boyunca private dining, tədbir catering və zərif Azərbaycan menyuları üçün kulinariya studiyası.
             </p>
-            <div className="flex space-x-4">
-              <a href="https://www.instagram.com/chef.ilhama" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-500 transition-colors">
-                <Instagram className="h-5 w-5" />
+            <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
+              <span>Private Chef</span>
+              <span>Wedding Catering</span>
+              <span>Modern Azerbaijani</span>
+            </div>
+            <div className="flex gap-3">
+              <a href={siteConfig.instagram} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
+                <Instagram className="h-4 w-4" />
               </a>
-              <a href="https://wa.me/994103794577" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-500 transition-colors" title="WhatsApp">
-                <Phone className="h-5 w-5" />
+              <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
+                <Phone className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          {/* Services */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Xidmətlərimiz</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Naviqasiya</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/xidmetler" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Şəxsi Aşpaz Xidməti
-                </Link>
-              </li>
-              <li>
-                <Link href="/xidmetler" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Katerinq Xidməti
-                </Link>
-              </li>
-              <li>
-                <Link href="/xidmetler" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Toy Yeməkləri
-                </Link>
-              </li>
-              <li>
-                <Link href="/xidmetler" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Korporativ Tədbirlər
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Sürətli Linklər</h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors text-sm"
-                  >
+              {mainNavigation.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">
                     {link.name}
                   </Link>
                 </li>
@@ -79,52 +48,55 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="font-semibold text-lg">Əlaqə</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Xidmət Fokusları</h3>
+            <ul className="space-y-2">
+              <li className="text-sm text-white/68 sm:text-base">Private dinner masaları</li>
+              <li className="text-sm text-white/68 sm:text-base">Toy və nişan menyuları</li>
+              <li className="text-sm text-white/68 sm:text-base">Korporativ təqdimat catering</li>
+              <li className="text-sm text-white/68 sm:text-base">Regional resept kurasiyası</li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Əlaqə</h3>
             <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-red-500" />
-                <a href="mailto:info@chef-ilhama.food" className="text-gray-300 hover:text-white text-sm transition-colors">
-                  info@chef-ilhama.food
+              <div className="flex items-start gap-3">
+                <Mail className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
+                <a href={`mailto:${siteConfig.email}`} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">
+                  {siteConfig.email}
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-green-500" />
-                <a href="https://wa.me/994103794577" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-green-400 text-sm transition-colors">
-                  +994 10 379 45 77 (WhatsApp)
+              <div className="flex items-start gap-3">
+                <Phone className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
+                <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">
+                  {siteConfig.phoneDisplay}
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="h-4 w-4 text-red-500" />
-                <span className="text-gray-300 text-sm">Bakı, Sumqayıt, Abşeron</span>
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
+                <span className="text-sm text-white/68 sm:text-base">{siteConfig.serviceAreas.join(', ')}</span>
               </div>
-              <div className="mt-4">
-                <a href="https://wa.me/994103794577?text=Salam%20Chef%20İlhamə,%20aşpaz%20xidməti%20haqqında%20məlumat%20almaq%20istəyirəm" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="inline-flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors">
-                  <Phone className="h-4 w-4 mr-2" />
-                  WhatsApp ilə Əlaqə
+              <div className="pt-3">
+                <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[rgba(34,27,23,0.94)] transition-transform duration-200 hover:-translate-y-0.5">
+                  WhatsApp ilə danış
                 </a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-gray-800 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © 2025 Chef İlhamə. Bütün hüquqlar qorunur.
+        <div className="border-t border-white/10 px-6 py-5 sm:px-8 lg:px-12">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <p className="text-sm text-white/45">
+              © {new Date().getFullYear()} Chef İlhamə. Bütün hüquqlar qorunur.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link href="/privacy" className="text-gray-400 hover:text-white text-sm">
-                Məxfilik Siyasəti
-              </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white text-sm">
-                İstifadə Şərtləri
-              </Link>
+            <div className="flex flex-wrap gap-5">
+              {legalNavigation.map((link) => (
+                <Link key={link.href} href={link.href} className="text-sm text-white/45 transition-colors hover:text-white/82">
+                  {link.name}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

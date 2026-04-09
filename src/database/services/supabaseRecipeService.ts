@@ -3,11 +3,15 @@ import { PrismaClient, Prisma } from '@prisma/client'
 import type { Recipe } from '../../types/recipe'
 import { splitCategories, recipeMatchesCategory } from '../../utils/categoryUtils'
 
-// Optimize Prisma client with connection pooling
-const prisma = new PrismaClient({
+// Optimize Prisma client with singleton pattern for serverless
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }
+
+const prisma = globalForPrisma.prisma ?? new PrismaClient({
   datasourceUrl: process.env.DATABASE_URL,
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error'],
+  log: process.env.NODE_ENV === 'development' ? ['error'] : ['error'],
 })
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 export class SupabaseRecipeService {
   // Parse ingredients from the CSV text format

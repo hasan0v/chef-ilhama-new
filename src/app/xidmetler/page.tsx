@@ -1,9 +1,9 @@
-import ServicesPageClient from './ServicesPageClient';
+import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Aşpaz Xidməti Bakı | Şəxsi Aşpaz və Katerinq | Chef İlhamə',
-  description: 'Bakının ən yaxşı şəxsi aşpaz xidməti. Toy yeməkləri, katerinq, banket aşpazı və şirkət tədbirləri. 15+ il professional təcrübə. +994 10 379 45 77',
+  description: 'Bakının ən yaxşı şəxsi aşpaz xidməti. Toy yeməkləri, katerinq, banket aşpazı və şirkət tədbirləri. 15+ il professional təcrübə. +994 77 614 11 74',
   keywords: 'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, toy yeməkləri, banket aşpazı, aşpaz evə, katerinq Baku, personal chef, aşpaz qiyməti, professional aşpaz',
   robots: {
     index: true,
@@ -44,5 +44,5 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
-  return <ServicesPageClient />;
+  return <ServicesExperience />;
 }

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getRecipeBySlug, getRecipes } from '@/lib/recipes';
-import ModernRecipePage from './ModernRecipePage';
+import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import type { Metadata } from 'next';
 
 interface RecipePageProps {
@@ -80,7 +80,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound();
   }
 
-  return <ModernRecipePage recipe={recipe} />;
+  return <RecipeStoryPage recipe={recipe} />;
 }
 
 // Generate static params for all recipes

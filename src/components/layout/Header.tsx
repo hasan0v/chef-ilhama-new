@@ -1,204 +1,132 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { ChefHat, Menu, X } from 'lucide-react';
+import { ChefHat, Clock3, Menu, Phone, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-
-const navigation = [
-  { name: 'Ana Səhifə', href: '/' },
-  { name: 'Reseptlər', href: '/reseptler' },
-  { name: 'Xidmətlər', href: '/xidmetler' },
-  { name: 'Haqqında', href: '/haqqinda' },
-  { name: 'Əlaqə', href: '/elaqe' }
-];
+import { usePathname } from 'next/navigation';
+import { getWhatsAppHref, mainNavigation, siteConfig } from '@/lib/site';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const router = useRouter();
-  
-  const handleInstantNavigation = useCallback((href: string) => {
-    setIsMenuOpen(false); // Close mobile menu
-    router.push(href);
-  }, [router]);
-  
-  // Prefetch all navigation routes on component mount
-  useEffect(() => {
-    navigation.forEach(item => {
-      router.prefetch(item.href);
-    });
-  }, [router]);
-
-  const menuVariants = {
-    closed: {
-      opacity: 0,
-      height: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut" as const
-      }
-    },
-    open: {
-      opacity: 1,
-      height: "auto",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut" as const
-      }
-    }
-  };
-
-  const itemVariants = {
-    closed: { x: -20, opacity: 0 },
-    open: (i: number) => ({
-      x: 0,
-      opacity: 1,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.3,
-        ease: "easeOut" as const
-      }
-    })
-  };
+  const pathname = usePathname();
 
   return (
-    <header className="bg-white shadow-sm border-b sticky top-0 z-50 backdrop-blur-sm bg-white/95">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Animated Logo */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link href="/" className="flex items-center space-x-2">
-              <motion.div
-                animate={{ 
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{ 
-                  duration: 2, 
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <ChefHat className="h-8 w-8 text-red-700" />
-              </motion.div>
-              <motion.span 
-                className="font-bold text-xl text-gray-900"
-                whileHover={{ 
-                  color: "#b91c1c",
-                  textShadow: "0 0 8px rgba(185, 28, 28, 0.3)"
-                }}
-              >
-                Chef İlhamə
-              </motion.span>
-            </Link>
-          </motion.div>
-
-          {/* Desktop Navigation with stagger animations */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item, index) => (
-              <motion.div
-                key={item.name}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.3 }}
-                whileHover={{ y: -2 }}
-              >
-                <button
-                  onClick={() => handleInstantNavigation(item.href)}
-                  onMouseEnter={() => router.prefetch(item.href)}
-                  className="text-gray-700 hover:text-red-700 px-3 py-2 text-sm font-medium transition-colors relative overflow-hidden bg-transparent border-none cursor-pointer"
-                >
-                  <motion.span
-                    className="relative z-10"
-                    whileHover={{ 
-                      textShadow: "0 2px 4px rgba(0,0,0,0.1)"
-                    }}
-                  >
-                    {item.name}
-                  </motion.span>
-                  <motion.div
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-red-600"
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                </button>
-              </motion.div>
-            ))}
-          </nav>
-
-          {/* Animated Mobile menu button */}
-          <div className="md:hidden">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                <AnimatePresence mode="wait">
-                  {isMenuOpen ? (
-                    <motion.div
-                      key="close"
-                      initial={{ rotate: -90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: 90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="h-6 w-6" />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="menu"
-                      initial={{ rotate: 90, opacity: 0 }}
-                      animate={{ rotate: 0, opacity: 1 }}
-                      exit={{ rotate: -90, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Menu className="h-6 w-6" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </Button>
-            </motion.div>
+    <header className="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/60 bg-[rgba(255,251,246,0.82)] shadow-[0_18px_60px_rgba(52,34,22,0.12)] backdrop-blur-xl">
+        <div className="hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] text-[rgba(95,59,37,0.72)] md:flex">
+          <div className="flex items-center gap-3">
+            <Clock3 className="h-3.5 w-3.5" />
+            <span>{siteConfig.hours}</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span>{siteConfig.serviceAreas.join(' · ')}</span>
+            <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.72)]" />
+            <a href={siteConfig.phoneHref} className="transition-colors hover:text-[rgba(141,58,36,0.96)]">
+              {siteConfig.phoneDisplay}
+            </a>
           </div>
         </div>
 
-        {/* Animated Mobile Navigation */}
+        <div className="flex items-center justify-between px-5 py-4 sm:px-6">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(141,58,36,0.14),rgba(201,150,69,0.18))] text-[rgba(141,58,36,0.96)] transition-transform duration-300 group-hover:-rotate-6">
+              <ChefHat className="h-6 w-6" />
+            </div>
+            <div>
+              <div className="display-title text-3xl leading-none text-foreground">Chef İlhamə</div>
+              <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-[rgba(95,59,37,0.64)]">
+                Private Chef Atelier
+              </div>
+            </div>
+          </Link>
+
+          <nav className="hidden items-center gap-1 lg:flex">
+            {mainNavigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]'
+                      : 'text-[rgba(57,44,35,0.76)] hover:bg-white/70 hover:text-foreground'
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="hidden items-center gap-3 lg:flex">
+            <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-5 text-[rgba(57,44,35,0.82)] hover:bg-white">
+              <a href={siteConfig.phoneHref}>
+                <Phone className="h-4 w-4" />
+                Zəng et
+              </a>
+            </Button>
+            <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] px-5 text-white shadow-[0_12px_30px_rgba(141,58,36,0.28)] hover:bg-[rgba(141,58,36,0.9)]">
+              <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
+                Rezerv et
+              </a>
+            </Button>
+          </div>
+
+          <div className="lg:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => setIsMenuOpen((value) => !value)}
+              aria-label="Menyunu aç"
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
+        </div>
+
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className="md:hidden overflow-hidden"
-              variants={menuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
+              className="overflow-hidden border-t border-[rgba(98,67,45,0.08)] lg:hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
-                {navigation.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    custom={index}
-                    variants={itemVariants}
-                    initial="closed"
-                    animate="open"
-                    exit="closed"
-                  >
-                    <button
-                      onClick={() => handleInstantNavigation(item.href)}
-                      onMouseEnter={() => router.prefetch(item.href)}
-                      className="text-gray-700 hover:text-red-700 block px-3 py-2 text-base font-medium hover:bg-red-50 rounded-md transition-colors w-full text-left bg-transparent border-none cursor-pointer"
+              <div className="space-y-2 px-4 py-4">
+                {mainNavigation.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`block rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
+                        isActive
+                          ? 'bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]'
+                          : 'bg-white/50 text-[rgba(57,44,35,0.82)] hover:bg-white/80'
+                      }`}
+                      onClick={() => setIsMenuOpen(false)}
                     >
                       {item.name}
-                    </button>
-                  </motion.div>
-                ))}
+                    </Link>
+                  );
+                })}
+                <div className="grid gap-2 pt-2 sm:grid-cols-2">
+                  <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
+                    <a href={siteConfig.phoneHref}>Zəng et</a>
+                  </Button>
+                  <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white">
+                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
+                      WhatsApp
+                    </a>
+                  </Button>
+                </div>
               </div>
             </motion.div>
           )}

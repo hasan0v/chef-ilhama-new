@@ -1,28 +1,31 @@
-import type { Metadata } from "next";
-import { Inter, Open_Sans } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Cormorant_Garamond, Manrope } from 'next/font/google';
+import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import './globals.css';
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
+const manrope = Manrope({
+  variable: '--font-manrope',
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
   preload: true,
   adjustFontFallback: false,
 });
 
-const openSans = Open_Sans({
-  variable: "--font-open-sans",
-  subsets: ["latin"],
-  display: "swap",
+const cormorant = Cormorant_Garamond({
+  variable: '--font-cormorant',
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
   preload: true,
   adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
-  title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı | Azərbaycan Mətbəxi",
-  description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın. +994 10 379 45 77",
-  keywords: "aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef",
-  authors: [{ name: "Chef İlhamə" }],
+  title: siteConfig.title,
+  description: siteConfig.description,
+  keywords:
+    'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef',
+  authors: [{ name: siteConfig.name }],
   robots: {
     index: true,
     follow: true,
@@ -35,34 +38,155 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri. Professional aşpaz xidməti evə çağırın.",
-    type: "website",
-    locale: "az_AZ",
-    url: "https://chef-ilhama.food",
-    siteName: "Chef İlhamə",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    type: 'website',
+    locale: 'az_AZ',
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     images: [
       {
-        url: "https://chef-ilhama.food/ilhama.png",
+        url: `${siteConfig.url}/ilhama.png`,
         width: 1200,
         height: 630,
-        alt: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
+        alt: 'Chef İlhamə - Professional Aşpaz Xidməti Bakı',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı",
-    description: "Bakıda professional şəxsi aşpaz. Katerinq xidməti, toy yeməkləri, şirkət tədbirləri.",
-    images: ["https://chef-ilhama.food/ilhama.png"],
+    card: 'summary_large_image',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [`${siteConfig.url}/ilhama.png`],
   },
   alternates: {
-    canonical: "https://chef-ilhama.food",
+    canonical: siteConfig.url,
   },
   verification: {
-    google: "your-google-verification-code",
+    google: 'your-google-verification-code',
   },
 };
+
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${siteConfig.url}/#business`,
+  name: siteConfig.name,
+  description: 'Professional şəxsi aşpaz və katerinq xidməti Bakıda',
+  url: siteConfig.url,
+  telephone: siteConfig.phoneDisplay,
+  email: siteConfig.email,
+  logo: `${siteConfig.url}/ilhama.png`,
+  image: [
+    `${siteConfig.url}/ilhama.png`,
+    `${siteConfig.url}/images/katerinq-1.jpg`,
+    `${siteConfig.url}/images/chef-cooking.jpg`,
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bakı',
+    addressCountry: 'AZ',
+    addressRegion: 'Bakı şəhəri',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 40.4093,
+    longitude: 49.8671,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Bakı' },
+    { '@type': 'City', name: 'Sumqayıt' },
+    { '@type': 'AdministrativeArea', name: 'Abşeron rayonu' },
+  ],
+  serviceType: [
+    'Personal Chef Services',
+    'Katerinq Services',
+    'Private Dining',
+    'Event Katerinq',
+    'Corporate Katerinq',
+  ],
+  cuisine: ['Azerbaijani', 'Turkish', 'Middle Eastern', 'International'],
+  priceRange: '$$-$$$',
+  openingHours: 'Mo-Su 08:00-22:00',
+  paymentAccepted: 'Cash, Credit Card, Bank Transfer',
+  currenciesAccepted: 'AZN',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Chef İlhamə Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Şəxsi Aşpaz Xidməti',
+          description: 'Professional şəxsi aşpaz evə çağırın',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Katerinq Xidməti',
+          description: 'Toy və tədbirlər üçün professional katerinq',
+        },
+      },
+    ],
+  },
+  sameAs: [siteConfig.instagram, siteConfig.facebook, getWhatsAppHref()],
+};
+
+const analyticsScript = `
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var script = document.createElement('script');
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-0DZ2LRYK9J';
+      script.async = true;
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-0DZ2LRYK9J', { send_page_view: true });
+    }, 100);
+  });
+`;
+
+const serviceWorkerScript = `
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      var isLocalHost =
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
+
+      if (isLocalHost) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          registrations.forEach(function(registration) {
+            registration.unregister();
+          });
+        });
+
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(function(key) {
+              caches.delete(key);
+            });
+          });
+        }
+
+        return;
+      }
+
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function() {
+          console.log('SW registered');
+        })
+        .catch(function() {
+          console.log('SW registration failed');
+        });
+    });
+  }
+`;
 
 export default function RootLayout({
   children,
@@ -73,152 +197,24 @@ export default function RootLayout({
     <html lang="az">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        <meta name="theme-color" content="#dc2626" />
-        
-        {/* DNS Prefetch for external domains */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        
-        {/* Preconnect to critical origins */}
+        <meta name="theme-color" content="#8d3a24" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        
-        {/* Preload critical resources */}
-        <link rel="preload" href="/ilhama.png" as="image" type="image/png" />
-        <link rel="preload" href="/placeholder-food.svg" as="image" type="image/svg+xml" />
-        
-        {/* PWA Configuration */}
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
-        
-        {/* Optimize resource loading */}
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="format-detection" content="telephone=yes" />
-        
-        {/* Google Analytics 4 */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0DZ2LRYK9J"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-0DZ2LRYK9J');
-            `
-          }}
-        />
-        
-        {/* Business Schema JSON-LD */}
+        <script dangerouslySetInnerHTML={{ __html: analyticsScript }} />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              "@id": "https://chef-ilhama.food/#business",
-              "name": "Chef İlhamə",
-              "description": "Professional şəxsi aşpaz və katerinq xidməti Bakıda",
-              "url": "https://chef-ilhama.food",
-              "telephone": "+994 10 379 45 77",
-              "email": "info@chef-ilhama.food",
-              "logo": "https://chef-ilhama.food/ilhama.png",
-              "image": [
-                "https://chef-ilhama.food/ilhama.png",
-                "https://chef-ilhama.food/images/katerinq-1.jpg",
-                "https://chef-ilhama.food/images/chef-cooking.jpg"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Bakı",
-                "addressCountry": "AZ",
-                "addressRegion": "Bakı şəhəri"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 40.4093,
-                "longitude": 49.8671
-              },
-              "areaServed": [
-                {
-                  "@type": "City",
-                  "name": "Bakı"
-                },
-                {
-                  "@type": "City", 
-                  "name": "Sumqayıt"
-                },
-                {
-                  "@type": "AdministrativeArea",
-                  "name": "Abşeron rayonu"
-                }
-              ],
-              "serviceType": [
-                "Personal Chef Services",
-                "Katerinq Services", 
-                "Private Dining",
-                "Event Katerinq",
-                "Corporate Katerinq"
-              ],
-              "cuisine": [
-                "Azerbaijani",
-                "Turkish",
-                "Middle Eastern",
-                "International"
-              ],
-              "priceRange": "$$-$$$",
-              "openingHours": "Mo-Su 08:00-22:00",
-              "paymentAccepted": "Cash, Credit Card, Bank Transfer",
-              "currenciesAccepted": "AZN",
-              "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Chef İlhamə Services",
-                "itemListElement": [
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Şəxsi Aşpaz Xidməti",
-                      "description": "Professional şəxsi aşpaz evə çağırın"
-                    }
-                  },
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "Service",
-                      "name": "Katerinq Xidməti",
-                      "description": "Toy və tədbirlər üçün professional katerinq"
-                    }
-                  }
-                ]
-              },
-              "sameAs": [
-                "https://www.instagram.com/chef.ilhama",
-                "https://www.facebook.com/chef.ilhama.baku",
-                "https://wa.me/994103794577"
-              ]
-            })
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
         />
       </head>
-      <body
-        className={`${inter.variable} ${openSans.variable} font-sans antialiased`}
-      >
+      <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
         {children}
-        {process.env.NODE_ENV === 'development' && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                if ('serviceWorker' in navigator) {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(() => console.log('SW registered'))
-                    .catch(() => console.log('SW registration failed'));
-                }
-              `
-            }}
-          />
-        )}
+        <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />
       </body>
     </html>
   );

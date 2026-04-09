@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   
   // Turbopack configuration
   turbopack: {
+    root: __dirname,
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'],
@@ -62,7 +63,6 @@ const nextConfig: NextConfig = {
       
       // Add compression for better performance
       config.optimization.usedExports = true;
-      config.optimization.sideEffects = false;
     }
     return config;
   },
@@ -99,7 +99,15 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'i.imgur.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'v3.fal.media',
+        port: '',
+        pathname: '/files/**',
       },
     ],
   },

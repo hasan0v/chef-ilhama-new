@@ -50,13 +50,15 @@ export default function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <Card className="border-green-200 bg-green-50">
-        <CardContent className="p-8 text-center">
-          <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-green-800 mb-2">
+      <Card className="border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(237,248,240,0.82))] shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm">
+        <CardContent className="p-8 text-center sm:p-10">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(53,84,65,0.12)] text-[rgba(53,84,65,0.96)]">
+            <CheckCircle className="h-8 w-8" />
+          </div>
+          <h3 className="display-title text-4xl text-[rgba(53,84,65,0.96)] mb-2">
             Mesajınız Göndərildi!
           </h3>
-          <p className="text-green-700">
+          <p className="mx-auto max-w-md text-sm leading-7 text-[rgba(53,84,65,0.88)] sm:text-base">
             Təşəkkür edirik! Mesajınızı aldıq və tezliklə sizinlə əlaqə saxlayacağıq.
           </p>
         </CardContent>
@@ -65,8 +67,8 @@ export default function ContactForm() {
   }
 
   return (
-    <Card>
-      <CardContent className="p-6">
+    <Card className="border-white/60 bg-white/78 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm">
+      <CardContent className="p-6 sm:p-8">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -75,7 +77,7 @@ export default function ContactForm() {
                 id="name"
                 {...register('name')}
                 placeholder="Adınızı daxil edin"
-                className={errors.name ? 'border-red-500' : ''}
+                className={`h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/84 ${errors.name ? 'border-red-500' : ''}`}
               />
               {errors.name && (
                 <p className="text-sm text-red-600">{errors.name.message}</p>
@@ -89,7 +91,7 @@ export default function ContactForm() {
                 type="email"
                 {...register('email')}
                 placeholder="email@misaldeya.com"
-                className={errors.email ? 'border-red-500' : ''}
+                className={`h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/84 ${errors.email ? 'border-red-500' : ''}`}
               />
               {errors.email && (
                 <p className="text-sm text-red-600">{errors.email.message}</p>
@@ -103,7 +105,7 @@ export default function ContactForm() {
               id="subject"
               {...register('subject')}
               placeholder="Mesajınızın mövzusu"
-              className={errors.subject ? 'border-red-500' : ''}
+              className={`h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/84 ${errors.subject ? 'border-red-500' : ''}`}
             />
             {errors.subject && (
               <p className="text-sm text-red-600">{errors.subject.message}</p>
@@ -117,7 +119,7 @@ export default function ContactForm() {
               {...register('message')}
               placeholder="Mesajınızı buraya yazın..."
               rows={6}
-              className={errors.message ? 'border-red-500' : ''}
+              className={`min-h-36 rounded-[1.5rem] border-[rgba(98,67,45,0.14)] bg-white/84 p-4 ${errors.message ? 'border-red-500' : ''}`}
             />
             {errors.message && (
               <p className="text-sm text-red-600">{errors.message.message}</p>
@@ -126,7 +128,7 @@ export default function ContactForm() {
 
           <Button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white"
+            className="w-full rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]"
             disabled={isSubmitting}
           >
             {isSubmitting ? (

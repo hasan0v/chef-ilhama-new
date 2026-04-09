@@ -156,27 +156,30 @@ export async function getRegions(): Promise<string[]> {
   }
 }
 
-// Get recipe statistics
+// Get recipe statistics - optimized single-pass
 export async function getRecipeStats() {
   try {
-    const stats = await recipeService.getStats();
-    const categories = await recipeService.getCategories();
-    const regions = await recipeService.getRegions();
+    const [stats, categories, regions, allRecipes] = await Promise.all([
+      recipeService.getStats(),
+      recipeService.getCategories(),
+      recipeService.getRegions(),
+      getRecipes() // Uses cached data
+    ]);
     
-    // Get difficulty breakdown by fetching recipes
-    const allRecipes = await recipeService.getAllRecipes();
-    const recipes = allRecipes.recipes;
+    // Single pass for difficulty breakdown
+    const difficultyBreakdown = { easy: 0, medium: 0, hard: 0 };
+    for (const r of allRecipes) {
+      if (r.difficulty === 'Asan') difficultyBreakdown.easy++;
+      else if (r.difficulty === 'Orta') difficultyBreakdown.medium++;
+      else if (r.difficulty === 'Çətin') difficultyBreakdown.hard++;
+    }
     
     return {
       totalRecipes: stats.totalRecipes,
       totalCategories: categories.length,
       totalRegions: regions.length,
       featuredRecipes: stats.featuredRecipes,
-      difficultyBreakdown: {
-        easy: recipes.filter(r => r.difficulty === 'Asan').length,
-        medium: recipes.filter(r => r.difficulty === 'Orta').length,
-        hard: recipes.filter(r => r.difficulty === 'Çətin').length
-      }
+      difficultyBreakdown
     };
   } catch (error) {
     console.error('Error getting recipe stats:', error);

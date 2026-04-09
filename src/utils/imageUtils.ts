@@ -1,20 +1,60 @@
+const FALLBACK_IMAGE = '/placeholder-recipe.svg';
+
+const allowedRemoteImagePatterns = [
+  {
+    protocol: 'https:',
+    hostname: 'flavorsofbaku.com',
+    pathnamePrefix: '/wp-content/uploads/',
+  },
+  {
+    protocol: 'https:',
+    hostname: 'azcookbook.com',
+    pathnamePrefix: '/wp-content/uploads/',
+  },
+  {
+    protocol: 'https:',
+    hostname: 'nationalfoods.org',
+    pathnamePrefix: '/wp-content/uploads/',
+  },
+  {
+    protocol: 'https:',
+    hostname: 'cms.seasonedtraveller.com',
+    pathnamePrefix: '/uploads/',
+  },
+  {
+    protocol: 'https:',
+    hostname: 'i.imgur.com',
+    pathnamePrefix: '/',
+  },
+  {
+    protocol: 'https:',
+    hostname: 'v3.fal.media',
+    pathnamePrefix: '/files/',
+  },
+] as const;
+
+function isAllowedRemoteImageUrl(url: URL): boolean {
+  return allowedRemoteImagePatterns.some((pattern) => {
+    return url.protocol === pattern.protocol
+      && url.hostname === pattern.hostname
+      && url.pathname.startsWith(pattern.pathnamePrefix);
+  });
+}
+
 // Utility function to validate and sanitize image URLs
 export function getValidImageUrl(imageUrl: string | null | undefined): string {
   if (!imageUrl || imageUrl.trim() === '') {
-    return '/placeholder-recipe.svg';
+    return FALLBACK_IMAGE;
   }
-  
-  try {
-    // Check if it's already a valid URL
-    new URL(imageUrl);
+
+  if (imageUrl.startsWith('/')) {
     return imageUrl;
+  }
+
+  try {
+    const parsedUrl = new URL(imageUrl);
+    return isAllowedRemoteImageUrl(parsedUrl) ? imageUrl : FALLBACK_IMAGE;
   } catch {
-    // If it's not a valid URL, check if it looks like a relative path
-    if (imageUrl.startsWith('/')) {
-      return imageUrl;
-    }
-    
-    // For invalid URLs or non-URL strings, return placeholder
-    return '/placeholder-recipe.svg';
+    return FALLBACK_IMAGE;
   }
 }

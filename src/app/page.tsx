@@ -1,5 +1,5 @@
 import { getFeaturedRecipes, getRecipeStats } from '@/lib/recipes';
-import HomePage from './HomePage';
+import HomeExperience from '@/components/site/pages/HomeExperience';
 
 // Revalidate every 5 minutes
 export const revalidate = 300;
@@ -11,7 +11,7 @@ export default async function Home() {
   ]);
 
   return (
-    <HomePage 
+    <HomeExperience 
       featuredRecipes={featuredRecipes}
       stats={stats}
     />

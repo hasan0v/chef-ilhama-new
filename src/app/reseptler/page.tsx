@@ -1,5 +1,5 @@
 import { getRecipes, getRegions } from '@/lib/recipes';
-import ModernRecipesPage from './ModernRecipesPage';
+import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
 import type { Metadata } from 'next';
 import { extractAllCategories } from '@/utils/categoryUtils';
 
@@ -21,7 +21,7 @@ export default async function RecipesPage() {
   const allCategories = extractAllCategories(recipes);
 
   return (
-    <ModernRecipesPage 
+    <RecipeCatalogPage 
       initialRecipes={recipes}
       categories={allCategories}
       regions={regions}

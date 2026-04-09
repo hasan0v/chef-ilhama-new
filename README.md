@@ -184,7 +184,7 @@ This project is private and proprietary.
 ## 📞 Contact
 
 Chef İlhamə
-- WhatsApp: +994 10 379 45 77
+- WhatsApp: +994 77 614 11 74
 - Website: [chef-ilhama.vercel.app](https://chef-ilhama.vercel.app)
 
 ---
