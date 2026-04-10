@@ -1,9 +1,9 @@
-// Supabase-based Recipe Service for Chef İlhamə
+// Supabase-based Recipe Service for Chef İlhamə - v2 (normalized schema)
 import { PrismaClient, Prisma } from '@prisma/client'
 import type { Recipe } from '../../types/recipe'
-import { splitCategories, recipeMatchesCategory } from '../../utils/categoryUtils'
+import { recipeMatchesCategory } from '../../utils/categoryUtils'
 
-// Optimize Prisma client with singleton pattern for serverless
+// Singleton Prisma client
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }
 
 const prisma = globalForPrisma.prisma ?? new PrismaClient({
@@ -13,20 +13,40 @@ const prisma = globalForPrisma.prisma ?? new PrismaClient({
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
+// Prisma include shape for full recipe
+const recipeInclude = {
+  kateqoriya: true,
+  mense: true,
+  bolge: true,
+  terkibHisseleri: { orderBy: { sira: 'asc' as const } },
+  addimlar: { orderBy: { sira: 'asc' as const } },
+  sekiller: true,
+} satisfies Prisma.RecipeInclude
+
+type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
+
+function transform(r: RecipeWithRelations): Recipe {
+  return {
+    id: r.id,
+    name: r.yemeyinAdi,
+    slug: r.slug,
+    origin: r.mense?.ad ?? '',
+    region: r.bolge?.ad ?? '',
+    category: r.kateqoriya.ad,
+    ingredients: r.terkibHisseleri.map(i => i.ad),
+    instructions: r.addimlar.map(s => s.metn),
+    prepTime: r.hazirlanmaMuddeti,
+    difficulty: r.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',
+    servings: r.porsiyaSayi,
+    history: r.tarixiMelumat ?? '',
+    servingSuggestions: r.teqdimTeklifleri ?? '',
+    image: r.sekiller.find(s => s.isMain)?.url ?? r.sekiller[0]?.url ?? '',
+    tags: [],
+    featured: r.featured,
+  }
+}
+
 export class SupabaseRecipeService {
-  // Parse ingredients from the CSV text format
-  private parseIngredients(ingredientsText: string): string[] {
-    if (!ingredientsText) return []
-    return ingredientsText.split(';').map(ingredient => ingredient.trim()).filter(Boolean)
-  }
-
-  // Parse instructions from the CSV text format
-  private parseInstructions(instructionsText: string): string[] {
-    if (!instructionsText) return []
-    return instructionsText.split(/\d+\)/).slice(1).map(step => step.trim()).filter(Boolean)
-  }
-
-  // Get all recipes with optional filtering and pagination
   async getAllRecipes(options?: {
     limit?: number
     offset?: number
@@ -37,252 +57,123 @@ export class SupabaseRecipeService {
     searchQuery?: string
   }): Promise<{ recipes: Recipe[]; total: number }> {
     try {
-      const {
-        limit = 50,
-        offset = 0,
-        category,
-        difficulty,
-        region,
-        featured,
-        searchQuery
-      } = options || {}
+      const { limit = 50, offset = 0, category, difficulty, region, featured, searchQuery } = options ?? {}
 
-      // Build where clause
       const where: Prisma.RecipeWhereInput = {}
-      
-      if (category) where.kateqoriya = category
+
+      if (category) where.kateqoriya = { ad: { contains: category, mode: 'insensitive' } }
       if (difficulty) where.cetinlikDerecesi = difficulty
-      if (region) where.mense = region
+      if (region) where.OR = [
+        { mense: { ad: { contains: region, mode: 'insensitive' } } },
+        { bolge: { ad: { contains: region, mode: 'insensitive' } } },
+      ]
       if (featured !== undefined) where.featured = featured
-      
+
       if (searchQuery) {
         where.OR = [
           { yemeyinAdi: { contains: searchQuery, mode: 'insensitive' } },
           { tarixiMelumat: { contains: searchQuery, mode: 'insensitive' } },
-          { kateqoriya: { contains: searchQuery, mode: 'insensitive' } },
-          { mense: { contains: searchQuery, mode: 'insensitive' } },
-          { bolge: { contains: searchQuery, mode: 'insensitive' } }
+          { kateqoriya: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { mense: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { bolge: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { terkibHisseleri: { some: { ad: { contains: searchQuery, mode: 'insensitive' } } } },
         ]
       }
 
-      // Get recipes
-      const recipes = await prisma.recipe.findMany({
-        where,
-        orderBy: { createdAt: 'desc' },
-        take: limit,
-        skip: offset
-      })
+      const [rows, total] = await Promise.all([
+        prisma.recipe.findMany({ where, include: recipeInclude, orderBy: { createdAt: 'desc' }, take: limit, skip: offset }),
+        prisma.recipe.count({ where }),
+      ])
 
-      // Get total count
-      const total = await prisma.recipe.count({ where })
-
-      // Transform data to match Recipe interface
-      const transformedRecipes: Recipe[] = recipes.map(recipe => ({
-        id: recipe.id,
-        name: recipe.yemeyinAdi,
-        slug: recipe.slug,
-        origin: recipe.mense || '',
-        region: recipe.bolge || '',
-        category: recipe.kateqoriya,
-        ingredients: this.parseIngredients(recipe.terkibHisseleri),
-        instructions: this.parseInstructions(recipe.hazirlanmaQaydasi),
-        prepTime: recipe.hazirlanmaMuddeti,
-        difficulty: recipe.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',
-        servings: recipe.porsiyaSayi,
-        history: recipe.tarixiMelumat,
-        servingSuggestions: recipe.teqdimTeklifleri,
-        image: recipe.sekilLinki,
-        tags: [], // No tags in current schema
-        featured: recipe.featured
-      }))
-
-      return { recipes: transformedRecipes, total }
+      return { recipes: rows.map(transform), total }
     } catch (error) {
       console.error('Error fetching recipes:', error)
       return { recipes: [], total: 0 }
     }
   }
 
-  // Get recipe by slug
   async getRecipeBySlug(slug: string): Promise<Recipe | null> {
     try {
-      const recipe = await prisma.recipe.findUnique({
-        where: { slug }
-      })
-
-      if (!recipe) return null
-
-      return {
-        id: recipe.id,
-        name: recipe.yemeyinAdi,
-        slug: recipe.slug,
-        origin: recipe.mense || '',
-        region: recipe.bolge || '',
-        category: recipe.kateqoriya,
-        ingredients: this.parseIngredients(recipe.terkibHisseleri),
-        instructions: this.parseInstructions(recipe.hazirlanmaQaydasi),
-        prepTime: recipe.hazirlanmaMuddeti,
-        difficulty: recipe.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',
-        servings: recipe.porsiyaSayi,
-        history: recipe.tarixiMelumat,
-        servingSuggestions: recipe.teqdimTeklifleri,
-        image: recipe.sekilLinki,
-        tags: [], // No tags in current schema
-        featured: recipe.featured
-      }
+      const r = await prisma.recipe.findUnique({ where: { slug }, include: recipeInclude })
+      return r ? transform(r) : null
     } catch (error) {
       console.error('Error fetching recipe by slug:', error)
       return null
     }
   }
 
-  // Get featured recipes
   async getFeaturedRecipes(limit = 6): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ 
-      featured: true, 
-      limit 
-    })
+    const result = await this.getAllRecipes({ featured: true, limit })
     return result.recipes
   }
 
-  // Get recipes by category (supports split categories like "Sıyıq/Tərəvəz yeməyi")
   async getRecipesByCategory(category: string, limit = 10): Promise<Recipe[]> {
     try {
-      // Get all recipes and filter client-side to support split categories
-      const allRecipes = await prisma.recipe.findMany({
-        orderBy: { createdAt: 'desc' }
-      })
-      
-      // Transform to Recipe format and filter by category
-      const transformedRecipes: Recipe[] = allRecipes.map(recipe => ({
-        id: recipe.id,
-        name: recipe.yemeyinAdi,
-        slug: recipe.slug,
-        origin: recipe.mense || '',
-        region: recipe.bolge || '',
-        category: recipe.kateqoriya,
-        ingredients: this.parseIngredients(recipe.terkibHisseleri),
-        instructions: this.parseInstructions(recipe.hazirlanmaQaydasi),
-        prepTime: recipe.hazirlanmaMuddeti,
-        difficulty: recipe.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',
-        servings: recipe.porsiyaSayi,
-        history: recipe.tarixiMelumat,
-        servingSuggestions: recipe.teqdimTeklifleri,
-        image: recipe.sekilLinki,
-        tags: [],
-        featured: recipe.featured
-      }))
-      
-      // Filter by category using split category logic
-      const filteredRecipes = transformedRecipes.filter(recipe => 
-        recipeMatchesCategory(recipe.category, category)
-      )
-      
-      return filteredRecipes.slice(0, limit)
+      const all = await prisma.recipe.findMany({ include: recipeInclude, orderBy: { createdAt: 'desc' } })
+      return all
+        .map(transform)
+        .filter(r => recipeMatchesCategory(r.category, category))
+        .slice(0, limit)
     } catch (error) {
       console.error('Error fetching recipes by category:', error)
       return []
     }
   }
 
-  // Get recipes by region
   async getRecipesByRegion(region: string, limit = 10): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ 
-      region, 
-      limit 
-    })
+    const result = await this.getAllRecipes({ region, limit })
     return result.recipes
   }
 
-  // Search recipes
   async searchRecipes(query: string, limit = 20): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ 
-      searchQuery: query, 
-      limit 
-    })
+    const result = await this.getAllRecipes({ searchQuery: query, limit })
     return result.recipes
   }
 
-  // Get all categories (splits combined categories like "Sıyıq/Tərəvəz yeməyi")
   async getCategories(): Promise<string[]> {
     try {
-      const recipes = await prisma.recipe.findMany({
-        select: { kateqoriya: true }
-      })
-      
-      // Extract all split categories
-      const allCategories = new Set<string>()
-      recipes.forEach(recipe => {
-        const categories = splitCategories(recipe.kateqoriya)
-        categories.forEach(cat => allCategories.add(cat))
-      })
-      
-      return Array.from(allCategories).sort()
+      const cats = await prisma.category.findMany({ orderBy: { ad: 'asc' } })
+      return cats.map(c => c.ad)
     } catch (error) {
       console.error('Error fetching categories:', error)
       return []
     }
   }
 
-  // Get all regions
   async getRegions(): Promise<string[]> {
     try {
-      const regions = await prisma.recipe.groupBy({
-        by: ['mense'],
-        _count: { mense: true },
-        orderBy: { _count: { mense: 'desc' } }
-      })
-      
-      return regions.map(r => r.mense).filter(Boolean) as string[]
+      const [menseler, bolgeler] = await Promise.all([
+        prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
+        prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
+      ])
+      const all = new Set([...menseler.map(m => m.ad), ...bolgeler.map(b => b.ad)])
+      return Array.from(all).sort()
     } catch (error) {
       console.error('Error fetching regions:', error)
       return []
     }
   }
 
-  // Get recipe statistics
-  async getStats(): Promise<{
-    totalRecipes: number
-    featuredRecipes: number
-    categories: number
-    regions: number
-  }> {
+  async getStats(): Promise<{ totalRecipes: number; featuredRecipes: number; categories: number; regions: number }> {
     try {
-      const [totalRecipes, featuredRecipes, categories, regions] = await Promise.all([
+      const [totalRecipes, featuredRecipes, catCount, regionCount] = await Promise.all([
         prisma.recipe.count(),
         prisma.recipe.count({ where: { featured: true } }),
-        prisma.recipe.groupBy({ by: ['kateqoriya'] }).then(r => r.length),
-        prisma.recipe.groupBy({ by: ['mense'] }).then(r => r.length)
+        prisma.category.count(),
+        prisma.mense.count(),
       ])
-
-      return {
-        totalRecipes,
-        featuredRecipes,
-        categories,
-        regions
-      }
+      return { totalRecipes, featuredRecipes, categories: catCount, regions: regionCount }
     } catch (error) {
       console.error('Error fetching recipe stats:', error)
-      return {
-        totalRecipes: 0,
-        featuredRecipes: 0,
-        categories: 0,
-        regions: 0
-      }
+      return { totalRecipes: 0, featuredRecipes: 0, categories: 0, regions: 0 }
     }
   }
 
-  // Record recipe interaction (simplified - no separate table)
   async recordInteraction(recipeId: string, type: 'VIEW' | 'SHARE' | 'PRINT'): Promise<void> {
-    try {
-      // For now, just log the interaction since we don't have the interaction table
-      console.log(`Recipe interaction: ${recipeId} - ${type}`)
-    } catch (error) {
-      console.error('Error recording recipe interaction:', error)
-    }
+    console.log(`Recipe interaction: ${recipeId} - ${type}`)
   }
 }
 
-// Export singleton instance
 export const supabaseRecipeService = new SupabaseRecipeService()
 export default supabaseRecipeService
+

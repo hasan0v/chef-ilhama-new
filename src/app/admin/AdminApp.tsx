@@ -22,8 +22,8 @@ interface RecipeFormData {
   mense: string;
   bolge: string;
   kateqoriya: string;
-  terkibHisseleri: string;
-  hazirlanmaQaydasi: string;
+  terkibHisseleri: string[];
+  addimlar: string[];
   hazirlanmaMuddeti: string;
   cetinlikDerecesi: string;
   porsiyaSayi: string;
@@ -38,8 +38,8 @@ const emptyForm: RecipeFormData = {
   mense: '',
   bolge: '',
   kateqoriya: '',
-  terkibHisseleri: '',
-  hazirlanmaQaydasi: '',
+  terkibHisseleri: [''],
+  addimlar: [''],
   hazirlanmaMuddeti: '',
   cetinlikDerecesi: 'Orta',
   porsiyaSayi: '',
@@ -301,12 +301,77 @@ function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
 
       <div>
         <label className={labelCls}>Tərkib hissələri *</label>
-        <textarea className={`${inputCls} min-h-[100px]`} value={form.terkibHisseleri} onChange={e => set('terkibHisseleri', e.target.value)} required placeholder="Hər tərkibi nöqtəli vergüllə ayırın: un; yağ; şəkər" />
+        <div className="space-y-2">
+          {form.terkibHisseleri.map((item, i) => (
+            <div key={i} className="flex gap-2">
+              <input
+                className={`${inputCls} flex-1`}
+                value={item}
+                onChange={e => {
+                  const arr = [...form.terkibHisseleri];
+                  arr[i] = e.target.value;
+                  set('terkibHisseleri', arr);
+                }}
+                placeholder={`${i + 1}. tərkib hissəsi`}
+              />
+              {form.terkibHisseleri.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => set('terkibHisseleri', form.terkibHisseleri.filter((_, j) => j !== i))}
+                  className="rounded-xl border border-red-200 bg-red-50 px-3 text-red-500 transition hover:bg-red-100"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => set('terkibHisseleri', [...form.terkibHisseleri, ''])}
+            className="flex items-center gap-2 rounded-xl border border-dashed border-[rgba(98,67,45,0.25)] bg-white px-4 py-2 text-sm text-[rgba(57,44,35,0.6)] transition hover:border-[#8d3a24]/40 hover:text-[#8d3a24]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
+            Tərkib əlavə et
+          </button>
+        </div>
       </div>
 
       <div>
-        <label className={labelCls}>Hazırlanma qaydası *</label>
-        <textarea className={`${inputCls} min-h-[120px]`} value={form.hazirlanmaQaydasi} onChange={e => set('hazirlanmaQaydasi', e.target.value)} required placeholder="1) Birinci addım 2) İkinci addım..." />
+        <label className={labelCls}>Hazırlanma addımları *</label>
+        <div className="space-y-2">
+          {form.addimlar.map((step, i) => (
+            <div key={i} className="flex gap-2">
+              <span className="flex h-9 w-8 shrink-0 items-center justify-center rounded-lg bg-[rgba(98,67,45,0.08)] text-xs font-bold text-[rgba(57,44,35,0.5)] self-start mt-0.5">{i + 1}</span>
+              <textarea
+                className={`${inputCls} flex-1 min-h-[72px] resize-y`}
+                value={step}
+                onChange={e => {
+                  const arr = [...form.addimlar];
+                  arr[i] = e.target.value;
+                  set('addimlar', arr);
+                }}
+                placeholder={`${i + 1}. addım`}
+              />
+              {form.addimlar.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => set('addimlar', form.addimlar.filter((_, j) => j !== i))}
+                  className="rounded-xl border border-red-200 bg-red-50 px-3 text-red-500 transition hover:bg-red-100 self-start mt-0.5"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+              )}
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => set('addimlar', [...form.addimlar, ''])}
+            className="flex items-center gap-2 rounded-xl border border-dashed border-[rgba(98,67,45,0.25)] bg-white px-4 py-2 text-sm text-[rgba(57,44,35,0.6)] transition hover:border-[#8d3a24]/40 hover:text-[#8d3a24]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
+            Addım əlavə et
+          </button>
+        </div>
       </div>
 
       <div>
@@ -616,17 +681,17 @@ export default function AdminApp() {
     setEditId(id);
     setEditData({
       yemeyinAdi: recipe.yemeyinAdi,
-      mense: recipe.mense || '',
-      bolge: recipe.bolge || '',
-      kateqoriya: recipe.kateqoriya,
-      terkibHisseleri: recipe.terkibHisseleri,
-      hazirlanmaQaydasi: recipe.hazirlanmaQaydasi,
+      mense: recipe.mense?.ad || '',
+      bolge: recipe.bolge?.ad || '',
+      kateqoriya: recipe.kateqoriya.ad,
+      terkibHisseleri: [...(recipe.terkibHisseleri ?? [])].sort((a: {sira:number}, b: {sira:number}) => a.sira - b.sira).map((i: {ad:string}) => i.ad),
+      addimlar: [...(recipe.addimlar ?? [])].sort((a: {sira:number}, b: {sira:number}) => a.sira - b.sira).map((s: {metn:string}) => s.metn),
       hazirlanmaMuddeti: recipe.hazirlanmaMuddeti,
       cetinlikDerecesi: recipe.cetinlikDerecesi,
       porsiyaSayi: recipe.porsiyaSayi,
       tarixiMelumat: recipe.tarixiMelumat || '',
       teqdimTeklifleri: recipe.teqdimTeklifleri || '',
-      sekilLinki: recipe.sekilLinki || '',
+      sekilLinki: recipe.sekiller?.find((s: {isMain: boolean}) => s.isMain)?.url || recipe.sekiller?.[0]?.url || '',
       featured: recipe.featured,
     });
     setView('edit');
