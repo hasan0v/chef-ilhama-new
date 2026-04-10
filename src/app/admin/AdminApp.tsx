@@ -345,6 +345,18 @@ function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
 }
 
 // ─── Recipe List ─────────────────────────────────────────
+type SortKey = 'yemeyinAdi' | 'kateqoriya' | 'cetinlikDerecesi' | 'updatedAt' | 'featured';
+type SortDir = 'asc' | 'desc';
+
+function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
+  return (
+    <span className={`ml-1 inline-flex flex-col leading-none ${active ? 'text-[#8d3a24]' : 'text-[rgba(57,44,35,0.25)]'}`}>
+      <svg xmlns="http://www.w3.org/2000/svg" className={`h-2.5 w-2.5 -mb-0.5 transition-opacity ${active && dir === 'asc' ? 'opacity-100' : 'opacity-40'}`} viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l8 8H4z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" className={`h-2.5 w-2.5 transition-opacity ${active && dir === 'desc' ? 'opacity-100' : 'opacity-40'}`} viewBox="0 0 24 24" fill="currentColor"><path d="M12 20l-8-8h16z"/></svg>
+    </span>
+  );
+}
+
 function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
   recipes: RecipeListItem[];
   onEdit: (id: string) => void;
@@ -352,20 +364,51 @@ function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
   onCreate: () => void;
 }) {
   const [search, setSearch] = useState('');
+  const [sortKey, setSortKey] = useState<SortKey>('updatedAt');
+  const [sortDir, setSortDir] = useState<SortDir>('desc');
 
-  const filtered = recipes.filter(r =>
-    r.yemeyinAdi.toLowerCase().includes(search.toLowerCase()) ||
-    r.kateqoriya.toLowerCase().includes(search.toLowerCase())
-  );
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDir(d => d === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortKey(key);
+      setSortDir('asc');
+    }
+  }
+
+  const difficultyOrder: Record<string, number> = { 'Asan': 0, 'Orta': 1, 'Çətin': 2 };
+
+  const filtered = recipes
+    .filter(r =>
+      r.yemeyinAdi.toLowerCase().includes(search.toLowerCase()) ||
+      r.kateqoriya.toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a, b) => {
+      let cmp = 0;
+      if (sortKey === 'yemeyinAdi') {
+        cmp = a.yemeyinAdi.localeCompare(b.yemeyinAdi, 'az');
+      } else if (sortKey === 'kateqoriya') {
+        cmp = a.kateqoriya.localeCompare(b.kateqoriya, 'az');
+      } else if (sortKey === 'cetinlikDerecesi') {
+        cmp = (difficultyOrder[a.cetinlikDerecesi] ?? 1) - (difficultyOrder[b.cetinlikDerecesi] ?? 1);
+      } else if (sortKey === 'updatedAt') {
+        cmp = new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
+      } else if (sortKey === 'featured') {
+        cmp = (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+      }
+      return sortDir === 'asc' ? cmp : -cmp;
+    });
+
+  const thCls = 'px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)] select-none cursor-pointer hover:text-[#8d3a24] transition-colors';
 
   return (
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-xl font-bold text-[#241c18]">Reseptlər</h2>
-          <p className="text-sm text-[rgba(57,44,35,0.5)]">{recipes.length} resept</p>
+          <p className="text-sm text-[rgba(57,44,35,0.5)]">{recipes.length} resept · {filtered.length} göstərilir</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <input
             type="search"
             placeholder="Axtar..."
@@ -373,6 +416,24 @@ function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
             onChange={e => setSearch(e.target.value)}
             className="rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-2 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10"
           />
+          {/* Mobile sort dropdown */}
+          <select
+            value={`${sortKey}:${sortDir}`}
+            onChange={e => {
+              const [k, d] = e.target.value.split(':') as [SortKey, SortDir];
+              setSortKey(k); setSortDir(d);
+            }}
+            className="rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-3 py-2 text-sm outline-none transition focus:border-[#8d3a24]/40 lg:hidden"
+          >
+            <option value="updatedAt:desc">Yeni əlavə edilən</option>
+            <option value="updatedAt:asc">Köhnə əlavə edilən</option>
+            <option value="yemeyinAdi:asc">Ad (A→Z)</option>
+            <option value="yemeyinAdi:desc">Ad (Z→A)</option>
+            <option value="kateqoriya:asc">Kateqoriya (A→Z)</option>
+            <option value="cetinlikDerecesi:asc">Çətinlik (az→çox)</option>
+            <option value="cetinlikDerecesi:desc">Çətinlik (çox→az)</option>
+            <option value="featured:asc">Seçilmişlər əvvəl</option>
+          </select>
           <button
             onClick={onCreate}
             className="flex items-center gap-2 rounded-xl bg-[#8d3a24] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#7a3220]"
@@ -414,11 +475,22 @@ function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
         <table className="w-full">
           <thead>
             <tr className="border-b border-[rgba(98,67,45,0.1)] bg-[rgba(98,67,45,0.03)]">
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Resept</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Kateqoriya</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Çətinlik</th>
+              <th className={thCls} onClick={() => toggleSort('yemeyinAdi')}>
+                Resept <SortIcon active={sortKey === 'yemeyinAdi'} dir={sortDir} />
+              </th>
+              <th className={thCls} onClick={() => toggleSort('kateqoriya')}>
+                Kateqoriya <SortIcon active={sortKey === 'kateqoriya'} dir={sortDir} />
+              </th>
+              <th className={thCls} onClick={() => toggleSort('cetinlikDerecesi')}>
+                Çətinlik <SortIcon active={sortKey === 'cetinlikDerecesi'} dir={sortDir} />
+              </th>
               <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Bölgə</th>
-              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">★</th>
+              <th className={`${thCls} text-center`} onClick={() => toggleSort('featured')}>
+                ★ <SortIcon active={sortKey === 'featured'} dir={sortDir} />
+              </th>
+              <th className={`${thCls} text-right`} onClick={() => toggleSort('updatedAt')}>
+                Tarix <SortIcon active={sortKey === 'updatedAt'} dir={sortDir} />
+              </th>
               <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Əməliyyat</th>
             </tr>
           </thead>
@@ -438,6 +510,9 @@ function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
                 <td className="px-4 py-3 text-sm text-[rgba(57,44,35,0.7)]">{r.cetinlikDerecesi}</td>
                 <td className="px-4 py-3 text-sm text-[rgba(57,44,35,0.7)]">{r.bolge || r.mense || '—'}</td>
                 <td className="px-4 py-3 text-center">{r.featured ? <span className="text-amber-500">★</span> : <span className="text-[rgba(57,44,35,0.2)]">○</span>}</td>
+                <td className="px-4 py-3 text-right text-xs text-[rgba(57,44,35,0.45)]">
+                  {new Date(r.updatedAt).toLocaleDateString('az-AZ', { day: '2-digit', month: 'short', year: 'numeric' })}
+                </td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex justify-end gap-2">
                     <button onClick={() => onEdit(r.id)} className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]">Redaktə</button>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import sharp from 'sharp';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
 import { supabaseAdmin } from '@/lib/supabase';
 
@@ -24,16 +25,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File too large (max 5MB)' }, { status: 400 });
     }
 
-    const ext = file.name.split('.').pop() || 'jpg';
-    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-    const filePath = `recipes/${fileName}`;
+    const rawBuffer = Buffer.from(await file.arrayBuffer());
 
-    const buffer = Buffer.from(await file.arrayBuffer());
+    // Convert to WebP with high quality (lossless-like) using sharp
+    const webpBuffer = await sharp(rawBuffer)
+      .webp({ quality: 90, effort: 4 })
+      .toBuffer();
+
+    const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.webp`;
+    const filePath = `recipes/${fileName}`;
 
     const { error } = await supabaseAdmin.storage
       .from('recipe-images')
-      .upload(filePath, buffer, {
-        contentType: file.type,
+      .upload(filePath, webpBuffer, {
+        contentType: 'image/webp',
         upsert: false,
       });
 
