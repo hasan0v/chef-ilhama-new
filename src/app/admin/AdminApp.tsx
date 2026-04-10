@@ -3,6 +3,10 @@
 import { useState, useEffect, useCallback } from 'react';
 
 type AdminView = 'list' | 'create' | 'edit';
+type AdminTab = 'reseptler' | 'cedveller';
+type TableTab = 'kateqoriya' | 'mense' | 'bolge';
+interface LookupItem { id: string; ad: string; }
+interface LookupData { categories: LookupItem[]; menseler: LookupItem[]; bolgeler: LookupItem[]; }
 
 interface RecipeListItem {
   id: string;
@@ -596,6 +600,174 @@ function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
   );
 }
 
+// ─── Table Manager ─────────────────────────────────────────
+const tableTabLabels: Record<TableTab, string> = {
+  kateqoriya: 'Kateqoriyalar',
+  mense: 'Mənşələr',
+  bolge: 'Bölgələr',
+};
+const tableTabSingular: Record<TableTab, string> = {
+  kateqoriya: 'kateqoriya',
+  mense: 'mənşə',
+  bolge: 'bölgə',
+};
+
+function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'err') => void }) {
+  const [tab, setTab] = useState<TableTab>('kateqoriya');
+  const [data, setData] = useState<LookupData>({ categories: [], menseler: [], bolgeler: [] });
+  const [loading, setLoading] = useState(true);
+  const [newVal, setNewVal] = useState('');
+  const [adding, setAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editVal, setEditVal] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const res = await fetch('/api/admin/categories', { headers: authHeaders() });
+    if (res.ok) setData(await res.json());
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  function currentItems(): LookupItem[] {
+    if (tab === 'kateqoriya') return data.categories;
+    if (tab === 'mense') return data.menseler;
+    return data.bolgeler;
+  }
+
+  async function handleAdd() {
+    if (!newVal.trim()) return;
+    setAdding(true);
+    const res = await fetch('/api/admin/categories', {
+      method: 'POST',
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table: tab, ad: newVal.trim() }),
+    });
+    setAdding(false);
+    if (res.ok) { showToast('Əlavə edildi'); setNewVal(''); load(); }
+    else { const e = await res.json(); showToast(e.error || 'Xəta', 'err'); }
+  }
+
+  async function handleRename(id: string) {
+    if (!editVal.trim()) return;
+    const res = await fetch(`/api/admin/categories/${id}`, {
+      method: 'PUT',
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ table: tab, ad: editVal.trim() }),
+    });
+    if (res.ok) { showToast('Yeniləndi'); setEditingId(null); load(); }
+    else { const e = await res.json(); showToast(e.error || 'Xəta', 'err'); }
+  }
+
+  async function handleDelete(id: string, ad: string) {
+    if (!confirm(`"${ad}" silinsin? Bu dəyəri istifadə edən reseptlər təsirlənə bilər.`)) return;
+    const res = await fetch(`/api/admin/categories/${id}?table=${tab}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    if (res.ok) { showToast('Silindi'); load(); }
+    else { const e = await res.json(); showToast(e.error || 'Silinmə xətası', 'err'); }
+  }
+
+  const inputCls = 'rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10';
+  const items = currentItems();
+
+  return (
+    <div>
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-[#241c18]">Cədvəllər</h2>
+        <p className="mt-1 text-sm text-[rgba(57,44,35,0.5)]">Kateqoriya, mənşə və bölgə dəyərlərini idarə edin</p>
+      </div>
+
+      {/* Sub-tabs */}
+      <div className="mb-5 flex flex-wrap gap-1 rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/60 p-1 backdrop-blur-sm w-fit">
+        {(Object.keys(tableTabLabels) as TableTab[]).map(t => {
+          const count = t === 'kateqoriya' ? data.categories.length : t === 'mense' ? data.menseler.length : data.bolgeler.length;
+          return (
+            <button
+              key={t}
+              onClick={() => { setTab(t); setEditingId(null); setNewVal(''); }}
+              className={`flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition ${
+                tab === t ? 'bg-[#8d3a24] text-white shadow-sm' : 'text-[rgba(57,44,35,0.6)] hover:text-[#241c18]'
+              }`}
+            >
+              {tableTabLabels[t]}
+              <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${
+                tab === t ? 'bg-white/20 text-white' : 'bg-[rgba(98,67,45,0.1)] text-[rgba(57,44,35,0.5)]'
+              }`}>{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="overflow-hidden rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 shadow-sm backdrop-blur-sm">
+        {/* Add row */}
+        <div className="border-b border-[rgba(98,67,45,0.08)] p-4">
+          <div className="flex gap-2">
+            <input
+              value={newVal}
+              onChange={e => setNewVal(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAdd(); } }}
+              placeholder={`Yeni ${tableTabSingular[tab]} əlavə et...`}
+              className={`${inputCls} flex-1`}
+            />
+            <button
+              onClick={handleAdd}
+              disabled={adding || !newVal.trim()}
+              className="flex items-center gap-2 rounded-xl bg-[#8d3a24] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#7a3220] disabled:opacity-50"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
+              Əlavə et
+            </button>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center py-12">
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#8d3a24] border-t-transparent" />
+          </div>
+        ) : items.length === 0 ? (
+          <div className="px-4 py-12 text-center text-sm text-[rgba(57,44,35,0.4)]">Heç bir dəyər tapılmadı</div>
+        ) : (
+          <ul className="divide-y divide-[rgba(98,67,45,0.06)]">
+            {items.map((item, idx) => (
+              <li key={item.id} className="flex items-center gap-3 px-4 py-3 transition hover:bg-[rgba(98,67,45,0.02)]">
+                <span className="w-6 shrink-0 text-center text-xs font-medium text-[rgba(57,44,35,0.3)]">{idx + 1}</span>
+                {editingId === item.id ? (
+                  <>
+                    <input
+                      autoFocus
+                      value={editVal}
+                      onChange={e => setEditVal(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') handleRename(item.id); if (e.key === 'Escape') setEditingId(null); }}
+                      className={`${inputCls} flex-1 py-1.5`}
+                    />
+                    <button onClick={() => handleRename(item.id)} className="rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition hover:bg-emerald-100">Saxla</button>
+                    <button onClick={() => setEditingId(null)} className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.6)] transition hover:bg-[rgba(98,67,45,0.12)]">Ləğv</button>
+                  </>
+                ) : (
+                  <>
+                    <span className="flex-1 text-sm font-medium text-[#241c18]">{item.ad}</span>
+                    <button
+                      onClick={() => { setEditingId(item.id); setEditVal(item.ad); }}
+                      className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]"
+                    >Redaktə</button>
+                    <button
+                      onClick={() => handleDelete(item.id, item.ad)}
+                      className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-100"
+                    >Sil</button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Admin App ──────────────────────────────────────
 export default function AdminApp() {
   const [authed, setAuthed] = useState(false);
@@ -605,6 +777,7 @@ export default function AdminApp() {
   const [editId, setEditId] = useState<string | null>(null);
   const [editData, setEditData] = useState<RecipeFormData | null>(null);
   const [toast, setToast] = useState<{ msg: string; type: 'ok' | 'err' } | null>(null);
+  const [activeTab, setActiveTab] = useState<AdminTab>('reseptler');
 
   function showToast(msg: string, type: 'ok' | 'err' = 'ok') {
     setToast({ msg, type });
@@ -747,7 +920,7 @@ export default function AdminApp() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {view !== 'list' && (
+            {activeTab === 'reseptler' && view !== 'list' && (
               <button
                 onClick={() => { setView('list'); setEditId(null); setEditData(null); }}
                 className="rounded-lg border border-[rgba(98,67,45,0.14)] bg-white px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.05)]"
@@ -763,35 +936,65 @@ export default function AdminApp() {
             </button>
           </div>
         </div>
+        {/* Tab navigation */}
+        <div className="border-t border-[rgba(98,67,45,0.08)] px-4 sm:px-6">
+          <nav className="-mb-px flex">
+            {([
+              ['reseptler', 'Reseptlər', 'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8 10h8M8 14h5'],
+              ['cedveller', 'Cədvəllər', 'M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2'],
+            ] as [AdminTab, string, string][]).map(([t, label, icon]) => (
+              <button
+                key={t}
+                onClick={() => {
+                  setActiveTab(t);
+                  if (t !== 'reseptler') { setView('list'); setEditId(null); setEditData(null); }
+                }}
+                className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-medium transition ${
+                  activeTab === t
+                    ? 'border-[#8d3a24] text-[#8d3a24]'
+                    : 'border-transparent text-[rgba(57,44,35,0.5)] hover:border-[rgba(98,67,45,0.2)] hover:text-[#241c18]'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d={icon}/></svg>
+                {label}
+              </button>
+            ))}
+          </nav>
+        </div>
       </header>
 
       {/* Content */}
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
-        {view === 'list' && (
-          <RecipeList
-            recipes={recipes}
-            onEdit={startEdit}
-            onDelete={handleDelete}
-            onCreate={() => setView('create')}
-          />
+        {activeTab === 'reseptler' && (
+          <>
+            {view === 'list' && (
+              <RecipeList
+                recipes={recipes}
+                onEdit={startEdit}
+                onDelete={handleDelete}
+                onCreate={() => setView('create')}
+              />
+            )}
+            {view === 'create' && (
+              <div>
+                <h2 className="mb-6 text-xl font-bold text-[#241c18]">Yeni resept</h2>
+                <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
+                  <RecipeForm initial={emptyForm} onSubmit={handleCreate} onCancel={() => setView('list')} submitLabel="Yarat" />
+                </div>
+              </div>
+            )}
+            {view === 'edit' && editData && (
+              <div>
+                <h2 className="mb-6 text-xl font-bold text-[#241c18]">Resepti redaktə et</h2>
+                <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
+                  <RecipeForm initial={editData} onSubmit={handleEdit} onCancel={() => { setView('list'); setEditId(null); setEditData(null); }} submitLabel="Yadda saxla" />
+                </div>
+              </div>
+            )}
+          </>
         )}
-
-        {view === 'create' && (
-          <div>
-            <h2 className="mb-6 text-xl font-bold text-[#241c18]">Yeni resept</h2>
-            <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
-              <RecipeForm initial={emptyForm} onSubmit={handleCreate} onCancel={() => setView('list')} submitLabel="Yarat" />
-            </div>
-          </div>
-        )}
-
-        {view === 'edit' && editData && (
-          <div>
-            <h2 className="mb-6 text-xl font-bold text-[#241c18]">Resepti redaktə et</h2>
-            <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
-              <RecipeForm initial={editData} onSubmit={handleEdit} onCancel={() => { setView('list'); setEditId(null); setEditData(null); }} submitLabel="Yadda saxla" />
-            </div>
-          </div>
+        {activeTab === 'cedveller' && (
+          <TableManager showToast={showToast} />
         )}
       </main>
     </div>
