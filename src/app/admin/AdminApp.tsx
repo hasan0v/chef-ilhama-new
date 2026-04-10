@@ -623,9 +623,12 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
 
   const load = useCallback(async () => {
     setLoading(true);
-    const res = await fetch('/api/admin/categories', { headers: authHeaders() });
-    if (res.ok) setData(await res.json());
-    setLoading(false);
+    try {
+      const res = await fetch('/api/admin/categories', { headers: authHeaders(), cache: 'no-store' });
+      if (res.ok) setData(await res.json());
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => { load(); }, [load]);
@@ -651,13 +654,17 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
 
   async function handleRename(id: string) {
     if (!editVal.trim()) return;
-    const res = await fetch(`/api/admin/categories/${id}`, {
-      method: 'PUT',
-      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
-      body: JSON.stringify({ table: tab, ad: editVal.trim() }),
-    });
-    if (res.ok) { showToast('Yeniləndi'); setEditingId(null); load(); }
-    else { const e = await res.json(); showToast(e.error || 'Xəta', 'err'); }
+    try {
+      const res = await fetch(`/api/admin/categories/${id}`, {
+        method: 'PUT',
+        headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: tab, ad: editVal.trim() }),
+      });
+      if (res.ok) { showToast('Yeniləndi'); setEditingId(null); load(); }
+      else { const e = await res.json(); showToast(e.error || 'Xəta', 'err'); }
+    } catch {
+      showToast('Bağlanma xətası', 'err');
+    }
   }
 
   async function handleDelete(id: string, ad: string) {
