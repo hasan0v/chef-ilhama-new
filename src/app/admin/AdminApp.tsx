@@ -1,0 +1,659 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+
+type AdminView = 'list' | 'create' | 'edit';
+
+interface RecipeListItem {
+  id: string;
+  yemeyinAdi: string;
+  slug: string;
+  kateqoriya: string;
+  cetinlikDerecesi: string;
+  mense: string | null;
+  bolge: string | null;
+  featured: boolean;
+  sekilLinki: string;
+  updatedAt: string;
+}
+
+interface RecipeFormData {
+  yemeyinAdi: string;
+  mense: string;
+  bolge: string;
+  kateqoriya: string;
+  terkibHisseleri: string;
+  hazirlanmaQaydasi: string;
+  hazirlanmaMuddeti: string;
+  cetinlikDerecesi: string;
+  porsiyaSayi: string;
+  tarixiMelumat: string;
+  teqdimTeklifleri: string;
+  sekilLinki: string;
+  featured: boolean;
+}
+
+const emptyForm: RecipeFormData = {
+  yemeyinAdi: '',
+  mense: '',
+  bolge: '',
+  kateqoriya: '',
+  terkibHisseleri: '',
+  hazirlanmaQaydasi: '',
+  hazirlanmaMuddeti: '',
+  cetinlikDerecesi: 'Orta',
+  porsiyaSayi: '',
+  tarixiMelumat: '',
+  teqdimTeklifleri: '',
+  sekilLinki: '',
+  featured: false,
+};
+
+// ─── Auth helpers ────────────────────────────────────────
+function getToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  try { return JSON.parse(localStorage.getItem('admin_session') || 'null')?.access_token; }
+  catch { return null; }
+}
+
+function authHeaders() {
+  return { Authorization: `Bearer ${getToken()}` };
+}
+
+// ─── Login Screen ────────────────────────────────────────
+function LoginScreen({ onLogin }: { onLogin: () => void }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    const res = await fetch('/api/admin/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    setLoading(false);
+
+    if (!res.ok) {
+      setError(data.error || 'Giriş uğursuz oldu');
+      return;
+    }
+
+    localStorage.setItem('admin_session', JSON.stringify(data.session));
+    onLogin();
+  }
+
+  return (
+    <div className="flex min-h-[100dvh] items-center justify-center bg-[#f7efe2] px-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#8d3a24]/10">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#8d3a24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+          </div>
+          <h1 className="font-serif text-2xl font-bold text-[#241c18]">Admin Panel</h1>
+          <p className="mt-1 text-sm text-[rgba(57,44,35,0.56)]">Chef İlhamə idarəetmə</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-6 shadow-lg backdrop-blur-sm">
+          {error && (
+            <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+          )}
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">E-poçt</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              className="w-full rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10"
+              placeholder="admin@example.com"
+            />
+          </div>
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Şifrə</label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              className="w-full rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10"
+              placeholder="••••••••"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full rounded-xl bg-[#8d3a24] py-3 text-sm font-semibold text-white transition hover:bg-[#7a3220] disabled:opacity-50"
+          >
+            {loading ? 'Giriş edilir...' : 'Daxil ol'}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ─── Image Upload ────────────────────────────────────────
+function ImageUpload({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+
+  async function handleFile(file: File) {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch('/api/admin/upload', {
+      method: 'POST',
+      headers: authHeaders(),
+      body: formData,
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      onChange(data.url);
+    }
+    setUploading(false);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file?.type.startsWith('image/')) handleFile(file);
+  }
+
+  return (
+    <div className="space-y-2">
+      <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Şəkil</label>
+      <div
+        onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+        className={`relative flex min-h-[140px] cursor-pointer items-center justify-center rounded-xl border-2 border-dashed transition ${
+          dragOver ? 'border-[#8d3a24] bg-[#8d3a24]/5' : 'border-[rgba(98,67,45,0.2)] bg-[rgba(98,67,45,0.03)]'
+        }`}
+        onClick={() => document.getElementById('img-input')?.click()}
+      >
+        {value ? (
+          <div className="relative h-36 w-full overflow-hidden rounded-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={value} alt="" className="h-full w-full object-contain" />
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); onChange(''); }}
+              className="absolute right-2 top-2 rounded-full bg-black/50 p-1 text-white transition hover:bg-black/70"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        ) : (
+          <div className="p-6 text-center">
+            {uploading ? (
+              <div className="text-sm text-[rgba(57,44,35,0.56)]">Yüklənir...</div>
+            ) : (
+              <>
+                <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-2 h-8 w-8 text-[rgba(57,44,35,0.3)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                <p className="text-sm text-[rgba(57,44,35,0.5)]">Surəti buraya atın və ya klikləyin</p>
+                <p className="mt-1 text-xs text-[rgba(57,44,35,0.35)]">JPG, PNG, WebP · Max 5MB</p>
+              </>
+            )}
+          </div>
+        )}
+        <input
+          id="img-input"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          className="hidden"
+          onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+        />
+      </div>
+      <input
+        type="text"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        placeholder="və ya URL daxil edin"
+        className="w-full rounded-lg border border-[rgba(98,67,45,0.14)] bg-white px-3 py-2 text-xs outline-none transition focus:border-[#8d3a24]/40"
+      />
+    </div>
+  );
+}
+
+// ─── Recipe Form ─────────────────────────────────────────
+const categories = ['Əsas yemək', 'Şorba/Aş', 'Şirniyyat', 'Qəlyanaltı', 'Səhər yeməyi', 'Kabab/Manqal', 'Unudulmuş yemək', 'Çörək/Xəmir', 'İçki/Şərbət', 'Düyü/Plov', 'Turşu/Konserv', 'Ət yeməyi/Balıq', 'Mürəbbə/Şirniyyat'];
+const difficulties = ['Asan', 'Orta', 'Çətin'];
+
+function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
+  initial: RecipeFormData;
+  onSubmit: (data: RecipeFormData) => Promise<void>;
+  onCancel: () => void;
+  submitLabel: string;
+}) {
+  const [form, setForm] = useState<RecipeFormData>(initial);
+  const [saving, setSaving] = useState(false);
+
+  function set<K extends keyof RecipeFormData>(key: K, value: RecipeFormData[K]) {
+    setForm(prev => ({ ...prev, [key]: value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSaving(true);
+    await onSubmit(form);
+    setSaving(false);
+  }
+
+  const inputCls = 'w-full rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-2.5 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10';
+  const labelCls = 'mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]';
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <label className={labelCls}>Yeməyin adı *</label>
+          <input className={inputCls} value={form.yemeyinAdi} onChange={e => set('yemeyinAdi', e.target.value)} required />
+        </div>
+
+        <div>
+          <label className={labelCls}>Kateqoriya *</label>
+          <select className={inputCls} value={form.kateqoriya} onChange={e => set('kateqoriya', e.target.value)} required>
+            <option value="">Seçin</option>
+            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label className={labelCls}>Çətinlik *</label>
+          <select className={inputCls} value={form.cetinlikDerecesi} onChange={e => set('cetinlikDerecesi', e.target.value)} required>
+            {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+        </div>
+
+        <div>
+          <label className={labelCls}>Mənşə</label>
+          <input className={inputCls} value={form.mense} onChange={e => set('mense', e.target.value)} placeholder="Azərbaycan" />
+        </div>
+
+        <div>
+          <label className={labelCls}>Bölgə</label>
+          <input className={inputCls} value={form.bolge} onChange={e => set('bolge', e.target.value)} placeholder="Bakı" />
+        </div>
+
+        <div>
+          <label className={labelCls}>Hazırlanma müddəti *</label>
+          <input className={inputCls} value={form.hazirlanmaMuddeti} onChange={e => set('hazirlanmaMuddeti', e.target.value)} required placeholder="45 dəqiqə" />
+        </div>
+
+        <div>
+          <label className={labelCls}>Porsiya sayı *</label>
+          <input className={inputCls} value={form.porsiyaSayi} onChange={e => set('porsiyaSayi', e.target.value)} required placeholder="4 nəfərlik" />
+        </div>
+      </div>
+
+      <ImageUpload value={form.sekilLinki} onChange={url => set('sekilLinki', url)} />
+
+      <div>
+        <label className={labelCls}>Tərkib hissələri *</label>
+        <textarea className={`${inputCls} min-h-[100px]`} value={form.terkibHisseleri} onChange={e => set('terkibHisseleri', e.target.value)} required placeholder="Hər tərkibi nöqtəli vergüllə ayırın: un; yağ; şəkər" />
+      </div>
+
+      <div>
+        <label className={labelCls}>Hazırlanma qaydası *</label>
+        <textarea className={`${inputCls} min-h-[120px]`} value={form.hazirlanmaQaydasi} onChange={e => set('hazirlanmaQaydasi', e.target.value)} required placeholder="1) Birinci addım 2) İkinci addım..." />
+      </div>
+
+      <div>
+        <label className={labelCls}>Tarixi məlumat</label>
+        <textarea className={`${inputCls} min-h-[80px]`} value={form.tarixiMelumat} onChange={e => set('tarixiMelumat', e.target.value)} />
+      </div>
+
+      <div>
+        <label className={labelCls}>Təqdim təklifləri</label>
+        <textarea className={`${inputCls} min-h-[80px]`} value={form.teqdimTeklifleri} onChange={e => set('teqdimTeklifleri', e.target.value)} />
+      </div>
+
+      <label className="flex items-center gap-3 cursor-pointer">
+        <input type="checkbox" checked={form.featured} onChange={e => set('featured', e.target.checked)} className="h-4 w-4 rounded border-[rgba(98,67,45,0.3)] text-[#8d3a24] accent-[#8d3a24]" />
+        <span className="text-sm font-medium text-[#241c18]">Seçilmiş resept (featured)</span>
+      </label>
+
+      <div className="flex gap-3 pt-2">
+        <button
+          type="submit"
+          disabled={saving}
+          className="rounded-xl bg-[#8d3a24] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#7a3220] disabled:opacity-50"
+        >
+          {saving ? 'Saxlanılır...' : submitLabel}
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-6 py-2.5 text-sm font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.05)]"
+        >
+          Ləğv et
+        </button>
+      </div>
+    </form>
+  );
+}
+
+// ─── Recipe List ─────────────────────────────────────────
+function RecipeList({ recipes, onEdit, onDelete, onCreate }: {
+  recipes: RecipeListItem[];
+  onEdit: (id: string) => void;
+  onDelete: (id: string, name: string) => void;
+  onCreate: () => void;
+}) {
+  const [search, setSearch] = useState('');
+
+  const filtered = recipes.filter(r =>
+    r.yemeyinAdi.toLowerCase().includes(search.toLowerCase()) ||
+    r.kateqoriya.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-[#241c18]">Reseptlər</h2>
+          <p className="text-sm text-[rgba(57,44,35,0.5)]">{recipes.length} resept</p>
+        </div>
+        <div className="flex gap-3">
+          <input
+            type="search"
+            placeholder="Axtar..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="rounded-xl border border-[rgba(98,67,45,0.14)] bg-white px-4 py-2 text-sm outline-none transition focus:border-[#8d3a24]/40 focus:ring-2 focus:ring-[#8d3a24]/10"
+          />
+          <button
+            onClick={onCreate}
+            className="flex items-center gap-2 rounded-xl bg-[#8d3a24] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#7a3220]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14"/></svg>
+            Yeni
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="flex flex-col gap-3 lg:hidden">
+        {filtered.map(r => (
+          <div key={r.id} className="rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+            <div className="flex items-start gap-3">
+              {r.sekilLinki && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={r.sekilLinki} alt="" className="h-14 w-14 shrink-0 rounded-lg object-cover" />
+              )}
+              <div className="min-w-0 flex-1">
+                <h3 className="truncate text-sm font-semibold text-[#241c18]">{r.yemeyinAdi}</h3>
+                <div className="mt-1 flex flex-wrap gap-1.5">
+                  <span className="rounded-full bg-[#8d3a24]/8 px-2 py-0.5 text-[10px] font-medium text-[#8d3a24]">{r.kateqoriya}</span>
+                  <span className="rounded-full bg-[rgba(98,67,45,0.08)] px-2 py-0.5 text-[10px] font-medium text-[rgba(57,44,35,0.6)]">{r.cetinlikDerecesi}</span>
+                  {r.featured && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">★</span>}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3 flex gap-2 border-t border-[rgba(98,67,45,0.08)] pt-3">
+              <button onClick={() => onEdit(r.id)} className="flex-1 rounded-lg bg-[rgba(98,67,45,0.06)] py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]">Redaktə</button>
+              <button onClick={() => onDelete(r.id, r.yemeyinAdi)} className="rounded-lg bg-red-50 px-4 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-100">Sil</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table */}
+      <div className="hidden overflow-hidden rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/80 shadow-sm backdrop-blur-sm lg:block">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-[rgba(98,67,45,0.1)] bg-[rgba(98,67,45,0.03)]">
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Resept</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Kateqoriya</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Çətinlik</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Bölgə</th>
+              <th className="px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">★</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Əməliyyat</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[rgba(98,67,45,0.06)]">
+            {filtered.map(r => (
+              <tr key={r.id} className="transition hover:bg-[rgba(98,67,45,0.03)]">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    {r.sekilLinki && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={r.sekilLinki} alt="" className="h-10 w-10 shrink-0 rounded-lg object-cover" />
+                    )}
+                    <span className="text-sm font-medium text-[#241c18]">{r.yemeyinAdi}</span>
+                  </div>
+                </td>
+                <td className="px-4 py-3"><span className="rounded-full bg-[#8d3a24]/8 px-2.5 py-1 text-xs font-medium text-[#8d3a24]">{r.kateqoriya}</span></td>
+                <td className="px-4 py-3 text-sm text-[rgba(57,44,35,0.7)]">{r.cetinlikDerecesi}</td>
+                <td className="px-4 py-3 text-sm text-[rgba(57,44,35,0.7)]">{r.bolge || r.mense || '—'}</td>
+                <td className="px-4 py-3 text-center">{r.featured ? <span className="text-amber-500">★</span> : <span className="text-[rgba(57,44,35,0.2)]">○</span>}</td>
+                <td className="px-4 py-3 text-right">
+                  <div className="flex justify-end gap-2">
+                    <button onClick={() => onEdit(r.id)} className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]">Redaktə</button>
+                    <button onClick={() => onDelete(r.id, r.yemeyinAdi)} className="rounded-lg bg-red-50 px-3 py-1.5 text-xs font-medium text-red-600 transition hover:bg-red-100">Sil</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {filtered.length === 0 && (
+          <div className="px-4 py-12 text-center text-sm text-[rgba(57,44,35,0.4)]">Resept tapılmadı</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Main Admin App ──────────────────────────────────────
+export default function AdminApp() {
+  const [authed, setAuthed] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [view, setView] = useState<AdminView>('list');
+  const [recipes, setRecipes] = useState<RecipeListItem[]>([]);
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editData, setEditData] = useState<RecipeFormData | null>(null);
+  const [toast, setToast] = useState<{ msg: string; type: 'ok' | 'err' } | null>(null);
+
+  function showToast(msg: string, type: 'ok' | 'err' = 'ok') {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  }
+
+  // Check existing session
+  useEffect(() => {
+    const token = getToken();
+    if (token) {
+      fetch('/api/admin/recipes', { headers: { Authorization: `Bearer ${token}` } })
+        .then(r => { if (r.ok) setAuthed(true); })
+        .finally(() => setChecking(false));
+    } else {
+      setChecking(false);
+    }
+  }, []);
+
+  const loadRecipes = useCallback(async () => {
+    const res = await fetch('/api/admin/recipes', { headers: authHeaders() });
+    if (res.ok) {
+      const data = await res.json();
+      setRecipes(data.recipes);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authed) loadRecipes();
+  }, [authed, loadRecipes]);
+
+  function logout() {
+    localStorage.removeItem('admin_session');
+    setAuthed(false);
+  }
+
+  async function handleCreate(data: RecipeFormData) {
+    const res = await fetch('/api/admin/recipes', {
+      method: 'POST',
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      showToast('Resept yaradıldı');
+      setView('list');
+      loadRecipes();
+    } else {
+      const err = await res.json();
+      showToast(err.error || 'Xəta baş verdi', 'err');
+    }
+  }
+
+  async function handleEdit(data: RecipeFormData) {
+    if (!editId) return;
+    const res = await fetch(`/api/admin/recipes/${editId}`, {
+      method: 'PUT',
+      headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      showToast('Resept yeniləndi');
+      setView('list');
+      setEditId(null);
+      setEditData(null);
+      loadRecipes();
+    } else {
+      showToast('Yeniləmə xətası', 'err');
+    }
+  }
+
+  async function startEdit(id: string) {
+    const res = await fetch(`/api/admin/recipes/${id}`, { headers: authHeaders() });
+    if (!res.ok) return;
+    const { recipe } = await res.json();
+    setEditId(id);
+    setEditData({
+      yemeyinAdi: recipe.yemeyinAdi,
+      mense: recipe.mense || '',
+      bolge: recipe.bolge || '',
+      kateqoriya: recipe.kateqoriya,
+      terkibHisseleri: recipe.terkibHisseleri,
+      hazirlanmaQaydasi: recipe.hazirlanmaQaydasi,
+      hazirlanmaMuddeti: recipe.hazirlanmaMuddeti,
+      cetinlikDerecesi: recipe.cetinlikDerecesi,
+      porsiyaSayi: recipe.porsiyaSayi,
+      tarixiMelumat: recipe.tarixiMelumat || '',
+      teqdimTeklifleri: recipe.teqdimTeklifleri || '',
+      sekilLinki: recipe.sekilLinki || '',
+      featured: recipe.featured,
+    });
+    setView('edit');
+  }
+
+  async function handleDelete(id: string, name: string) {
+    if (!confirm(`"${name}" reseptini silmək istədiyinizdən əminsiniz?`)) return;
+    const res = await fetch(`/api/admin/recipes/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    });
+    if (res.ok) {
+      showToast('Resept silindi');
+      loadRecipes();
+    } else {
+      showToast('Silinmə xətası', 'err');
+    }
+  }
+
+  if (checking) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-[#f7efe2]">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#8d3a24] border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (!authed) {
+    return <LoginScreen onLogin={() => { setAuthed(true); }} />;
+  }
+
+  return (
+    <div className="min-h-[100dvh] bg-[#f7efe2]">
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed right-4 top-4 z-50 rounded-xl px-5 py-3 text-sm font-medium shadow-lg transition-all ${
+          toast.type === 'ok' ? 'bg-emerald-600 text-white' : 'bg-red-600 text-white'
+        }`}>
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="sticky top-0 z-40 border-b border-[rgba(98,67,45,0.1)] bg-[#f7efe2]/90 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#8d3a24]/10">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#8d3a24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></svg>
+            </div>
+            <div>
+              <h1 className="text-sm font-bold text-[#241c18]">Chef İlhamə</h1>
+              <p className="text-[11px] text-[rgba(57,44,35,0.45)]">Admin Panel</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {view !== 'list' && (
+              <button
+                onClick={() => { setView('list'); setEditId(null); setEditData(null); }}
+                className="rounded-lg border border-[rgba(98,67,45,0.14)] bg-white px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.05)]"
+              >
+                ← Siyahıya qayıt
+              </button>
+            )}
+            <button
+              onClick={logout}
+              className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.6)] transition hover:bg-[rgba(98,67,45,0.12)]"
+            >
+              Çıxış
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Content */}
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+        {view === 'list' && (
+          <RecipeList
+            recipes={recipes}
+            onEdit={startEdit}
+            onDelete={handleDelete}
+            onCreate={() => setView('create')}
+          />
+        )}
+
+        {view === 'create' && (
+          <div>
+            <h2 className="mb-6 text-xl font-bold text-[#241c18]">Yeni resept</h2>
+            <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
+              <RecipeForm initial={emptyForm} onSubmit={handleCreate} onCancel={() => setView('list')} submitLabel="Yarat" />
+            </div>
+          </div>
+        )}
+
+        {view === 'edit' && editData && (
+          <div>
+            <h2 className="mb-6 text-xl font-bold text-[#241c18]">Resepti redaktə et</h2>
+            <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
+              <RecipeForm initial={editData} onSubmit={handleEdit} onCancel={() => { setView('list'); setEditId(null); setEditData(null); }} submitLabel="Yadda saxla" />
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+}

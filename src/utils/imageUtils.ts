@@ -31,6 +31,11 @@ const allowedRemoteImagePatterns = [
     hostname: 'v3.fal.media',
     pathnamePrefix: '/files/',
   },
+  {
+    protocol: 'https:',
+    hostname: 'axscxlqiwpfxizjgaqsp.supabase.co',
+    pathnamePrefix: '/storage/v1/object/public/',
+  },
 ] as const;
 
 function isAllowedRemoteImageUrl(url: URL): boolean {
