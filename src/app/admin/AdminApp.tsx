@@ -4,9 +4,9 @@ import { useState, useEffect, useCallback } from 'react';
 
 type AdminView = 'list' | 'create' | 'edit';
 type AdminTab = 'reseptler' | 'cedveller';
-type TableTab = 'kateqoriya' | 'mense' | 'bolge';
+type TableTab = 'kateqoriya' | 'mense' | 'bolge' | 'cetinlik' | 'muddet' | 'porsiya';
 interface LookupItem { id: string; ad: string; }
-interface LookupData { categories: LookupItem[]; menseler: LookupItem[]; bolgeler: LookupItem[]; }
+interface LookupData { categories: LookupItem[]; menseler: LookupItem[]; bolgeler: LookupItem[]; cetinlikler: LookupItem[]; muddetler: LookupItem[]; porsiyalar: LookupItem[]; }
 
 interface RecipeListItem {
   id: string;
@@ -231,14 +231,15 @@ function ImageUpload({ value, onChange }: { value: string; onChange: (url: strin
 }
 
 // ─── Recipe Form ─────────────────────────────────────────
-const categories = ['Əsas yemək', 'Şorba/Aş', 'Şirniyyat', 'Qəlyanaltı', 'Səhər yeməyi', 'Kabab/Manqal', 'Unudulmuş yemək', 'Çörək/Xəmir', 'İçki/Şərbət', 'Düyü/Plov', 'Turşu/Konserv', 'Ət yeməyi/Balıq', 'Mürəbbə/Şirniyyat'];
-const difficulties = ['Asan', 'Orta', 'Çətin'];
-
-function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
+function RecipeForm({ initial, onSubmit, onCancel, submitLabel, categoryList, cetinlikList, muddetList, porsiyaList }: {
   initial: RecipeFormData;
   onSubmit: (data: RecipeFormData) => Promise<void>;
   onCancel: () => void;
   submitLabel: string;
+  categoryList: string[];
+  cetinlikList: string[];
+  muddetList: string[];
+  porsiyaList: string[];
 }) {
   const [form, setForm] = useState<RecipeFormData>(initial);
   const [saving, setSaving] = useState(false);
@@ -269,14 +270,15 @@ function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
           <label className={labelCls}>Kateqoriya *</label>
           <select className={inputCls} value={form.kateqoriya} onChange={e => set('kateqoriya', e.target.value)} required>
             <option value="">Seçin</option>
-            {categories.map(c => <option key={c} value={c}>{c}</option>)}
+            {categoryList.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
 
         <div>
           <label className={labelCls}>Çətinlik *</label>
           <select className={inputCls} value={form.cetinlikDerecesi} onChange={e => set('cetinlikDerecesi', e.target.value)} required>
-            {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+            <option value="">Seçin</option>
+            {cetinlikList.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
         </div>
 
@@ -292,12 +294,18 @@ function RecipeForm({ initial, onSubmit, onCancel, submitLabel }: {
 
         <div>
           <label className={labelCls}>Hazırlanma müddəti *</label>
-          <input className={inputCls} value={form.hazirlanmaMuddeti} onChange={e => set('hazirlanmaMuddeti', e.target.value)} required placeholder="45 dəqiqə" />
+          <select className={inputCls} value={form.hazirlanmaMuddeti} onChange={e => set('hazirlanmaMuddeti', e.target.value)} required>
+            <option value="">Seçin</option>
+            {muddetList.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
         </div>
 
         <div>
           <label className={labelCls}>Porsiya sayı *</label>
-          <input className={inputCls} value={form.porsiyaSayi} onChange={e => set('porsiyaSayi', e.target.value)} required placeholder="4 nəfərlik" />
+          <select className={inputCls} value={form.porsiyaSayi} onChange={e => set('porsiyaSayi', e.target.value)} required>
+            <option value="">Seçin</option>
+            {porsiyaList.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
         </div>
       </div>
 
@@ -605,16 +613,22 @@ const tableTabLabels: Record<TableTab, string> = {
   kateqoriya: 'Kateqoriyalar',
   mense: 'Mənşələr',
   bolge: 'Bölgələr',
+  cetinlik: 'Çətinliklər',
+  muddet: 'Müddətlər',
+  porsiya: 'Porsiyalar',
 };
 const tableTabSingular: Record<TableTab, string> = {
   kateqoriya: 'kateqoriya',
   mense: 'mənşə',
   bolge: 'bölgə',
+  cetinlik: 'çətinlik',
+  muddet: 'müddət',
+  porsiya: 'porsiya',
 };
 
 function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'err') => void }) {
   const [tab, setTab] = useState<TableTab>('kateqoriya');
-  const [data, setData] = useState<LookupData>({ categories: [], menseler: [], bolgeler: [] });
+  const [data, setData] = useState<LookupData>({ categories: [], menseler: [], bolgeler: [], cetinlikler: [], muddetler: [], porsiyalar: [] });
   const [loading, setLoading] = useState(true);
   const [newVal, setNewVal] = useState('');
   const [adding, setAdding] = useState(false);
@@ -636,7 +650,10 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
   function currentItems(): LookupItem[] {
     if (tab === 'kateqoriya') return data.categories;
     if (tab === 'mense') return data.menseler;
-    return data.bolgeler;
+    if (tab === 'bolge') return data.bolgeler;
+    if (tab === 'cetinlik') return data.cetinlikler;
+    if (tab === 'muddet') return data.muddetler;
+    return data.porsiyalar;
   }
 
   async function handleAdd() {
@@ -690,7 +707,7 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
       {/* Sub-tabs */}
       <div className="mb-5 flex flex-wrap gap-1 rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/60 p-1 backdrop-blur-sm w-fit">
         {(Object.keys(tableTabLabels) as TableTab[]).map(t => {
-          const count = t === 'kateqoriya' ? data.categories.length : t === 'mense' ? data.menseler.length : data.bolgeler.length;
+          const count = t === 'kateqoriya' ? data.categories.length : t === 'mense' ? data.menseler.length : t === 'bolge' ? data.bolgeler.length : t === 'cetinlik' ? data.cetinlikler.length : t === 'muddet' ? data.muddetler.length : data.porsiyalar.length;
           return (
             <button
               key={t}
@@ -781,6 +798,10 @@ export default function AdminApp() {
   const [checking, setChecking] = useState(true);
   const [view, setView] = useState<AdminView>('list');
   const [recipes, setRecipes] = useState<RecipeListItem[]>([]);
+  const [categoryList, setCategoryList] = useState<string[]>([]);
+  const [cetinlikList, setCetinlikList] = useState<string[]>([]);
+  const [muddetList, setMuddetList] = useState<string[]>([]);
+  const [porsiyaList, setPorsiyaList] = useState<string[]>([]);
   const [editId, setEditId] = useState<string | null>(null);
   const [editData, setEditData] = useState<RecipeFormData | null>(null);
   const [toast, setToast] = useState<{ msg: string; type: 'ok' | 'err' } | null>(null);
@@ -811,9 +832,20 @@ export default function AdminApp() {
     }
   }, []);
 
+  const loadCategories = useCallback(async () => {
+    const res = await fetch('/api/admin/categories', { headers: authHeaders(), cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      setCategoryList((data.categories as { ad: string }[]).map(c => c.ad));
+      setCetinlikList((data.cetinlikler as { ad: string }[]).map(c => c.ad));
+      setMuddetList((data.muddetler as { ad: string }[]).map(c => c.ad));
+      setPorsiyaList((data.porsiyalar as { ad: string }[]).map(c => c.ad));
+    }
+  }, []);
+
   useEffect(() => {
-    if (authed) loadRecipes();
-  }, [authed, loadRecipes]);
+    if (authed) { loadRecipes(); loadCategories(); }
+  }, [authed, loadRecipes, loadCategories]);
 
   function logout() {
     localStorage.removeItem('admin_session');
@@ -986,7 +1018,7 @@ export default function AdminApp() {
               <div>
                 <h2 className="mb-6 text-xl font-bold text-[#241c18]">Yeni resept</h2>
                 <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
-                  <RecipeForm initial={emptyForm} onSubmit={handleCreate} onCancel={() => setView('list')} submitLabel="Yarat" />
+                  <RecipeForm initial={emptyForm} onSubmit={handleCreate} onCancel={() => setView('list')} submitLabel="Yarat" categoryList={categoryList} cetinlikList={cetinlikList} muddetList={muddetList} porsiyaList={porsiyaList} />
                 </div>
               </div>
             )}
@@ -994,7 +1026,7 @@ export default function AdminApp() {
               <div>
                 <h2 className="mb-6 text-xl font-bold text-[#241c18]">Resepti redaktə et</h2>
                 <div className="rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-8">
-                  <RecipeForm initial={editData} onSubmit={handleEdit} onCancel={() => { setView('list'); setEditId(null); setEditData(null); }} submitLabel="Yadda saxla" />
+                  <RecipeForm initial={editData} onSubmit={handleEdit} onCancel={() => { setView('list'); setEditId(null); setEditData(null); }} submitLabel="Yadda saxla" categoryList={categoryList} cetinlikList={cetinlikList} muddetList={muddetList} porsiyaList={porsiyaList} />
                 </div>
               </div>
             )}

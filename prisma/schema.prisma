@@ -63,6 +63,30 @@ model Bolge {
   @@map("bolgeler")
 }
 
+model Cetinlik {
+  id   String @id @default(uuid()) @db.Uuid
+  ad   String @unique
+  sira Int    @default(0)
+
+  @@map("cetinlikler")
+}
+
+model Muddet {
+  id   String @id @default(uuid()) @db.Uuid
+  ad   String @unique
+  sira Int    @default(0)
+
+  @@map("muddetler")
+}
+
+model Porsiya {
+  id   String @id @default(uuid()) @db.Uuid
+  ad   String @unique
+  sira Int    @default(0)
+
+  @@map("porsiyalar")
+}
+
 model Ingredient {
   id       String  @id @default(cuid())
   ad       String

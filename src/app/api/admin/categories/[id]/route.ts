@@ -6,7 +6,7 @@ const globalForPrisma = globalThis as unknown as { _adminPrisma4: PrismaClient |
 const prisma = globalForPrisma._adminPrisma4 ?? new PrismaClient();
 if (process.env.NODE_ENV !== 'production') globalForPrisma._adminPrisma4 = prisma;
 
-type TableParam = 'kateqoriya' | 'mense' | 'bolge';
+type TableParam = 'kateqoriya' | 'mense' | 'bolge' | 'cetinlik' | 'muddet' | 'porsiya';
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await verifyAdmin(request);
@@ -25,6 +25,12 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       item = await prisma.mense.update({ where: { id }, data: { ad: val } });
     } else if (table === 'bolge') {
       item = await prisma.bolge.update({ where: { id }, data: { ad: val } });
+    } else if (table === 'cetinlik') {
+      item = await prisma.cetinlik.update({ where: { id }, data: { ad: val } });
+    } else if (table === 'muddet') {
+      item = await prisma.muddet.update({ where: { id }, data: { ad: val } });
+    } else if (table === 'porsiya') {
+      item = await prisma.porsiya.update({ where: { id }, data: { ad: val } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }
@@ -51,6 +57,12 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
       await prisma.mense.delete({ where: { id } });
     } else if (table === 'bolge') {
       await prisma.bolge.delete({ where: { id } });
+    } else if (table === 'cetinlik') {
+      await prisma.cetinlik.delete({ where: { id } });
+    } else if (table === 'muddet') {
+      await prisma.muddet.delete({ where: { id } });
+    } else if (table === 'porsiya') {
+      await prisma.porsiya.delete({ where: { id } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }

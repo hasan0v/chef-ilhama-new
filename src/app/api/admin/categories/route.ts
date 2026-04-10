@@ -10,13 +10,16 @@ export async function GET(request: NextRequest) {
   const user = await verifyAdmin(request);
   if (!user) return unauthorizedResponse();
 
-  const [categories, menseler, bolgeler] = await Promise.all([
+  const [categories, menseler, bolgeler, cetinlikler, muddetler, porsiyalar] = await Promise.all([
     prisma.category.findMany({ orderBy: { ad: 'asc' } }),
     prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
     prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
+    prisma.cetinlik.findMany({ orderBy: { sira: 'asc' } }),
+    prisma.muddet.findMany({ orderBy: { sira: 'asc' } }),
+    prisma.porsiya.findMany({ orderBy: { sira: 'asc' } }),
   ]);
 
-  return NextResponse.json({ categories, menseler, bolgeler });
+  return NextResponse.json({ categories, menseler, bolgeler, cetinlikler, muddetler, porsiyalar });
 }
 
 export async function POST(request: NextRequest) {
@@ -35,6 +38,15 @@ export async function POST(request: NextRequest) {
       item = await prisma.mense.create({ data: { ad: val } });
     } else if (table === 'bolge') {
       item = await prisma.bolge.create({ data: { ad: val } });
+    } else if (table === 'cetinlik') {
+      const count = await prisma.cetinlik.count();
+      item = await prisma.cetinlik.create({ data: { ad: val, sira: count } });
+    } else if (table === 'muddet') {
+      const count = await prisma.muddet.count();
+      item = await prisma.muddet.create({ data: { ad: val, sira: count } });
+    } else if (table === 'porsiya') {
+      const count = await prisma.porsiya.count();
+      item = await prisma.porsiya.create({ data: { ad: val, sira: count } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }
