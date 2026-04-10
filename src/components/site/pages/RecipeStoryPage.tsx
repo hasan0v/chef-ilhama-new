@@ -116,7 +116,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
         <section className="px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10">
           <div className="mx-auto max-w-7xl">
             <EditorialPanel className="mesh-surface px-6 py-8 sm:px-10 sm:py-12">
-              <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+              <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
                 <div className="space-y-6">
                   <div className="flex flex-wrap items-center gap-3">
                     <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 hover:bg-white">
@@ -137,7 +137,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
 
                   <div className="space-y-4">
                     <SectionLabel>{recipe.category || 'Azərbaycan mətbəxi'}</SectionLabel>
-                    <h1 className="display-title text-[clamp(3rem,7vw,6rem)] leading-[0.92] text-foreground">{recipe.name}</h1>
+                    <h1 className="display-title text-[clamp(2rem,6vw,5rem)] leading-[0.92] text-foreground">{recipe.name}</h1>
                     <p className="max-w-2xl text-base leading-8 text-[rgba(57,44,35,0.76)] sm:text-lg">
                       {recipe.history || `${recipe.origin} bölgəsindən gələn bu resept ənənəvi dad xarakterini qoruyaraq daha oxunaqlı və rahat hazırlanma axını ilə təqdim olunur.`}
                     </p>
@@ -174,7 +174,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
                   </div>
                 </div>
 
-                <div className="relative min-h-[340px] overflow-hidden rounded-[2rem] border border-white/60 shadow-[0_24px_64px_rgba(52,34,22,0.12)] sm:min-h-[520px]">
+                <div className="relative min-h-[280px] overflow-hidden rounded-[1.25rem] border border-white/60 shadow-[0_24px_64px_rgba(52,34,22,0.12)] sm:min-h-[400px] sm:rounded-[2rem]">
                   <Image
                     src={getValidImageUrl(recipe.image)}
                     alt={recipe.name}

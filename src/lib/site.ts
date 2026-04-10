@@ -3,9 +3,9 @@ export const DEFAULT_WHATSAPP_MESSAGE = "Salam Chef İlhamə, aşpaz xidməti ha
 export const siteConfig = {
   name: "Chef İlhamə",
   shortName: "Chef İlhamə",
-  title: "Chef İlhamə - Professional Aşpaz Xidməti Bakı | Azərbaycan Mətbəxi",
+  title: "Chef İlhamə - Azərbaycan Mətbəxi Reseptləri",
   description:
-    "Bakıda premium şəxsi aşpaz və katerinq xidməti. Toy, korporativ tədbir və private dining üçün zövqlü menyular.",
+    "Azərbaycan mətbəxinin bölgəvi dadlarını reseptlərlə kəşf edin. Chef İlhamənin seçilmiş resept kolleksiyası, catering və şəxsi aşpaz xidmətləri.",
   url: "https://chef-ilhama.food",
   email: "info@chef-ilhama.food",
   phoneDisplay: "+994 77 614 11 74",

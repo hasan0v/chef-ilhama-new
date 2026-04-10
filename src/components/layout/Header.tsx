@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { ChefHat, Clock3, Menu, Phone, X } from 'lucide-react';
+import { ChefHat, Clock3, Menu, Phone, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
 import { getWhatsAppHref, mainNavigation, siteConfig } from '@/lib/site';
@@ -30,14 +30,14 @@ export default function Header() {
         </div>
 
         <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(141,58,36,0.14),rgba(201,150,69,0.18))] text-[rgba(141,58,36,0.96)] transition-transform duration-300 group-hover:-rotate-6">
-              <ChefHat className="h-6 w-6" />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-[linear-gradient(135deg,rgba(141,58,36,0.14),rgba(201,150,69,0.18))] text-[rgba(141,58,36,0.96)] transition-transform duration-300 group-hover:-rotate-6">
+              <ChefHat className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <div>
-              <div className="display-title text-3xl leading-none text-foreground">Chef İlhamə</div>
-              <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.3em] text-[rgba(95,59,37,0.64)]">
-                Private Chef Atelier
+              <div className="display-title text-xl sm:text-2xl lg:text-3xl leading-none text-foreground">Chef İlhamə</div>
+              <div className="mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-[rgba(95,59,37,0.64)]">
+                Resept kolleksiyası
               </div>
             </div>
           </Link>
@@ -64,14 +64,14 @@ export default function Header() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-5 text-[rgba(57,44,35,0.82)] hover:bg-white">
-              <a href={siteConfig.phoneHref}>
-                <Phone className="h-4 w-4" />
-                Zəng et
-              </a>
+              <Link href="/reseptler">
+                <Search className="h-4 w-4" />
+                Reseptlər
+              </Link>
             </Button>
             <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] px-5 text-white shadow-[0_12px_30px_rgba(141,58,36,0.28)] hover:bg-[rgba(141,58,36,0.9)]">
               <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                Rezerv et
+                Əlaqə
               </a>
             </Button>
           </div>
@@ -117,11 +117,11 @@ export default function Header() {
                     </Link>
                   );
                 })}
-                <div className="grid gap-2 pt-2 sm:grid-cols-2">
-                  <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
-                    <a href={siteConfig.phoneHref}>Zəng et</a>
-                  </Button>
+                <div className="grid gap-2 pt-2">
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white">
+                    <Link href="/reseptler">Reseptlərə bax</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
                       WhatsApp
                     </a>

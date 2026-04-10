@@ -92,39 +92,25 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
     <PageLayout>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
-          eyebrow={<SectionLabel>Azərbaycan resept arxivi</SectionLabel>}
-          title={<>Reseptləri sadəcə siyahı kimi yox, mətbəx atlası kimi gəzin.</>}
-          description="Axtarış, region, kateqoriya və çətinlik filtresi ilə reseptləri tapın."
+          eyebrow={<SectionLabel>Resept arxivi</SectionLabel>}
+          title={<>Bütün reseptlər</>}
+          description="Axtarış, bölgə, kateqoriya və çətinlik filtresi ilə reseptləri tapın."
           stats={[
             { value: `${initialRecipes.length}+`, label: 'resept' },
             { value: `${categories.length}`, label: 'kateqoriya' },
             { value: `${regions.length}`, label: 'bölgə' },
           ]}
-          aside={
-            <EditorialPanel className="p-6 sm:p-7">
-              <div className="space-y-5">
-                <SectionLabel className="bg-[rgba(201,150,69,0.18)]">Kataloq qeydi</SectionLabel>
-                <h3 className="display-title text-4xl leading-[0.96] text-foreground">Hər kart bir bölgə və dad hissi daşıyır.</h3>
-                <div className="grid gap-3 text-sm text-[rgba(57,44,35,0.76)]">
-                  <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 p-4">
-                    <div className="font-semibold text-foreground">Ən çox kateqoriya</div>
-                    <div className="mt-2 line-clamp-2">{categoryStats.slice(0, 3).map((item) => item.name).join(' · ') || 'Kateqoriyalar yüklənir'}</div>
-                  </div>
-                </div>
-              </div>
-            </EditorialPanel>
-          }
         />
 
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
-              eyebrow={<SectionLabel>Kataloq nəzarətləri</SectionLabel>}
+              eyebrow={<SectionLabel>Filtrlər</SectionLabel>}
               title={<>Axtarış və filtr</>}
             />
 
             <EditorialPanel className="p-5 sm:p-6">
-              <div className="grid gap-4 lg:grid-cols-[1.2fr_0.9fr_0.8fr_0.8fr_auto_auto] lg:items-center">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.9fr_0.8fr_0.8fr_auto_auto] lg:items-center">
                 <div className="relative">
                   <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(112,83,59,0.72)]" />
                   <Input
@@ -224,10 +210,10 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
                 </div>
               </EditorialPanel>
             ) : (
-              <div className={viewMode === 'grid' ? 'grid gap-5 md:grid-cols-2 xl:grid-cols-3' : 'space-y-4'}>
+                    <div className={viewMode === 'grid' ? 'grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3' : 'space-y-4'}>
                 {filteredRecipes.map((recipe, index) => (
-                  <Card key={recipe.id} className={`overflow-hidden border-white/60 bg-white/78 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm ${viewMode === 'list' ? 'md:grid md:grid-cols-[280px_1fr]' : ''}`}>
-                    <div className={`relative overflow-hidden ${viewMode === 'grid' ? 'min-h-[260px]' : 'min-h-[240px] md:min-h-full'}`}>
+                  <Card key={recipe.id} className={`overflow-hidden border-white/60 bg-white/78 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm ${viewMode === 'list' ? 'sm:grid sm:grid-cols-[200px_1fr] lg:grid-cols-[280px_1fr]' : ''}`}>
+                    <div className={`relative overflow-hidden ${viewMode === 'grid' ? 'min-h-[200px] sm:min-h-[260px]' : 'min-h-[200px] sm:min-h-full'}`}>
                       <Image
                         src={getValidImageUrl(recipe.image)}
                         alt={recipe.name}

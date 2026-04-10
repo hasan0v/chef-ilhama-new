@@ -1,39 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowRight,
   BookOpenText,
-  CalendarRange,
   ChefHat,
-  Crown,
+  Clock3,
   MapPin,
-  PhoneCall,
-  Sparkles,
+  Search,
   Star,
-  TimerReset,
+  Users,
   Utensils,
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   CtaBand,
   EditorialPanel,
-  InfoCard,
-  MetricCard,
-  PageHero,
   SectionHeading,
   SectionLabel,
 } from '@/components/site/marketing';
-import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 
 interface HomeExperienceProps {
   featuredRecipes: Recipe[];
+  allRecipes: Recipe[];
+  categories: string[];
   stats: {
     totalRecipes: number;
     totalCategories: number;
@@ -47,326 +45,278 @@ interface HomeExperienceProps {
   };
 }
 
-const signatureServices = [
-  {
-    icon: <ChefHat className="h-5 w-5" />,
-    title: 'Private chef axşamları',
-    description: 'Evdə və ya xüsusi məkanda butik servis, zərif plating və qonaq axınına uyğun menyu planlaması.',
-    meta: 'Personal dining',
-  },
-  {
-    icon: <Crown className="h-5 w-5" />,
-    title: 'Toy və nişan masaları',
-    description: 'Ənənəvi Azərbaycan süfrəsini daha müasir təqdimat və dəqiq istehsalat planı ilə qururuq.',
-    meta: 'Event catering',
-  },
-  {
-    icon: <Utensils className="h-5 w-5" />,
-    title: 'Korporativ katerinq',
-    description: 'Launch, təqdimat və qapalı biznes tədbirləri üçün premium catering formatları.',
-    meta: 'Corporate service',
-  },
-];
-
-const serviceFlow = [
-  {
-    step: '01',
-    title: 'Qısa brifinq',
-    description: 'Qonaq sayı, məkan, büdcə və servis tərzi bir neçə sualla aydınlaşdırılır.',
-  },
-  {
-    step: '02',
-    title: 'Menyu kurasiyası',
-    description: 'Regional dadlar və tədbirin tonu əsasında sizə uyğun süfrə strukturu qurulur.',
-  },
-  {
-    step: '03',
-    title: 'İcra və təqdimat',
-    description: 'Hazırlıq, servis ritmi və vizual təqdimat vahid standartla idarə olunur.',
-  },
-];
-
-const faqItems = [
-  {
-    question: 'Rezervasiya üçün nə qədər əvvəl müraciət etməliyəm?',
-    answer:
-      'Kiçik private dining axşamları üçün ən azı 48 saat, toy və böyük tədbirlər üçün isə 7-14 gün əvvəl müraciət etməyiniz tövsiyə olunur.',
-  },
-  {
-    question: 'Xüsusi pəhriz və menyu tələbləri nəzərə alınır?',
-    answer:
-      'Bəli. Vegetarian, halal, şəkərsiz, uşaq menyusu və fərdi qida məhdudiyyətlərinə uyğun menyu ayrıca qurulur.',
-  },
-  {
-    question: 'Hansı ərazilərdə xidmət göstərilir?',
-    answer: `${siteConfig.serviceAreas.join(', ')} və yaxın ərazilərdə xidmət göstərilir. Şəhərdən kənar tədbirlər üçün ayrıca logistika planlanır.`,
-  },
-  {
-    question: 'Reseptlər bölməsi nə üçündür?',
-    answer:
-      'Saytda paylaşdığımız reseptlər Chef İlhamənin kulinariya üslubunu və regional məhsullara yanaşmasını görmək üçündür.',
-  },
-];
-
-export default function HomeExperience({ featuredRecipes, stats }: HomeExperienceProps) {
-  const [openFaq, setOpenFaq] = useState<number>(0);
+export default function HomeExperience({ featuredRecipes, allRecipes, categories, stats }: HomeExperienceProps) {
+  const [searchTerm, setSearchTerm] = useState('');
   const highlightedRecipes = featuredRecipes.slice(0, 6);
+
+  const categoryStats = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const recipe of allRecipes) {
+      if (recipe.category) {
+        counts[recipe.category] = (counts[recipe.category] || 0) + 1;
+      }
+    }
+    return categories
+      .map((cat) => ({ name: cat, count: counts[cat] || 0 }))
+      .filter((c) => c.count > 0)
+      .sort((a, b) => b.count - a.count);
+  }, [allRecipes, categories]);
+
+  const searchResults = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return [];
+    return allRecipes
+      .filter(
+        (r) =>
+          r.name.toLowerCase().includes(q) ||
+          r.origin.toLowerCase().includes(q) ||
+          r.category.toLowerCase().includes(q) ||
+          r.tags.some((t) => t.toLowerCase().includes(q))
+      )
+      .slice(0, 5);
+  }, [allRecipes, searchTerm]);
+
+  const latestRecipes = useMemo(() => {
+    return allRecipes.slice(0, 4);
+  }, [allRecipes]);
 
   return (
     <PageLayout>
-      <div className="space-y-12 lg:space-y-16">
-        <PageHero
-          eyebrow={<SectionLabel>Bakıda premium private chef və catering</SectionLabel>}
-          title={
-            <>
-              Azərbaycan süfrəsini
-              <br />
-              yeni nəsil zərifliklə təqdim edirik.
-            </>
-          }
-          description="Chef İlhamə klassik regional dadları müasir servis ritmi, təmiz estetika və tədbir mərkəzli planlama ilə birləşdirir. Nəticə yalnız yemək deyil, tam bir qonaqpərvərlik təcrübəsidir."
-          actions={
-            <>
-              <Button asChild size="lg" className="rounded-full bg-[rgba(141,58,36,0.96)] px-6 text-white shadow-[0_14px_34px_rgba(141,58,36,0.24)] hover:bg-[rgba(141,58,36,0.9)]">
-                <Link href="/xidmetler">
-                  Xidməti planla
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-6 text-[rgba(57,44,35,0.82)] hover:bg-white">
-                <Link href="/reseptler">
-                  Reseptləri kəşf et
-                  <BookOpenText className="h-4 w-4" />
-                </Link>
-              </Button>
-            </>
-          }
-          stats={[
-            { value: `${stats.totalRecipes}+`, label: 'resept' },
-            { value: `${stats.totalRegions}`, label: 'bölgə' },
-            { value: '15+', label: 'il təcrübə' },
-          ]}
-          aside={
-            <div className="space-y-4">
-              <EditorialPanel className="p-6 sm:p-7">
-                <div className="space-y-5">
-                  <SectionLabel className="bg-[rgba(141,58,36,0.08)]">Bu həftə açıq tarixlər</SectionLabel>
-                  <div className="space-y-3">
-                    <h3 className="display-title text-4xl leading-[0.95] text-foreground">Süfrə yalnız yemək deyil, ritmdir.</h3>
-                    <p className="text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
-                      Menyu, servis tempi və qonaq təcrübəsi vahid ssenari kimi qurulur. Kiçik private dinner-dan toy masasına qədər.
-                    </p>
-                  </div>
-                  <div className="grid gap-3">
-                    <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 p-4">
-                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.72)]">Əlaqə</div>
-                      <a href={siteConfig.phoneHref} className="mt-2 block text-lg font-semibold text-foreground">
-                        {siteConfig.phoneDisplay}
-                      </a>
-                    </div>
-                    <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 p-4">
-                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.72)]">Xidmət sahələri</div>
-                      <div className="mt-2 text-sm leading-7 text-[rgba(57,44,35,0.76)]">{siteConfig.serviceAreas.join(' · ')}</div>
-                    </div>
-                  </div>
-                  <Button asChild className="w-full rounded-full bg-[rgba(53,84,65,0.96)] text-white hover:bg-[rgba(53,84,65,0.88)]">
-                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                      <PhoneCall className="h-4 w-4" />
-                      WhatsApp ilə başla
-                    </a>
-                  </Button>
-                </div>
-              </EditorialPanel>
-            </div>
-          }
-        />
+      <div className="space-y-10 sm:space-y-14 lg:space-y-16">
 
-        <section className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto grid max-w-7xl gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="grid gap-5 md:grid-cols-3">
-              <MetricCard value={`${stats.featuredRecipes}`} label="seçilmiş kolleksiya" detail="Hər biri təqdimat və ləzzət balansına görə seçilmiş reseptlər." />
-              <MetricCard value={`${stats.difficultyBreakdown.easy}`} label="asan start" detail="Evdə rahat başlamaq üçün daha əlçatan texnikalar." />
-              <MetricCard value={`${stats.difficultyBreakdown.hard}`} label="ustalıq səviyyəsi" detail="Daha dərin texnika və daha güclü regional xarakter." />
-            </div>
-            <EditorialPanel className="mesh-surface flex items-center p-6 sm:p-8">
-              <div className="grid gap-6 md:grid-cols-2 md:items-center">
-                <div>
-                  <SectionLabel>Signature approach</SectionLabel>
-                  <h2 className="display-title mt-4 text-4xl leading-[0.96] text-foreground sm:text-5xl">Regional dad, studiovari təqdimat.</h2>
-                </div>
-                <p className="text-sm leading-8 text-[rgba(57,44,35,0.76)] sm:text-base">
-                  Hər tədbirdə regional dad, seçilmiş menyu və zərif təqdimat birləşir.
+        {/* ── Hero: Recipe discovery focus ── */}
+        <section className="px-4 pt-6 sm:px-6 sm:pt-8 lg:px-8 lg:pt-10">
+          <div className="mx-auto max-w-7xl">
+            <EditorialPanel className="mesh-surface px-5 py-8 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
+              <div className="mx-auto max-w-3xl space-y-6 text-center">
+                <SectionLabel>Azərbaycan mətbəxi reseptləri</SectionLabel>
+                <h1 className="display-title text-[clamp(2.2rem,6vw,5rem)] leading-[0.94] text-foreground">
+                  Dadlı reseptləri<br />kəşf edin və bişirin.
+                </h1>
+                <p className="mx-auto max-w-xl text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base sm:leading-8">
+                  Chef İlhamənin seçilmiş Azərbaycan mətbəxi reseptləri — bölgə, kateqoriya və çətinliyə görə axtarın.
                 </p>
+
+                {/* Search bar */}
+                <div className="relative mx-auto max-w-lg">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(112,83,59,0.72)]" />
+                  <Input
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Resept, bölgə və ya kateqoriya axtarın..."
+                    className="h-12 rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 pl-11 pr-4 shadow-sm"
+                  />
+                  {searchResults.length > 0 && (
+                    <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-white/60 bg-white/95 shadow-xl backdrop-blur-lg">
+                      {searchResults.map((recipe) => (
+                        <Link
+                          key={recipe.id}
+                          href={`/resept/${recipe.slug}`}
+                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-[rgba(247,239,226,0.7)]"
+                          onClick={() => setSearchTerm('')}
+                        >
+                          <div className="relative h-10 w-10 overflow-hidden rounded-lg">
+                            <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="40px" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="truncate text-sm font-semibold text-foreground">{recipe.name}</div>
+                            <div className="text-xs text-[rgba(57,44,35,0.6)]">{recipe.category} · {recipe.origin}</div>
+                          </div>
+                        </Link>
+                      ))}
+                      <Link
+                        href="/reseptler"
+                        className="block border-t border-[rgba(98,67,45,0.08)] px-4 py-3 text-center text-sm font-medium text-[rgba(141,58,36,0.96)] transition-colors hover:bg-[rgba(247,239,226,0.5)]"
+                        onClick={() => setSearchTerm('')}
+                      >
+                        Bütün reseptlərə bax →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Quick stats */}
+                <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-[rgba(57,44,35,0.72)]">
+                  <span className="inline-flex items-center gap-1.5">
+                    <BookOpenText className="h-4 w-4 text-[rgba(141,58,36,0.96)]" />
+                    {stats.totalRecipes}+ resept
+                  </span>
+                  <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin className="h-4 w-4 text-[rgba(53,84,65,0.96)]" />
+                    {stats.totalRegions} bölgə
+                  </span>
+                  <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
+                  <span className="inline-flex items-center gap-1.5">
+                    <Utensils className="h-4 w-4 text-[rgba(201,150,69,0.96)]" />
+                    {stats.totalCategories} kateqoriya
+                  </span>
+                </div>
               </div>
             </EditorialPanel>
           </div>
         </section>
 
+        {/* ── Category chips ── */}
         <section className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-8">
-            <SectionHeading
-              eyebrow={<SectionLabel>Xidmət konturları</SectionLabel>}
-              title={<>Qonağın yaddaşında qalan hissə yalnız dad deyil, bütün quruluşdur.</>}
-              description="Menyu, servis və təqdimat birlikdə planlanır."
-            />
-            <div className="grid gap-5 lg:grid-cols-3">
-              {signatureServices.map((service) => (
-                <InfoCard key={service.title} icon={service.icon} title={service.title} description={service.description} meta={service.meta} />
+          <div className="mx-auto max-w-7xl space-y-5">
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.72)]">Kateqoriyalar</h2>
+              <Link href="/reseptler" className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
+                Hamısına bax
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {categoryStats.slice(0, 10).map((cat) => (
+                <Link
+                  key={cat.name}
+                  href={`/reseptler?category=${encodeURIComponent(cat.name)}`}
+                  className="rounded-full border border-[rgba(98,67,45,0.1)] bg-white/80 px-4 py-2 text-sm font-medium text-[rgba(57,44,35,0.82)] transition-colors hover:border-transparent hover:bg-[rgba(141,58,36,0.96)] hover:text-white"
+                >
+                  {cat.name} <span className="ml-1 text-xs opacity-60">({cat.count})</span>
+                </Link>
               ))}
             </div>
           </div>
         </section>
 
+        {/* ── Featured recipes ── */}
         <section className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-8">
+          <div className="mx-auto max-w-7xl space-y-6">
             <SectionHeading
               eyebrow={<SectionLabel>Seçilmiş reseptlər</SectionLabel>}
-              title={<>Mətbəxin xarakterini resept kolleksiyası ilə hiss edin.</>}
-              description="Bölgə, tarix və təqdimat düşüncəsi hər reseptdə hiss olunur."
+              title={<>Mətbəxin ən yaxşıları</>}
               actions={
                 <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
-                  <Link href="/reseptler">Bütün reseptlərə keç</Link>
+                  <Link href="/reseptler">
+                    Bütün reseptlər
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </Button>
               }
             />
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
               {highlightedRecipes.map((recipe, index) => (
-                <Card key={recipe.id} className={`overflow-hidden border-white/60 bg-white/76 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm ${index === 0 ? 'md:col-span-2 md:grid md:grid-cols-[1.05fr_0.95fr]' : ''}`}>
-                  <div className={`relative min-h-[260px] overflow-hidden ${index === 0 ? 'md:min-h-full' : ''}`}>
-                    <Image
-                      src={getValidImageUrl(recipe.image)}
-                      alt={recipe.name}
-                      fill
-                      className="object-cover"
-                      sizes={index === 0 ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 1280px) 50vw, 33vw'}
-                      priority={index < 2}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                    <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4">
-                      <div>
-                        <div className="inline-flex items-center gap-2 rounded-full bg-white/18 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm">
-                          <MapPin className="h-3.5 w-3.5" />
-                          {recipe.origin}
-                        </div>
-                        <h3 className="mt-3 max-w-md text-2xl font-semibold tracking-[-0.04em] text-white">{recipe.name}</h3>
-                      </div>
-                      {recipe.featured ? (
-                        <div className="rounded-full bg-[rgba(201,150,69,0.92)] p-2 text-white shadow-lg">
-                          <Star className="h-4 w-4" />
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                  <CardContent className="space-y-5 p-6">
-                    <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(112,83,59,0.72)]">
-                      <span>{recipe.category}</span>
-                      <span>•</span>
-                      <span>{recipe.prepTime}</span>
-                      <span>•</span>
-                      <span>{recipe.difficulty}</span>
-                    </div>
-                    <p className="line-clamp-3 text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">{recipe.history}</p>
-                    <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-transparent hover:bg-[rgba(255,251,246,0.9)]">
-                      <Link href={`/resept/${recipe.slug}`}>
-                        Resepti aç
-                        <ArrowRight className="h-4 w-4" />
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl space-y-8">
-            <SectionHeading
-              eyebrow={<SectionLabel>İş axını</SectionLabel>}
-              title={<>Sifarişdən servis anına qədər proses sadə, amma ciddi qurulur.</>}
-              description="Hər layihə eyni ardıcıllıqla idarə olunur."
-            />
-            <div className="grid gap-5 lg:grid-cols-3">
-              {serviceFlow.map((item) => (
-                <EditorialPanel key={item.step} className="p-6 sm:p-7">
-                  <div className="space-y-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[rgba(112,83,59,0.72)]">Mərhələ {item.step}</div>
-                    <h3 className="display-title text-3xl text-foreground">{item.title}</h3>
-                    <p className="text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">{item.description}</p>
-                  </div>
-                </EditorialPanel>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-              <EditorialPanel className="mesh-surface p-6 sm:p-8">
-                <div className="space-y-5">
-                  <SectionLabel>Tez cavablar</SectionLabel>
-                  <h2 className="display-title text-4xl leading-[0.96] text-foreground sm:text-5xl">Tez-tez verilən suallar</h2>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/70 p-4">
-                      <CalendarRange className="h-5 w-5 text-[rgba(141,58,36,0.96)]" />
-                      <div className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-[rgba(112,83,59,0.72)]">Planlama</div>
-                      <p className="mt-2 text-sm leading-7 text-[rgba(57,44,35,0.76)]">Məkan, qonaq sayı və servis formatı əsas qərar sütunlarıdır.</p>
-                    </div>
-                    <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/70 p-4">
-                      <TimerReset className="h-5 w-5 text-[rgba(53,84,65,0.96)]" />
-                      <div className="mt-3 text-sm font-semibold uppercase tracking-[0.2em] text-[rgba(112,83,59,0.72)]">Çeviklik</div>
-                      <p className="mt-2 text-sm leading-7 text-[rgba(57,44,35,0.76)]">Uyğun olduqda təcili tarixlər üçün də qısa planlama edilir.</p>
-                    </div>
-                  </div>
-                </div>
-              </EditorialPanel>
-              <div className="space-y-3">
-                {faqItems.map((faq, index) => {
-                  const isOpen = openFaq === index;
-
-                  return (
-                    <Card key={faq.question} className="border-white/60 bg-white/76 shadow-[0_18px_52px_rgba(52,34,22,0.08)] backdrop-blur-sm">
-                      <CardContent className="p-0">
-                        <button
-                          type="button"
-                          className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
-                          onClick={() => setOpenFaq(isOpen ? -1 : index)}
-                        >
-                          <span className="text-base font-semibold tracking-[-0.02em] text-foreground sm:text-lg">{faq.question}</span>
-                          <span className={`flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(98,67,45,0.12)] text-[rgba(141,58,36,0.96)] transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`}>
-                            <Sparkles className="h-4 w-4" />
+                <Link key={recipe.id} href={`/resept/${recipe.slug}`} className={`group ${index === 0 ? 'md:col-span-2 xl:col-span-1' : ''}`}>
+                  <Card className="h-full overflow-hidden border-white/60 bg-white/76 shadow-[0_18px_48px_rgba(52,34,22,0.08)] backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-1">
+                    <div className="relative min-h-[200px] overflow-hidden sm:min-h-[240px]">
+                      <Image
+                        src={getValidImageUrl(recipe.image)}
+                        alt={recipe.name}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        priority={index < 2}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <div className="absolute left-4 top-4 flex flex-wrap gap-2">
+                        {recipe.featured && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(201,150,69,0.92)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-white">
+                            <Star className="h-3 w-3" /> Seçilmiş
                           </span>
-                        </button>
-                        {isOpen ? (
-                          <div className="px-6 pb-6 text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">{faq.answer}</div>
-                        ) : null}
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                        )}
+                      </div>
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/16 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+                          <MapPin className="h-3 w-3" /> {recipe.origin}
+                        </span>
+                      </div>
+                    </div>
+                    <CardContent className="space-y-3 p-4 sm:p-5">
+                      <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[rgba(112,83,59,0.72)]">
+                        <span>{recipe.category}</span>
+                        <span>•</span>
+                        <span>{recipe.difficulty}</span>
+                      </div>
+                      <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground sm:text-xl">{recipe.name}</h3>
+                      <div className="flex flex-wrap gap-3 text-xs text-[rgba(57,44,35,0.68)]">
+                        <span className="inline-flex items-center gap-1">
+                          <Clock3 className="h-3.5 w-3.5" /> {recipe.prepTime}
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <Users className="h-3.5 w-3.5" /> {recipe.servings}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Latest recipes ── */}
+        {latestRecipes.length > 0 && (
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="display-title text-2xl text-foreground sm:text-3xl">Son əlavə olunanlar</h2>
+                <Link href="/reseptler" className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
+                  Hamısı →
+                </Link>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {latestRecipes.map((recipe) => (
+                  <Link key={recipe.id} href={`/resept/${recipe.slug}`} className="group">
+                    <div className="flex items-center gap-3 rounded-2xl border border-[rgba(98,67,45,0.08)] bg-white/72 p-3 transition-colors hover:bg-white/90">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
+                        <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="64px" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="truncate text-sm font-semibold text-foreground">{recipe.name}</h3>
+                        <p className="mt-0.5 text-xs text-[rgba(57,44,35,0.6)]">{recipe.category} · {recipe.prepTime}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
+          </section>
+        )}
+
+        {/* ── About Chef İlhamə (compact) ── */}
+        <section className="px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <EditorialPanel className="mesh-surface p-5 sm:p-8">
+              <div className="grid gap-6 sm:gap-8 lg:grid-cols-[auto_1fr_auto] lg:items-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(141,58,36,0.1)] text-[rgba(141,58,36,0.96)]">
+                  <ChefHat className="h-8 w-8" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="display-title text-2xl text-foreground sm:text-3xl">Chef İlhamə</h2>
+                  <p className="max-w-xl text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
+                    15+ il təcrübə ilə Azərbaycan mətbəxinin bölgəvi dadlarını müasir yanaşma ilə paylaşır. Reseptlər, catering və şəxsi aşpaz xidmətləri.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
+                    <Link href="/haqqinda">Haqqında</Link>
+                  </Button>
+                  <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]">
+                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
+                      Əlaqə
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </EditorialPanel>
           </div>
         </section>
 
+        {/* ── CTA: Explore recipes ── */}
         <section className="px-4 pb-2 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <CtaBand
-              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Chef İlhamə atelier</SectionLabel>}
-              title={<>Növbəti tədbirinizi standart catering kimi yox, xüsusi təcrübə kimi qurun.</>}
-              description="Süfrənizi xüsusi etmək istəyirsinizsə, planlamaya indi başlayın."
+              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">{stats.totalRecipes}+ resept</SectionLabel>}
+              title={<>Bütün reseptləri kəşf edin.</>}
+              description="Bölgələrə, kateqoriyalara görə axtarın və sevimli yeməklərinizi hazırlayın."
               actions={
-                <>
-                  <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
-                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                      WhatsApp rezervasiya
-                    </a>
-                  </Button>
-                  <Button asChild variant="outline" className="rounded-full border-white/24 bg-transparent px-6 text-white hover:bg-white/10 hover:text-white">
-                    <Link href="/elaqe">Əlaqə səhifəsi</Link>
-                  </Button>
-                </>
+                <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
+                  <Link href="/reseptler">
+                    Reseptlərə keç
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
               }
             />
           </div>

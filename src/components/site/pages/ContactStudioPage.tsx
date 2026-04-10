@@ -25,7 +25,7 @@ export default function ContactStudioPage() {
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Əlaqə studiyası</SectionLabel>}
-          title={<>Bizimlə əlaqə saxlamaq üçün əlvərişli kanalı seçin.</>}
+          title={<>Bizimlə əlaqə saxlamaq üçün əlverişli kanalı seçin.</>}
           description="WhatsApp, telefon və ya email — hansı sizin üçün rahatdırsa."
           actions={
             <>

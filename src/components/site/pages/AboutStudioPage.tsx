@@ -20,19 +20,19 @@ const values = [
     icon: <UtensilsCrossed className="h-5 w-5" />,
     title: 'Regional həssaslıq',
     description: 'Hər bölgənin məhsul xarakteri və süfrə dili qorunur, sadəcə təqdimatı yenilənir.',
-    meta: 'Azerbaijani roots',
+    meta: 'Azərbaycan kökləri',
   },
   {
     icon: <BookOpenText className="h-5 w-5" />,
     title: 'Menyu hekayəsi',
     description: 'Yeməklər ayrı-ayrı nömrələr kimi deyil, tədbirin narrativi kimi seçilir.',
-    meta: 'Editorial thinking',
+    meta: 'Menyu yaradıcılığı',
   },
   {
     icon: <HeartHandshake className="h-5 w-5" />,
     title: 'Qonaqpərvərlik intizamı',
     description: 'Səmimiyyət hissi qorunur, amma bütün servis peşəkar ritmlə işləyir.',
-    meta: 'Service culture',
+    meta: 'Xidmət mədəniyyəti',
   },
 ];
 
@@ -108,7 +108,7 @@ export default function AboutStudioPage() {
                 </p>
               </div>
             </EditorialPanel>
-            <div className="grid gap-5 sm:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2">
               <MetricCard value="25+" label="bölgə motivi" detail="Regional məhsul və təqdimat izləri." />
               <MetricCard value="3" label="əsas prinsip" detail="Dad, ritm, vizual harmoniya." />
             </div>
