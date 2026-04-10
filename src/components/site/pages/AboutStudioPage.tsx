@@ -111,7 +111,6 @@ export default function AboutStudioPage() {
             <div className="grid gap-5 sm:grid-cols-3">
               <MetricCard value="25+" label="bölgə motivi" detail="Regional məhsul və təqdimat izləri." />
               <MetricCard value="3" label="əsas prinsip" detail="Dad, ritm, vizual harmoniya." />
-              <MetricCard value="1" label="vahid studiya dili" detail="Bütün səhifələrdə eyni xarakter." />
             </div>
           </div>
         </section>
@@ -121,7 +120,7 @@ export default function AboutStudioPage() {
             <SectionHeading
               eyebrow={<SectionLabel>Dəyərlər</SectionLabel>}
               title={<>Brendin içində işləyən üç əsas sütun.</>}
-              description="Bu saytın yenilənmiş vizual dili də həmin sütunların üzərində qurulub: məhsula hörmət, qonağa qayğı və təqdimatda intizam."
+              description="Məhsula hörmət, qonağa qayğı və təqdimatda intizam."
             />
             <div className="grid gap-5 lg:grid-cols-3">
               {values.map((value) => (
@@ -167,7 +166,7 @@ export default function AboutStudioPage() {
           <div className="mx-auto max-w-7xl">
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Əlaqəyə keçid</SectionLabel>}
-              title={<>Əgər süfrənizdə bu studiya dilini hiss etmək istəyirsinizsə, növbəti addım xidməti planlamaqdır.</>}
+              title={<>Süfrənizdə bu keyfiyyəti hiss etmək istəyirsinizsə, növbəti addım xidməti planlamaqdır.</>}
               description="Menyu kurasiyası, tədbir axını və servis tonu üçün birbaşa əlaqə ən doğru başlanğıcdır."
               actions={
                 <>

@@ -94,7 +94,7 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
         <PageHero
           eyebrow={<SectionLabel>Azərbaycan resept arxivi</SectionLabel>}
           title={<>Reseptləri sadəcə siyahı kimi yox, mətbəx atlası kimi gəzin.</>}
-          description="Yeni kataloq vizual olaraq daha yığcamdır: axtarış, region, kateqoriya və çətinlik filtrləri birlikdə işləyir; kartlar isə editorial kataloq dilinə yaxınlaşdırılıb."
+          description="Axtarış, region, kateqoriya və çətinlik filtresi ilə reseptləri tapın."
           stats={[
             { value: `${initialRecipes.length}+`, label: 'resept' },
             { value: `${categories.length}`, label: 'kateqoriya' },
@@ -104,15 +104,11 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
             <EditorialPanel className="p-6 sm:p-7">
               <div className="space-y-5">
                 <SectionLabel className="bg-[rgba(201,150,69,0.18)]">Kataloq qeydi</SectionLabel>
-                <h3 className="display-title text-4xl leading-[0.96] text-foreground">Hər kart bir bölgə və servis hissi daşıyır.</h3>
+                <h3 className="display-title text-4xl leading-[0.96] text-foreground">Hər kart bir bölgə və dad hissi daşıyır.</h3>
                 <div className="grid gap-3 text-sm text-[rgba(57,44,35,0.76)]">
                   <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 p-4">
                     <div className="font-semibold text-foreground">Ən çox kateqoriya</div>
                     <div className="mt-2 line-clamp-2">{categoryStats.slice(0, 3).map((item) => item.name).join(' · ') || 'Kateqoriyalar yüklənir'}</div>
-                  </div>
-                  <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 p-4">
-                    <div className="font-semibold text-foreground">Filtr strategiyası</div>
-                    <div className="mt-2">Axtarış bir neçə filtr ilə birlikdə işləyir və nəticə sayı dərhal yenilənir.</div>
                   </div>
                 </div>
               </div>
@@ -124,8 +120,7 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
               eyebrow={<SectionLabel>Kataloq nəzarətləri</SectionLabel>}
-              title={<>Axtarış və filtr alətləri nəticəni sürətli daraltmaq üçün yenidən quruldu.</>}
-              description="Desktop və mobil görünüşdə eyni vizual sistemdən istifadə edilir, sadəcə grid və list görünüşü arasında keçid saxlanılıb."
+              title={<>Axtarış və filtr</>}
             />
 
             <EditorialPanel className="p-5 sm:p-6">
@@ -213,9 +208,6 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
                 <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">Nəticələr</div>
                 <h2 className="display-title mt-2 text-4xl text-foreground">{filteredRecipes.length} resept tapıldı</h2>
               </div>
-              <p className="max-w-2xl text-sm leading-7 text-[rgba(57,44,35,0.72)] sm:text-base">
-                Kartlar daha dərin vizual ritmlə yenilənib: əvvəlcə bölgə, sonra çətinlik və hazırlıq axını hiss olunur.
-              </p>
             </div>
 
             {filteredRecipes.length === 0 ? (

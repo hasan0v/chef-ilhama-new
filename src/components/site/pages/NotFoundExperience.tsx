@@ -12,21 +12,16 @@ export default function NotFoundExperience() {
         <PageHero
           eyebrow={<SectionLabel>404 səhifəsi</SectionLabel>}
           title={<>Axtardığınız səhifə yoxdur, amma saytın əsas trayektoriyası hələ də əlinizin altındadır.</>}
-          description="404 ekranı da yeni vizual sistemə uyğunlaşdırılıb: panikaya deyil, yönləndirməyə xidmət edir. Buradan ən çox istifadə olunan istiqamətlərə birbaşa keçmək olur."
+          description="Buradan ən çox istifadə olunan istiqamətlərə birbaşa keçmək olur."
           stats={[
             { value: '404', label: 'status' },
-            { value: '3', label: 'tez keçid' },
-            { value: '1', label: 'whatsapp xətti' },
           ]}
           aside={
             <EditorialPanel className="p-6 sm:p-7">
               <div className="space-y-5">
                 <SectionLabel className="bg-[rgba(141,58,36,0.08)]">Yönləndirmə paneli</SectionLabel>
                 <div className="space-y-3">
-                  <h3 className="display-title text-4xl leading-[0.96] text-foreground">Saytın yeni strukturu sizi yenidən doğru nöqtəyə qaytarır.</h3>
-                  <p className="text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    Əsas axınlar: ana səhifə, resept kataloqu və xidmət planlama səhifəsidir.
-                  </p>
+                  <h3 className="display-title text-4xl leading-[0.96] text-foreground">Doğru nöqtəyə qaytaraq.</h3>
                 </div>
               </div>
             </EditorialPanel>
@@ -38,7 +33,7 @@ export default function NotFoundExperience() {
             <EditorialPanel className="p-6">
               <Compass className="h-6 w-6 text-[rgba(141,58,36,0.96)]" />
               <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] text-foreground">Ana istiqamət</h2>
-              <p className="mt-3 text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">Brendin əsas hekayəsi və yeni homepage strukturu.</p>
+              <p className="mt-3 text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">Chef İlhamənin ana səhifəsi.</p>
               <Button asChild className="mt-5 rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]">
                 <Link href="/">
                   <Home className="h-4 w-4" />
@@ -71,7 +66,7 @@ export default function NotFoundExperience() {
           <div className="mx-auto max-w-7xl">
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Qısa yol</SectionLabel>}
-              title={<>Səhifə tapılmasa da istifadəçi axını itməməlidir. Bu ekran məhz onu qorumaq üçün yenidən quruldu.</>}
+              title={<>Ana səhifəyə və ya xidmətlərə keçin.</>}
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">

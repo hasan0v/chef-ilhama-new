@@ -195,7 +195,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
                   <h2 className="display-title mt-4 text-4xl leading-[0.96] text-foreground sm:text-5xl">Regional dad, studiovari təqdimat.</h2>
                 </div>
                 <p className="text-sm leading-8 text-[rgba(57,44,35,0.76)] sm:text-base">
-                  Saytın yeni dili klassik catering görüntüsündən uzaqdır. Burada hiss edilən estetika daha çox kulinariya atelier, seçilmiş menyu və redaksiya tərzində təqdim olunan brend kimliyidir.
+                  Hər tədbirdə regional dad, seçilmiş menyu və zərif təqdimat birləşir.
                 </p>
               </div>
             </EditorialPanel>
@@ -207,7 +207,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
             <SectionHeading
               eyebrow={<SectionLabel>Xidmət konturları</SectionLabel>}
               title={<>Qonağın yaddaşında qalan hissə yalnız dad deyil, bütün quruluşdur.</>}
-              description="Menular, servis trayektoriyası və tədbirin vizual intonasiyası birlikdə planlanır. Buna görə xidmətlər ayrı-ayrı yox, bir sistem kimi düşünülür."
+              description="Menyu, servis və təqdimat birlikdə planlanır."
             />
             <div className="grid gap-5 lg:grid-cols-3">
               {signatureServices.map((service) => (
@@ -222,7 +222,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
             <SectionHeading
               eyebrow={<SectionLabel>Seçilmiş reseptlər</SectionLabel>}
               title={<>Mətbəxin xarakterini resept kolleksiyası ilə hiss edin.</>}
-              description="Bu kolleksiya yalnız dad üçün deyil. Burada bölgə, tarix və təqdimat düşüncəsi birlikdə görünür."
+              description="Bölgə, tarix və təqdimat düşüncəsi hər reseptdə hiss olunur."
               actions={
                 <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
                   <Link href="/reseptler">Bütün reseptlərə keç</Link>
@@ -284,7 +284,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
             <SectionHeading
               eyebrow={<SectionLabel>İş axını</SectionLabel>}
               title={<>Sifarişdən servis anına qədər proses sadə, amma ciddi qurulur.</>}
-              description="Komanda ölçüsündən asılı olmayaraq hər layihə eyni ardıcıllıqla idarə olunur. Bu həm sürəti, həm də keyfiyyəti stabilləşdirir."
+              description="Hər layihə eyni ardıcıllıqla idarə olunur."
             />
             <div className="grid gap-5 lg:grid-cols-3">
               {serviceFlow.map((item) => (
@@ -306,10 +306,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
               <EditorialPanel className="mesh-surface p-6 sm:p-8">
                 <div className="space-y-5">
                   <SectionLabel>Tez cavablar</SectionLabel>
-                  <h2 className="display-title text-4xl leading-[0.96] text-foreground sm:text-5xl">Ən çox verilən sualları əvvəlcədən açıq saxlayırıq.</h2>
-                  <p className="text-sm leading-8 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    Dizaynın məqsədi yalnız gözəl görünmək deyil. Sifariş qərarını sürətləndirən informasiyanı da daha aydın verməkdir.
-                  </p>
+                  <h2 className="display-title text-4xl leading-[0.96] text-foreground sm:text-5xl">Tez-tez verilən suallar</h2>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/70 p-4">
                       <CalendarRange className="h-5 w-5 text-[rgba(141,58,36,0.96)]" />
@@ -358,7 +355,7 @@ export default function HomeExperience({ featuredRecipes, stats }: HomeExperienc
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Chef İlhamə atelier</SectionLabel>}
               title={<>Növbəti tədbirinizi standart catering kimi yox, xüsusi təcrübə kimi qurun.</>}
-              description="Əgər süfrə həm qonaqpərvər, həm də vizual olaraq fərqli hiss edilməlidirsə, planlamaya indi başlamaq daha düzgündür."
+              description="Süfrənizi xüsusi etmək istəyirsinizsə, planlamaya indi başlayın."
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">

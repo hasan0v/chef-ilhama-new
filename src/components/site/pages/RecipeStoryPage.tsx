@@ -187,7 +187,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
                   <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] bg-white/12 p-4 text-white backdrop-blur-md">
                     <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/72">Resept qeydi</div>
                     <div className="mt-2 text-sm leading-7 text-white/92">
-                      Hər addımı işarələyərək hazırlığınızı nəzarətdə saxlayın. Bu səhifə məhz praktik istifadə üçün yenidən qurulub.
+                      Hər addımı işarələyərək hazırlığınızı nəzarətdə saxlayın.
                     </div>
                   </div>
                 </div>
@@ -200,8 +200,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
               eyebrow={<SectionLabel>Hazırlıq paneli</SectionLabel>}
-              title={<>Məhsul yoxlaması və addım izləmə eyni səviyyədə görünür.</>}
-              description="Resept detail səhifəsi artıq yalnız oxu ekranı deyil. O, hazırlıq prosesində istifadə edilən praktiki panelə çevrilib."
+              title={<>Tərkib və addımlar</>}
             />
             <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
               <div className="space-y-6">
@@ -354,7 +353,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Chef service</SectionLabel>}
               title={<>Bu dadları peşəkar servis ilə yaşamaq istəyirsinizsə, növbəti addım tədbir planlamasıdır.</>}
-              description="Resept arxivi ilham verir; xidmət səhifəsi isə bunu real tədbir təcrübəsinə çevirir."
+              description="Xidmətlərimizlə bu dadları tədbirinizdə yaşadın."
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">

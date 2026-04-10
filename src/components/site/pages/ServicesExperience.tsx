@@ -198,7 +198,7 @@ export default function ServicesExperience() {
         <PageHero
           eyebrow={<SectionLabel>Private chef booking studio</SectionLabel>}
           title={<>Tədbirinizi hazır paketlə yox, sizə uyğun ssenari ilə planlayın.</>}
-          description="Bu səhifə şablon sorğu forması deyil. Tədbirin məkanı, qonaq sayı, servis tonu və menyu intonasiyası bir yerdə düşünülməsi üçün qurulub."
+          description="Tədbirin məkanı, qonaq sayı və menyu intonasiyasını bir yerdə planlayın."
           stats={[
             { value: '15+', label: 'il təcrübə' },
             { value: '1000+', label: 'müştəri' },
@@ -223,7 +223,7 @@ export default function ServicesExperience() {
                 <div className="space-y-3">
                   <h3 className="display-title text-4xl leading-[0.96] text-foreground">Dəqiq brifinq, daha güclü servis.</h3>
                   <p className="text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    Ən yaxşı nəticə üçün sadəcə tarix yox, tədbirin tonu da əhəmiyyətlidir. Bu səbəbdən sorğu forması daha kurasiya yönümlü hazırlanıb.
+                    Ən yaxşı nəticə üçün sadəcə tarix yox, tədbirin tonu da əhəmiyyətlidir.
                   </p>
                 </div>
                 <div className="grid gap-3 text-sm text-[rgba(57,44,35,0.76)]">
@@ -246,7 +246,7 @@ export default function ServicesExperience() {
             <SectionHeading
               eyebrow={<SectionLabel>Xidmət blokları</SectionLabel>}
               title={<>Hazır paket yox, tədbir kontekstinə uyğun format seçimi.</>}
-              description="Hər xidmət ayrıca görünür, amma əslində birlikdə işləyən sistemdir: menyu, servis, logistika və təqdimat."
+              description="Menyu, servis, logistika və təqdimat birlikdə işləyən sistemdir."
             />
             <div className="grid gap-5 lg:grid-cols-3">
               {reasons.map((reason) => (
@@ -261,7 +261,6 @@ export default function ServicesExperience() {
             <SectionHeading
               eyebrow={<SectionLabel>Sorğu forması</SectionLabel>}
               title={<>Tədbirin konturunu burada qurun, biz onu servisa çevirək.</>}
-              description="Form yalnız məlumat toplamaq üçün deyil. Hansı formatın sizə daha uyğun olduğunu tez ayırd etmək üçün hazırlanıb."
             />
             <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
               <EditorialPanel className="p-6 sm:p-8">
@@ -273,7 +272,6 @@ export default function ServicesExperience() {
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">1. Əlaqə və tədbir məlumatı</h3>
-                        <p className="text-sm text-[rgba(57,44,35,0.72)]">Əsas informasiya olmadan düzgün təklif vermək olmur.</p>
                       </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
@@ -482,7 +480,7 @@ export default function ServicesExperience() {
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Sürətli qərar üçün</SectionLabel>}
               title={<>Əgər tarixiniz bəllidirsə, ilkin sorğunu indi göndərmək ən düzgün addımdır.</>}
-              description="Tədbir tarixləri dolduqca ən güclü menyu və servis slotları daha tez bağlanır."
+              description="Tarixiniz bəllidirsə, əlaqəyə tez keçmək daha düzgündür."
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">

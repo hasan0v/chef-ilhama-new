@@ -25,8 +25,8 @@ export default function ContactStudioPage() {
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Əlaqə studiyası</SectionLabel>}
-          title={<>Əlaqə səhifəsi artıq yalnız kontakt siyahısı deyil, qərara yaxınlaşdıran çalışma sahəsidir.</>}
-          description="Sorğu yazmaq, telefonla danışmaq və birbaşa WhatsApp açmaq eyni ekranda daha təmiz struktura salınıb. Məqsəd qərarı sürətləndirməkdir."
+          title={<>Bizimlə əlaqə saxlamaq üçün əlvərişli kanalı seçin.</>}
+          description="WhatsApp, telefon və ya email — hansı sizin üçün rahatdırsa."
           actions={
             <>
               <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] px-6 text-white hover:bg-[rgba(141,58,36,0.9)]">
@@ -59,8 +59,7 @@ export default function ContactStudioPage() {
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
               eyebrow={<SectionLabel>Əsas kanallar</SectionLabel>}
-              title={<>Əlaqə məlumatları artıq kart dizaynında daha oxunaqlı və sürətli hərəkətə uyğun təqdim olunur.</>}
-              description="Kartlardan birini seçib birbaşa əlaqəyə keçmək mümkündür; əlavə naviqasiyaya ehtiyac qalmır."
+              title={<>Əlaqə kanalları</>}
             />
             <div className="grid gap-5 lg:grid-cols-3">
               <InfoCard icon={<MessageCircle className="h-5 w-5" />} title="WhatsApp" description={siteConfig.phoneDisplay} meta="Ən sürətli geri dönüş" className="bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(237,248,240,0.76))]" />
@@ -76,10 +75,7 @@ export default function ContactStudioPage() {
               <div className="space-y-6">
                 <SectionLabel>Sorğu forması</SectionLabel>
                 <div>
-                  <h2 className="display-title text-4xl leading-[0.96] text-foreground sm:text-5xl">Email ilə yazmaq istəyənlər üçün daha səliqəli iş masası.</h2>
-                  <p className="mt-4 max-w-2xl text-sm leading-8 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    Form ana struktur olaraq saxlanılıb, amma vizual və toxunuş hissi yenidən qurulub ki, saytdakı yeni dil ilə uyumlu olsun.
-                  </p>
+                  <h2 className="display-title text-4xl leading-[0.96] text-foreground sm:text-5xl">Email sorğusu</h2>
                 </div>
                 <ContactForm />
               </div>
@@ -128,7 +124,7 @@ export default function ContactStudioPage() {
             <CtaBand
               eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Bir addım sonra</SectionLabel>}
               title={<>Tədbirinizə artıq tarix qoymusunuzsa, birbaşa xidmət planlama səhifəsinə keçin.</>}
-              description="Orada daha detallı sorğu strukturu və xidmət seçimi imkanları açılır."
+              description="Detallı sorğu və xidmət seçimi üçün."
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
