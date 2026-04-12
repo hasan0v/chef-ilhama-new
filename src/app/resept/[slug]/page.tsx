@@ -16,19 +16,20 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
 
   if (!recipe) {
     return {
-      title: 'Resept tapılmadı - Chef İlhamə',
+      title: 'Resept tapılmadı',
       description: 'Axtardığınız resept tapılmadı. Digər ənənəvi Azərbaycan reseptlərini görmək üçün əsas səhifəyə qayıdın.',
+      robots: { index: false },
     };
   }
 
-  const title = `${recipe.name} Resepti | Ənənəvi ${recipe.origin} Mətbəxi - Chef İlhamə`;
-  const description = `${recipe.name} reseptini öyrənin. ${recipe.origin} bölgəsinin ənənəvi dadı. ${recipe.difficulty} çətinlik, ${recipe.prepTime} hazırlanma müddəti. Tərkib və hazırlanma qaydası.`;
+  const title = `${recipe.name} Resepti — ${recipe.origin} Mətbəxi`;
+  const description = `${recipe.name}: ənənəvi ${recipe.origin} yeməyi. ${recipe.difficulty} çətinlik, ${recipe.prepTime} hazırlanma müddəti, ${recipe.servings}. Tərkib hissələri və addım-addım hazırlanma qaydası.`;
 
   return {
     title,
     description,
-    keywords: `${recipe.name} resepti, ${recipe.origin} mətbəxi, azərbaycan yeməkləri, ${recipe.category}, ${recipe.name} necə hazırlanır, ənənəvi reseptlər, chef İlhamə`,
-    authors: [{ name: 'Chef İlhamə' }],
+    keywords: `${recipe.name} resepti, ${recipe.name} necə hazırlanır, ${recipe.origin} mətbəxi, azərbaycan yeməkləri, ${recipe.category}, ənənəvi reseptlər, Azerbaijani ${recipe.name} recipe`,
+    authors: [{ name: 'Chef İlhamə', url: 'https://chef-ilhama.food/haqqinda' }],
     robots: {
       index: true,
       follow: true,
@@ -41,33 +42,36 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
       },
     },
     openGraph: {
-      title,
+      title: `${recipe.name} — Chef İlhamə Resept`,
       description,
       type: 'article',
       locale: 'az_AZ',
+      alternateLocale: 'en_US',
       url: `https://chef-ilhama.food/resept/${recipe.slug}`,
       siteName: 'Chef İlhamə',
       images: [
         {
-          url: recipe.image || 'https://chef-ilhama.food/placeholder-food.svg',
+          url: recipe.image || 'https://chef-ilhama.food/ilhama.png',
           width: 1200,
           height: 630,
-          alt: `${recipe.name} - ${recipe.origin} mətbəxi`,
+          alt: `${recipe.name} — ${recipe.origin} mətbəxi resepti`,
         },
       ],
-      publishedTime: new Date().toISOString(),
-      modifiedTime: new Date().toISOString(),
-      section: 'Recipes',
-      tags: recipe.tags,
+      section: recipe.category,
+      tags: [recipe.name, recipe.origin, recipe.category, 'Azərbaycan mətbəxi', 'Azerbaijani food'],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `${recipe.name} Resepti — Chef İlhamə`,
       description: description.substring(0, 160),
-      images: [recipe.image || 'https://chef-ilhama.food/placeholder-food.svg'],
+      images: [recipe.image || 'https://chef-ilhama.food/ilhama.png'],
     },
     alternates: {
       canonical: `https://chef-ilhama.food/resept/${recipe.slug}`,
+      languages: {
+        'az': `https://chef-ilhama.food/resept/${recipe.slug}`,
+        'en': `https://chef-ilhama.food/en/recipe/${recipe.slug}`,
+      },
     },
   };
 }
@@ -80,7 +84,11 @@ export default async function RecipePage({ params }: RecipePageProps) {
     notFound();
   }
 
-  return <RecipeStoryPage recipe={recipe} />;
+  return <RecipeStoryPage recipe={recipe} breadcrumbs={[
+    { name: 'Ana Səhifə', href: '/' },
+    { name: 'Reseptlər', href: '/reseptler' },
+    { name: recipe.name, href: `/resept/${recipe.slug}` },
+  ]} />;
 }
 
 // Generate static params for all recipes

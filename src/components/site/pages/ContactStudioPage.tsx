@@ -19,9 +19,9 @@ const faqItems = [
   'Ən rahat əlaqə forması WhatsApp-dır, lakin email və telefon da aktiv saxlanılır.',
 ];
 
-export default function ContactStudioPage() {
+export default function ContactStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Əlaqə studiyası</SectionLabel>}

@@ -125,7 +125,7 @@ const reasons = [
   },
 ];
 
-export default function ServicesExperience() {
+export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -193,7 +193,7 @@ export default function ServicesExperience() {
   }
 
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Private chef booking studio</SectionLabel>}

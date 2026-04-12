@@ -1,19 +1,97 @@
+# Chef Ilhama - https://chef-ilhama.food
+# Azerbaijani recipe publisher, private chef & catering service
+# Last updated: 2026-04-12
+
+# =====================================================================
+# DEFAULT: Allow all search/retrieval bots
+# =====================================================================
 User-agent: *
 Allow: /
-
-# Optimize crawling
-Crawl-delay: 1
-
-# Sitemap
-Sitemap: https://chef-ilhama.food/sitemap.xml
-
-# Disallow admin and private areas (if any)
 Disallow: /admin/
 Disallow: /api/
 Disallow: /_next/
 Disallow: /private/
 
-# Allow social media crawlers
+# =====================================================================
+# SEARCH ENGINE BOTS - full access
+# =====================================================================
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# =====================================================================
+# AI SEARCH / RETRIEVAL BOTS - allowed for discoverability
+# These bots power search-grounded AI answers (citations, links)
+# =====================================================================
+
+# OpenAI search: powers ChatGPT Search with citations
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic search: powers Claude search/retrieval answers
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity search: powers Perplexity AI answers
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# =====================================================================
+# AI TRAINING BOTS - blocked (opt out of training data)
+# =====================================================================
+
+# Google training data collection
+User-agent: Google-Extended
+Disallow: /
+
+# OpenAI training data crawler
+User-agent: GPTBot
+Disallow: /
+
+# Common crawl / other training-focused crawlers
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+# =====================================================================
+# SOCIAL MEDIA CRAWLERS - allow (for link previews)
+# =====================================================================
+
 User-agent: facebookexternalhit
 Allow: /
 
@@ -22,3 +100,19 @@ Allow: /
 
 User-agent: LinkedInBot
 Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+# =====================================================================
+# SITEMAP
+# =====================================================================
+Sitemap: https://chef-ilhama.food/sitemap.xml
+
+# =====================================================================
+# AI DISCOVERABILITY
+# =====================================================================
+# llms.txt: https://chef-ilhama.food/llms.txt

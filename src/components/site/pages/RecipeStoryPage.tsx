@@ -33,6 +33,7 @@ import { getValidImageUrl } from '@/utils/imageUtils';
 
 interface RecipeStoryPageProps {
   recipe: Recipe;
+  breadcrumbs?: import('@/lib/seo').BreadcrumbItem[];
 }
 
 function getDifficultyTone(difficulty: string) {
@@ -48,7 +49,7 @@ function getDifficultyTone(difficulty: string) {
   }
 }
 
-export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
+export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPageProps) {
   const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(new Set());
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
@@ -110,7 +111,7 @@ export default function RecipeStoryPage({ recipe }: RecipeStoryPageProps) {
   }
 
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={breadcrumbs}>
       <RecipeStructuredData recipe={recipe} />
       <div className="space-y-12 lg:space-y-16">
         <section className="px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10">

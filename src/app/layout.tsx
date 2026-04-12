@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { getWebSiteSchema, getOrganizationSchema, getFoodEstablishmentSchema, getAuthorSchema } from '@/lib/seo';
 import './globals.css';
 
 const manrope = Manrope({
@@ -21,12 +22,17 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: siteConfig.title,
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
+  },
   description: siteConfig.description,
   metadataBase: new URL(siteConfig.url),
   keywords:
-    'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef',
-  authors: [{ name: siteConfig.name }],
+    'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, aşpaz evə, toy yeməkləri, banket aşpazı, azərbaycan mətbəxi, chef İlhamə, aşpaz qiyməti, katerinq Baku, personal chef, Azerbaijani recipes, Azerbaijani cuisine, Baku catering',
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
   robots: {
     index: true,
     follow: true,
@@ -43,6 +49,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     type: 'website',
     locale: 'az_AZ',
+    alternateLocale: 'en_US',
     url: siteConfig.url,
     siteName: siteConfig.name,
     images: [
@@ -62,79 +69,23 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteConfig.url,
+    languages: {
+      'az': siteConfig.url,
+      'en': `${siteConfig.url}/en`,
+    },
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'zG1SbCc5AcmPN4ZgKknvSSmI-n-9WxagwwFsgzU4WHQ',
   },
+  category: 'food',
 };
 
-const businessSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': `${siteConfig.url}/#business`,
-  name: siteConfig.name,
-  description: 'Professional şəxsi aşpaz və katerinq xidməti Bakıda',
-  url: siteConfig.url,
-  telephone: siteConfig.phoneDisplay,
-  email: siteConfig.email,
-  logo: `${siteConfig.url}/ilhama.png`,
-  image: [
-    `${siteConfig.url}/ilhama.png`,
-    `${siteConfig.url}/images/katerinq-1.jpg`,
-    `${siteConfig.url}/images/chef-cooking.jpg`,
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Bakı',
-    addressCountry: 'AZ',
-    addressRegion: 'Bakı şəhəri',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 40.4093,
-    longitude: 49.8671,
-  },
-  areaServed: [
-    { '@type': 'City', name: 'Bakı' },
-    { '@type': 'City', name: 'Sumqayıt' },
-    { '@type': 'AdministrativeArea', name: 'Abşeron rayonu' },
-  ],
-  serviceType: [
-    'Personal Chef Services',
-    'Katerinq Services',
-    'Private Dining',
-    'Event Katerinq',
-    'Corporate Katerinq',
-  ],
-  cuisine: ['Azerbaijani', 'Turkish', 'Middle Eastern', 'International'],
-  priceRange: '$$-$$$',
-  openingHours: 'Mo-Su 08:00-22:00',
-  paymentAccepted: 'Cash, Credit Card, Bank Transfer',
-  currenciesAccepted: 'AZN',
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Chef İlhamə Services',
-    itemListElement: [
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Şəxsi Aşpaz Xidməti',
-          description: 'Professional şəxsi aşpaz evə çağırın',
-        },
-      },
-      {
-        '@type': 'Offer',
-        itemOffered: {
-          '@type': 'Service',
-          name: 'Katerinq Xidməti',
-          description: 'Toy və tədbirlər üçün professional katerinq',
-        },
-      },
-    ],
-  },
-  sameAs: [siteConfig.instagram, siteConfig.facebook, getWhatsAppHref()],
-};
+const siteSchemas = [
+  getWebSiteSchema(),
+  getOrganizationSchema(),
+  { '@context': 'https://schema.org', ...getAuthorSchema() },
+  getFoodEstablishmentSchema(),
+];
 
 const analyticsScript = `
   window.addEventListener('load', function() {
@@ -209,10 +160,13 @@ export default function RootLayout({
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="format-detection" content="telephone=yes" />
         <script dangerouslySetInnerHTML={{ __html: analyticsScript }} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(businessSchema) }}
-        />
+        {siteSchemas.map((schema, i) => (
+          <script
+            key={`schema-${i}`}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
       </head>
       <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
         {children}

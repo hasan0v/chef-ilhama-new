@@ -13,47 +13,118 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.log('Unable to fetch recipes for sitemap (this is expected during local build):', error);
   }
   
-  // Static pages
-  const staticPages = [
+  // Static pages — Azerbaijani
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: new Date('2026-04-12'),
+      changeFrequency: 'weekly',
       priority: 1,
+      alternates: {
+        languages: {
+          az: baseUrl,
+          en: `${baseUrl}/en`,
+        },
+      },
     },
     {
       url: `${baseUrl}/reseptler`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      lastModified: new Date('2026-04-12'),
+      changeFrequency: 'daily',
       priority: 0.9,
+      alternates: {
+        languages: {
+          az: `${baseUrl}/reseptler`,
+          en: `${baseUrl}/en/recipes`,
+        },
+      },
     },
     {
       url: `${baseUrl}/xidmetler`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
       priority: 0.9,
+      alternates: {
+        languages: {
+          az: `${baseUrl}/xidmetler`,
+          en: `${baseUrl}/en/services`,
+        },
+      },
     },
     {
       url: `${baseUrl}/haqqinda`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          az: `${baseUrl}/haqqinda`,
+          en: `${baseUrl}/en/about`,
+        },
+      },
     },
     {
       url: `${baseUrl}/elaqe`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
       priority: 0.8,
+      alternates: {
+        languages: {
+          az: `${baseUrl}/elaqe`,
+          en: `${baseUrl}/en/contact`,
+        },
+      },
     },
   ]
 
-  // Recipe pages
-  const recipePages = recipes.map((recipe: Recipe) => ({
+  // English static pages
+  const enStaticPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/en`,
+      lastModified: new Date('2026-04-12'),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en/recipes`,
+      lastModified: new Date('2026-04-12'),
+      changeFrequency: 'daily',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/services`,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/about`,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/en/contact`,
+      lastModified: new Date('2026-04-01'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+  ]
+
+  // Recipe pages with image sitemap data
+  const recipePages: MetadataRoute.Sitemap = recipes.map((recipe: Recipe) => ({
     url: `${baseUrl}/resept/${recipe.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date('2026-04-12'),
     changeFrequency: 'weekly' as const,
-    priority: 0.7,
+    priority: 0.8,
+    images: recipe.image ? [recipe.image] : undefined,
+    alternates: {
+      languages: {
+        az: `${baseUrl}/resept/${recipe.slug}`,
+        en: `${baseUrl}/en/recipe/${recipe.slug}`,
+      },
+    },
   }))
 
-  return [...staticPages, ...recipePages]
+  return [...staticPages, ...enStaticPages, ...recipePages]
 }

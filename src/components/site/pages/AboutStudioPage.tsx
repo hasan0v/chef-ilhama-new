@@ -54,9 +54,9 @@ const timeline = [
   },
 ];
 
-export default function AboutStudioPage() {
+export default function AboutStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Brand hekayəsi</SectionLabel>}

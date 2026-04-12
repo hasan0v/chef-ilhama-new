@@ -39,6 +39,7 @@ interface RecipeCatalogPageProps {
   initialRecipes: Recipe[];
   categories: string[];
   regions: string[];
+  breadcrumbs?: import('@/lib/seo').BreadcrumbItem[];
 }
 
 const difficulties = ['Asan', 'Orta', 'Çətin'] as const;
@@ -56,7 +57,7 @@ function getDifficultyTone(difficulty: string) {
   }
 }
 
-export default function RecipeCatalogPage({ initialRecipes, categories, regions }: RecipeCatalogPageProps) {
+export default function RecipeCatalogPage({ initialRecipes, categories, regions, breadcrumbs }: RecipeCatalogPageProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -89,7 +90,7 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions 
   }
 
   return (
-    <PageLayout>
+    <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
           eyebrow={<SectionLabel>Resept arxivi</SectionLabel>}
