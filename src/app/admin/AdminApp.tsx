@@ -772,9 +772,9 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
                   </>
                 ) : (
                   <>
-                    <span className="flex-1 text-sm font-medium text-[#241c18]">{item.ad}</span>
+                    <span className="flex-1 text-sm font-medium text-[#241c18]">{tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.ad}` : item.ad}</span>
                     <button
-                      onClick={() => { setEditingId(item.id); setEditVal(item.ad); }}
+                      onClick={() => { setEditingId(item.id); setEditVal(tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.ad}` : item.ad); }}
                       className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]"
                     >Redaktə</button>
                     <button
@@ -839,7 +839,7 @@ export default function AdminApp() {
       setCategoryList((data.categories as { ad: string }[]).map(c => c.ad));
       setCetinlikList((data.cetinlikler as { ad: string }[]).map(c => c.ad));
       setMuddetList((data.muddetler as { ad: string }[]).map(c => c.ad));
-      setPorsiyaList((data.porsiyalar as { ad: string }[]).map(c => c.ad));
+      setPorsiyaList((data.porsiyalar as { ad: string; miqdar?: string | null }[]).map(p => p.miqdar ? `${p.miqdar} ${p.ad}` : p.ad));
     }
   }, []);
 

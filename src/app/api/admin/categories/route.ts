@@ -46,7 +46,18 @@ export async function POST(request: NextRequest) {
       item = await prisma.muddet.create({ data: { ad: val, sira: count } });
     } else if (table === 'porsiya') {
       const count = await prisma.porsiya.count();
-      item = await prisma.porsiya.create({ data: { ad: val, sira: count } });
+      let adVal = val;
+      let miqdarVal = null;
+      const match = val.match(/^([0-9\-+\s½¼¾/]+)?\s*(.*)$/);
+      if (match) {
+        const pm = match[1]?.trim();
+        const pa = match[2]?.trim();
+        if (pm) {
+          miqdarVal = pm;
+          adVal = pa || 'nəfərlik';
+        }
+      }
+      item = await prisma.porsiya.create({ data: { ad: adVal, miqdar: miqdarVal, sira: count } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }

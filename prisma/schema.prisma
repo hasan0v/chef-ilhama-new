@@ -40,7 +40,7 @@ model Recipe {
 }
 
 model Category {
-  id      String   @id @default(uuid()) @db.Uuid
+  id      String   @id @default(uuid())
   ad      String   @unique
   recipes Recipe[]
 
@@ -48,7 +48,7 @@ model Category {
 }
 
 model Mense {
-  id      String   @id @default(uuid()) @db.Uuid
+  id      String   @id @default(uuid())
   ad      String   @unique
   recipes Recipe[]
 
@@ -56,7 +56,7 @@ model Mense {
 }
 
 model Bolge {
-  id      String   @id @default(uuid()) @db.Uuid
+  id      String   @id @default(uuid())
   ad      String   @unique
   recipes Recipe[]
 
@@ -80,11 +80,13 @@ model Muddet {
 }
 
 model Porsiya {
-  id   String @id @default(uuid()) @db.Uuid
-  ad   String @unique
-  sira Int    @default(0)
+  id     String  @id @default(uuid()) @db.Uuid
+  ad     String
+  miqdar String?
+  sira   Int     @default(0)
 
   @@map("porsiyalar")
+  @@unique([ad, miqdar])
 }
 
 model Ingredient {

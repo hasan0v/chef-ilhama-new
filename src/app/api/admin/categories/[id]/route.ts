@@ -30,7 +30,18 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     } else if (table === 'muddet') {
       item = await prisma.muddet.update({ where: { id }, data: { ad: val } });
     } else if (table === 'porsiya') {
-      item = await prisma.porsiya.update({ where: { id }, data: { ad: val } });
+      let adVal = val;
+      let miqdarVal = null;
+      const match = val.match(/^([0-9\-+\s½¼¾/]+)?\s*(.*)$/);
+      if (match) {
+        const pm = match[1]?.trim();
+        const pa = match[2]?.trim();
+        if (pm) {
+          miqdarVal = pm;
+          adVal = pa || 'nəfərlik';
+        }
+      }
+      item = await prisma.porsiya.update({ where: { id }, data: { ad: adVal, miqdar: miqdarVal } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }
