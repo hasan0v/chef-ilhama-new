@@ -18,7 +18,10 @@ const recipeInclude = {
   kateqoriya: true,
   mense: true,
   bolge: true,
-  terkibHisseleri: { orderBy: { sira: 'asc' as const } },
+  terkibHisseleri: { 
+    orderBy: { sira: 'asc' as const },
+    include: { miqdar: true }
+  },
   addimlar: { orderBy: { sira: 'asc' as const } },
   sekiller: true,
 } satisfies Prisma.RecipeInclude
@@ -33,7 +36,12 @@ function transform(r: RecipeWithRelations): Recipe {
     origin: r.mense?.ad ?? '',
     region: r.bolge?.ad ?? '',
     category: r.kateqoriya.ad,
-    ingredients: r.terkibHisseleri.map(i => i.miqdar ? `${i.ad} – ${i.miqdar}` : i.ad),
+    ingredients: r.terkibHisseleri.map(i => {
+      if (i.miqdar) {
+        return i.miqdar.miqdar ? `${i.ad} – ${i.miqdar.miqdar} ${i.miqdar.ad}` : `${i.ad} – ${i.miqdar.ad}`;
+      }
+      return i.ad;
+    }),
     instructions: r.addimlar.map(s => s.metn),
     prepTime: r.hazirlanmaMuddeti,
     difficulty: r.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',

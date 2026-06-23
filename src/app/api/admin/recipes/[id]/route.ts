@@ -24,11 +24,68 @@ async function upsertLookup(
   return r.id;
 }
 
+function parseIngredientString(item: string) {
+  let parts = item.split('–');
+  if (parts.length < 2) {
+    parts = item.split(' - ');
+  }
+  if (parts.length < 2 && item.includes(' -')) {
+    parts = item.split(' -');
+  }
+  if (parts.length < 2 && item.includes('- ')) {
+    parts = item.split('- ');
+  }
+
+  if (parts.length >= 2) {
+    return {
+      ad: parts[0].trim(),
+      miqdarText: parts.slice(1).join('–').trim(),
+    };
+  }
+  return {
+    ad: item.trim(),
+    miqdarText: null,
+  };
+}
+
+async function upsertIngredientQuantity(miqdarText: string): Promise<string> {
+  const trimmed = miqdarText.trim();
+  const match = trimmed.match(/^([0-9\-+\s½¼¾/.,]+)?\s*(.*)$/);
+  let miqdar: string | null = null;
+  let ad = '';
+  if (match) {
+    miqdar = match[1]?.trim() || null;
+    ad = match[2]?.trim() || '';
+  } else {
+    ad = trimmed;
+  }
+  if (!ad) {
+    ad = 'ədəd';
+  }
+
+  const existing = await prisma.ingredientQuantity.findFirst({
+    where: { ad, miqdar },
+  });
+
+  if (existing) {
+    return existing.id;
+  }
+
+  const created = await prisma.ingredientQuantity.create({
+    data: { ad, miqdar },
+  });
+
+  return created.id;
+}
+
 const include = {
   kateqoriya: true,
   mense: true,
   bolge: true,
-  terkibHisseleri: { orderBy: { sira: 'asc' as const } },
+  terkibHisseleri: { 
+    orderBy: { sira: 'asc' as const },
+    include: { miqdar: true }
+  },
   addimlar: { orderBy: { sira: 'asc' as const } },
   sekiller: true,
 } as const;
@@ -38,14 +95,19 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = await verifyAdmin(request);
-  if (!user) return unauthorizedResponse();
+  try {
+    const user = await verifyAdmin(request);
+    if (!user) return unauthorizedResponse();
 
-  const { id } = await params;
-  const recipe = await prisma.recipe.findUnique({ where: { id }, include });
-  if (!recipe) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    const { id } = await params;
+    const recipe = await prisma.recipe.findUnique({ where: { id }, include });
+    if (!recipe) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  return NextResponse.json({ recipe });
+    return NextResponse.json({ recipe });
+  } catch (error) {
+    console.error('GET recipe error:', error);
+    return NextResponse.json({ error: error instanceof Error ? error.message : String(error) }, { status: 500 });
+  }
 }
 
 // PUT update recipe
@@ -78,6 +140,21 @@ export async function PUT(
       ? body.addimlar.filter((s: string) => s.trim())
       : [];
 
+    const ingredientData = [];
+    for (let i = 0; i < ingredients.length; i++) {
+      const item = ingredients[i];
+      const { ad, miqdarText } = parseIngredientString(item);
+      let miqdarId: string | null = null;
+      if (miqdarText) {
+        miqdarId = await upsertIngredientQuantity(miqdarText);
+      }
+      ingredientData.push({
+        ad,
+        miqdarId,
+        sira: i,
+      });
+    }
+
     // Delete existing related rows then re-create
     await prisma.$transaction([
       prisma.ingredient.deleteMany({ where: { recipeId: id } }),
@@ -108,7 +185,7 @@ export async function PUT(
         tarixiMelumat: body.tarixiMelumat || null,
         teqdimTeklifleri: body.teqdimTeklifleri || null,
         featured: body.featured,
-        terkibHisseleri: { create: ingredients.map((ad, i) => ({ ad, sira: i })) },
+        terkibHisseleri: { create: ingredientData },
         addimlar: { create: steps.map((metn, i) => ({ metn, sira: i })) },
       },
       include,

@@ -92,13 +92,25 @@ model Porsiya {
 model Ingredient {
   id       String  @id @default(cuid())
   ad       String
-  miqdar   String?
+  miqdarId String? @db.Uuid
+  miqdar   IngredientQuantity? @relation(fields: [miqdarId], references: [id])
   sira     Int     @default(0)
   recipeId String
   recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
   @@map("ingredients")
   @@index([recipeId])
+  @@index([miqdarId])
+}
+
+model IngredientQuantity {
+  id          String   @id @default(uuid()) @db.Uuid
+  ad          String
+  miqdar      String?
+  ingredients Ingredient[]
+
+  @@map("olculer")
+  @@unique([ad, miqdar])
 }
 
 model Step {

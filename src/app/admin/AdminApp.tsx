@@ -888,7 +888,15 @@ export default function AdminApp() {
 
   async function startEdit(id: string) {
     const res = await fetch(`/api/admin/recipes/${id}`, { headers: authHeaders() });
-    if (!res.ok) return;
+    if (!res.ok) {
+      try {
+        const errData = await res.json();
+        showToast(errData.error || 'Resepti yükləmək mümkün olmadı', 'err');
+      } catch {
+        showToast('Resepti yükləmək mümkün olmadı (Server xətası)', 'err');
+      }
+      return;
+    }
     const { recipe } = await res.json();
     setEditId(id);
     setEditData({
@@ -896,7 +904,9 @@ export default function AdminApp() {
       mense: recipe.mense?.ad || '',
       bolge: recipe.bolge?.ad || '',
       kateqoriya: recipe.kateqoriya.ad,
-      terkibHisseleri: [...(recipe.terkibHisseleri ?? [])].sort((a: {sira:number}, b: {sira:number}) => a.sira - b.sira).map((i: {ad:string}) => i.ad),
+      terkibHisseleri: [...(recipe.terkibHisseleri ?? [])]
+        .sort((a: any, b: any) => a.sira - b.sira)
+        .map((i: any) => i.miqdar ? `${i.ad} – ${i.miqdar.miqdar ? `${i.miqdar.miqdar} ${i.miqdar.ad}` : i.miqdar.ad}` : i.ad),
       addimlar: [...(recipe.addimlar ?? [])].sort((a: {sira:number}, b: {sira:number}) => a.sira - b.sira).map((s: {metn:string}) => s.metn),
       hazirlanmaMuddeti: recipe.hazirlanmaMuddeti,
       cetinlikDerecesi: recipe.cetinlikDerecesi,
