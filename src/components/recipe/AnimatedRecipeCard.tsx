@@ -12,9 +12,10 @@ import { getValidImageUrl } from '@/utils/imageUtils';
 interface AnimatedRecipeCardProps {
   recipe: Recipe;
   index?: number;
+  priority?: boolean;
 }
 
-export default function AnimatedRecipeCard({ recipe, index = 0 }: AnimatedRecipeCardProps) {
+export default function AnimatedRecipeCard({ recipe, index = 0, priority = false }: AnimatedRecipeCardProps) {
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'Asan':
@@ -81,7 +82,10 @@ export default function AnimatedRecipeCard({ recipe, index = 0 }: AnimatedRecipe
                 alt={recipe.name}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                priority={priority}
+                loading={priority ? 'eager' : 'lazy'}
+                quality={85}
               />
             </motion.div>
             

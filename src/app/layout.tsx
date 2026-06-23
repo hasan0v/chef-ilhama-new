@@ -159,6 +159,14 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
         <meta name="format-detection" content="telephone=yes" />
+        {/* DNS prefetch for all external image hosts to reduce LCP latency */}
+        <link rel="dns-prefetch" href="https://axscxlqiwpfxizjgaqsp.supabase.co" />
+        <link rel="preconnect" href="https://axscxlqiwpfxizjgaqsp.supabase.co" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://v3.fal.media" />
+        <link rel="preconnect" href="https://v3.fal.media" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://i.imgur.com" />
+        <link rel="dns-prefetch" href="https://flavorsofbaku.com" />
+        <link rel="dns-prefetch" href="https://azcookbook.com" />
         <script dangerouslySetInnerHTML={{ __html: analyticsScript }} />
         {siteSchemas.map((schema, i) => (
           <script

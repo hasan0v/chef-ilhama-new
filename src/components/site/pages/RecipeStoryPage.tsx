@@ -181,7 +181,9 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                     alt={recipe.name}
                     fill
                     priority
-                    sizes="(max-width: 1024px) 100vw, 52vw"
+                    fetchPriority="high"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 52vw"
+                    quality={90}
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/12 to-transparent" />

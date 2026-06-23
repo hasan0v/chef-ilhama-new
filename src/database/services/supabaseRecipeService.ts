@@ -33,7 +33,7 @@ function transform(r: RecipeWithRelations): Recipe {
     origin: r.mense?.ad ?? '',
     region: r.bolge?.ad ?? '',
     category: r.kateqoriya.ad,
-    ingredients: r.terkibHisseleri.map(i => i.ad),
+    ingredients: r.terkibHisseleri.map(i => i.miqdar ? `${i.ad} – ${i.miqdar}` : i.ad),
     instructions: r.addimlar.map(s => s.metn),
     prepTime: r.hazirlanmaMuddeti,
     difficulty: r.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',

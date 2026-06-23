@@ -1,0 +1,34 @@
+{
+  "name": "perplexity_search",
+  "description": "Search the web and return a ranked list of results with titles, URLs, snippets, and dates. Best for: finding specific URLs, checking recent news, verifying facts, discovering sources. Returns formatted results (title, URL, snippet, date) — no AI synthesis. For AI-generated answers with citations, use perplexity_ask instead.",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Search query string"
+      },
+      "max_results": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 20,
+        "description": "Maximum number of results to return (1-20, default: 10)"
+      },
+      "max_tokens_per_page": {
+        "type": "number",
+        "minimum": 256,
+        "maximum": 2048,
+        "description": "Maximum tokens to extract per webpage (default: 1024)"
+      },
+      "country": {
+        "type": "string",
+        "description": "ISO 3166-1 alpha-2 country code for regional results (e.g., 'US', 'GB')"
+      }
+    },
+    "required": [
+      "query"
+    ],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}

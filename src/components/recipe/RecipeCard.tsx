@@ -12,9 +12,10 @@ import { getValidImageUrl } from '@/utils/imageUtils';
 interface RecipeCardProps {
   recipe: Recipe;
   className?: string;
+  priority?: boolean;
 }
 
-export default function RecipeCard({ recipe, className = '' }: RecipeCardProps) {
+export default function RecipeCard({ recipe, className = '', priority = false }: RecipeCardProps) {
   const [imageError, setImageError] = useState(false);
   
   const getDifficultyColor = (difficulty: string) => {
@@ -46,7 +47,10 @@ export default function RecipeCard({ recipe, className = '' }: RecipeCardProps) 
             alt={recipe.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
+            quality={85}
             onError={() => setImageError(true)}
           />
           {recipe.featured && (

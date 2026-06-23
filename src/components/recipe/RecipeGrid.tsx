@@ -58,7 +58,7 @@ export default function RecipeGrid({ recipes, className = '' }: RecipeGridProps)
       transition={{ duration: 0.5 }}
     >
       {recipes.map((recipe, index) => (
-        <AnimatedRecipeCard key={recipe.id} recipe={recipe} index={index} />
+        <AnimatedRecipeCard key={recipe.id} recipe={recipe} index={index} priority={index < 3} />
       ))}
     </motion.div>
   );
