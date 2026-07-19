@@ -13,6 +13,7 @@ import { nl } from '@/dictionaries/nl';
 import { de } from '@/dictionaries/de';
 import { ja } from '@/dictionaries/ja';
 import { id } from '@/dictionaries/id';
+import { bn } from '@/dictionaries/bn';
 
 export function getDictionary(locale?: string) {
   if (locale === 'en') return en;
@@ -29,5 +30,6 @@ export function getDictionary(locale?: string) {
   if (locale === 'de') return de;
   if (locale === 'ja') return ja;
   if (locale === 'id') return id;
+  if (locale === 'bn') return bn;
   return az;
 }

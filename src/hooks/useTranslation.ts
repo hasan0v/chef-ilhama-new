@@ -16,6 +16,7 @@ import { nl } from '@/dictionaries/nl';
 import { de } from '@/dictionaries/de';
 import { ja } from '@/dictionaries/ja';
 import { id } from '@/dictionaries/id';
+import { bn } from '@/dictionaries/bn';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -60,6 +61,9 @@ export function useTranslation() {
   }
   if (pathname?.startsWith('/id/') || pathname === '/id') {
     return { t: id, locale: 'id' as const };
+  }
+  if (pathname?.startsWith('/bn/') || pathname === '/bn') {
+    return { t: bn, locale: 'bn' as const };
   }
   return { t: az, locale: 'az' as const };
 }

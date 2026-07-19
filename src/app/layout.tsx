@@ -186,6 +186,9 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/id/') === 0 || path === '/id') {
       document.documentElement.lang = 'id';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/bn/') === 0 || path === '/bn') {
+      document.documentElement.lang = 'bn';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;
