@@ -20,6 +20,12 @@ export default function Footer() {
     { name: t.nav.services, href: '/tr/services' },
     { name: t.nav.about, href: '/tr/about' },
     { name: t.nav.contact, href: '/tr/contact' },
+  ] : locale === 'ru' ? [
+    { name: t.nav.home, href: '/ru' },
+    { name: t.nav.recipes, href: '/ru/recipes' },
+    { name: t.nav.services, href: '/ru/services' },
+    { name: t.nav.about, href: '/ru/about' },
+    { name: t.nav.contact, href: '/ru/contact' },
   ] : [
     { name: t.nav.home, href: '/' },
     { name: t.nav.recipes, href: '/reseptler' },
@@ -34,6 +40,9 @@ export default function Footer() {
   ] : locale === 'tr' ? [
     { name: t.nav.privacy, href: '/tr/privacy' },
     { name: t.nav.terms, href: '/tr/terms' },
+  ] : locale === 'ru' ? [
+    { name: t.nav.privacy, href: '/ru/privacy' },
+    { name: t.nav.terms, href: '/ru/terms' },
   ] : [
     { name: t.nav.privacy, href: '/privacy' },
     { name: t.nav.terms, href: '/terms' },
@@ -89,10 +98,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.discover}</h3>
             <ul className="space-y-2">
-              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : locale === 'ru' ? "/ru/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : locale === 'ru' ? "/ru/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : locale === 'ru' ? "/ru/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
             </ul>
           </div>
 
