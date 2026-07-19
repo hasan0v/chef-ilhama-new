@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
-
-const globalForPrisma = globalThis as unknown as { _adminPrisma: PrismaClient | undefined };
-const prisma = globalForPrisma._adminPrisma ?? new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalForPrisma._adminPrisma = prisma;
+import { prisma } from '@/lib/prisma';
 
 function slugify(text: string): string {
   return text

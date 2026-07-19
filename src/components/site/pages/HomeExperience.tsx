@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useEffect } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -28,6 +28,7 @@ import {
 import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
+import { getCategoryStats } from '@/utils/categoryUtils';
 import { useTranslation } from '@/hooks/useTranslation';
 
 interface HomeExperienceProps {
@@ -47,10 +48,20 @@ interface HomeExperienceProps {
   };
 }
 
-export default function HomeExperience({ featuredRecipes, allRecipes, categories, stats }: HomeExperienceProps) {
+function subscribeToMobileViewport(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia('(max-width: 639px)');
+  mediaQuery.addEventListener('change', onStoreChange);
+  return () => mediaQuery.removeEventListener('change', onStoreChange);
+}
+
+function getMobileViewportSnapshot() {
+  return window.matchMedia('(max-width: 639px)').matches;
+}
+
+export default function HomeExperience({ featuredRecipes, allRecipes, stats }: HomeExperienceProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [scrollY, setScrollY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useSyncExternalStore(subscribeToMobileViewport, getMobileViewportSnapshot, () => false);
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
   
@@ -60,35 +71,17 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
   const highlightedRecipes = featuredRecipes.slice(0, 6);
 
   useEffect(() => {
-    setIsMobile(window.innerWidth < 640);
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    window.addEventListener('resize', handleResize, { passive: true });
-    
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
-      window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  const categoryStats = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const recipe of allRecipes) {
-      if (recipe.category) {
-        counts[recipe.category] = (counts[recipe.category] || 0) + 1;
-      }
-    }
-    return categories
-      .map((cat) => ({ name: cat, count: counts[cat] || 0 }))
-      .filter((c) => c.count > 0)
-      .sort((a, b) => b.count - a.count);
-  }, [allRecipes, categories]);
+  const categoryStats = useMemo(() => getCategoryStats(allRecipes), [allRecipes]);
 
   const searchResults = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
@@ -177,6 +170,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder={t.home.searchPlaceholder}
+                  aria-label={t.home.searchPlaceholder}
                   className="h-11 sm:h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0 text-sm"
                 />
                 {searchResults.length > 0 && (
@@ -337,14 +331,14 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {latestRecipes.map((recipe) => (
-                  <Link key={recipe.id} href={getRecipeUrl(recipe.slug)} className="group">
-                    <div className="flex items-center gap-3 rounded-2xl border border-[rgba(98,67,45,0.08)] bg-white/72 p-3 transition-colors hover:bg-white/90">
+                  <Link key={recipe.id} href={getRecipeUrl(recipe.slug)} className="group min-w-0">
+                    <div className="flex min-w-0 items-center gap-3 rounded-2xl border border-[rgba(98,67,45,0.08)] bg-white/72 p-3 transition-colors hover:bg-white/90">
                       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                         <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="64px" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <h3 className="truncate text-sm font-semibold text-foreground text-left">{recipe.name}</h3>
-                        <p className="mt-0.5 text-xs text-[rgba(57,44,35,0.6)] text-left">{recipe.category} · {recipe.prepTime}</p>
+                        <p className="mt-0.5 truncate text-left text-xs text-[rgba(57,44,35,0.6)]">{recipe.category} · {recipe.prepTime}</p>
                       </div>
                     </div>
                   </Link>

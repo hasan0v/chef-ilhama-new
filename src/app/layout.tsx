@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
-import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { siteConfig } from '@/lib/site';
 import { getWebSiteSchema, getOrganizationSchema, getFoodEstablishmentSchema, getAuthorSchema } from '@/lib/seo';
 import LocaleManager from '@/components/layout/LocaleManager';
 import './globals.css';
@@ -199,7 +199,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="az">
+    <html lang="az" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <meta name="theme-color" content="#8d3a24" />

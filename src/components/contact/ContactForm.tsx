@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -9,8 +9,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Send, CheckCircle } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getWhatsAppHref } from '@/lib/site';
 
 type ContactFormData = {
   name: string;
@@ -20,9 +21,7 @@ type ContactFormData = {
 };
 
 export default function ContactForm() {
-  const { t } = useTranslation();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t, locale } = useTranslation();
 
   const contactSchema = useMemo(() => z.object({
     name: z.string().min(2, t.contactForm.valNameError),
@@ -40,38 +39,19 @@ export default function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    console.log('Form data:', data);
-    setIsSubmitted(true);
-    setIsSubmitting(false);
-    reset();
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
-  };
+  const onSubmit = (data: ContactFormData) => {
+    const message = [
+      locale === 'az' ? 'Salam, sayt vasitəsilə əlaqə saxlayıram.' : 'Hello, I am contacting you through the website.',
+      '',
+      `${t.contactForm.formFieldName}: ${data.name}`,
+      `${t.contactForm.formFieldEmail}: ${data.email}`,
+      `${t.contactForm.formFieldSubject}: ${data.subject}`,
+      `${t.contactForm.formFieldMessage}: ${data.message}`,
+    ].join('\n');
 
-  if (isSubmitted) {
-    return (
-      <Card className="border-white/60 bg-[linear-gradient(180deg,rgba(255,255,255,0.88),rgba(237,248,240,0.82))] shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm">
-        <CardContent className="p-8 text-center sm:p-10">
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[rgba(53,84,65,0.12)] text-[rgba(53,84,65,0.96)]">
-            <CheckCircle className="h-8 w-8" />
-          </div>
-          <h3 className="display-title text-4xl text-[rgba(53,84,65,0.96)] mb-2">
-            {t.contactForm.formSuccessTitle}
-          </h3>
-          <p className="mx-auto max-w-md text-sm leading-7 text-[rgba(53,84,65,0.88)] sm:text-base">
-            {t.contactForm.formSuccessDesc}
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
+    window.open(getWhatsAppHref(message), '_blank', 'noopener,noreferrer');
+    reset();
+  };
 
   return (
     <Card className="border-white/60 bg-white/78 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm">
@@ -136,19 +116,9 @@ export default function ContactForm() {
           <Button
             type="submit"
             className="w-full rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)] cursor-pointer"
-            disabled={isSubmitting}
           >
-            {isSubmitting ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                {t.contactForm.formBtnSending}
-              </div>
-            ) : (
-              <div className="flex items-center justify-center">
-                <Send className="h-4 w-4 mr-2" />
-                {t.contactForm.formBtnSend}
-              </div>
-            )}
+            <MessageCircle className="mr-2 h-4 w-4" />
+            {t.contact.contactBtnWhatsApp}
           </Button>
         </form>
       </CardContent>

@@ -5,8 +5,19 @@ import { useState, useEffect, useCallback } from 'react';
 type AdminView = 'list' | 'create' | 'edit';
 type AdminTab = 'reseptler' | 'cedveller';
 type TableTab = 'kateqoriya' | 'mense' | 'bolge' | 'cetinlik' | 'muddet' | 'porsiya';
-interface LookupItem { id: string; ad: string; adEn?: string | null; }
+interface LookupItem { id: string; ad: string; adEn?: string | null; miqdar?: string | null; }
 interface LookupData { categories: LookupItem[]; menseler: LookupItem[]; bolgeler: LookupItem[]; cetinlikler: LookupItem[]; muddetler: LookupItem[]; porsiyalar: LookupItem[]; }
+
+interface AdminIngredient {
+  sira: number;
+  ad: string;
+  adEn?: string | null;
+  miqdar?: {
+    ad: string;
+    adEn?: string | null;
+    miqdar?: string | null;
+  } | null;
+}
 
 interface RecipeListItem {
   id: string;
@@ -124,8 +135,9 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
             <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
           )}
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">E-poçt</label>
+            <label htmlFor="admin-email" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">E-poçt</label>
             <input
+              id="admin-email"
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -135,8 +147,9 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Şifrə</label>
+            <label htmlFor="admin-password" className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.56)]">Şifrə</label>
             <input
+              id="admin-password"
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
@@ -867,18 +880,18 @@ function TableManager({ showToast }: { showToast: (msg: string, type?: 'ok' | 'e
                 ) : (
                   <>
                     <span className="flex-1 text-sm font-medium text-[#241c18]">
-                      {tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.ad}` : item.ad}
+                      {tab === 'porsiya' && item.miqdar ? `${item.miqdar} ${item.ad}` : item.ad}
                       {item.adEn && (
                         <span className="ml-2 text-xs text-[rgba(57,44,35,0.45)]">
-                          ({tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.adEn}` : item.adEn})
+                          ({tab === 'porsiya' && item.miqdar ? `${item.miqdar} ${item.adEn}` : item.adEn})
                         </span>
                       )}
                     </span>
                     <button
                       onClick={() => {
                         setEditingId(item.id);
-                        setEditVal(tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.ad}` : item.ad);
-                        setEditValEn(tab === 'porsiya' && (item as any).miqdar ? `${(item as any).miqdar} ${item.adEn || ''}` : (item.adEn || ''));
+                        setEditVal(tab === 'porsiya' && item.miqdar ? `${item.miqdar} ${item.ad}` : item.ad);
+                        setEditValEn(tab === 'porsiya' && item.miqdar ? `${item.miqdar} ${item.adEn || ''}` : (item.adEn || ''));
                       }}
                       className="rounded-lg bg-[rgba(98,67,45,0.06)] px-3 py-1.5 text-xs font-medium text-[rgba(57,44,35,0.7)] transition hover:bg-[rgba(98,67,45,0.12)]"
                     >Redaktə</button>
@@ -925,7 +938,7 @@ export default function AdminApp() {
         .then(r => { if (r.ok) setAuthed(true); })
         .finally(() => setChecking(false));
     } else {
-      setChecking(false);
+      Promise.resolve().then(() => setChecking(false));
     }
   }, []);
 
@@ -949,6 +962,8 @@ export default function AdminApp() {
   }, []);
 
   useEffect(() => {
+    // Loading remote data when the authenticated session changes is intentional.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (authed) { loadRecipes(); loadCategories(); }
   }, [authed, loadRecipes, loadCategories]);
 
@@ -1013,11 +1028,11 @@ export default function AdminApp() {
       bolgeEn: recipe.bolge?.adEn || '',
       kateqoriya: recipe.kateqoriya.ad,
       terkibHisseleri: [...(recipe.terkibHisseleri ?? [])]
-        .sort((a: any, b: any) => a.sira - b.sira)
-        .map((i: any) => i.miqdar ? `${i.ad} – ${i.miqdar.miqdar ? `${i.miqdar.miqdar} ${i.miqdar.ad}` : i.miqdar.ad}` : i.ad),
+        .sort((a: AdminIngredient, b: AdminIngredient) => a.sira - b.sira)
+        .map((i: AdminIngredient) => i.miqdar ? `${i.ad} – ${i.miqdar.miqdar ? `${i.miqdar.miqdar} ${i.miqdar.ad}` : i.miqdar.ad}` : i.ad),
       terkibHisseleriEn: [...(recipe.terkibHisseleri ?? [])]
-        .sort((a: any, b: any) => a.sira - b.sira)
-        .map((i: any) => {
+        .sort((a: AdminIngredient, b: AdminIngredient) => a.sira - b.sira)
+        .map((i: AdminIngredient) => {
           const adEn = i.adEn || i.ad;
           if (i.miqdar) {
             const qtyEn = i.miqdar.adEn || i.miqdar.ad;

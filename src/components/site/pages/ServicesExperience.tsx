@@ -170,7 +170,7 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
       .filter(Boolean)
       .join('\n');
 
-    window.open(getWhatsAppHref(message), '_blank');
+    window.open(getWhatsAppHref(message), '_blank', 'noopener,noreferrer');
   }
 
   return (

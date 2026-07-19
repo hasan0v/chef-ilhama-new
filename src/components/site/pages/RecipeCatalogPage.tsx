@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import {
   ArrowRight,
   Clock3,
@@ -61,7 +60,6 @@ function getDifficultyTone(difficulty: string) {
 }
 
 export default function RecipeCatalogPage({ initialRecipes, categories, regions, breadcrumbs }: RecipeCatalogPageProps) {
-  const pathname = usePathname();
   const { t, locale } = useTranslation();
   const isEnglish = locale === 'en';
   
@@ -166,10 +164,10 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
                   </SelectContent>
                 </Select>
                 <div className="flex items-center gap-2 rounded-full border border-[rgba(98,67,45,0.1)] bg-white/76 p-1">
-                  <Button type="button" variant={viewMode === 'grid' ? 'default' : 'ghost'} className={`rounded-full ${viewMode === 'grid' ? 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]' : ''}`} onClick={() => setViewMode('grid')}>
+                  <Button type="button" aria-label="Grid view" aria-pressed={viewMode === 'grid'} variant={viewMode === 'grid' ? 'default' : 'ghost'} className={`rounded-full ${viewMode === 'grid' ? 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]' : ''}`} onClick={() => setViewMode('grid')}>
                     <Grid3X3 className="h-4 w-4" />
                   </Button>
-                  <Button type="button" variant={viewMode === 'list' ? 'default' : 'ghost'} className={`rounded-full ${viewMode === 'list' ? 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]' : ''}`} onClick={() => setViewMode('list')}>
+                  <Button type="button" aria-label="List view" aria-pressed={viewMode === 'list'} variant={viewMode === 'list' ? 'default' : 'ghost'} className={`rounded-full ${viewMode === 'list' ? 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]' : ''}`} onClick={() => setViewMode('list')}>
                     <LayoutList className="h-4 w-4" />
                   </Button>
                 </div>

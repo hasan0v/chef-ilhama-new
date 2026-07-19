@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
-
-const globalForPrisma = globalThis as unknown as { _adminPrisma4: PrismaClient | undefined };
-const prisma = globalForPrisma._adminPrisma4 ?? new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalForPrisma._adminPrisma4 = prisma;
+import { prisma } from '@/lib/prisma';
 
 type TableParam = 'kateqoriya' | 'mense' | 'bolge' | 'cetinlik' | 'muddet' | 'porsiya';
 

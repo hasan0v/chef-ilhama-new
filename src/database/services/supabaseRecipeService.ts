@@ -1,17 +1,8 @@
 // Supabase-based Recipe Service for Chef İlhamə - v2 (normalized schema)
-import { PrismaClient, Prisma } from '@prisma/client'
+import { Prisma } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import type { Recipe } from '../../types/recipe'
 import { recipeMatchesCategory } from '../../utils/categoryUtils'
-
-// Singleton Prisma client
-const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined }
-
-const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL,
-  log: process.env.NODE_ENV === 'development' ? ['error'] : ['error'],
-})
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
 
 // Prisma include shape for full recipe
 const recipeInclude = {
@@ -28,28 +19,39 @@ const recipeInclude = {
 
 type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
 
-function getLocalizedField(obj: any, baseField: string, locale?: string): string {
-  if (!obj) return '';
+function getLocalizedField(obj: unknown, baseField: string, locale?: string): string {
+  if (!obj || typeof obj !== 'object') return '';
+  const fields = obj as Record<string, unknown>;
   const isAz = !locale || locale === 'az';
-  if (isAz) return obj[baseField] ?? '';
+  if (isAz) return typeof fields[baseField] === 'string' ? fields[baseField] : '';
 
   // E.g. yemeyinAdi -> yemeyinAdi + Locale (capitalized: En, Ru, Tr, etc.)
   const capLocale = locale.charAt(0).toUpperCase() + locale.slice(1);
   const localizedKey = `${baseField}${capLocale}`;
 
   // If the localized field exists and is not empty, use it
-  if (obj[localizedKey] !== undefined && obj[localizedKey] !== null && obj[localizedKey] !== '') {
-    return obj[localizedKey];
+  if (typeof fields[localizedKey] === 'string' && fields[localizedKey] !== '') {
+    return fields[localizedKey];
   }
 
   // Fallback to English (En suffix)
   const enKey = `${baseField}En`;
-  if (obj[enKey] !== undefined && obj[enKey] !== null && obj[enKey] !== '') {
-    return obj[enKey];
+  if (typeof fields[enKey] === 'string' && fields[enKey] !== '') {
+    return fields[enKey];
   }
 
   // Fallback to Azerbaijani (base field)
-  return obj[baseField] ?? '';
+  return typeof fields[baseField] === 'string' ? fields[baseField] : '';
+}
+
+const recipeDifficulties = new Set<Recipe['difficulty']>([
+  'Asan', 'Orta', 'Çətin', 'Easy', 'Medium', 'Hard',
+])
+
+function getDifficulty(value: string): Recipe['difficulty'] {
+  return recipeDifficulties.has(value as Recipe['difficulty'])
+    ? value as Recipe['difficulty']
+    : 'Orta'
 }
 
 function transform(r: RecipeWithRelations, locale?: string): Recipe {
@@ -71,7 +73,7 @@ function transform(r: RecipeWithRelations, locale?: string): Recipe {
     }),
     instructions: r.addimlar.map(s => getLocalizedField(s, 'metn', locale)),
     prepTime: getLocalizedField(r, 'hazirlanmaMuddeti', locale),
-    difficulty: getLocalizedField(r, 'cetinlikDerecesi', locale) as any,
+    difficulty: getDifficulty(getLocalizedField(r, 'cetinlikDerecesi', locale)),
     servings: getLocalizedField(r, 'porsiyaSayi', locale),
     history: getLocalizedField(r, 'tarixiMelumat', locale),
     servingSuggestions: getLocalizedField(r, 'teqdimTeklifleri', locale),

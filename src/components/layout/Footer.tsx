@@ -181,10 +181,10 @@ export default function Footer() {
               ))}
             </div>
             <div className="flex gap-3">
-              <a href={siteConfig.instagram} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
+              <a href={siteConfig.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
+              <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
                 <Phone className="h-4 w-4" />
               </a>
             </div>

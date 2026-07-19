@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 type Align = "left" | "center";
+type HeadingTag = "h1" | "h2";
 
 export function SectionLabel({
   children,
@@ -31,6 +32,7 @@ export function SectionHeading({
   description,
   actions,
   align = "left",
+  as = "h2",
   className,
 }: {
   eyebrow?: ReactNode;
@@ -38,17 +40,19 @@ export function SectionHeading({
   description?: ReactNode;
   actions?: ReactNode;
   align?: Align;
+  as?: HeadingTag;
   className?: string;
 }) {
   const alignedCenter = align === "center";
+  const Heading = as;
 
   return (
     <div className={cn("space-y-5", alignedCenter && "mx-auto text-center", className)}>
       {eyebrow ? <div>{eyebrow}</div> : null}
       <div className={cn("space-y-4", alignedCenter && "mx-auto max-w-3xl") }>
-        <h2 className="display-title text-4xl text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] text-foreground">
+        <Heading className="display-title text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] text-foreground">
           {title}
-        </h2>
+        </Heading>
         {description ? (
           <p className="max-w-2xl text-base leading-8 text-[rgba(55,43,36,0.78)] sm:text-lg">
             {description}
@@ -142,21 +146,21 @@ export function PageHero({
     <section className={cn("px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10", className)}>
       <div className="mx-auto max-w-7xl">
         <EditorialPanel className="mesh-surface px-6 py-10 sm:px-10 sm:py-14 lg:px-14 lg:py-18">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] lg:items-start">
+          <div className={cn(aside ? "grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] lg:items-start" : "space-y-8")}>
             <div className="space-y-8">
-              <SectionHeading eyebrow={eyebrow} title={title} description={description} actions={actions} />
+              <SectionHeading as="h1" eyebrow={eyebrow} title={title} description={description} actions={actions} className={aside ? undefined : "max-w-5xl"} />
               {stats?.length ? (
-                <div className="grid gap-4 sm:grid-cols-3">
+                <div className={cn("grid grid-cols-3 gap-2 sm:gap-4", !aside && "max-w-4xl")}>
                   {stats.map((item) => (
-                    <div key={`${item.label}`} className="rounded-[1.6rem] border border-white/60 bg-white/62 px-5 py-4 shadow-[0_18px_48px_rgba(52,34,22,0.08)] backdrop-blur-sm">
-                      <div className="text-3xl font-semibold tracking-[-0.05em] text-[rgba(83,46,28,0.96)]">{item.value}</div>
-                      <div className="mt-2 text-xs font-medium uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{item.label}</div>
+                    <div key={`${item.label}`} className="min-w-0 rounded-[1.25rem] border border-white/60 bg-white/62 px-3 py-4 shadow-[0_18px_48px_rgba(52,34,22,0.08)] backdrop-blur-sm sm:rounded-[1.6rem] sm:px-5">
+                      <div className="text-2xl font-semibold tracking-[-0.05em] text-[rgba(83,46,28,0.96)] sm:text-3xl">{item.value}</div>
+                      <div className="mt-2 break-words text-[9px] font-medium uppercase tracking-[0.12em] text-[rgba(112,83,59,0.72)] sm:text-xs sm:tracking-[0.24em]">{item.label}</div>
                     </div>
                   ))}
                 </div>
               ) : null}
             </div>
-            <div className="flex h-full flex-col justify-end">{aside}</div>
+            {aside ? <div className="flex h-full min-w-0 flex-col justify-end">{aside}</div> : null}
           </div>
         </EditorialPanel>
       </div>

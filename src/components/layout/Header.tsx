@@ -121,23 +121,14 @@ export default function Header() {
                  pathname === '/id' || 
                  pathname === '/bn';
 
-  const [showNavbar, setShowNavbar] = useState(!isHome);
+  const [isHomeScrolled, setIsHomeScrolled] = useState(false);
+  const showNavbar = !isHome || isHomeScrolled;
 
   useEffect(() => {
-    if (!isHome) {
-      setShowNavbar(true);
-      return;
-    }
-    
-    // Set initial scroll value
-    setShowNavbar(window.scrollY > 80);
+    if (!isHome) return;
 
     const handleScroll = () => {
-      if (window.scrollY > 80) {
-        setShowNavbar(true);
-      } else {
-        setShowNavbar(false);
-      }
+      setIsHomeScrolled(window.scrollY > 80);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -290,7 +281,7 @@ export default function Header() {
             </div>
             <div>
               <div className={`display-title text-xl sm:text-2xl lg:text-3xl leading-none transition-colors duration-300 ${isHome && !showNavbar ? 'text-white' : 'text-foreground'}`}>{siteConfig.name}</div>
-              <div className={`mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] transition-colors duration-300 ${isHome && !showNavbar ? 'text-white/60' : 'text-white/45'}`}>
+              <div className={`mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] transition-colors duration-300 ${isHome && !showNavbar ? 'text-white/60' : 'text-[rgba(112,83,59,0.68)]'}`}>
                 {t.header.recipesSub}
               </div>
             </div>
@@ -345,6 +336,9 @@ export default function Header() {
                   e.stopPropagation();
                   setIsLangOpen(!isLangOpen);
                 }}
+                aria-label="Choose language"
+                aria-haspopup="menu"
+                aria-expanded={isLangOpen}
                 className={`h-10 rounded-full px-4 text-sm font-semibold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 ${
                   isHome && !showNavbar
                     ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
@@ -402,7 +396,10 @@ export default function Header() {
                   e.stopPropagation();
                   setIsMobileLangOpen(!isMobileLangOpen);
                 }}
-                className={`h-8 rounded-full px-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-300 ${
+                aria-label="Choose language"
+                aria-haspopup="menu"
+                aria-expanded={isMobileLangOpen}
+                className={`h-10 rounded-full px-3 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-300 ${
                   isHome && !showNavbar
                     ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
                     : 'border-[rgba(98,67,45,0.12)] bg-white/70 text-[rgba(57,44,35,0.82)] hover:bg-white'
@@ -451,9 +448,10 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className={`rounded-full transition-colors duration-300 ${isHome && !showNavbar ? 'text-white hover:bg-white/10' : 'text-foreground hover:bg-black/5'}`}
+              className={`h-10 w-10 rounded-full transition-colors duration-300 ${isHome && !showNavbar ? 'text-white hover:bg-white/10' : 'text-foreground hover:bg-black/5'}`}
               onClick={() => setIsMenuOpen((value) => !value)}
               aria-label={isMenuOpen ? t.header.mobileMenuClose : t.header.mobileMenuOpen}
+              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>

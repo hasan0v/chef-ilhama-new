@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getRecipeBySlug, getRecipes } from '@/lib/recipes';
+import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
 
@@ -8,12 +8,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const recipes = await getRecipes('nl');
-  return recipes.map((recipe) => ({
-    slug: recipe.slug,
-  }));
-}
+export const revalidate = 300;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

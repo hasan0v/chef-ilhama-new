@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
-
-const globalForPrisma = globalThis as unknown as { _adminPrisma3: PrismaClient | undefined };
-const prisma = globalForPrisma._adminPrisma3 ?? new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalForPrisma._adminPrisma3 = prisma;
+import { prisma } from '@/lib/prisma';
 
 export async function GET(request: NextRequest) {
   const user = await verifyAdmin(request);

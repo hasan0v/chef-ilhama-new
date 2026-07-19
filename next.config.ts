@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-slot', 'react-dom'],
     webpackBuildWorker: true,
+    // This project prerenders hundreds of database-backed locale pages. Running
+    // them serially prevents build workers from exhausting Supabase's pooler.
+    staticGenerationMaxConcurrency: 2,
+    staticGenerationMinPagesPerWorker: 1000,
   },
   
   // External packages for server components

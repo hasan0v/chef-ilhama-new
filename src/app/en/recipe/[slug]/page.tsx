@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getRecipeBySlug, getRecipes } from '@/lib/recipes';
+import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import type { Metadata } from 'next';
 
@@ -90,15 +90,4 @@ export default async function EnglishRecipePage({ params }: RecipePageProps) {
   ]} />;
 }
 
-export async function generateStaticParams() {
-  try {
-    const recipes = await getRecipes('en');
-    return recipes.map((recipe) => ({ slug: recipe.slug }));
-  } catch (error) {
-    console.log('Unable to fetch recipes during build (this is expected locally):', error);
-    return [];
-  }
-}
-
-export const dynamic = 'force-dynamic';
 export const revalidate = 300;
