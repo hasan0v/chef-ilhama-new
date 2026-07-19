@@ -4,6 +4,7 @@ import { tr } from '@/dictionaries/tr';
 import { ru } from '@/dictionaries/ru';
 import { fr } from '@/dictionaries/fr';
 import { it } from '@/dictionaries/it';
+import { ar } from '@/dictionaries/ar';
 
 export function getDictionary(locale?: string) {
   if (locale === 'en') return en;
@@ -11,5 +12,6 @@ export function getDictionary(locale?: string) {
   if (locale === 'ru') return ru;
   if (locale === 'fr') return fr;
   if (locale === 'it') return it;
+  if (locale === 'ar') return ar;
   return az;
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { getWebSiteSchema, getOrganizationSchema, getFoodEstablishmentSchema, getAuthorSchema } from '@/lib/seo';
+import LocaleManager from '@/components/layout/LocaleManager';
 import './globals.css';
 
 const manrope = Manrope({
@@ -140,6 +141,31 @@ const serviceWorkerScript = `
   }
 `;
 
+const htmlLocaleScript = `
+  (function() {
+    var path = window.location.pathname;
+    if (path.indexOf('/ar/') === 0 || path === '/ar') {
+      document.documentElement.lang = 'ar';
+      document.documentElement.dir = 'rtl';
+    } else if (path.indexOf('/en/') === 0 || path === '/en') {
+      document.documentElement.lang = 'en';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/tr/') === 0 || path === '/tr') {
+      document.documentElement.lang = 'tr';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/ru/') === 0 || path === '/ru') {
+      document.documentElement.lang = 'ru';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/fr/') === 0 || path === '/fr') {
+      document.documentElement.lang = 'fr';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/it/') === 0 || path === '/it') {
+      document.documentElement.lang = 'it';
+      document.documentElement.dir = 'ltr';
+    }
+  })();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -167,6 +193,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://i.imgur.com" />
         <link rel="dns-prefetch" href="https://flavorsofbaku.com" />
         <link rel="dns-prefetch" href="https://azcookbook.com" />
+        <script dangerouslySetInnerHTML={{ __html: htmlLocaleScript }} />
         <script dangerouslySetInnerHTML={{ __html: analyticsScript }} />
         {siteSchemas.map((schema, i) => (
           <script
@@ -177,6 +204,7 @@ export default function RootLayout({
         ))}
       </head>
       <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
+        <LocaleManager />
         {children}
         <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />
       </body>

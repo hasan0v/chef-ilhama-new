@@ -7,6 +7,7 @@ import { tr } from '@/dictionaries/tr';
 import { ru } from '@/dictionaries/ru';
 import { fr } from '@/dictionaries/fr';
 import { it } from '@/dictionaries/it';
+import { ar } from '@/dictionaries/ar';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -24,6 +25,9 @@ export function useTranslation() {
   }
   if (pathname?.startsWith('/it/') || pathname === '/it') {
     return { t: it, locale: 'it' as const };
+  }
+  if (pathname?.startsWith('/ar/') || pathname === '/ar') {
+    return { t: ar, locale: 'ar' as const };
   }
   return { t: az, locale: 'az' as const };
 }
