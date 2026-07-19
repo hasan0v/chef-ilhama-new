@@ -1,8 +1,36 @@
+'use client';
+
 import Link from 'next/link';
 import { ChefHat, Instagram, Mail, MapPin, Phone } from 'lucide-react';
-import { getWhatsAppHref, legalNavigation, mainNavigation, siteConfig } from '@/lib/site';
+import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Footer() {
+  const { t, locale } = useTranslation();
+  const isEn = locale === 'en';
+
+  const navigation = isEn ? [
+    { name: t.nav.home, href: '/en' },
+    { name: t.nav.recipes, href: '/en/recipes' },
+    { name: t.nav.services, href: '/en/services' },
+    { name: t.nav.about, href: '/en/about' },
+    { name: t.nav.contact, href: '/en/contact' },
+  ] : [
+    { name: t.nav.home, href: '/' },
+    { name: t.nav.recipes, href: '/reseptler' },
+    { name: t.nav.services, href: '/xidmetler' },
+    { name: t.nav.about, href: '/haqqinda' },
+    { name: t.nav.contact, href: '/elaqe' },
+  ];
+
+  const legalNav = isEn ? [
+    { name: t.nav.privacy, href: '/en/privacy' },
+    { name: t.nav.terms, href: '/en/terms' },
+  ] : [
+    { name: t.nav.privacy, href: '/privacy' },
+    { name: t.nav.terms, href: '/terms' },
+  ];
+
   return (
     <footer className="px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pb-8 lg:pt-14">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.25rem] sm:rounded-[2.2rem] border border-[rgba(98,67,45,0.1)] bg-[linear-gradient(135deg,rgba(34,27,23,0.98),rgba(59,40,28,0.96))] text-white shadow-[0_28px_90px_rgba(26,18,12,0.34)]">
@@ -13,17 +41,19 @@ export default function Footer() {
                 <ChefHat className="h-6 w-6" />
               </div>
               <div>
-                <div className="display-title text-2xl sm:text-3xl leading-none text-white">Chef İlhamə</div>
-                <div className="mt-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-white/45">Resept kollesiyasi</div>
+                <div className="display-title text-2xl sm:text-3xl leading-none text-white">{siteConfig.name}</div>
+                <div className="mt-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-white/45">
+                  {t.footer.recipesSub}
+                </div>
               </div>
             </div>
             <p className="max-w-md text-sm leading-7 text-white/68 sm:text-base">
-              Azərbaycan mətbəxinin bölgəvi dadlarını reseptlərlə kəşf edin. Catering və şəxsi aşpaz xidmətləri.
+              {t.footer.description}
             </p>
             <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-              <span>Reseptlər</span>
-              <span>Azərbaycan mətbəxi</span>
-              <span>Bölgəvi dadlar</span>
+              {t.footer.tags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </div>
             <div className="flex gap-3">
               <a href={siteConfig.instagram} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/72 transition-colors hover:bg-white/10 hover:text-white">
@@ -36,9 +66,9 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Naviqasiya</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.navigation}</h3>
             <ul className="space-y-2">
-              {mainNavigation.map((link) => (
+              {navigation.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">
                     {link.name}
@@ -49,17 +79,17 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Kəşf edin</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.discover}</h3>
             <ul className="space-y-2">
-              <li><Link href="/reseptler" className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">Bütün reseptlər</Link></li>
-              <li><Link href="/haqqinda" className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">Chef İlhamə haqqinda</Link></li>
-              <li><Link href="/xidmetler" className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">Xidmətlər</Link></li>
-              <li><Link href="/elaqe" className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">Əlaqə</Link></li>
+              <li><Link href={isEn ? "/en/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
+              <li><Link href={isEn ? "/en/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
+              <li><Link href={isEn ? "/en/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
+              <li><Link href={isEn ? "/en/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
             </ul>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">Əlaqə</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.contact}</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <Mail className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
@@ -75,11 +105,13 @@ export default function Footer() {
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
-                <span className="text-sm text-white/68 sm:text-base">{siteConfig.serviceAreas.join(', ')}</span>
+                <span className="text-sm text-white/68 sm:text-base">
+                  {siteConfig.serviceAreas.map(area => area === 'Bakı' && isEn ? 'Baku' : area).join(', ')}
+                </span>
               </div>
               <div className="pt-3">
                 <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[rgba(34,27,23,0.94)] transition-transform duration-200 hover:-translate-y-0.5">
-                  WhatsApp ilə danış
+                  {t.footer.chatWhatsAppBtn}
                 </a>
               </div>
             </div>
@@ -89,10 +121,10 @@ export default function Footer() {
         <div className="border-t border-white/10 px-6 py-5 sm:px-8 lg:px-12">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <p className="text-sm text-white/45">
-              © {new Date().getFullYear()} Chef İlhamə. Bütün hüquqlar qorunur.
+              {t.footer.copyright.replace('{year}', new Date().getFullYear().toString())}
             </p>
             <div className="flex flex-wrap gap-5">
-              {legalNavigation.map((link) => (
+              {legalNav.map((link) => (
                 <Link key={link.href} href={link.href} className="text-sm text-white/45 transition-colors hover:text-white/82">
                   {link.name}
                 </Link>

@@ -9,7 +9,7 @@ export interface Recipe {
   ingredients: string[]; // Tərkib hissələri (parsed from text)
   instructions: string[]; // Hazırlanma qaydası (parsed from text)
   prepTime: string; // Hazırlanma müddəti
-  difficulty: 'Asan' | 'Orta' | 'Çətin'; // Çətinlik dərəcəsi
+  difficulty: 'Asan' | 'Orta' | 'Çətin' | 'Easy' | 'Medium' | 'Hard'; // Çətinlik dərəcəsi
   servings: string; // Porsiya sayı
   history: string; // Tarixi məlumat/Arxa plan
   servingSuggestions: string; // Təqdim təklifləri

@@ -2,48 +2,51 @@ import { Recipe } from '@/types/recipe';
 import { recipeService } from '@/database/services';
 
 // Cache recipes for 5 minutes
-let recipesCache: { data: Recipe[]; timestamp: number } | null = null;
+// Cache recipes by locale
+const recipesCache = new Map<string, { data: Recipe[]; timestamp: number }>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-export async function getRecipes(): Promise<Recipe[]> {
+export async function getRecipes(locale?: string): Promise<Recipe[]> {
   try {
-    // Check cache first
-    if (recipesCache && Date.now() - recipesCache.timestamp < CACHE_DURATION) {
-      return recipesCache.data;
+    const lang = locale || 'az';
+    const cached = recipesCache.get(lang);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return cached.data;
     }
     
-    const result = await recipeService.getAllRecipes();
+    const result = await recipeService.getAllRecipes({ locale: lang });
     
     // Update cache
-    recipesCache = {
+    recipesCache.set(lang, {
       data: result.recipes,
       timestamp: Date.now()
-    };
+    });
     
     return result.recipes;
   } catch (error) {
     console.error('Error loading recipes:', error);
-    return recipesCache?.data || [];
+    return recipesCache.get(locale || 'az')?.data || [];
   }
 }
 
-// Cache individual recipes for 10 minutes
+// Cache individual recipes by locale + slug
 const recipeBySlugCache = new Map<string, { data: Recipe; timestamp: number }>();
 const RECIPE_BY_SLUG_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
-export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
+export async function getRecipeBySlug(slug: string, locale?: string): Promise<Recipe | null> {
   try {
-    // Check cache first
-    const cached = recipeBySlugCache.get(slug);
+    const lang = locale || 'az';
+    const key = `${lang}:${slug}`;
+    const cached = recipeBySlugCache.get(key);
     if (cached && Date.now() - cached.timestamp < RECIPE_BY_SLUG_CACHE_DURATION) {
       return cached.data;
     }
     
-    const recipe = await recipeService.getRecipeBySlug(slug);
+    const recipe = await recipeService.getRecipeBySlug(slug, lang);
     
     if (recipe) {
       // Update cache
-      recipeBySlugCache.set(slug, {
+      recipeBySlugCache.set(key, {
         data: recipe,
         timestamp: Date.now()
       });
@@ -52,126 +55,130 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
     return recipe;
   } catch (error) {
     console.error('Error getting recipe by slug:', error);
-    // Try to return from cache even if expired
-    const cached = recipeBySlugCache.get(slug);
-    return cached?.data || null;
+    const key = `${locale || 'az'}:${slug}`;
+    return recipeBySlugCache.get(key)?.data || null;
   }
 }
 
-// Cache featured recipes for 10 minutes
-let featuredCache: { data: Recipe[]; timestamp: number } | null = null;
+// Cache featured recipes by locale
+const featuredCache = new Map<string, { data: Recipe[]; timestamp: number }>();
 const FEATURED_CACHE_DURATION = 10 * 60 * 1000; // 10 minutes
 
-export async function getFeaturedRecipes(): Promise<Recipe[]> {
+export async function getFeaturedRecipes(locale?: string): Promise<Recipe[]> {
   try {
-    // Check cache first
-    if (featuredCache && Date.now() - featuredCache.timestamp < FEATURED_CACHE_DURATION) {
-      return featuredCache.data;
+    const lang = locale || 'az';
+    const cached = featuredCache.get(lang);
+    if (cached && Date.now() - cached.timestamp < FEATURED_CACHE_DURATION) {
+      return cached.data;
     }
     
-    const recipes = await recipeService.getFeaturedRecipes();
+    const recipes = await recipeService.getFeaturedRecipes(6, lang);
     
     // Update cache
-    featuredCache = {
+    featuredCache.set(lang, {
       data: recipes,
       timestamp: Date.now()
-    };
+    });
     
     return recipes;
   } catch (error) {
     console.error('Error getting featured recipes:', error);
-    return featuredCache?.data || [];
+    return featuredCache.get(locale || 'az')?.data || [];
   }
 }
 
-export async function getRecipesByCategory(category: string): Promise<Recipe[]> {
+export async function getRecipesByCategory(category: string, locale?: string): Promise<Recipe[]> {
   try {
-    return await recipeService.getRecipesByCategory(category);
+    return await recipeService.getRecipesByCategory(category, 10, locale);
   } catch (error) {
     console.error('Error getting recipes by category:', error);
     return [];
   }
 }
 
-export async function getRecipesByRegion(region: string): Promise<Recipe[]> {
+export async function getRecipesByRegion(region: string, locale?: string): Promise<Recipe[]> {
   try {
-    return await recipeService.getRecipesByRegion(region);
+    return await recipeService.getRecipesByRegion(region, 10, locale);
   } catch (error) {
     console.error('Error getting recipes by region:', error);
     return [];
   }
 }
 
-// Cache categories for 20 minutes
-let categoriesCache: { data: string[]; timestamp: number } | null = null;
+// Cache categories by locale
+const categoriesCache = new Map<string, { data: string[]; timestamp: number }>();
 const CATEGORIES_CACHE_DURATION = 20 * 60 * 1000; // 20 minutes
 
 // Get unique categories
-export async function getCategories(): Promise<string[]> {
+export async function getCategories(locale?: string): Promise<string[]> {
   try {
-    // Check cache first
-    if (categoriesCache && Date.now() - categoriesCache.timestamp < CATEGORIES_CACHE_DURATION) {
-      return categoriesCache.data;
+    const lang = locale || 'az';
+    const cached = categoriesCache.get(lang);
+    if (cached && Date.now() - cached.timestamp < CATEGORIES_CACHE_DURATION) {
+      return cached.data;
     }
     
-    const categories = await recipeService.getCategories();
+    const categories = await recipeService.getCategories(lang);
     
     // Update cache
-    categoriesCache = {
+    categoriesCache.set(lang, {
       data: categories,
       timestamp: Date.now()
-    };
+    });
     
     return categories;
   } catch (error) {
     console.error('Error getting categories:', error);
-    return categoriesCache?.data || [];
+    return categoriesCache.get(locale || 'az')?.data || [];
   }
 }
 
-// Cache regions for 20 minutes
-let regionsCache: { data: string[]; timestamp: number } | null = null;
+// Cache regions by locale
+const regionsCache = new Map<string, { data: string[]; timestamp: number }>();
 const REGIONS_CACHE_DURATION = 20 * 60 * 1000; // 20 minutes
 
 // Get unique regions
-export async function getRegions(): Promise<string[]> {
+export async function getRegions(locale?: string): Promise<string[]> {
   try {
-    // Check cache first
-    if (regionsCache && Date.now() - regionsCache.timestamp < REGIONS_CACHE_DURATION) {
-      return regionsCache.data;
+    const lang = locale || 'az';
+    const cached = regionsCache.get(lang);
+    if (cached && Date.now() - cached.timestamp < REGIONS_CACHE_DURATION) {
+      return cached.data;
     }
     
-    const regions = await recipeService.getRegions();
+    const regions = await recipeService.getRegions(lang);
     
     // Update cache
-    regionsCache = {
+    regionsCache.set(lang, {
       data: regions,
       timestamp: Date.now()
-    };
+    });
     
     return regions;
   } catch (error) {
     console.error('Error getting regions:', error);
-    return regionsCache?.data || [];
+    return regionsCache.get(locale || 'az')?.data || [];
   }
 }
 
 // Get recipe statistics - optimized single-pass
-export async function getRecipeStats() {
+export async function getRecipeStats(locale?: string) {
   try {
+    const lang = locale || 'az';
     const [stats, categories, regions, allRecipes] = await Promise.all([
       recipeService.getStats(),
-      recipeService.getCategories(),
-      recipeService.getRegions(),
-      getRecipes() // Uses cached data
+      recipeService.getCategories(lang),
+      recipeService.getRegions(lang),
+      getRecipes(lang) // Uses cached data
     ]);
     
     // Single pass for difficulty breakdown
     const difficultyBreakdown = { easy: 0, medium: 0, hard: 0 };
     for (const r of allRecipes) {
-      if (r.difficulty === 'Asan') difficultyBreakdown.easy++;
-      else if (r.difficulty === 'Orta') difficultyBreakdown.medium++;
-      else if (r.difficulty === 'Çətin') difficultyBreakdown.hard++;
+      const diff = r.difficulty;
+      if (diff === 'Asan' || diff === 'Easy') difficultyBreakdown.easy++;
+      else if (diff === 'Orta' || diff === 'Medium') difficultyBreakdown.medium++;
+      else if (diff === 'Çətin' || diff === 'Hard') difficultyBreakdown.hard++;
     }
     
     return {
@@ -198,9 +205,9 @@ export async function getRecipeStats() {
 }
 
 // Search recipes
-export async function searchRecipes(query: string): Promise<Recipe[]> {
+export async function searchRecipes(query: string, locale?: string): Promise<Recipe[]> {
   try {
-    return await recipeService.searchRecipes(query);
+    return await recipeService.searchRecipes(query, 20, locale);
   } catch (error) {
     console.error('Error searching recipes:', error);
     return [];
@@ -226,9 +233,9 @@ export function preloadCriticalResources() {
 
 // Clear all caches (useful for development or when data updates)
 export function clearAllCaches() {
-  recipesCache = null;
-  featuredCache = null;
-  categoriesCache = null;
-  regionsCache = null;
+  recipesCache.clear();
+  featuredCache.clear();
+  categoriesCache.clear();
+  regionsCache.clear();
   recipeBySlugCache.clear();
 }

@@ -27,6 +27,7 @@ import {
 import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface HomeExperienceProps {
   featuredRecipes: Recipe[];
@@ -47,6 +48,12 @@ interface HomeExperienceProps {
 
 export default function HomeExperience({ featuredRecipes, allRecipes, categories, stats }: HomeExperienceProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const { t, locale } = useTranslation();
+  const isEn = locale === 'en';
+  
+  const getRecipeUrl = (slug: string) => isEn ? `/en/recipe/${slug}` : `/resept/${slug}`;
+  const getRecipesUrl = () => isEn ? `/en/recipes` : `/reseptler`;
+  
   const highlightedRecipes = featuredRecipes.slice(0, 6);
 
   const categoryStats = useMemo(() => {
@@ -89,12 +96,12 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
           <div className="mx-auto max-w-7xl">
             <EditorialPanel className="mesh-surface px-5 py-8 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
               <div className="mx-auto max-w-3xl space-y-6 text-center">
-                <SectionLabel>Azərbaycan mətbəxi reseptləri</SectionLabel>
-                <h1 className="display-title text-[clamp(2.2rem,6vw,5rem)] leading-[0.94] text-foreground">
-                  Dadlı reseptləri<br />kəşf edin və bişirin.
+                <SectionLabel>{t.home.subtitle}</SectionLabel>
+                <h1 className="display-title text-[clamp(2.2rem,6vw,5rem)] leading-[0.94] text-foreground whitespace-pre-line">
+                  {t.home.title}
                 </h1>
                 <p className="mx-auto max-w-xl text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base sm:leading-8">
-                  Chef İlhamənin seçilmiş Azərbaycan mətbəxi reseptləri — bölgə, kateqoriya və çətinliyə görə axtarın.
+                  {t.home.description}
                 </p>
 
                 {/* Search bar */}
@@ -103,7 +110,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                   <Input
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Resept, bölgə və ya kateqoriya axtarın..."
+                    placeholder={t.home.searchPlaceholder}
                     className="h-12 rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 pl-11 pr-4 shadow-sm"
                   />
                   {searchResults.length > 0 && (
@@ -111,7 +118,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                       {searchResults.map((recipe) => (
                         <Link
                           key={recipe.id}
-                          href={`/resept/${recipe.slug}`}
+                          href={getRecipeUrl(recipe.slug)}
                           className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-[rgba(247,239,226,0.7)]"
                           onClick={() => setSearchTerm('')}
                         >
@@ -119,17 +126,17 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                             <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="40px" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <div className="truncate text-sm font-semibold text-foreground">{recipe.name}</div>
-                            <div className="text-xs text-[rgba(57,44,35,0.6)]">{recipe.category} · {recipe.origin}</div>
+                            <div className="truncate text-sm font-semibold text-foreground text-left">{recipe.name}</div>
+                            <div className="text-xs text-[rgba(57,44,35,0.6)] text-left">{recipe.category} · {recipe.origin}</div>
                           </div>
                         </Link>
                       ))}
                       <Link
-                        href="/reseptler"
+                        href={getRecipesUrl()}
                         className="block border-t border-[rgba(98,67,45,0.08)] px-4 py-3 text-center text-sm font-medium text-[rgba(141,58,36,0.96)] transition-colors hover:bg-[rgba(247,239,226,0.5)]"
                         onClick={() => setSearchTerm('')}
                       >
-                        Bütün reseptlərə bax →
+                        {t.home.viewAllRecipes}
                       </Link>
                     </div>
                   )}
@@ -139,17 +146,17 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                 <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-[rgba(57,44,35,0.72)]">
                   <span className="inline-flex items-center gap-1.5">
                     <BookOpenText className="h-4 w-4 text-[rgba(141,58,36,0.96)]" />
-                    {stats.totalRecipes}+ resept
+                    {stats.totalRecipes}+ {t.home.recipesStat}
                   </span>
                   <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin className="h-4 w-4 text-[rgba(53,84,65,0.96)]" />
-                    {stats.totalRegions} bölgə
+                    {stats.totalRegions} {t.home.regionsStat}
                   </span>
                   <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
                   <span className="inline-flex items-center gap-1.5">
                     <Utensils className="h-4 w-4 text-[rgba(201,150,69,0.96)]" />
-                    {stats.totalCategories} kateqoriya
+                    {stats.totalCategories} {t.home.categoriesStat}
                   </span>
                 </div>
               </div>
@@ -161,16 +168,16 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-5">
             <div className="flex items-center justify-between gap-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.72)]">Kateqoriyalar</h2>
-              <Link href="/reseptler" className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
-                Hamısına bax
+              <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.72)]">{t.home.categoriesHeading}</h2>
+              <Link href={getRecipesUrl()} className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
+                {t.home.categoriesAll}
               </Link>
             </div>
             <div className="flex flex-wrap gap-2">
               {categoryStats.slice(0, 10).map((cat) => (
                 <Link
                   key={cat.name}
-                  href={`/reseptler?category=${encodeURIComponent(cat.name)}`}
+                  href={`${getRecipesUrl()}?category=${encodeURIComponent(cat.name)}`}
                   className="rounded-full border border-[rgba(98,67,45,0.1)] bg-white/80 px-4 py-2 text-sm font-medium text-[rgba(57,44,35,0.82)] transition-colors hover:border-transparent hover:bg-[rgba(141,58,36,0.96)] hover:text-white"
                 >
                   {cat.name} <span className="ml-1 text-xs opacity-60">({cat.count})</span>
@@ -184,12 +191,12 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-6">
             <SectionHeading
-              eyebrow={<SectionLabel>Seçilmiş reseptlər</SectionLabel>}
-              title={<>Mətbəxin ən yaxşıları</>}
+              eyebrow={<SectionLabel>{t.home.featuredHeading}</SectionLabel>}
+              title={<>{t.home.featuredSubtitle}</>}
               actions={
                 <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
-                  <Link href="/reseptler">
-                    Bütün reseptlər
+                  <Link href={getRecipesUrl()}>
+                    {t.home.ctaBtn}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -197,7 +204,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
             />
             <div className="grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
               {highlightedRecipes.map((recipe, index) => (
-                <Link key={recipe.id} href={`/resept/${recipe.slug}`} className={`group ${index === 0 ? 'md:col-span-2 xl:col-span-1' : ''}`}>
+                <Link key={recipe.id} href={getRecipeUrl(recipe.slug)} className={`group ${index === 0 ? 'md:col-span-2 xl:col-span-1' : ''}`}>
                   <Card className="h-full overflow-hidden border-white/60 bg-white/76 shadow-[0_18px_48px_rgba(52,34,22,0.08)] backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-1">
                     <div className="relative min-h-[200px] overflow-hidden sm:min-h-[240px]">
                       <Image
@@ -212,7 +219,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                       <div className="absolute left-4 top-4 flex flex-wrap gap-2">
                         {recipe.featured && (
                           <span className="inline-flex items-center gap-1 rounded-full bg-[rgba(201,150,69,0.92)] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.15em] text-white">
-                            <Star className="h-3 w-3" /> Seçilmiş
+                            <Star className="h-3 w-3" /> {t.home.featuredBadge}
                           </span>
                         )}
                       </div>
@@ -228,7 +235,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                         <span>•</span>
                         <span>{recipe.difficulty}</span>
                       </div>
-                      <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground sm:text-xl">{recipe.name}</h3>
+                      <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground sm:text-xl text-left">{recipe.name}</h3>
                       <div className="flex flex-wrap gap-3 text-xs text-[rgba(57,44,35,0.68)]">
                         <span className="inline-flex items-center gap-1">
                           <Clock3 className="h-3.5 w-3.5" /> {recipe.prepTime}
@@ -250,21 +257,21 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
           <section className="px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl space-y-6">
               <div className="flex items-center justify-between gap-4">
-                <h2 className="display-title text-2xl text-foreground sm:text-3xl">Son əlavə olunanlar</h2>
-                <Link href="/reseptler" className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
-                  Hamısı →
+                <h2 className="display-title text-2xl text-foreground sm:text-3xl">{t.home.latestHeading}</h2>
+                <Link href={getRecipesUrl()} className="text-sm font-medium text-[rgba(141,58,36,0.96)] hover:underline">
+                  {t.home.latestAll}
                 </Link>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {latestRecipes.map((recipe) => (
-                  <Link key={recipe.id} href={`/resept/${recipe.slug}`} className="group">
+                  <Link key={recipe.id} href={getRecipeUrl(recipe.slug)} className="group">
                     <div className="flex items-center gap-3 rounded-2xl border border-[rgba(98,67,45,0.08)] bg-white/72 p-3 transition-colors hover:bg-white/90">
                       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl">
                         <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="64px" />
                       </div>
-                      <div className="min-w-0">
-                        <h3 className="truncate text-sm font-semibold text-foreground">{recipe.name}</h3>
-                        <p className="mt-0.5 text-xs text-[rgba(57,44,35,0.6)]">{recipe.category} · {recipe.prepTime}</p>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-semibold text-foreground text-left">{recipe.name}</h3>
+                        <p className="mt-0.5 text-xs text-[rgba(57,44,35,0.6)] text-left">{recipe.category} · {recipe.prepTime}</p>
                       </div>
                     </div>
                   </Link>
@@ -282,19 +289,19 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                 <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[rgba(141,58,36,0.1)] text-[rgba(141,58,36,0.96)]">
                   <ChefHat className="h-8 w-8" />
                 </div>
-                <div className="space-y-2">
-                  <h2 className="display-title text-2xl text-foreground sm:text-3xl">Chef İlhamə</h2>
+                <div className="space-y-2 text-left">
+                  <h2 className="display-title text-2xl text-foreground sm:text-3xl">{t.home.aboutChefTitle}</h2>
                   <p className="max-w-xl text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    15+ il təcrübə ilə Azərbaycan mətbəxinin bölgəvi dadlarını müasir yanaşma ilə paylaşır. Reseptlər, catering və şəxsi aşpaz xidmətləri.
+                    {t.home.aboutChefDesc}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
-                    <Link href="/haqqinda">Haqqında</Link>
+                    <Link href={isEn ? "/en/about" : "/haqqinda"}>{t.nav.about}</Link>
                   </Button>
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                      Əlaqə
+                      {t.nav.contact}
                     </a>
                   </Button>
                 </div>
@@ -307,13 +314,13 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
         <section className="px-4 pb-2 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <CtaBand
-              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">{stats.totalRecipes}+ resept</SectionLabel>}
-              title={<>Bütün reseptləri kəşf edin.</>}
-              description="Bölgələrə, kateqoriyalara görə axtarın və sevimli yeməklərinizi hazırlayın."
+              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">{stats.totalRecipes}+ {t.home.recipesStat}</SectionLabel>}
+              title={<>{t.home.ctaTitle}</>}
+              description={t.home.ctaDesc}
               actions={
                 <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
-                  <Link href="/reseptler">
-                    Reseptlərə keç
+                  <Link href={getRecipesUrl()}>
+                    {t.home.ctaBtn}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>

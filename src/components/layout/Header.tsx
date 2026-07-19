@@ -3,14 +3,57 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { ChefHat, Clock3, Menu, Phone, Search, X } from 'lucide-react';
+import { ChefHat, Clock3, Menu, Phone, Search, X, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
-import { getWhatsAppHref, mainNavigation, siteConfig } from '@/lib/site';
+import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { useTranslation } from '@/hooks/useTranslation';
+
+function getAlternatePath(currentPath: string): string {
+  if (currentPath === '/' || currentPath === '') return '/en';
+  if (currentPath === '/en') return '/';
+  
+  if (currentPath.startsWith('/en/')) {
+    const sub = currentPath.substring(4); // remove "/en/"
+    if (sub === 'recipes') return '/reseptler';
+    if (sub === 'about') return '/haqqinda';
+    if (sub === 'contact') return '/elaqe';
+    if (sub === 'services') return '/xidmetler';
+    if (sub.startsWith('recipe/')) return `/resept/${sub.substring(7)}`;
+    if (sub === 'privacy') return '/privacy';
+    if (sub === 'terms') return '/terms';
+    return `/${sub}`;
+  } else {
+    if (currentPath === '/reseptler') return '/en/recipes';
+    if (currentPath === '/haqqinda') return '/en/about';
+    if (currentPath === '/elaqe') return '/en/contact';
+    if (currentPath === '/xidmetler') return '/en/services';
+    if (currentPath.startsWith('/resept/')) return `/en/recipe/${currentPath.substring(8)}`;
+    if (currentPath === '/privacy') return '/en/privacy';
+    if (currentPath === '/terms') return '/en/terms';
+    return `/en${currentPath}`;
+  }
+}
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { t, locale } = useTranslation();
+  const isEn = locale === 'en';
+
+  const navigation = isEn ? [
+    { name: t.nav.home, href: '/en' },
+    { name: t.nav.recipes, href: '/en/recipes' },
+    { name: t.nav.services, href: '/en/services' },
+    { name: t.nav.about, href: '/en/about' },
+    { name: t.nav.contact, href: '/en/contact' },
+  ] : [
+    { name: t.nav.home, href: '/' },
+    { name: t.nav.recipes, href: '/reseptler' },
+    { name: t.nav.services, href: '/xidmetler' },
+    { name: t.nav.about, href: '/haqqinda' },
+    { name: t.nav.contact, href: '/elaqe' },
+  ];
 
   return (
     <header className="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
@@ -18,10 +61,10 @@ export default function Header() {
         <div className="hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] text-[rgba(95,59,37,0.72)] md:flex">
           <div className="flex items-center gap-3">
             <Clock3 className="h-3.5 w-3.5" />
-            <span>{siteConfig.hours}</span>
+            <span>{isEn ? 'Daily 08:00 - 22:00' : 'Hər gün 08:00 - 22:00'}</span>
           </div>
           <div className="flex items-center gap-3">
-            <span>{siteConfig.serviceAreas.join(' · ')}</span>
+            <span>{siteConfig.serviceAreas.map(area => area === 'Bakı' && isEn ? 'Baku' : area).join(' · ')}</span>
             <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.72)]" />
             <a href={siteConfig.phoneHref} className="transition-colors hover:text-[rgba(141,58,36,0.96)]">
               {siteConfig.phoneDisplay}
@@ -30,21 +73,21 @@ export default function Header() {
         </div>
 
         <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href={isEn ? "/en" : "/"} className="flex items-center gap-2.5 group">
             <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-[linear-gradient(135deg,rgba(141,58,36,0.14),rgba(201,150,69,0.18))] text-[rgba(141,58,36,0.96)] transition-transform duration-300 group-hover:-rotate-6">
               <ChefHat className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <div>
-              <div className="display-title text-xl sm:text-2xl lg:text-3xl leading-none text-foreground">Chef İlhamə</div>
+              <div className="display-title text-xl sm:text-2xl lg:text-3xl leading-none text-foreground">{siteConfig.name}</div>
               <div className="mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-[rgba(95,59,37,0.64)]">
-                Resept kolleksiyası
+                {t.header.recipesSub}
               </div>
             </div>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex">
-            {mainNavigation.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && pathname?.startsWith(item.href));
 
               return (
                 <Link
@@ -64,25 +107,48 @@ export default function Header() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-5 text-[rgba(57,44,35,0.82)] hover:bg-white">
-              <Link href="/reseptler">
+              <Link href={isEn ? "/en/recipes" : "/reseptler"}>
                 <Search className="h-4 w-4" />
-                Reseptlər
+                {t.nav.recipes}
               </Link>
             </Button>
             <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] px-5 text-white shadow-[0_12px_30px_rgba(141,58,36,0.28)] hover:bg-[rgba(141,58,36,0.9)]">
               <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                Əlaqə
+                {t.header.contactBtn}
               </a>
+            </Button>
+            
+            {/* Language Switcher */}
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-4 hover:bg-white text-[rgba(57,44,35,0.82)] font-semibold text-xs transition duration-200"
+            >
+              <Link href={getAlternatePath(pathname || '/')}>
+                <Globe className="h-3.5 w-3.5 mr-1" />
+                {isEn ? 'AZ' : 'EN'}
+              </Link>
             </Button>
           </div>
 
-          <div className="lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
+            {/* Mobile Language Selector */}
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-3 text-[rgba(57,44,35,0.82)] font-semibold text-xs"
+            >
+              <Link href={getAlternatePath(pathname || '/')}>
+                {isEn ? 'AZ' : 'EN'}
+              </Link>
+            </Button>
+
             <Button
               variant="ghost"
               size="icon"
               className="rounded-full"
               onClick={() => setIsMenuOpen((value) => !value)}
-              aria-label="Menyunu aç"
+              aria-label={isMenuOpen ? t.header.mobileMenuClose : t.header.mobileMenuOpen}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -99,8 +165,8 @@ export default function Header() {
               transition={{ duration: 0.2 }}
             >
               <div className="space-y-2 px-4 py-4">
-                {mainNavigation.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+                {navigation.map((item) => {
+                  const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && pathname?.startsWith(item.href));
 
                   return (
                     <Link
@@ -119,7 +185,7 @@ export default function Header() {
                 })}
                 <div className="grid gap-2 pt-2">
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white">
-                    <Link href="/reseptler">Reseptlərə bax</Link>
+                    <Link href={isEn ? "/en/recipes" : "/reseptler"} onClick={() => setIsMenuOpen(false)}>{t.header.viewRecipes}</Link>
                   </Button>
                   <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">

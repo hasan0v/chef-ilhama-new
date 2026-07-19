@@ -224,8 +224,12 @@ export function sortRecipes(recipes: Recipe[], sortBy: string, order: 'asc' | 'd
         comparison = a.name.localeCompare(b.name, 'az');
         break;
       case 'difficulty':
-        const difficultyOrder = { 'Asan': 1, 'Orta': 2, 'Çətin': 3 };
-        comparison = difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+        const difficultyOrder: Record<string, number> = {
+          'Asan': 1, 'Easy': 1,
+          'Orta': 2, 'Medium': 2,
+          'Çətin': 3, 'Hard': 3
+        };
+        comparison = (difficultyOrder[a.difficulty] || 0) - (difficultyOrder[b.difficulty] || 0);
         break;
       case 'prepTime':
         // Simple time comparison (assuming times are in consistent format)

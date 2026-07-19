@@ -38,94 +38,12 @@ import {
   SectionLabel,
 } from '@/components/site/marketing';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
-
-const serviceOptions = [
-  {
-    id: 'personal-chef',
-    label: 'Şəxsi aşpaz xidməti',
-    icon: ChefHat,
-    description: 'Evdə və ya xüsusi məkanda private dining və butik servis.',
-  },
-  {
-    id: 'katerinq',
-    label: 'Premium katerinq',
-    icon: Utensils,
-    description: 'Brend tədbiri, təqdimat və qapalı məclislər üçün catering.',
-  },
-  {
-    id: 'wedding',
-    label: 'Toy masası planlaması',
-    icon: Crown,
-    description: 'Klassik Azərbaycan süfrəsini daha zərif axınla qururuq.',
-  },
-  {
-    id: 'corporate',
-    label: 'Korporativ tədbirlər',
-    icon: Building2,
-    description: 'İşgüzar gathering və lounge servis üçün yığcam menyular.',
-  },
-  {
-    id: 'party',
-    label: 'Nişan və ailə şənlikləri',
-    icon: PartyPopper,
-    description: 'Ev atmosferi ilə peşəkar servis intizamını birləşdirir.',
-  },
-  {
-    id: 'masterclass',
-    label: 'Master-klass və workshop',
-    icon: GraduationCap,
-    description: 'Brend tədbirləri və qapalı öyrənmə sessiyaları üçün format.',
-  },
-] as const;
-
-const eventTypes = [
-  'Toy mərasimi',
-  'Nişan məclisi',
-  'Private dinner',
-  'Korporativ tədbir',
-  'Ailə şənliyi',
-  'Media təqdimatı',
-  'Digər',
-] as const;
-
-const guestCounts = [
-  '10-20 nəfər',
-  '20-40 nəfər',
-  '40-80 nəfər',
-  '80-150 nəfər',
-  '150-300 nəfər',
-  '300+ nəfər',
-] as const;
-
-const eventMoodOptions = [
-  'Ənənəvi Azərbaycan süfrəsi',
-  'Modern təqdimat',
-  'Minimal private dinner',
-  'Qarışıq menyu',
-] as const;
-
-const reasons = [
-  {
-    icon: <Sparkles className="h-5 w-5" />,
-    title: 'Brifinqdən sonra kurasiya',
-    description: 'Menyu sadəcə siyahı kimi yox, tədbirin ritminə uyğun struktur kimi hazırlanır.',
-    meta: 'Curated menus',
-  },
-  {
-    icon: <Users className="h-5 w-5" />,
-    title: 'Qonaq axınına uyğun servis',
-    description: 'Stasionar masa, passing service və ya qarışıq format öncədən planlanır.',
-    meta: 'Guest flow',
-  },
-  {
-    icon: <MapPin className="h-5 w-5" />,
-    title: 'Məkan və logistika uyğunluğu',
-    description: 'Bakı və ətraf zonalarda məkan məhdudiyyətlərinə görə ayrıca icra planı verilir.',
-    meta: 'On-site planning',
-  },
-];
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
+  const { t, locale } = useTranslation();
+  const isEn = locale === 'en';
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -141,9 +59,71 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
     additionalNotes: '',
   });
 
+  const getContactUrl = () => isEn ? '/en/contact' : '/elaqe';
+
+  const serviceOptions = useMemo(() => [
+    {
+      id: 'personal-chef',
+      label: t.services.serviceOptions[0].label,
+      icon: ChefHat,
+      description: t.services.serviceOptions[0].desc,
+    },
+    {
+      id: 'katerinq',
+      label: t.services.serviceOptions[1].label,
+      icon: Utensils,
+      description: t.services.serviceOptions[1].desc,
+    },
+    {
+      id: 'wedding',
+      label: t.services.serviceOptions[2].label,
+      icon: Crown,
+      description: t.services.serviceOptions[2].desc,
+    },
+    {
+      id: 'corporate',
+      label: t.services.serviceOptions[3].label,
+      icon: Building2,
+      description: t.services.serviceOptions[3].desc,
+    },
+    {
+      id: 'party',
+      label: t.services.serviceOptions[4].label,
+      icon: PartyPopper,
+      description: t.services.serviceOptions[4].desc,
+    },
+    {
+      id: 'masterclass',
+      label: t.services.serviceOptions[5].label,
+      icon: GraduationCap,
+      description: t.services.serviceOptions[5].desc,
+    },
+  ], [t]);
+
+  const reasons = useMemo(() => [
+    {
+      icon: <Sparkles className="h-5 w-5" />,
+      title: t.services.reason1Title,
+      description: t.services.reason1Desc,
+      meta: t.services.reason1Meta,
+    },
+    {
+      icon: <Users className="h-5 w-5" />,
+      title: t.services.reason2Title,
+      description: t.services.reason2Desc,
+      meta: t.services.reason2Meta,
+    },
+    {
+      icon: <MapPin className="h-5 w-5" />,
+      title: t.services.reason3Title,
+      description: t.services.reason3Desc,
+      meta: t.services.reason3Meta,
+    },
+  ], [t]);
+
   const selectedServices = useMemo(
     () => serviceOptions.filter((service) => formData.services.includes(service.id)),
-    [formData.services],
+    [formData.services, serviceOptions],
   );
 
   const isFormValid =
@@ -168,23 +148,24 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
 
   function generateWhatsAppMessage() {
     const selectedServiceNames = selectedServices.map((service) => service.label).join(', ');
+    const details = t.services.whatsappDetails;
 
     const message = [
-      'Salam Chef İlhamə, yeni tədbir üçün xidmət sorğusu göndərirəm.',
+      t.services.whatsappMsgHeader,
       '',
-      `Ad Soyad: ${formData.name}`,
-      `Telefon: ${formData.phone}`,
-      formData.email ? `Email: ${formData.email}` : null,
+      `${details.name}: ${formData.name}`,
+      `${details.phone}: ${formData.phone}`,
+      formData.email ? `${details.email}: ${formData.email}` : null,
       '',
-      `Xidmətlər: ${selectedServiceNames}`,
-      `Tədbir növü: ${formData.eventType}`,
-      formData.eventDate ? `Tarix: ${formData.eventDate}` : null,
-      `Qonaq sayı: ${formData.guestCount}`,
-      formData.location ? `Məkan: ${formData.location}` : null,
-      formData.menuPreference ? `Menyu tonu: ${formData.menuPreference}` : null,
-      formData.dietaryRequirements ? `Dietik qeyd: ${formData.dietaryRequirements}` : null,
-      formData.budget ? `Büdcə aralığı: ${formData.budget}` : null,
-      formData.additionalNotes ? `Əlavə qeyd: ${formData.additionalNotes}` : null,
+      `${details.services}: ${selectedServiceNames}`,
+      `${details.eventType}: ${formData.eventType}`,
+      formData.eventDate ? `${details.eventDate}: ${formData.eventDate}` : null,
+      `${details.guestCount}: ${formData.guestCount}`,
+      formData.location ? `${details.location}: ${formData.location}` : null,
+      formData.menuPreference ? `${details.menuPreference}: ${formData.menuPreference}` : null,
+      formData.dietaryRequirements ? `${details.dietaryRequirements}: ${formData.dietaryRequirements}` : null,
+      formData.budget ? `${details.budget}: ${formData.budget}` : null,
+      formData.additionalNotes ? `${details.additionalNotes}: ${formData.additionalNotes}` : null,
     ]
       .filter(Boolean)
       .join('\n');
@@ -196,44 +177,46 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
     <PageLayout breadcrumbs={breadcrumbs}>
       <div className="space-y-12 lg:space-y-16">
         <PageHero
-          eyebrow={<SectionLabel>Private chef booking studio</SectionLabel>}
-          title={<>Tədbirinizi hazır paketlə yox, sizə uyğun ssenari ilə planlayın.</>}
-          description="Tədbirin məkanı, qonaq sayı və menyu intonasiyasını bir yerdə planlayın."
+          eyebrow={<SectionLabel>{t.services.heroLabel}</SectionLabel>}
+          title={<>{t.services.heroTitle}</>}
+          description={t.services.heroDesc}
           stats={[
-            { value: '15+', label: 'il təcrübə' },
-            { value: '1000+', label: 'müştəri' },
-            { value: '24/7', label: 'əlaqə' },
+            { value: '15+', label: isEn ? 'years exp' : 'il təcrübə' },
+            { value: '1000+', label: isEn ? 'clients' : 'müştəri' },
+            { value: '24/7', label: isEn ? 'contact' : 'əlaqə' },
           ]}
           actions={
             <>
               <Button asChild size="lg" className="rounded-full bg-[rgba(141,58,36,0.96)] px-6 text-white hover:bg-[rgba(141,58,36,0.9)]">
                 <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
-                  WhatsApp ilə yaz
+                  {t.contact.contactBtnWhatsApp}
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-6 hover:bg-white">
-                <a href={siteConfig.phoneHref}>Zəng et</a>
+                <a href={siteConfig.phoneHref}>{t.contact.contactBtnCall}</a>
               </Button>
             </>
           }
           aside={
             <EditorialPanel className="p-6 sm:p-7">
-              <div className="space-y-5">
-                <SectionLabel className="bg-[rgba(53,84,65,0.1)]">Rezervasiya qeydi</SectionLabel>
+              <div className="space-y-5 text-left">
+                <SectionLabel className="bg-[rgba(53,84,65,0.1)]">{t.services.bookingNoteLabel}</SectionLabel>
                 <div className="space-y-3">
-                  <h3 className="display-title text-4xl leading-[0.96] text-foreground">Dəqiq brifinq, daha güclü servis.</h3>
+                  <h3 className="display-title text-4xl leading-[0.96] text-foreground">{t.services.bookingNoteTitle}</h3>
                   <p className="text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base">
-                    Ən yaxşı nəticə üçün sadəcə tarix yox, tədbirin tonu da əhəmiyyətlidir.
+                    {t.services.bookingNoteDesc}
                   </p>
                 </div>
                 <div className="grid gap-3 text-sm text-[rgba(57,44,35,0.76)]">
                   <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 px-4 py-3">
-                    <div className="font-semibold text-foreground">Cavab müddəti</div>
-                    <div className="mt-1">Əksər sorğulara gün ərzində geri dönüş edilir.</div>
+                    <div className="font-semibold text-foreground">{t.services.responseTimeTitle}</div>
+                    <div className="mt-1">{t.services.responseTimeDesc}</div>
                   </div>
                   <div className="rounded-[1.4rem] border border-[rgba(98,67,45,0.1)] bg-white/72 px-4 py-3">
-                    <div className="font-semibold text-foreground">Əhatə zonası</div>
-                    <div className="mt-1">{siteConfig.serviceAreas.join(', ')}</div>
+                    <div className="font-semibold text-foreground">{t.services.serviceAreaTitle}</div>
+                    <div className="mt-1">
+                      {isEn ? siteConfig.serviceAreas.map(area => area === 'Bakı' ? 'Baku' : area).join(', ') : siteConfig.serviceAreas.join(', ')}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -244,9 +227,9 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
-              eyebrow={<SectionLabel>Xidmət blokları</SectionLabel>}
-              title={<>Hazır paket yox, tədbir kontekstinə uyğun format seçimi.</>}
-              description="Menyu, servis, logistika və təqdimat birlikdə işləyən sistemdir."
+              eyebrow={<SectionLabel>{t.services.servicesBlocksLabel}</SectionLabel>}
+              title={<>{t.services.servicesBlocksTitle}</>}
+              description={t.services.servicesBlocksDesc}
             />
             <div className="grid gap-5 lg:grid-cols-3">
               {reasons.map((reason) => (
@@ -259,32 +242,32 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
-              eyebrow={<SectionLabel>Sorğu forması</SectionLabel>}
-              title={<>Tədbirin konturunu burada qurun, biz onu servisa çevirək.</>}
+              eyebrow={<SectionLabel>{t.services.formTitle}</SectionLabel>}
+              title={<>{t.services.formSubtitle}</>}
             />
             <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
               <EditorialPanel className="p-6 sm:p-8">
-                <div className="space-y-8">
+                <div className="space-y-8 text-left">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[rgba(141,58,36,0.1)] text-[rgba(141,58,36,0.96)]">
                         <Users className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">1. Əlaqə və tədbir məlumatı</h3>
+                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">{t.services.formSection1}</h3>
                       </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Ad Soyad</Label>
-                        <Input id="name" value={formData.name} onChange={(event) => handleInputChange('name', event.target.value)} placeholder="Adınızı daxil edin" className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
+                        <Label htmlFor="name">{t.services.formName}</Label>
+                        <Input id="name" value={formData.name} onChange={(event) => handleInputChange('name', event.target.value)} placeholder={t.services.formNamePlaceholder} className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Telefon</Label>
+                        <Label htmlFor="phone">{t.services.formPhone}</Label>
                         <Input id="phone" value={formData.phone} onChange={(event) => handleInputChange('phone', event.target.value)} placeholder="+994 XX XXX XX XX" className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{t.services.formEmail}</Label>
                         <Input id="email" value={formData.email} onChange={(event) => handleInputChange('email', event.target.value)} placeholder="email@example.com" className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                     </div>
@@ -296,8 +279,8 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                         <ChefHat className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">2. Xidmət seçimi</h3>
-                        <p className="text-sm text-[rgba(57,44,35,0.72)]">Birdən çox xidmət seçə bilərsiniz.</p>
+                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">{t.services.formSection2}</h3>
+                        <p className="text-sm text-[rgba(57,44,35,0.72)]">{t.services.formSection2Sub}</p>
                       </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
@@ -310,7 +293,7 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                             key={service.id}
                             type="button"
                             onClick={() => handleServiceToggle(service.id)}
-                            className={`rounded-[1.6rem] border p-5 text-left transition-all duration-200 ${
+                            className={`rounded-[1.6rem] border p-5 text-left transition-all duration-200 cursor-pointer ${
                               selected
                                 ? 'border-[rgba(141,58,36,0.26)] bg-[rgba(141,58,36,0.08)] shadow-[0_18px_42px_rgba(141,58,36,0.12)]'
                                 : 'border-white/60 bg-white/72 hover:bg-white/86'
@@ -340,87 +323,87 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                         <CalendarDays className="h-5 w-5" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">3. Tədbirin konteksti</h3>
-                        <p className="text-sm text-[rgba(57,44,35,0.72)]">Qərar üçün ən vacib blok budur.</p>
+                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground">{t.services.formSection3}</h3>
+                        <p className="text-sm text-[rgba(57,44,35,0.72)]">{t.services.formSection3Sub}</p>
                       </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label>Tədbir növü</Label>
+                        <Label>{t.services.formEventType}</Label>
                         <Select value={formData.eventType} onValueChange={(value) => handleInputChange('eventType', value)}>
                           <SelectTrigger className="h-12 w-full rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80 px-4">
-                            <SelectValue placeholder="Seçin" />
+                            <SelectValue placeholder={t.services.formSelectPlaceholder} />
                           </SelectTrigger>
                           <SelectContent>
-                            {eventTypes.map((type) => (
+                            {t.services.eventTypes.map((type) => (
                               <SelectItem key={type} value={type}>{type}</SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label>Qonaq sayı</Label>
+                        <Label>{t.services.formGuests}</Label>
                         <Select value={formData.guestCount} onValueChange={(value) => handleInputChange('guestCount', value)}>
                           <SelectTrigger className="h-12 w-full rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80 px-4">
-                            <SelectValue placeholder="Seçin" />
+                            <SelectValue placeholder={t.services.formSelectPlaceholder} />
                           </SelectTrigger>
                           <SelectContent>
-                            {guestCounts.map((count) => (
+                            {t.services.guestCounts.map((count) => (
                               <SelectItem key={count} value={count}>{count}</SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="eventDate">Tarix</Label>
+                        <Label htmlFor="eventDate">{t.services.formDate}</Label>
                         <Input id="eventDate" type="date" value={formData.eventDate} onChange={(event) => handleInputChange('eventDate', event.target.value)} className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="location">Məkan</Label>
-                        <Input id="location" value={formData.location} onChange={(event) => handleInputChange('location', event.target.value)} placeholder="Məkan və ya rayon" className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
+                        <Label htmlFor="location">{t.services.formLocation}</Label>
+                        <Input id="location" value={formData.location} onChange={(event) => handleInputChange('location', event.target.value)} placeholder={t.services.formLocationPlaceholder} className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2 md:col-span-2">
-                        <Label>Menyu tonu</Label>
+                        <Label>{t.services.formMenuTone}</Label>
                         <Select value={formData.menuPreference} onValueChange={(value) => handleInputChange('menuPreference', value)}>
                           <SelectTrigger className="h-12 w-full rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80 px-4">
-                            <SelectValue placeholder="Tədbirin üslubunu seçin" />
+                            <SelectValue placeholder={t.services.formMenuTonePlaceholder} />
                           </SelectTrigger>
                           <SelectContent>
-                            {eventMoodOptions.map((mood) => (
+                            {t.services.eventMoods.map((mood) => (
                               <SelectItem key={mood} value={mood}>{mood}</SelectItem>
                             ))}
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="dietaryRequirements">Xüsusi qida qeydləri</Label>
-                        <Input id="dietaryRequirements" value={formData.dietaryRequirements} onChange={(event) => handleInputChange('dietaryRequirements', event.target.value)} placeholder="Vegetarian, halal və s." className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
+                        <Label htmlFor="dietaryRequirements">{t.services.formDietary}</Label>
+                        <Input id="dietaryRequirements" value={formData.dietaryRequirements} onChange={(event) => handleInputChange('dietaryRequirements', event.target.value)} placeholder={t.services.formDietaryPlaceholder} className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="budget">Büdcə aralığı</Label>
-                        <Input id="budget" value={formData.budget} onChange={(event) => handleInputChange('budget', event.target.value)} placeholder="Təxmini aralıq" className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
+                        <Label htmlFor="budget">{t.services.formBudget}</Label>
+                        <Input id="budget" value={formData.budget} onChange={(event) => handleInputChange('budget', event.target.value)} placeholder={t.services.formBudgetPlaceholder} className="h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/80" />
                       </div>
                       <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="additionalNotes">Əlavə qeydlər</Label>
-                        <Textarea id="additionalNotes" value={formData.additionalNotes} onChange={(event) => handleInputChange('additionalNotes', event.target.value)} placeholder="Servis saatı, uşaq masası, xüsusi dekor tonu və digər qeydlər" className="min-h-36 rounded-[1.5rem] border-[rgba(98,67,45,0.14)] bg-white/80 p-4" />
+                        <Label htmlFor="additionalNotes">{t.services.formNotes}</Label>
+                        <Textarea id="additionalNotes" value={formData.additionalNotes} onChange={(event) => handleInputChange('additionalNotes', event.target.value)} placeholder={t.services.formNotesPlaceholder} className="min-h-36 rounded-[1.5rem] border-[rgba(98,67,45,0.14)] bg-white/80 p-4" />
                       </div>
                     </div>
                   </div>
                 </div>
               </EditorialPanel>
 
-              <div className="lg:sticky lg:top-28">
+              <div className="lg:sticky lg:top-28 text-left">
                 <Card className="border-white/60 bg-white/78 shadow-[0_24px_64px_rgba(52,34,22,0.08)] backdrop-blur-sm">
                   <CardContent className="space-y-6 p-6 sm:p-7">
                     <div className="space-y-3">
-                      <SectionLabel>Canlı xülasə</SectionLabel>
-                      <h3 className="display-title text-4xl leading-[0.96] text-foreground">Sorğunuz necə görünür</h3>
-                      <p className="text-sm leading-7 text-[rgba(57,44,35,0.72)]">Bu blok WhatsApp mesajına göndəriləcək əsas konturu göstərir.</p>
+                      <SectionLabel>{t.services.summaryLabel}</SectionLabel>
+                      <h3 className="display-title text-4xl leading-[0.96] text-foreground">{t.services.summaryTitle}</h3>
+                      <p className="text-sm leading-7 text-[rgba(57,44,35,0.72)]">{t.services.summaryDesc}</p>
                     </div>
 
                     <div className="space-y-4 rounded-[1.5rem] border border-[rgba(98,67,45,0.1)] bg-[rgba(247,239,226,0.72)] p-5">
                       <div>
-                        <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">Seçilmiş xidmətlər</div>
+                        <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{t.services.summaryServices}</div>
                         <div className="mt-3 flex flex-wrap gap-2">
                           {selectedServices.length ? (
                             selectedServices.map((service) => (
@@ -429,7 +412,7 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                               </span>
                             ))
                           ) : (
-                            <span className="text-sm text-[rgba(57,44,35,0.68)]">Hələ seçim edilməyib.</span>
+                            <span className="text-sm text-[rgba(57,44,35,0.68)]">{t.services.summaryEmptyServices}</span>
                           )}
                         </div>
                       </div>
@@ -438,16 +421,16 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
 
                       <div className="grid gap-3 text-sm text-[rgba(57,44,35,0.76)]">
                         <div className="flex justify-between gap-4">
-                          <span>Tədbir</span>
-                          <span className="font-medium text-foreground">{formData.eventType || 'Seçilməyib'}</span>
+                          <span>{t.services.summaryEvent}</span>
+                          <span className="font-medium text-foreground">{formData.eventType || t.services.summaryEmptyVal}</span>
                         </div>
                         <div className="flex justify-between gap-4">
-                          <span>Qonaq sayı</span>
-                          <span className="font-medium text-foreground">{formData.guestCount || 'Seçilməyib'}</span>
+                          <span>{t.services.formGuests}</span>
+                          <span className="font-medium text-foreground">{formData.guestCount || t.services.summaryEmptyVal}</span>
                         </div>
                         <div className="flex justify-between gap-4">
-                          <span>Məkan</span>
-                          <span className="font-medium text-foreground">{formData.location || 'Qeyd edilməyib'}</span>
+                          <span>{t.services.summaryLocation}</span>
+                          <span className="font-medium text-foreground">{formData.location || t.services.summaryNotSetVal}</span>
                         </div>
                       </div>
                     </div>
@@ -457,15 +440,15 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                         <PhoneCall className="h-4 w-4 text-[rgba(141,58,36,0.96)]" />
                         <span className="font-medium">{siteConfig.phoneDisplay}</span>
                       </div>
-                      <p>{siteConfig.hours} aralığında ən rahat əlaqə forması WhatsApp-dır.</p>
+                      <p>{(isEn ? 'Daily 08:00 - 22:00' : siteConfig.hours) + ' ' + t.services.summaryContactDesc}</p>
                     </div>
 
                     <div className="grid gap-3">
-                      <Button className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]" disabled={!isFormValid} onClick={generateWhatsAppMessage}>
-                        Sorğunu WhatsApp ilə göndər
+                      <Button className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)] cursor-pointer" disabled={!isFormValid} onClick={generateWhatsAppMessage}>
+                        {t.services.summaryBtnWhatsApp}
                       </Button>
                       <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 hover:bg-white">
-                        <Link href="/elaqe">Əlaqə səhifəsinə keç</Link>
+                        <Link href={getContactUrl()}>{t.services.summaryBtnContact}</Link>
                       </Button>
                     </div>
                   </CardContent>
@@ -478,16 +461,16 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
         <section className="px-4 pb-2 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <CtaBand
-              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Sürətli qərar üçün</SectionLabel>}
-              title={<>Əgər tarixiniz bəllidirsə, ilkin sorğunu indi göndərmək ən düzgün addımdır.</>}
-              description="Tarixiniz bəllidirsə, əlaqəyə tez keçmək daha düzgündür."
+              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">{isEn ? "Fast decision" : "Sürətli qərar üçün"}</SectionLabel>}
+              title={<>{isEn ? "If your date is confirmed, sending the initial inquiry now is the right step." : "Əgər tarixiniz bəllidirsə, ilkin sorğunu indi göndərmək ən düzgün addımdır."}</>}
+              description={isEn ? "Getting in touch early guarantees availability." : "Tarixiniz bəllidirsə, əlaqəyə tez keçmək daha düzgündür."}
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
-                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">WhatsApp aç</a>
+                    <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">{t.contact.formSummaryBtnWhatsApp}</a>
                   </Button>
                   <Button asChild variant="outline" className="rounded-full border-white/24 bg-transparent px-6 text-white hover:bg-white/10 hover:text-white">
-                    <a href={siteConfig.phoneHref}>Zəng et</a>
+                    <a href={siteConfig.phoneHref}>{t.contact.contactBtnCall}</a>
                   </Button>
                 </>
               }

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Users, ChefHat, Eye } from 'lucide-react';
@@ -16,6 +17,10 @@ interface AnimatedRecipeCardProps {
 }
 
 export default function AnimatedRecipeCard({ recipe, index = 0, priority = false }: AnimatedRecipeCardProps) {
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+  const recipeLink = isEnglish ? `/en/recipe/${recipe.slug}` : `/resept/${recipe.slug}`;
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'Asan':
@@ -69,7 +74,7 @@ export default function AnimatedRecipeCard({ recipe, index = 0, priority = false
       whileHover="hover"
       className="group"
     >
-      <Link href={`/resept/${recipe.slug}`}>
+      <Link href={recipeLink}>
         <Card className="h-full overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white">
           {/* Image Section */}
           <div className="relative h-48 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">

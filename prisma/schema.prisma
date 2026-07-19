@@ -23,14 +23,21 @@ model Recipe {
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 
-  kateqoriyaId       String
-  kateqoriya         Category      @relation(fields: [kateqoriyaId], references: [id])
+  kateqoriyaId        String
+  kateqoriya          Category      @relation(fields: [kateqoriyaId], references: [id])
 
-  menseId            String?
-  mense              Mense?        @relation(fields: [menseId], references: [id])
+  menseId             String?
+  mense               Mense?        @relation(fields: [menseId], references: [id])
 
-  bolgeId            String?
-  bolge              Bolge?        @relation(fields: [bolgeId], references: [id])
+  bolgeId             String?
+  bolge               Bolge?        @relation(fields: [bolgeId], references: [id])
+
+  yemeyinAdiEn        String?
+  hazirlanmaMuddetiEn String?
+  cetinlikDerecesiEn  String?
+  porsiyaSayiEn       String?
+  tarixiMelumatEn     String?       @db.Text
+  teqdimTeklifleriEn  String?       @db.Text
 
   terkibHisseleri    Ingredient[]
   addimlar           Step[]
@@ -42,6 +49,7 @@ model Recipe {
 model Category {
   id      String   @id @default(uuid())
   ad      String   @unique
+  adEn    String?
   recipes Recipe[]
 
   @@map("categories")
@@ -50,6 +58,7 @@ model Category {
 model Mense {
   id      String   @id @default(uuid())
   ad      String   @unique
+  adEn    String?
   recipes Recipe[]
 
   @@map("menseler")
@@ -58,6 +67,7 @@ model Mense {
 model Bolge {
   id      String   @id @default(uuid())
   ad      String   @unique
+  adEn    String?
   recipes Recipe[]
 
   @@map("bolgeler")
@@ -66,6 +76,7 @@ model Bolge {
 model Cetinlik {
   id   String @id @default(uuid()) @db.Uuid
   ad   String @unique
+  adEn String?
   sira Int    @default(0)
 
   @@map("cetinlikler")
@@ -74,6 +85,7 @@ model Cetinlik {
 model Muddet {
   id   String @id @default(uuid()) @db.Uuid
   ad   String @unique
+  adEn String?
   sira Int    @default(0)
 
   @@map("muddetler")
@@ -82,6 +94,7 @@ model Muddet {
 model Porsiya {
   id     String  @id @default(uuid()) @db.Uuid
   ad     String
+  adEn   String?
   miqdar String?
   sira   Int     @default(0)
 
@@ -92,6 +105,7 @@ model Porsiya {
 model Ingredient {
   id       String  @id @default(cuid())
   ad       String
+  adEn     String?
   miqdarId String? @db.Uuid
   miqdar   IngredientQuantity? @relation(fields: [miqdarId], references: [id])
   sira     Int     @default(0)
@@ -106,6 +120,7 @@ model Ingredient {
 model IngredientQuantity {
   id          String   @id @default(uuid()) @db.Uuid
   ad          String
+  adEn        String?
   miqdar      String?
   ingredients Ingredient[]
 
@@ -116,6 +131,7 @@ model IngredientQuantity {
 model Step {
   id       String @id @default(cuid())
   metn     String @db.Text
+  metnEn   String? @db.Text
   sira     Int    @default(0)
   recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)

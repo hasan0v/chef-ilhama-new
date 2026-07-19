@@ -8,19 +8,33 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma._adminPrisma2 = prism
 
 async function upsertLookup(
   table: 'category' | 'mense' | 'bolge',
-  ad: string
+  ad: string,
+  adEn?: string | null
 ): Promise<string | null> {
   if (!ad || !ad.trim()) return null;
   const val = ad.trim();
+  const valEn = adEn?.trim() || null;
   if (table === 'category') {
-    const r = await prisma.category.upsert({ where: { ad: val }, create: { ad: val }, update: {} });
+    const r = await prisma.category.upsert({
+      where: { ad: val },
+      create: { ad: val, adEn: valEn },
+      update: valEn ? { adEn: valEn } : {},
+    });
     return r.id;
   }
   if (table === 'mense') {
-    const r = await prisma.mense.upsert({ where: { ad: val }, create: { ad: val }, update: {} });
+    const r = await prisma.mense.upsert({
+      where: { ad: val },
+      create: { ad: val, adEn: valEn },
+      update: valEn ? { adEn: valEn } : {},
+    });
     return r.id;
   }
-  const r = await prisma.bolge.upsert({ where: { ad: val }, create: { ad: val }, update: {} });
+  const r = await prisma.bolge.upsert({
+    where: { ad: val },
+    create: { ad: val, adEn: valEn },
+    update: valEn ? { adEn: valEn } : {},
+  });
   return r.id;
 }
 
@@ -48,7 +62,7 @@ function parseIngredientString(item: string) {
   };
 }
 
-async function upsertIngredientQuantity(miqdarText: string): Promise<string> {
+async function upsertIngredientQuantity(miqdarText: string, miqdarTextEn?: string | null): Promise<string> {
   const trimmed = miqdarText.trim();
   const match = trimmed.match(/^([0-9\-+\s½¼¾/.,]+)?\s*(.*)$/);
   let miqdar: string | null = null;
@@ -63,16 +77,33 @@ async function upsertIngredientQuantity(miqdarText: string): Promise<string> {
     ad = 'ədəd';
   }
 
+  let adEn: string | null = null;
+  if (miqdarTextEn) {
+    const trimmedEn = miqdarTextEn.trim();
+    const matchEn = trimmedEn.match(/^([0-9\-+\s½¼¾/.,]+)?\s*(.*)$/);
+    if (matchEn) {
+      adEn = matchEn[2]?.trim() || null;
+    } else {
+      adEn = trimmedEn;
+    }
+  }
+
   const existing = await prisma.ingredientQuantity.findFirst({
     where: { ad, miqdar },
   });
 
   if (existing) {
+    if (adEn && !existing.adEn) {
+      await prisma.ingredientQuantity.update({
+        where: { id: existing.id },
+        data: { adEn },
+      });
+    }
     return existing.id;
   }
 
   const created = await prisma.ingredientQuantity.create({
-    data: { ad, miqdar },
+    data: { ad, miqdar, adEn },
   });
 
   return created.id;
@@ -125,31 +156,74 @@ export async function PUT(
 
     const [kateqoriyaId, menseId, bolgeId] = await Promise.all([
       upsertLookup('category', body.kateqoriya),
-      upsertLookup('mense', body.mense),
-      upsertLookup('bolge', body.bolge),
+      upsertLookup('mense', body.mense, body.menseEn),
+      upsertLookup('bolge', body.bolge, body.bolgeEn),
     ]);
 
     if (!kateqoriyaId) {
       return NextResponse.json({ error: 'Kateqoriya mütləqdir' }, { status: 400 });
     }
 
+    const cetinlikRow = await prisma.cetinlik.findFirst({ where: { ad: body.cetinlikDerecesi } });
+    const cetinlikDerecesiEn = cetinlikRow?.adEn || null;
+
+    const muddetRow = await prisma.muddet.findFirst({ where: { ad: body.hazirlanmaMuddeti } });
+    const hazirlanmaMuddetiEn = muddetRow?.adEn || null;
+
+    let porsiyaSayiEn: string | null = null;
+    if (body.porsiyaSayi) {
+      let adVal = body.porsiyaSayi;
+      let miqdarVal: string | null = null;
+      const match = body.porsiyaSayi.match(/^([0-9\-+\s½¼¾/]+)?\s*(.*)$/);
+      if (match) {
+        const pm = match[1]?.trim();
+        const pa = match[2]?.trim();
+        if (pm) {
+          miqdarVal = pm;
+          adVal = pa || 'nəfərlik';
+        }
+      }
+      const porsiyaRow = await prisma.porsiya.findFirst({ where: { ad: adVal, miqdar: miqdarVal } });
+      porsiyaSayiEn = porsiyaRow?.adEn
+        ? (miqdarVal ? `${miqdarVal} ${porsiyaRow.adEn}` : porsiyaRow.adEn)
+        : (miqdarVal ? `${miqdarVal} persons` : null);
+    }
+
     const ingredients: string[] = Array.isArray(body.terkibHisseleri)
       ? body.terkibHisseleri.filter((s: string) => s.trim())
       : [];
+    const ingredientsEn: string[] = Array.isArray(body.terkibHisseleriEn)
+      ? body.terkibHisseleriEn
+      : [];
+
     const steps: string[] = Array.isArray(body.addimlar)
       ? body.addimlar.filter((s: string) => s.trim())
+      : [];
+    const stepsEn: string[] = Array.isArray(body.addimlarEn)
+      ? body.addimlarEn
       : [];
 
     const ingredientData = [];
     for (let i = 0; i < ingredients.length; i++) {
       const item = ingredients[i];
+      const itemEn = ingredientsEn[i];
       const { ad, miqdarText } = parseIngredientString(item);
+      let adEn: string | null = null;
+      let miqdarTextEn: string | null = null;
+
+      if (itemEn) {
+        const parsedEn = parseIngredientString(itemEn);
+        adEn = parsedEn.ad;
+        miqdarTextEn = parsedEn.miqdarText;
+      }
+
       let miqdarId: string | null = null;
       if (miqdarText) {
-        miqdarId = await upsertIngredientQuantity(miqdarText);
+        miqdarId = await upsertIngredientQuantity(miqdarText, miqdarTextEn);
       }
       ingredientData.push({
         ad,
+        adEn,
         miqdarId,
         sira: i,
       });
@@ -176,17 +250,23 @@ export async function PUT(
       where: { id },
       data: {
         yemeyinAdi: body.yemeyinAdi,
+        yemeyinAdiEn: body.yemeyinAdiEn || null,
         kateqoriyaId,
         menseId,
         bolgeId,
         hazirlanmaMuddeti: body.hazirlanmaMuddeti,
+        hazirlanmaMuddetiEn,
         cetinlikDerecesi: body.cetinlikDerecesi,
+        cetinlikDerecesiEn,
         porsiyaSayi: body.porsiyaSayi,
+        porsiyaSayiEn,
         tarixiMelumat: body.tarixiMelumat || null,
+        tarixiMelumatEn: body.tarixiMelumatEn || null,
         teqdimTeklifleri: body.teqdimTeklifleri || null,
+        teqdimTeklifleriEn: body.teqdimTeklifleriEn || null,
         featured: body.featured,
         terkibHisseleri: { create: ingredientData },
-        addimlar: { create: steps.map((metn, i) => ({ metn, sira: i })) },
+        addimlar: { create: steps.map((metn, i) => ({ metn, metnEn: stepsEn[i] || null, sira: i })) },
       },
       include,
     });

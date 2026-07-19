@@ -13,22 +13,23 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!user) return unauthorizedResponse();
 
   const { id } = await params;
-  const { table, ad } = await request.json() as { table: TableParam; ad: string };
+  const { table, ad, adEn } = await request.json() as { table: TableParam; ad: string; adEn?: string };
   if (!ad?.trim()) return NextResponse.json({ error: 'Ad mütləqdir' }, { status: 400 });
   const val = ad.trim();
+  const valEn = adEn?.trim() || null;
 
   try {
     let item;
     if (table === 'kateqoriya') {
-      item = await prisma.category.update({ where: { id }, data: { ad: val } });
+      item = await prisma.category.update({ where: { id }, data: { ad: val, adEn: valEn } });
     } else if (table === 'mense') {
-      item = await prisma.mense.update({ where: { id }, data: { ad: val } });
+      item = await prisma.mense.update({ where: { id }, data: { ad: val, adEn: valEn } });
     } else if (table === 'bolge') {
-      item = await prisma.bolge.update({ where: { id }, data: { ad: val } });
+      item = await prisma.bolge.update({ where: { id }, data: { ad: val, adEn: valEn } });
     } else if (table === 'cetinlik') {
-      item = await prisma.cetinlik.update({ where: { id }, data: { ad: val } });
+      item = await prisma.cetinlik.update({ where: { id }, data: { ad: val, adEn: valEn } });
     } else if (table === 'muddet') {
-      item = await prisma.muddet.update({ where: { id }, data: { ad: val } });
+      item = await prisma.muddet.update({ where: { id }, data: { ad: val, adEn: valEn } });
     } else if (table === 'porsiya') {
       let adVal = val;
       let miqdarVal = null;
@@ -41,7 +42,15 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
           adVal = pa || 'nəfərlik';
         }
       }
-      item = await prisma.porsiya.update({ where: { id }, data: { ad: adVal, miqdar: miqdarVal } });
+      let adValEn = valEn;
+      if (valEn) {
+        const matchEn = valEn.match(/^([0-9\-+\s½¼¾/]+)?\s*(.*)$/);
+        if (matchEn) {
+          const paEn = matchEn[2]?.trim();
+          adValEn = paEn || 'persons';
+        }
+      }
+      item = await prisma.porsiya.update({ where: { id }, data: { ad: adVal, adEn: adValEn, miqdar: miqdarVal } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }

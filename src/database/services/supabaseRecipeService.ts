@@ -28,26 +28,30 @@ const recipeInclude = {
 
 type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
 
-function transform(r: RecipeWithRelations): Recipe {
+function transform(r: RecipeWithRelations, locale?: string): Recipe {
+  const isEn = locale === 'en';
   return {
     id: r.id,
-    name: r.yemeyinAdi,
+    name: (isEn && r.yemeyinAdiEn) ? r.yemeyinAdiEn : r.yemeyinAdi,
     slug: r.slug,
-    origin: r.mense?.ad ?? '',
-    region: r.bolge?.ad ?? '',
-    category: r.kateqoriya.ad,
+    origin: isEn ? (r.mense?.adEn ?? r.mense?.ad ?? '') : (r.mense?.ad ?? ''),
+    region: isEn ? (r.bolge?.adEn ?? r.bolge?.ad ?? '') : (r.bolge?.ad ?? ''),
+    category: isEn ? (r.kateqoriya.adEn ?? r.kateqoriya.ad) : r.kateqoriya.ad,
     ingredients: r.terkibHisseleri.map(i => {
+      const ingName = (isEn && i.adEn) ? i.adEn : i.ad;
       if (i.miqdar) {
-        return i.miqdar.miqdar ? `${i.ad} – ${i.miqdar.miqdar} ${i.miqdar.ad}` : `${i.ad} – ${i.miqdar.ad}`;
+        const qtyVal = i.miqdar.miqdar;
+        const unitName = (isEn && i.miqdar.adEn) ? i.miqdar.adEn : i.miqdar.ad;
+        return qtyVal ? `${ingName} – ${qtyVal} ${unitName}` : `${ingName} – ${unitName}`;
       }
-      return i.ad;
+      return ingName;
     }),
-    instructions: r.addimlar.map(s => s.metn),
-    prepTime: r.hazirlanmaMuddeti,
-    difficulty: r.cetinlikDerecesi as 'Asan' | 'Orta' | 'Çətin',
-    servings: r.porsiyaSayi,
-    history: r.tarixiMelumat ?? '',
-    servingSuggestions: r.teqdimTeklifleri ?? '',
+    instructions: r.addimlar.map(s => (isEn && s.metnEn) ? s.metnEn : s.metn),
+    prepTime: (isEn && r.hazirlanmaMuddetiEn) ? r.hazirlanmaMuddetiEn : r.hazirlanmaMuddeti,
+    difficulty: (isEn && r.cetinlikDerecesiEn) ? r.cetinlikDerecesiEn as any : r.cetinlikDerecesi as any,
+    servings: (isEn && r.porsiyaSayiEn) ? r.porsiyaSayiEn : r.porsiyaSayi,
+    history: isEn ? (r.tarixiMelumatEn ?? r.tarixiMelumat ?? '') : (r.tarixiMelumat ?? ''),
+    servingSuggestions: isEn ? (r.teqdimTeklifleriEn ?? r.teqdimTeklifleri ?? '') : (r.teqdimTeklifleri ?? ''),
     image: r.sekiller.find(s => s.isMain)?.url ?? r.sekiller[0]?.url ?? '',
     tags: [],
     featured: r.featured,
@@ -63,28 +67,48 @@ export class SupabaseRecipeService {
     region?: string
     featured?: boolean
     searchQuery?: string
+    locale?: string
   }): Promise<{ recipes: Recipe[]; total: number }> {
     try {
-      const { limit = 50, offset = 0, category, difficulty, region, featured, searchQuery } = options ?? {}
+      const { limit = 50, offset = 0, category, difficulty, region, featured, searchQuery, locale } = options ?? {}
 
       const where: Prisma.RecipeWhereInput = {}
 
-      if (category) where.kateqoriya = { ad: { contains: category, mode: 'insensitive' } }
-      if (difficulty) where.cetinlikDerecesi = difficulty
-      if (region) where.OR = [
-        { mense: { ad: { contains: region, mode: 'insensitive' } } },
-        { bolge: { ad: { contains: region, mode: 'insensitive' } } },
-      ]
+      if (category) {
+        where.kateqoriya = {
+          OR: [
+            { ad: { contains: category, mode: 'insensitive' } },
+            { adEn: { contains: category, mode: 'insensitive' } }
+          ]
+        }
+      }
+      if (difficulty) {
+        where.cetinlikDerecesi = difficulty
+      }
+      if (region) {
+        where.OR = [
+          { mense: { ad: { contains: region, mode: 'insensitive' } } },
+          { mense: { adEn: { contains: region, mode: 'insensitive' } } },
+          { bolge: { ad: { contains: region, mode: 'insensitive' } } },
+          { bolge: { adEn: { contains: region, mode: 'insensitive' } } },
+        ]
+      }
       if (featured !== undefined) where.featured = featured
 
       if (searchQuery) {
         where.OR = [
           { yemeyinAdi: { contains: searchQuery, mode: 'insensitive' } },
+          { yemeyinAdiEn: { contains: searchQuery, mode: 'insensitive' } },
           { tarixiMelumat: { contains: searchQuery, mode: 'insensitive' } },
+          { tarixiMelumatEn: { contains: searchQuery, mode: 'insensitive' } },
           { kateqoriya: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { kateqoriya: { adEn: { contains: searchQuery, mode: 'insensitive' } } },
           { mense: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { mense: { adEn: { contains: searchQuery, mode: 'insensitive' } } },
           { bolge: { ad: { contains: searchQuery, mode: 'insensitive' } } },
+          { bolge: { adEn: { contains: searchQuery, mode: 'insensitive' } } },
           { terkibHisseleri: { some: { ad: { contains: searchQuery, mode: 'insensitive' } } } },
+          { terkibHisseleri: { some: { adEn: { contains: searchQuery, mode: 'insensitive' } } } },
         ]
       }
 
@@ -93,33 +117,33 @@ export class SupabaseRecipeService {
         prisma.recipe.count({ where }),
       ])
 
-      return { recipes: rows.map(transform), total }
+      return { recipes: rows.map(r => transform(r, locale)), total }
     } catch (error) {
       console.error('Error fetching recipes:', error)
       return { recipes: [], total: 0 }
     }
   }
 
-  async getRecipeBySlug(slug: string): Promise<Recipe | null> {
+  async getRecipeBySlug(slug: string, locale?: string): Promise<Recipe | null> {
     try {
       const r = await prisma.recipe.findUnique({ where: { slug }, include: recipeInclude })
-      return r ? transform(r) : null
+      return r ? transform(r, locale) : null
     } catch (error) {
       console.error('Error fetching recipe by slug:', error)
       return null
     }
   }
 
-  async getFeaturedRecipes(limit = 6): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ featured: true, limit })
+  async getFeaturedRecipes(limit = 6, locale?: string): Promise<Recipe[]> {
+    const result = await this.getAllRecipes({ featured: true, limit, locale })
     return result.recipes
   }
 
-  async getRecipesByCategory(category: string, limit = 10): Promise<Recipe[]> {
+  async getRecipesByCategory(category: string, limit = 10, locale?: string): Promise<Recipe[]> {
     try {
       const all = await prisma.recipe.findMany({ include: recipeInclude, orderBy: { createdAt: 'desc' } })
       return all
-        .map(transform)
+        .map(r => transform(r, locale))
         .filter(r => recipeMatchesCategory(r.category, category))
         .slice(0, limit)
     } catch (error) {
@@ -128,33 +152,37 @@ export class SupabaseRecipeService {
     }
   }
 
-  async getRecipesByRegion(region: string, limit = 10): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ region, limit })
+  async getRecipesByRegion(region: string, limit = 10, locale?: string): Promise<Recipe[]> {
+    const result = await this.getAllRecipes({ region, limit, locale })
     return result.recipes
   }
 
-  async searchRecipes(query: string, limit = 20): Promise<Recipe[]> {
-    const result = await this.getAllRecipes({ searchQuery: query, limit })
+  async searchRecipes(query: string, limit = 20, locale?: string): Promise<Recipe[]> {
+    const result = await this.getAllRecipes({ searchQuery: query, limit, locale })
     return result.recipes
   }
 
-  async getCategories(): Promise<string[]> {
+  async getCategories(locale?: string): Promise<string[]> {
     try {
       const cats = await prisma.category.findMany({ orderBy: { ad: 'asc' } })
-      return cats.map(c => c.ad)
+      return cats.map(c => (locale === 'en' && c.adEn) ? c.adEn : c.ad)
     } catch (error) {
       console.error('Error fetching categories:', error)
       return []
     }
   }
 
-  async getRegions(): Promise<string[]> {
+  async getRegions(locale?: string): Promise<string[]> {
     try {
       const [menseler, bolgeler] = await Promise.all([
         prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
         prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
       ])
-      const all = new Set([...menseler.map(m => m.ad), ...bolgeler.map(b => b.ad)])
+      const isEn = locale === 'en';
+      const all = new Set([
+        ...menseler.map(m => (isEn && m.adEn) ? m.adEn : m.ad),
+        ...bolgeler.map(b => (isEn && b.adEn) ? b.adEn : b.ad)
+      ])
       return Array.from(all).sort()
     } catch (error) {
       console.error('Error fetching regions:', error)

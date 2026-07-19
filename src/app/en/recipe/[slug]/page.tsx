@@ -11,7 +11,7 @@ interface RecipePageProps {
 
 export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const recipe = await getRecipeBySlug(slug);
+  const recipe = await getRecipeBySlug(slug, 'en');
 
   if (!recipe) {
     return {
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
 
 export default async function EnglishRecipePage({ params }: RecipePageProps) {
   const { slug } = await params;
-  const recipe = await getRecipeBySlug(slug);
+  const recipe = await getRecipeBySlug(slug, 'en');
 
   if (!recipe) {
     notFound();
@@ -92,7 +92,7 @@ export default async function EnglishRecipePage({ params }: RecipePageProps) {
 
 export async function generateStaticParams() {
   try {
-    const recipes = await getRecipes();
+    const recipes = await getRecipes('en');
     return recipes.map((recipe) => ({ slug: recipe.slug }));
   } catch (error) {
     console.log('Unable to fetch recipes during build (this is expected locally):', error);

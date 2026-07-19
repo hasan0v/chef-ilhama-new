@@ -1,6 +1,9 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import { LegalBlock, PageHero, SectionLabel } from '@/components/site/marketing';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface LegalSectionItem {
   index: string;
@@ -17,6 +20,9 @@ interface LegalPageProps {
 }
 
 export default function LegalPage({ eyebrow, title, description, sections, updatedAt }: LegalPageProps) {
+  const { t, locale } = useTranslation();
+  const isEn = locale === 'en';
+
   return (
     <PageLayout>
       <div className="space-y-12 lg:space-y-16">
@@ -25,9 +31,9 @@ export default function LegalPage({ eyebrow, title, description, sections, updat
           title={title}
           description={description}
           stats={[
-            { value: `${sections.length}`, label: 'əsas bölmə' },
-            { value: updatedAt, label: 'yenilənmə' },
-            { value: 'AZ', label: 'lokal xidmət' },
+            { value: `${sections.length}`, label: isEn ? 'sections' : 'bölmə' },
+            { value: updatedAt, label: t.legal.lastUpdated },
+            { value: 'AZ / EN', label: isEn ? 'language' : 'dil' },
           ]}
         />
 

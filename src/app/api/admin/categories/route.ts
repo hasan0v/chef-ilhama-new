@@ -27,23 +27,24 @@ export async function POST(request: NextRequest) {
   if (!user) return unauthorizedResponse();
 
   try {
-    const { table, ad } = await request.json();
+    const { table, ad, adEn } = await request.json();
     if (!ad?.trim()) return NextResponse.json({ error: 'Ad mütləqdir' }, { status: 400 });
     const val = ad.trim();
+    const valEn = adEn?.trim() || null;
 
     let item;
     if (table === 'kateqoriya') {
-      item = await prisma.category.create({ data: { ad: val } });
+      item = await prisma.category.create({ data: { ad: val, adEn: valEn } });
     } else if (table === 'mense') {
-      item = await prisma.mense.create({ data: { ad: val } });
+      item = await prisma.mense.create({ data: { ad: val, adEn: valEn } });
     } else if (table === 'bolge') {
-      item = await prisma.bolge.create({ data: { ad: val } });
+      item = await prisma.bolge.create({ data: { ad: val, adEn: valEn } });
     } else if (table === 'cetinlik') {
       const count = await prisma.cetinlik.count();
-      item = await prisma.cetinlik.create({ data: { ad: val, sira: count } });
+      item = await prisma.cetinlik.create({ data: { ad: val, adEn: valEn, sira: count } });
     } else if (table === 'muddet') {
       const count = await prisma.muddet.count();
-      item = await prisma.muddet.create({ data: { ad: val, sira: count } });
+      item = await prisma.muddet.create({ data: { ad: val, adEn: valEn, sira: count } });
     } else if (table === 'porsiya') {
       const count = await prisma.porsiya.count();
       let adVal = val;
@@ -57,7 +58,15 @@ export async function POST(request: NextRequest) {
           adVal = pa || 'nəfərlik';
         }
       }
-      item = await prisma.porsiya.create({ data: { ad: adVal, miqdar: miqdarVal, sira: count } });
+      let adValEn = valEn;
+      if (valEn) {
+        const matchEn = valEn.match(/^([0-9\-+\s½¼¾/]+)?\s*(.*)$/);
+        if (matchEn) {
+          const paEn = matchEn[2]?.trim();
+          adValEn = paEn || 'persons';
+        }
+      }
+      item = await prisma.porsiya.create({ data: { ad: adVal, adEn: adValEn, miqdar: miqdarVal, sira: count } });
     } else {
       return NextResponse.json({ error: 'Yanlış cədvəl' }, { status: 400 });
     }

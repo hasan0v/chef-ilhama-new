@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Clock, Users, ChefHat } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,9 @@ interface RecipeCardProps {
 
 export default function RecipeCard({ recipe, className = '', priority = false }: RecipeCardProps) {
   const [imageError, setImageError] = useState(false);
+  const pathname = usePathname();
+  const isEnglish = pathname?.startsWith('/en');
+  const recipeLink = isEnglish ? `/en/recipe/${recipe.slug}` : `/resept/${recipe.slug}`;
   
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -40,7 +44,7 @@ export default function RecipeCard({ recipe, className = '', priority = false }:
 
   return (
     <Card className={`group overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 ${className}`}>
-      <Link href={`/resept/${recipe.slug}`}>
+      <Link href={recipeLink}>
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src={getImageSrc()}
