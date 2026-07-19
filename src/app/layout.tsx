@@ -180,6 +180,9 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/de/') === 0 || path === '/de') {
       document.documentElement.lang = 'de';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/ja/') === 0 || path === '/ja') {
+      document.documentElement.lang = 'ja';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;

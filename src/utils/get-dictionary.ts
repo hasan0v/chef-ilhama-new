@@ -11,6 +11,7 @@ import { es } from '@/dictionaries/es';
 import { pt } from '@/dictionaries/pt';
 import { nl } from '@/dictionaries/nl';
 import { de } from '@/dictionaries/de';
+import { ja } from '@/dictionaries/ja';
 
 export function getDictionary(locale?: string) {
   if (locale === 'en') return en;
@@ -25,5 +26,6 @@ export function getDictionary(locale?: string) {
   if (locale === 'pt') return pt;
   if (locale === 'nl') return nl;
   if (locale === 'de') return de;
+  if (locale === 'ja') return ja;
   return az;
 }
