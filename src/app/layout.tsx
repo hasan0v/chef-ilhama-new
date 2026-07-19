@@ -177,6 +177,9 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/nl/') === 0 || path === '/nl') {
       document.documentElement.lang = 'nl';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/de/') === 0 || path === '/de') {
+      document.documentElement.lang = 'de';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;

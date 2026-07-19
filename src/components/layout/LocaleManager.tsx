@@ -19,6 +19,7 @@ export default function LocaleManager() {
     const isEs = pathname.startsWith('/es/') || pathname === '/es';
     const isPt = pathname.startsWith('/pt/') || pathname === '/pt';
     const isNl = pathname.startsWith('/nl/') || pathname === '/nl';
+    const isDe = pathname.startsWith('/de/') || pathname === '/de';
 
     let lang = 'az';
     let dir = 'ltr';
@@ -46,6 +47,8 @@ export default function LocaleManager() {
       lang = 'pt';
     } else if (isNl) {
       lang = 'nl';
+    } else if (isDe) {
+      lang = 'de';
     }
 
     document.documentElement.lang = lang;

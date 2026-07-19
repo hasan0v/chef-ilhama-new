@@ -13,6 +13,7 @@ import { hi } from '@/dictionaries/hi';
 import { es } from '@/dictionaries/es';
 import { pt } from '@/dictionaries/pt';
 import { nl } from '@/dictionaries/nl';
+import { de } from '@/dictionaries/de';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -48,6 +49,9 @@ export function useTranslation() {
   }
   if (pathname?.startsWith('/nl/') || pathname === '/nl') {
     return { t: nl, locale: 'nl' as const };
+  }
+  if (pathname?.startsWith('/de/') || pathname === '/de') {
+    return { t: de, locale: 'de' as const };
   }
   return { t: az, locale: 'az' as const };
 }
