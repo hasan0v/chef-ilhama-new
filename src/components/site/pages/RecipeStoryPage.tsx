@@ -14,9 +14,13 @@ import {
   Clock3,
   History,
   ExternalLink,
+  Lightbulb,
   MapPin,
   Printer,
+  RefreshCw,
   Share2,
+  ShieldAlert,
+  Utensils,
   Users,
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
@@ -33,11 +37,14 @@ import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { useTranslation } from '@/hooks/useTranslation';
-import { getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
+import { getLocalizedRecipePath, getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
 import type { SiteLocale } from '@/lib/localeRoutes';
+import { trackEvent } from '@/lib/analytics';
+import { getRecipeInsight } from '@/lib/recipeInsights';
 
 interface RecipeStoryPageProps {
   recipe: Recipe;
+  relatedRecipes?: Recipe[];
   breadcrumbs?: import('@/lib/seo').BreadcrumbItem[];
 }
 
@@ -76,13 +83,14 @@ function getDifficultyTone(difficulty: string) {
   }
 }
 
-export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPageProps) {
+export default function RecipeStoryPage({ recipe, relatedRecipes = [], breadcrumbs }: RecipeStoryPageProps) {
   const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(new Set());
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
   const [saved, setSaved] = useState(false);
   const [progressLoaded, setProgressLoaded] = useState(false);
   const { t, locale } = useTranslation();
   const labels = engagementLabels[locale];
+  const recipeInsight = locale === 'az' || locale === 'en' ? getRecipeInsight(recipe.slug)?.[locale] : undefined;
   const progressKey = `chef-recipe-progress:${recipe.slug}`;
 
   useEffect(() => {
@@ -111,6 +119,15 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
     localStorage.setItem(progressKey, JSON.stringify({ ingredients: [...checkedIngredients], steps: [...completedSteps] }));
   }, [checkedIngredients, completedSteps, progressKey, progressLoaded]);
 
+  useEffect(() => {
+    trackEvent('recipe_view', {
+      recipe_slug: recipe.slug,
+      recipe_name: recipe.name,
+      recipe_origin: recipe.origin,
+      locale,
+    });
+  }, [locale, recipe.name, recipe.origin, recipe.slug]);
+
   const getRecipesUrl = () => getLocalizedRecipesPath(locale);
   const getServicesUrl = () => getLocalizedServicesPath(locale);
 
@@ -133,6 +150,12 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
       } else {
         next.add(index);
       }
+      trackEvent('ingredient_check', {
+        recipe_slug: recipe.slug,
+        ingredient_number: index + 1,
+        checked: next.has(index),
+        locale,
+      });
       return next;
     });
   }
@@ -145,6 +168,16 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
       } else {
         next.add(index);
       }
+      const completed = next.has(index);
+      trackEvent('step_complete', {
+        recipe_slug: recipe.slug,
+        step_number: index + 1,
+        completed,
+        locale,
+      });
+      if (completed && next.size === recipe.instructions.length) {
+        trackEvent('recipe_complete', { recipe_slug: recipe.slug, locale });
+      }
       return next;
     });
   }
@@ -156,18 +189,22 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
 
     if (navigator.share) {
       await navigator.share({ title, text, url });
+      trackEvent('recipe_share', { recipe_slug: recipe.slug, method: 'native', locale });
       return;
     }
 
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(url);
+      trackEvent('recipe_share', { recipe_slug: recipe.slug, method: 'clipboard', locale });
       return;
     }
 
     window.prompt(t.recipeStory.layoutShare, url);
+    trackEvent('recipe_share', { recipe_slug: recipe.slug, method: 'prompt', locale });
   }
 
   function handlePrint() {
+    trackEvent('recipe_print', { recipe_slug: recipe.slug, locale });
     window.print();
   }
 
@@ -176,7 +213,9 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
     if (savedRecipes.has(recipe.slug)) savedRecipes.delete(recipe.slug);
     else savedRecipes.add(recipe.slug);
     localStorage.setItem('chef-saved-recipes', JSON.stringify([...savedRecipes]));
-    setSaved(savedRecipes.has(recipe.slug));
+    const isSaved = savedRecipes.has(recipe.slug);
+    setSaved(isSaved);
+    trackEvent('recipe_save', { recipe_slug: recipe.slug, saved: isSaved, locale });
   }
 
   return (
@@ -286,6 +325,58 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
           </div>
         </section>
 
+        {recipeInsight ? (
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl space-y-7">
+              <SectionHeading
+                eyebrow={<SectionLabel>{locale === 'az' ? 'Bişirmə bələdçisi' : 'Cook’s brief'}</SectionLabel>}
+                title={<>{locale === 'az' ? `${recipe.name} necə dadır və nəyi düzgün etmək lazımdır?` : `What does ${recipe.name} taste like—and what matters most?`}</>}
+              />
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+                <Card className="border-white/60 bg-[rgba(36,28,24,0.96)] text-white shadow-[0_24px_68px_rgba(36,28,24,0.18)] md:col-span-2 xl:col-span-2">
+                  <CardContent className="p-6 sm:p-7">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10"><Utensils className="h-5 w-5" /></div>
+                    <div className="mt-5 text-xs font-semibold uppercase tracking-[0.22em] text-white/52">{locale === 'az' ? 'Dad profili' : 'Taste profile'}</div>
+                    <p className="mt-3 text-base leading-8 text-white/88">{recipeInsight.taste}</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-white/60 bg-white/78 shadow-[0_22px_60px_rgba(52,34,22,0.08)] md:col-span-1 xl:col-span-2">
+                  <CardContent className="p-6 sm:p-7">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(201,150,69,0.18)] text-[rgba(141,58,36,0.96)]"><Lightbulb className="h-5 w-5" /></div>
+                    <div className="mt-5 text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.66)]">{locale === 'az' ? 'Əsas texnika' : 'Key technique'}</div>
+                    <p className="mt-3 text-sm leading-8 text-[rgba(57,44,35,0.78)] sm:text-base">{recipeInsight.technique}</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-white/60 bg-white/78 shadow-[0_22px_60px_rgba(52,34,22,0.08)] md:col-span-1 xl:col-span-2">
+                  <CardContent className="p-6 sm:p-7">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[rgba(53,84,65,0.12)] text-[rgba(53,84,65,0.96)]"><RefreshCw className="h-5 w-5" /></div>
+                    <div className="mt-5 text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.66)]">{locale === 'az' ? 'Praktik alternativ' : 'Practical substitute'}</div>
+                    <p className="mt-3 text-sm leading-8 text-[rgba(57,44,35,0.78)] sm:text-base">{recipeInsight.substitution}</p>
+                  </CardContent>
+                </Card>
+                <Card className="border-white/60 bg-white/78 shadow-[0_22px_60px_rgba(52,34,22,0.08)] md:col-span-1 xl:col-span-3">
+                  <CardContent className="flex gap-4 p-6 sm:p-7">
+                    <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]"><ShieldAlert className="h-5 w-5" /></div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.66)]">{locale === 'az' ? 'Bu səhvdən qaçın' : 'Avoid this mistake'}</div>
+                      <p className="mt-3 text-sm leading-8 text-[rgba(57,44,35,0.78)] sm:text-base">{recipeInsight.avoid}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="border-white/60 bg-white/78 shadow-[0_22px_60px_rgba(52,34,22,0.08)] md:col-span-1 xl:col-span-3">
+                  <CardContent className="flex gap-4 p-6 sm:p-7">
+                    <div className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[rgba(53,84,65,0.12)] text-[rgba(53,84,65,0.96)]"><Clock3 className="h-5 w-5" /></div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-[rgba(112,83,59,0.66)]">{locale === 'az' ? 'Saxlama və qızdırma' : 'Storage and reheating'}</div>
+                      <p className="mt-3 text-sm leading-8 text-[rgba(57,44,35,0.78)] sm:text-base">{recipeInsight.storage}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section id="recipe-content" className="scroll-mt-28 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
@@ -365,6 +456,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                         return (
                           <div
                             key={`${instruction.slice(0, 24)}-${index}`}
+                            id={`step-${index + 1}`}
                             className={`rounded-[1.5rem] border p-5 transition-colors ${
                               completed
                                 ? 'border-[rgba(53,84,65,0.18)] bg-[rgba(53,84,65,0.08)]'
@@ -437,6 +529,49 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
             </div>
           </div>
         </section>
+
+        {relatedRecipes.length ? (
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl space-y-7">
+              <SectionHeading
+                eyebrow={<SectionLabel>{locale === 'az' ? 'Növbəti dad' : 'Your next flavour'}</SectionLabel>}
+                title={<>{locale === 'az' ? 'Bu resepti sevənlər üçün.' : 'If this recipe caught your eye.'}</>}
+                description={locale === 'az'
+                  ? 'Bənzər texnika, bölgə və dad quruluşuna görə seçilmiş reseptlər.'
+                  : 'Continue with recipes connected by technique, region and flavour structure.'}
+              />
+              <div className="grid gap-5 md:grid-cols-3">
+                {relatedRecipes.map((relatedRecipe) => (
+                  <Link
+                    key={relatedRecipe.id}
+                    href={getLocalizedRecipePath(locale, relatedRecipe.slug)}
+                    className="group overflow-hidden rounded-[1.5rem] border border-white/60 bg-white/76 shadow-[0_22px_60px_rgba(52,34,22,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_26px_70px_rgba(52,34,22,0.15)] sm:rounded-[2rem]"
+                    onClick={() => trackEvent('related_recipe_opened', { from_recipe: recipe.slug, to_recipe: relatedRecipe.slug, locale })}
+                  >
+                    <div className="relative min-h-[220px] overflow-hidden">
+                      <Image
+                        src={getValidImageUrl(relatedRecipe.image)}
+                        alt={relatedRecipe.imageAlt || relatedRecipe.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-transparent to-transparent" />
+                      <div className="absolute bottom-5 left-5 right-5 text-white">
+                        <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/68"><MapPin className="h-3.5 w-3.5" />{relatedRecipe.origin}</div>
+                        <h3 className="display-title mt-2 text-3xl leading-none">{relatedRecipe.name}</h3>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 p-5 text-sm">
+                      <span className="inline-flex items-center gap-2 text-[rgba(57,44,35,0.68)]"><Clock3 className="h-4 w-4" />{relatedRecipe.prepTime}</span>
+                      <span className="font-semibold text-[rgba(141,58,36,0.96)]">{locale === 'az' ? 'Aç' : 'Open'} →</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         {recipe.sources?.length ? (
           <section className="px-4 sm:px-6 lg:px-8">

@@ -8,15 +8,15 @@ import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
 export const revalidate = 300;
 
 export const metadata: Metadata = withLocaleAlternates('en', 'recipes', {
-  title: 'Azerbaijani Recipes — Traditional Regional Dishes',
+  title: 'Global & Azerbaijani Recipes — Rare Regional Dishes',
   description:
-    'The most delicious traditional Azerbaijani recipes. 50+ recipes from 25+ regions: plov, dolma, kebab, soups, pastries and more. Step-by-step preparation instructions.',
+    'Cook underrepresented regional dishes from Azerbaijan and around the world. Search rare traditional recipes by country, category, time and difficulty.',
   keywords:
-    'Azerbaijani recipes, traditional Azerbaijani food, plov recipe, dolma recipe, kebab recipe, Azerbaijan cuisine, Caucasus recipes',
+    'global recipes, rare traditional dishes, regional food recipes, Azerbaijani recipes, world cuisine, authentic recipes, underrepresented dishes',
   openGraph: {
-    title: 'Azerbaijani Recipes — Chef İlhamə',
+    title: 'Global & Azerbaijani Recipes — Chef İlhamə',
     description:
-      'Traditional Azerbaijani recipes from 25+ regions. Step-by-step preparation guides.',
+      'Rare regional dishes from Azerbaijan and around the world, with clear ingredients, cooking steps and sources.',
     type: 'website',
     locale: 'en_US',
     alternateLocale: 'az_AZ',
@@ -27,14 +27,14 @@ export const metadata: Metadata = withLocaleAlternates('en', 'recipes', {
         url: 'https://chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
-        alt: 'Azerbaijani recipe collection',
+        alt: 'Global and Azerbaijani recipe collection',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Azerbaijani Recipes — Chef İlhamə',
-    description: 'Traditional Azerbaijani recipes from 25+ regions.',
+    title: 'Global & Azerbaijani Recipes — Chef İlhamə',
+    description: 'Rare regional recipes with clear steps and sources.',
     images: ['https://chef-ilhama.food/ilhama.png'],
   },
   alternates: {
@@ -52,8 +52,8 @@ export default async function EnglishRecipesPage() {
 
   const collectionSchema = getRecipeCollectionSchema(
     recipes,
-    'Azerbaijani Recipes — Chef İlhamə',
-    'Collection of the most delicious traditional Azerbaijani recipes.',
+    'Global & Azerbaijani Recipes — Chef İlhamə',
+    'A curated collection of underrepresented regional recipes from Azerbaijan and around the world.',
     '/en/recipes'
   );
 

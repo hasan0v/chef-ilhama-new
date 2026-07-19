@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getRecipeBySlug } from '@/lib/recipes';
+import { getRecipeBySlug, getRecipes, getRelatedRecipes } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import type { Metadata } from 'next';
 import { getBreadcrumbSchema, getRecipeSchema } from '@/lib/seo';
@@ -25,10 +25,12 @@ export async function generateMetadata({ params }: RecipePageProps): Promise<Met
 export default async function RecipePage({ params }: RecipePageProps) {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug);
+  const allRecipes = await getRecipes('az');
 
   if (!recipe) {
     notFound();
   }
+  const relatedRecipes = getRelatedRecipes(recipe, allRecipes);
 
   const breadcrumbs = [
     { name: 'Ana Səhifə', href: '/' },
@@ -40,7 +42,7 @@ export default async function RecipePage({ params }: RecipePageProps) {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getRecipeSchema(recipe, 'az')) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbSchema(breadcrumbs)) }} />
-      <RecipeStoryPage recipe={recipe} breadcrumbs={breadcrumbs} />
+      <RecipeStoryPage recipe={recipe} relatedRecipes={relatedRecipes} breadcrumbs={breadcrumbs} />
     </>
   );
 }

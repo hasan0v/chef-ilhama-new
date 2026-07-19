@@ -1,15 +1,18 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   Clock3,
+  Compass,
   Grid3X3,
   LayoutList,
   MapPin,
   Search,
+  Shuffle,
   Sparkles,
   Star,
   Users,
@@ -36,6 +39,8 @@ import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats, recipeMatchesCategory } from '@/utils/categoryUtils';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getLocalizedRecipePath } from '@/lib/localeRoutes';
+import { getCollectionPath, recipeCollections, type CollectionLocale } from '@/lib/recipeCollections';
+import { trackEvent } from '@/lib/analytics';
 
 interface RecipeCatalogPageProps {
   initialRecipes: Recipe[];
@@ -62,7 +67,10 @@ function getDifficultyTone(difficulty: string) {
 
 export default function RecipeCatalogPage({ initialRecipes, categories, regions, breadcrumbs }: RecipeCatalogPageProps) {
   const { t, locale } = useTranslation();
+  const router = useRouter();
   const isEnglish = locale === 'en';
+  const supportsCollections = locale === 'az' || locale === 'en';
+  const collectionLocale: CollectionLocale = locale === 'az' ? 'az' : 'en';
   
   const getRecipeUrl = (slug: string) => getLocalizedRecipePath(locale, slug);
 
@@ -71,6 +79,37 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [filtersHydrated, setFiltersHydrated] = useState(false);
+
+  useEffect(() => {
+    const hydrationTimer = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      setSearchTerm(params.get('q') || '');
+      setSelectedCategory(params.get('category') || '');
+      setSelectedRegion(params.get('region') || '');
+      setSelectedDifficulty(params.get('difficulty') || '');
+      setFiltersHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(hydrationTimer);
+  }, []);
+
+  useEffect(() => {
+    if (!filtersHydrated) return;
+    const params = new URLSearchParams(window.location.search);
+    const values = {
+      q: searchTerm.trim(),
+      category: selectedCategory,
+      region: selectedRegion,
+      difficulty: selectedDifficulty,
+    };
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+    const nextUrl = params.size ? `${window.location.pathname}?${params}` : window.location.pathname;
+    window.history.replaceState(window.history.state, '', nextUrl);
+  }, [filtersHydrated, searchTerm, selectedCategory, selectedRegion, selectedDifficulty]);
 
   const categoryStats = useMemo(() => getCategoryStats(initialRecipes), [initialRecipes]);
   
@@ -83,6 +122,8 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
         !query ||
         recipe.name.toLowerCase().includes(query) ||
         recipe.origin.toLowerCase().includes(query) ||
+        recipe.history.toLowerCase().includes(query) ||
+        recipe.ingredients.some((ingredient) => ingredient.toLowerCase().includes(query)) ||
         recipe.tags.some((tag) => tag.toLowerCase().includes(query));
       const matchesCategory = recipeMatchesCategory(recipe.category, selectedCategory);
       const matchesRegion = !selectedRegion || recipe.origin.includes(selectedRegion) || recipe.region.includes(selectedRegion);
@@ -92,11 +133,30 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
     });
   }, [initialRecipes, searchTerm, selectedCategory, selectedRegion, selectedDifficulty]);
 
+  useEffect(() => {
+    const query = searchTerm.trim();
+    if (query.length < 2) return;
+    const timeout = window.setTimeout(() => {
+      trackEvent('recipe_search', { query, result_count: filteredRecipes.length, locale });
+    }, 700);
+    return () => window.clearTimeout(timeout);
+  }, [filteredRecipes.length, locale, searchTerm]);
+
   function clearFilters() {
     setSearchTerm('');
     setSelectedCategory('');
     setSelectedRegion('');
     setSelectedDifficulty('');
+    trackEvent('recipe_filters_cleared', { locale });
+  }
+
+  function openRandomRecipe() {
+    const pool = filteredRecipes.length ? filteredRecipes : initialRecipes;
+    const recipe = pool[Math.floor(Math.random() * pool.length)];
+    if (recipe) {
+      trackEvent('surprise_recipe_opened', { recipe_slug: recipe.slug, locale, result_pool_size: pool.length });
+      router.push(getRecipeUrl(recipe.slug));
+    }
   }
 
   return (
@@ -112,6 +172,73 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
             { value: `${regions.length}`, label: t.home.regionsStat },
           ]}
         />
+
+        {supportsCollections ? (
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl space-y-6">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                <SectionHeading
+                  eyebrow={<SectionLabel>{collectionLocale === 'az' ? 'Dad üzrə kəşf et' : 'Explore by appetite'}</SectionLabel>}
+                  title={<>{collectionLocale === 'az' ? 'Bu gün ölkə yox, hiss seç.' : 'Choose a feeling, not a country.'}</>}
+                  description={collectionLocale === 'az'
+                    ? 'Axtarış marağı və bişirmə niyyətinə görə hazırlanmış redaksiya marşrutları.'
+                    : 'Editorial trails built around real search intent and the way people actually decide what to cook.'}
+                />
+                <div className="flex shrink-0 flex-wrap gap-2">
+                  <Button type="button" onClick={openRandomRecipe} variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/76 px-5 hover:bg-white">
+                    <Shuffle className="h-4 w-4" />
+                    {collectionLocale === 'az' ? 'Məni təəccübləndir' : 'Surprise me'}
+                  </Button>
+                  <Button asChild className="rounded-full bg-[rgba(36,28,24,0.96)] px-5 text-white hover:bg-[rgba(36,28,24,0.9)]">
+                    <Link href={collectionLocale === 'az' ? '/kolleksiyalar' : '/en/collections'}>
+                      <Compass className="h-4 w-4" />
+                      {collectionLocale === 'az' ? 'Bütün marşrutlar' : 'All trails'}
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                {recipeCollections.slice(0, 3).map((collection, index) => {
+                  const imageRecipe = collection.recipeSlugs
+                    .map((slug) => initialRecipes.find((recipe) => recipe.slug === slug))
+                    .find(Boolean);
+
+                  return (
+                    <Link
+                      key={collection.slug}
+                      href={getCollectionPath(collectionLocale, collection.slug)}
+                      onClick={() => trackEvent('collection_opened', { collection_slug: collection.slug, source: 'recipe_catalog', locale })}
+                      className="group relative min-h-[260px] overflow-hidden rounded-[1.5rem] border border-white/56 shadow-[0_22px_62px_rgba(52,34,22,0.1)] sm:rounded-[2rem]"
+                    >
+                      {imageRecipe ? (
+                        <Image
+                          src={getValidImageUrl(imageRecipe.image)}
+                          alt={imageRecipe.imageAlt || imageRecipe.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        />
+                      ) : null}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/84 via-black/16 to-transparent" />
+                      <div className="absolute inset-x-5 top-5 flex items-center justify-between text-white">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/68">0{index + 1} · {collection.recipeSlugs.length} {collectionLocale === 'az' ? 'resept' : 'recipes'}</span>
+                        <Sparkles className="h-4 w-4" />
+                      </div>
+                      <div className="absolute bottom-5 left-5 right-5 text-white">
+                        <h2 className="display-title text-4xl leading-[0.94]">{collection.shortTitle[collectionLocale]}</h2>
+                        <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white/82">
+                          {collectionLocale === 'az' ? 'Kolleksiyanı aç' : 'Open collection'}
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
@@ -131,7 +258,11 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
                     className="h-12 rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 pl-11"
                   />
                 </div>
-                <Select value={selectedCategory || 'all'} onValueChange={(value) => setSelectedCategory(value === 'all' ? '' : value)}>
+                <Select value={selectedCategory || 'all'} onValueChange={(value) => {
+                  const category = value === 'all' ? '' : value;
+                  setSelectedCategory(category);
+                  trackEvent('recipe_filter_used', { filter_type: 'category', filter_value: category || 'all', locale });
+                }}>
                   <SelectTrigger className="h-12 w-full rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 px-4">
                     <SelectValue placeholder={t.recipes.selectCategoryPlaceholder} />
                   </SelectTrigger>
@@ -142,7 +273,11 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
                     ))}
                   </SelectContent>
                 </Select>
-                <Select value={selectedRegion || 'all'} onValueChange={(value) => setSelectedRegion(value === 'all' ? '' : value)}>
+                <Select value={selectedRegion || 'all'} onValueChange={(value) => {
+                  const region = value === 'all' ? '' : value;
+                  setSelectedRegion(region);
+                  trackEvent('recipe_filter_used', { filter_type: 'region', filter_value: region || 'all', locale });
+                }}>
                   <SelectTrigger className="h-12 w-full rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 px-4">
                     <SelectValue placeholder={t.recipes.selectRegionPlaceholder} />
                   </SelectTrigger>
@@ -153,7 +288,11 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
                     ))}
                   </SelectContent>
                 </Select>
-                <Select value={selectedDifficulty || 'all'} onValueChange={(value) => setSelectedDifficulty(value === 'all' ? '' : value)}>
+                <Select value={selectedDifficulty || 'all'} onValueChange={(value) => {
+                  const difficulty = value === 'all' ? '' : value;
+                  setSelectedDifficulty(difficulty);
+                  trackEvent('recipe_filter_used', { filter_type: 'difficulty', filter_value: difficulty || 'all', locale });
+                }}>
                   <SelectTrigger className="h-12 w-full rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 px-4">
                     <SelectValue placeholder={t.recipes.selectDifficultyPlaceholder} />
                   </SelectTrigger>
@@ -183,7 +322,10 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
                   <button
                     key={item.name}
                     type="button"
-                    onClick={() => setSelectedCategory(item.name)}
+                    onClick={() => {
+                      setSelectedCategory(item.name);
+                      trackEvent('recipe_filter_used', { filter_type: 'top_category', filter_value: item.name, locale });
+                    }}
                     className={`rounded-full px-3 py-1.5 text-sm transition-colors cursor-pointer ${
                       selectedCategory === item.name
                         ? 'bg-[rgba(141,58,36,0.96)] text-white'

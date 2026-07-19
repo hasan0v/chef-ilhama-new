@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
+import { getRecipeIndexNowUrls, notifyIndexNow } from '@/lib/indexNow';
 import { prisma } from '@/lib/prisma';
 
 function slugify(text: string): string {
@@ -272,6 +273,12 @@ export async function POST(request: NextRequest) {
           : {}),
       },
     });
+
+    try {
+      await notifyIndexNow(getRecipeIndexNowUrls(recipe.slug));
+    } catch (indexNowError) {
+      console.error('IndexNow create notification failed:', indexNowError);
+    }
 
     return NextResponse.json({ recipe }, { status: 201 });
   } catch (error) {

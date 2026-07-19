@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import { siteConfig } from '@/lib/site';
 import { getWebSiteSchema, getOrganizationSchema, getFoodEstablishmentSchema, getAuthorSchema } from '@/lib/seo';
 import LocaleManager from '@/components/layout/LocaleManager';
+import GoogleAnalytics from '@/components/Analytics/GoogleAnalytics';
 import './globals.css';
 
 const manrope = Manrope({
@@ -87,22 +88,6 @@ const siteSchemas = [
   { '@context': 'https://schema.org', ...getAuthorSchema() },
   getFoodEstablishmentSchema(),
 ];
-
-const analyticsScript = `
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      var script = document.createElement('script');
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-0DZ2LRYK9J';
-      script.async = true;
-      document.head.appendChild(script);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      window.gtag = gtag;
-      gtag('js', new Date());
-      gtag('config', 'G-0DZ2LRYK9J', { send_page_view: true });
-    }, 100);
-  });
-`;
 
 const serviceWorkerScript = `
   if ('serviceWorker' in navigator) {
@@ -221,7 +206,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://flavorsofbaku.com" />
         <link rel="dns-prefetch" href="https://azcookbook.com" />
         <script dangerouslySetInnerHTML={{ __html: htmlLocaleScript }} />
-        <script dangerouslySetInnerHTML={{ __html: analyticsScript }} />
         {siteSchemas.map((schema, i) => (
           <script
             key={`schema-${i}`}
@@ -231,6 +215,7 @@ export default function RootLayout({
         ))}
       </head>
       <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
+        <GoogleAnalytics />
         <LocaleManager />
         {children}
         <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />

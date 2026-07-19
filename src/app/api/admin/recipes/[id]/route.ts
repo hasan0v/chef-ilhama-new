@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyAdmin, unauthorizedResponse } from '@/lib/admin-auth';
+import { getRecipeIndexNowUrls, notifyIndexNow } from '@/lib/indexNow';
 import { prisma } from '@/lib/prisma';
 
 async function upsertLookup(
@@ -267,6 +268,12 @@ export async function PUT(
       include,
     });
 
+    try {
+      await notifyIndexNow(getRecipeIndexNowUrls(recipe.slug));
+    } catch (indexNowError) {
+      console.error('IndexNow update notification failed:', indexNowError);
+    }
+
     return NextResponse.json({ recipe });
   } catch (error) {
     console.error('Update recipe error:', error);
@@ -285,7 +292,15 @@ export async function DELETE(
   const { id } = await params;
 
   try {
+    const recipe = await prisma.recipe.findUnique({ where: { id }, select: { slug: true } });
     await prisma.recipe.delete({ where: { id } });
+    if (recipe) {
+      try {
+        await notifyIndexNow(getRecipeIndexNowUrls(recipe.slug));
+      } catch (indexNowError) {
+        console.error('IndexNow delete notification failed:', indexNowError);
+      }
+    }
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Delete recipe error:', error);

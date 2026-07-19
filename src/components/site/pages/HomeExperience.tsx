@@ -31,6 +31,7 @@ import {
   getLocalizedRecipePath,
   getLocalizedRecipesPath,
 } from '@/lib/localeRoutes';
+import { getCollectionsPath } from '@/lib/recipeCollections';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats } from '@/utils/categoryUtils';
@@ -286,12 +287,22 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
               eyebrow={<SectionLabel>{t.home.featuredHeading}</SectionLabel>}
               title={<>{t.home.featuredSubtitle}</>}
               actions={
-                <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
-                  <Link href={getRecipesUrl()}>
-                    {t.home.ctaBtn}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </Button>
+                <div className="flex flex-wrap gap-2">
+                  {(locale === 'az' || locale === 'en') ? (
+                    <Button asChild className="rounded-full bg-[rgba(36,28,24,0.96)] px-5 text-white hover:bg-[rgba(36,28,24,0.9)]">
+                      <Link href={getCollectionsPath(locale)}>
+                        {locale === 'az' ? 'Dad marşrutları' : 'Taste trails'}
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  ) : null}
+                  <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
+                    <Link href={getRecipesUrl()}>
+                      {t.home.ctaBtn}
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
               }
             />
             <div className="grid gap-4 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">

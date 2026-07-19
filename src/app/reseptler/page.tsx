@@ -9,23 +9,23 @@ import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
 export const revalidate = 300;
 
 export const metadata: Metadata = withLocaleAlternates('az', 'recipes', {
-  title: 'Azərbaycan Reseptləri — Ənənəvi Bölgəvi Yeməklər',
-  description: 'Azərbaycan mətbəxinin ən dadlı və ənənəvi reseptləri. 25+ bölgədən 50+ resept: plov, dolma, kabab, şorba, şirniyyat və daha çox. Addım-addım hazırlanma qaydası.',
-  keywords: 'Azərbaycan reseptləri, Azerbaijani recipes, ənənəvi yeməklər, plov resepti, dolma resepti, kabab resepti, Azerbaijani food recipes, traditional Azerbaijani dishes',
+  title: 'Azərbaycan və Dünya Reseptləri — Nadir Bölgəvi Yeməklər',
+  description: 'Azərbaycan və dünyanın az tanınan bölgəvi yeməklərini bişirin. Ölkə, kateqoriya, vaxt və çətinliyə görə ənənəvi reseptləri kəşf edin.',
+  keywords: 'Azərbaycan reseptləri, dünya mətbəxi, nadir yeməklər, ənənəvi reseptlər, bölgəvi yeməklər, qlobal reseptlər, Azerbaijani recipes',
   openGraph: {
-    title: 'Azərbaycan Reseptləri — Chef İlhamə',
-    description: '25+ bölgədən ənənəvi Azərbaycan reseptləri. Addım-addım hazırlanma qaydası.',
+    title: 'Azərbaycan və Dünya Reseptləri — Chef İlhamə',
+    description: 'Azərbaycan və dünyanın az tanınan bölgəvi reseptləri. Aydın inqrediyentlər, addımlar və mənbələr.',
     type: 'website',
     locale: 'az_AZ',
     alternateLocale: 'en_US',
     url: 'https://chef-ilhama.food/reseptler',
     siteName: 'Chef İlhamə',
-    images: [{ url: 'https://chef-ilhama.food/ilhama.png', width: 1200, height: 630, alt: 'Azərbaycan reseptləri kolleksiyası' }],
+    images: [{ url: 'https://chef-ilhama.food/ilhama.png', width: 1200, height: 630, alt: 'Azərbaycan və dünya reseptləri kolleksiyası' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Azərbaycan Reseptləri — Chef İlhamə',
-    description: '25+ bölgədən ənənəvi Azərbaycan reseptləri kolleksiyası.',
+    title: 'Azərbaycan və Dünya Reseptləri — Chef İlhamə',
+    description: 'Az tanınan bölgəvi yeməklər və Azərbaycan klassikləri.',
     images: ['https://chef-ilhama.food/ilhama.png'],
   },
   alternates: {
@@ -48,8 +48,8 @@ export default async function RecipesPage() {
 
   const collectionSchema = getRecipeCollectionSchema(
     recipes,
-    'Azərbaycan Reseptləri — Chef İlhamə',
-    'Azərbaycan mətbəxinin ən dadlı və ənənəvi reseptləri kolleksiyası.',
+    'Azərbaycan və Dünya Reseptləri — Chef İlhamə',
+    'Azərbaycan və dünyanın az tanınan bölgəvi yeməklərindən seçilmiş resept kolleksiyası.',
     '/reseptler'
   );
 

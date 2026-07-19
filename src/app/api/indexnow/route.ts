@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { notifyIndexNow } from '@/lib/indexNow';
 
 // IndexNow API endpoint
 // Allows notifying search engines about content changes
 // See: https://www.indexnow.org/documentation
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY || 'chef-ilhama-indexnow-key';
-
 export async function POST(request: NextRequest) {
   try {
+    const webhookSecret = process.env.INDEXNOW_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      return NextResponse.json({ error: 'IndexNow webhook is not configured' }, { status: 503 });
+    }
+    if (request.headers.get('authorization') !== `Bearer ${webhookSecret}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { urls } = body as { urls?: string[] };
 
@@ -15,38 +22,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'urls array is required' }, { status: 400 });
     }
 
-    // Fan out to IndexNow endpoints
-    const indexNowEndpoints = [
-      'https://api.indexnow.org/indexnow',
-      'https://www.bing.com/indexnow',
-      'https://yandex.com/indexnow',
-    ];
-
-    const payload = {
-      host: 'chef-ilhama.food',
-      key: INDEXNOW_KEY,
-      keyLocation: `https://chef-ilhama.food/${INDEXNOW_KEY}.txt`,
-      urlList: urls.map((u) =>
-        u.startsWith('http') ? u : `https://chef-ilhama.food${u}`
-      ),
-    };
-
-    const results = await Promise.allSettled(
-      indexNowEndpoints.map((endpoint) =>
-        fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify(payload),
-        })
-      )
-    );
-
-    const summary = results.map((r, i) => ({
-      endpoint: indexNowEndpoints[i],
-      status: r.status === 'fulfilled' ? r.value.status : 'failed',
-    }));
-
-    return NextResponse.json({ ok: true, summary });
+    const result = await notifyIndexNow(urls);
+    return NextResponse.json(result, { status: result.ok ? 200 : result.status });
   } catch {
     return NextResponse.json({ error: 'Internal error' }, { status: 500 });
   }
@@ -55,6 +32,6 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     service: 'IndexNow',
-    usage: 'POST with { "urls": ["/resept/plov", "/reseptler"] }',
+    usage: 'Authenticated publishing webhook',
   });
 }

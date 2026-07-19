@@ -4,6 +4,7 @@ import { recipeService } from '@/database/services';
 // Cache recipes for 5 minutes
 // Cache recipes by locale
 const recipesCache = new Map<string, { data: Recipe[]; timestamp: number }>();
+const recipesInFlight = new Map<string, Promise<Recipe[]>>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 export async function getRecipes(locale?: string): Promise<Recipe[]> {
@@ -14,17 +15,22 @@ export async function getRecipes(locale?: string): Promise<Recipe[]> {
       return cached.data;
     }
     
-    // The public catalog and sitemap must not silently inherit the service's
-    // paginated 50-row default. Client-side catalog filtering needs the full set.
-    const result = await recipeService.getAllRecipes({ locale: lang, limit: 500 });
-    
-    // Update cache
-    recipesCache.set(lang, {
-      data: result.recipes,
-      timestamp: Date.now()
-    });
-    
-    return result.recipes;
+    // Several server components request recipes, categories and stats together.
+    // Share the same pending query so they do not stampede a one-connection DB
+    // pool before the cache has been populated.
+    const pending = recipesInFlight.get(lang);
+    if (pending) return pending;
+
+    const request = recipeService
+      .getAllRecipes({ locale: lang, limit: 500 })
+      .then((result) => {
+        recipesCache.set(lang, { data: result.recipes, timestamp: Date.now() });
+        return result.recipes;
+      })
+      .finally(() => recipesInFlight.delete(lang));
+
+    recipesInFlight.set(lang, request);
+    return await request;
   } catch (error) {
     console.error('Error loading recipes:', error);
     return recipesCache.get(locale || 'az')?.data || [];
@@ -74,7 +80,7 @@ export async function getFeaturedRecipes(locale?: string): Promise<Recipe[]> {
       return cached.data;
     }
     
-    const recipes = await recipeService.getFeaturedRecipes(6, lang);
+    const recipes = (await getRecipes(lang)).filter((recipe) => recipe.featured).slice(0, 6);
     
     // Update cache
     featuredCache.set(lang, {
@@ -120,7 +126,9 @@ export async function getCategories(locale?: string): Promise<string[]> {
       return cached.data;
     }
     
-    const categories = await recipeService.getCategories(lang);
+    const categories = Array.from(
+      new Set((await getRecipes(lang)).map((recipe) => recipe.category).filter(Boolean)),
+    ).sort((a, b) => a.localeCompare(b, lang));
     
     // Update cache
     categoriesCache.set(lang, {
@@ -148,7 +156,10 @@ export async function getRegions(locale?: string): Promise<string[]> {
       return cached.data;
     }
     
-    const regions = await recipeService.getRegions(lang);
+    const recipes = await getRecipes(lang);
+    const regions = Array.from(
+      new Set(recipes.flatMap((recipe) => [recipe.origin, recipe.region]).filter(Boolean)),
+    ).sort((a, b) => a.localeCompare(b, lang));
     
     // Update cache
     regionsCache.set(lang, {
@@ -167,12 +178,11 @@ export async function getRegions(locale?: string): Promise<string[]> {
 export async function getRecipeStats(locale?: string) {
   try {
     const lang = locale || 'az';
-    const [stats, categories, regions, allRecipes] = await Promise.all([
-      recipeService.getStats(),
-      recipeService.getCategories(lang),
-      recipeService.getRegions(lang),
-      getRecipes(lang) // Uses cached data
-    ]);
+    const allRecipes = await getRecipes(lang);
+    const categories = new Set(allRecipes.map((recipe) => recipe.category).filter(Boolean));
+    const regions = new Set(
+      allRecipes.flatMap((recipe) => [recipe.origin, recipe.region]).filter(Boolean),
+    );
     
     // Single pass for difficulty breakdown
     const difficultyBreakdown = { easy: 0, medium: 0, hard: 0 };
@@ -184,10 +194,10 @@ export async function getRecipeStats(locale?: string) {
     }
     
     return {
-      totalRecipes: stats.totalRecipes,
-      totalCategories: categories.length,
-      totalRegions: regions.length,
-      featuredRecipes: stats.featuredRecipes,
+      totalRecipes: allRecipes.length,
+      totalCategories: categories.size,
+      totalRegions: regions.size,
+      featuredRecipes: allRecipes.filter((recipe) => recipe.featured).length,
       difficultyBreakdown
     };
   } catch (error) {
@@ -236,8 +246,33 @@ export function preloadCriticalResources() {
 // Clear all caches (useful for development or when data updates)
 export function clearAllCaches() {
   recipesCache.clear();
+  recipesInFlight.clear();
   featuredCache.clear();
   categoriesCache.clear();
   regionsCache.clear();
   recipeBySlugCache.clear();
+}
+
+export function getRelatedRecipes(recipe: Recipe, recipes: Recipe[], limit = 3): Recipe[] {
+  const recipeTags = new Set(recipe.tags.map((tag) => tag.toLowerCase()));
+
+  return recipes
+    .filter((candidate) => candidate.slug !== recipe.slug)
+    .map((candidate) => {
+      const sharedTags = candidate.tags.reduce(
+        (count, tag) => count + (recipeTags.has(tag.toLowerCase()) ? 1 : 0),
+        0,
+      );
+      const score =
+        sharedTags * 3 +
+        (candidate.category === recipe.category ? 3 : 0) +
+        (candidate.region === recipe.region ? 4 : 0) +
+        (candidate.origin === recipe.origin ? 5 : 0) +
+        (candidate.featured ? 1 : 0);
+
+      return { candidate, score };
+    })
+    .sort((a, b) => b.score - a.score || a.candidate.name.localeCompare(b.candidate.name))
+    .slice(0, limit)
+    .map(({ candidate }) => candidate);
 }

@@ -151,10 +151,19 @@ export class SupabaseRecipeService {
         ]
       }
 
-      const [rows, total] = await Promise.all([
-        prisma.recipe.findMany({ where, include: recipeInclude, orderBy: { createdAt: 'desc' }, take: limit, skip: offset }),
-        prisma.recipe.count({ where }),
-      ])
+      // The production database uses Supabase's transaction pooler with one
+      // connection per process. Keep queries sequential so a large relation
+      // fetch cannot make the accompanying count time out in the pool queue.
+      const rows = await prisma.recipe.findMany({
+        where,
+        include: recipeInclude,
+        orderBy: { createdAt: 'desc' },
+        take: limit,
+        skip: offset,
+      })
+      const total = offset === 0 && rows.length < limit
+        ? rows.length
+        : await prisma.recipe.count({ where })
 
       return { recipes: rows.map(r => transform(r, locale)), total }
     } catch (error) {
@@ -213,10 +222,8 @@ export class SupabaseRecipeService {
 
   async getRegions(locale?: string): Promise<string[]> {
     try {
-      const [menseler, bolgeler] = await Promise.all([
-        prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
-        prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
-      ])
+      const menseler = await prisma.mense.findMany({ orderBy: { ad: 'asc' } })
+      const bolgeler = await prisma.bolge.findMany({ orderBy: { ad: 'asc' } })
       const all = new Set([
         ...menseler.map(m => getLocalizedField(m, 'ad', locale)),
         ...bolgeler.map(b => getLocalizedField(b, 'ad', locale))
@@ -230,12 +237,10 @@ export class SupabaseRecipeService {
 
   async getStats(): Promise<{ totalRecipes: number; featuredRecipes: number; categories: number; regions: number }> {
     try {
-      const [totalRecipes, featuredRecipes, catCount, regionCount] = await Promise.all([
-        prisma.recipe.count(),
-        prisma.recipe.count({ where: { featured: true } }),
-        prisma.category.count(),
-        prisma.mense.count(),
-      ])
+      const totalRecipes = await prisma.recipe.count()
+      const featuredRecipes = await prisma.recipe.count({ where: { featured: true } })
+      const catCount = await prisma.category.count()
+      const regionCount = await prisma.mense.count()
       return { totalRecipes, featuredRecipes, categories: catCount, regions: regionCount }
     } catch (error) {
       console.error('Error fetching recipe stats:', error)

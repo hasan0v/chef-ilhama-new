@@ -24,21 +24,6 @@ export function parseIsoDuration(timeStr: string): string {
   return `PT${nums[0]}M`;
 }
 
-/** Add two ISO durations and return ISO duration */
-function addDurations(a: string, b: string): string {
-  const parse = (d: string) => {
-    const h = d.match(/(\d+)H/);
-    const m = d.match(/(\d+)M/);
-    return (h ? parseInt(h[1]) * 60 : 0) + (m ? parseInt(m[1]) : 0);
-  };
-  const total = parse(a) + parse(b);
-  const hours = Math.floor(total / 60);
-  const mins = total % 60;
-  if (hours && mins) return `PT${hours}H${mins}M`;
-  if (hours) return `PT${hours}H`;
-  return `PT${mins}M`;
-}
-
 // ─── Person / Author schema ──────────────────────────────────────────────────
 
 export function getAuthorSchema() {
@@ -219,24 +204,35 @@ export function getBreadcrumbSchema(items: BreadcrumbItem[]) {
 export function getRecipeSchema(recipe: Recipe, locale = 'az') {
   const normalizedLocale = normalizeSiteLocale(locale);
   const localeConfig = SEO_LOCALE_CONFIG[normalizedLocale];
-  const prepDuration = parseIsoDuration(recipe.prepTime);
-  // Estimate cook time as roughly equal to prep or 30min default
-  const cookDuration = 'PT30M';
-  const totalDuration = addDurations(prepDuration, cookDuration);
+  const totalDuration = parseIsoDuration(recipe.prepTime);
+  const recipeUrl = `${BASE_URL}${getLocalizedRecipePath(normalizedLocale, recipe.slug)}`;
+  const imageUrl = recipe.image
+    ? recipe.image.startsWith('http') ? recipe.image : `${BASE_URL}${recipe.image}`
+    : `${BASE_URL}/placeholder-food.svg`;
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
     name: recipe.name,
-    image: [recipe.image || `${BASE_URL}/placeholder-food.svg`],
+    image: [{
+      '@type': 'ImageObject',
+      url: imageUrl,
+      contentUrl: imageUrl,
+      caption: recipe.imageAlt || `${recipe.name} — ${recipe.origin}`,
+      ...(recipe.imageCredit ? { creditText: recipe.imageCredit } : {}),
+      ...(recipe.imageLicenseUrl ? { license: recipe.imageLicenseUrl } : {}),
+      ...(recipe.imageSourceUrl ? { acquireLicensePage: recipe.imageSourceUrl } : {}),
+      ...(recipe.imageWidth ? { width: recipe.imageWidth } : {}),
+      ...(recipe.imageHeight ? { height: recipe.imageHeight } : {}),
+    }],
     author: { '@id': `${BASE_URL}/#person` },
+    datePublished: recipe.createdAt,
+    dateModified: recipe.updatedAt || recipe.createdAt,
     description: recipe.history?.trim() || localeConfig.recipeDescription(recipe.name, recipe.origin),
     recipeCuisine: recipe.cuisine || recipe.origin,
     recipeCategory: recipe.category,
     keywords: [recipe.name, recipe.origin, recipe.category, ...(recipe.tags ?? [])].filter(Boolean),
     recipeYield: recipe.servings,
-    prepTime: prepDuration,
-    cookTime: cookDuration,
     totalTime: totalDuration,
     recipeIngredient: recipe.ingredients,
     recipeInstructions: recipe.instructions.map((instruction, index) => ({
@@ -244,8 +240,11 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
       name: `${localeConfig.stepLabel} ${index + 1}`,
       text: instruction,
       position: index + 1,
+      url: `${recipeUrl}#step-${index + 1}`,
     })),
-    url: `${BASE_URL}${getLocalizedRecipePath(normalizedLocale, recipe.slug)}`,
+    url: recipeUrl,
+    mainEntityOfPage: recipeUrl,
+    ...(recipe.sources?.length ? { citation: recipe.sources.map((source) => source.url) } : {}),
     inLanguage: normalizedLocale,
     isPartOf: { '@id': `${BASE_URL}/#website` },
   };
@@ -254,6 +253,13 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
 // ─── CollectionPage / ItemList schema ────────────────────────────────────────
 
 export function getRecipeCollectionSchema(recipes: Recipe[], title: string, description: string, url: string) {
+  const firstPathSegment = url.split('/').filter(Boolean)[0];
+  const collectionLocale = firstPathSegment === 'az' || !firstPathSegment
+    ? 'az'
+    : firstPathSegment === 'en'
+      ? 'en'
+      : 'en';
+
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -267,8 +273,11 @@ export function getRecipeCollectionSchema(recipes: Recipe[], title: string, desc
       itemListElement: recipes.slice(0, 50).map((recipe, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `${BASE_URL}/resept/${recipe.slug}`,
+        url: `${BASE_URL}${getLocalizedRecipePath(collectionLocale, recipe.slug)}`,
         name: recipe.name,
+        image: recipe.image
+          ? recipe.image.startsWith('http') ? recipe.image : `${BASE_URL}${recipe.image}`
+          : undefined,
       })),
     },
   };

@@ -57,12 +57,15 @@ export function getRecipeMetadata(recipe: Recipe, locale: string): Metadata {
       siteName: siteConfig.name,
       images: [{
         url: image,
-        width: 1200,
-        height: 630,
+        ...(recipe.imageWidth ? { width: recipe.imageWidth } : {}),
+        ...(recipe.imageHeight ? { height: recipe.imageHeight } : {}),
         alt: `${recipe.name} — ${recipe.origin}`,
       }],
       section: recipe.category,
       tags: [recipe.name, recipe.origin, recipe.category, recipe.cuisine].filter(Boolean) as string[],
+      publishedTime: recipe.createdAt,
+      modifiedTime: recipe.updatedAt,
+      authors: [`${siteConfig.url}${getSeoPath(normalizedLocale, 'about')}`],
     },
     twitter: {
       card: 'summary_large_image',

@@ -9,6 +9,7 @@ import {
   type SeoPageKind,
 } from '@/lib/seoLocales';
 import { siteConfig } from '@/lib/site';
+import { getCollectionPath, getCollectionsPath, recipeCollections } from '@/lib/recipeCollections';
 
 // Keep the sitemap current as recipes are added and avoid opening another DB
 // session during Next's highly parallel static-generation phase.
@@ -52,5 +53,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...staticPages, ...recipePages];
+  const collectionIndexes: MetadataRoute.Sitemap = (['az', 'en'] as const).map((locale) => ({
+    url: `${siteConfig.url}${getCollectionsPath(locale)}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+    alternates: {
+      languages: {
+        az: `${siteConfig.url}${getCollectionsPath('az')}`,
+        en: `${siteConfig.url}${getCollectionsPath('en')}`,
+        'x-default': `${siteConfig.url}${getCollectionsPath('en')}`,
+      },
+    },
+  }));
+
+  const collectionPages: MetadataRoute.Sitemap = recipeCollections.flatMap((collection) =>
+    (['az', 'en'] as const).map((locale) => ({
+      url: `${siteConfig.url}${getCollectionPath(locale, collection.slug)}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+      images: [`${siteConfig.url}/images/recipes/global/${collection.recipeSlugs[0]}.webp`],
+      alternates: {
+        languages: {
+          az: `${siteConfig.url}${getCollectionPath('az', collection.slug)}`,
+          en: `${siteConfig.url}${getCollectionPath('en', collection.slug)}`,
+          'x-default': `${siteConfig.url}${getCollectionPath('en', collection.slug)}`,
+        },
+      },
+    })),
+  );
+
+  return [...staticPages, ...collectionIndexes, ...collectionPages, ...recipePages];
 }
