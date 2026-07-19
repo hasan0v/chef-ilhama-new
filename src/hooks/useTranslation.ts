@@ -11,6 +11,8 @@ import { ar } from '@/dictionaries/ar';
 import { zh } from '@/dictionaries/zh';
 import { hi } from '@/dictionaries/hi';
 import { es } from '@/dictionaries/es';
+import { pt } from '@/dictionaries/pt';
+import { nl } from '@/dictionaries/nl';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -40,6 +42,12 @@ export function useTranslation() {
   }
   if (pathname?.startsWith('/es/') || pathname === '/es') {
     return { t: es, locale: 'es' as const };
+  }
+  if (pathname?.startsWith('/pt/') || pathname === '/pt') {
+    return { t: pt, locale: 'pt' as const };
+  }
+  if (pathname?.startsWith('/nl/') || pathname === '/nl') {
+    return { t: nl, locale: 'nl' as const };
   }
   return { t: az, locale: 'az' as const };
 }

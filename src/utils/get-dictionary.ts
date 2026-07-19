@@ -8,6 +8,8 @@ import { ar } from '@/dictionaries/ar';
 import { zh } from '@/dictionaries/zh';
 import { hi } from '@/dictionaries/hi';
 import { es } from '@/dictionaries/es';
+import { pt } from '@/dictionaries/pt';
+import { nl } from '@/dictionaries/nl';
 
 export function getDictionary(locale?: string) {
   if (locale === 'en') return en;
@@ -19,5 +21,7 @@ export function getDictionary(locale?: string) {
   if (locale === 'zh') return zh;
   if (locale === 'hi') return hi;
   if (locale === 'es') return es;
+  if (locale === 'pt') return pt;
+  if (locale === 'nl') return nl;
   return az;
 }

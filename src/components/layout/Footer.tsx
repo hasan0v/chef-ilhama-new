@@ -56,6 +56,18 @@ export default function Footer() {
     { name: t.nav.services, href: '/hi/services' },
     { name: t.nav.about, href: '/hi/about' },
     { name: t.nav.contact, href: '/hi/contact' },
+  ] : locale === 'es' ? [
+    { name: t.nav.home, href: '/es' },
+    { name: t.nav.recipes, href: '/es/recipes' },
+    { name: t.nav.services, href: '/es/services' },
+    { name: t.nav.about, href: '/es/about' },
+    { name: t.nav.contact, href: '/es/contact' },
+  ] : locale === 'pt' ? [
+    { name: t.nav.home, href: '/pt' },
+    { name: t.nav.recipes, href: '/pt/recipes' },
+    { name: t.nav.services, href: '/pt/services' },
+    { name: t.nav.about, href: '/pt/about' },
+    { name: t.nav.contact, href: '/pt/contact' },
   ] : [
     { name: t.nav.home, href: '/' },
     { name: t.nav.recipes, href: '/reseptler' },
@@ -88,6 +100,12 @@ export default function Footer() {
   ] : locale === 'hi' ? [
     { name: t.nav.privacy, href: '/hi/privacy' },
     { name: t.nav.terms, href: '/hi/terms' },
+  ] : locale === 'es' ? [
+    { name: t.nav.privacy, href: '/es/privacy' },
+    { name: t.nav.terms, href: '/es/terms' },
+  ] : locale === 'pt' ? [
+    { name: t.nav.privacy, href: '/pt/privacy' },
+    { name: t.nav.terms, href: '/pt/terms' },
   ] : [
     { name: t.nav.privacy, href: '/privacy' },
     { name: t.nav.terms, href: '/terms' },
@@ -143,10 +161,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.discover}</h3>
             <ul className="space-y-2">
-              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : locale === 'ru' ? "/ru/about" : locale === 'fr' ? "/fr/about" : locale === 'it' ? "/it/about" : locale === 'ar' ? "/ar/about" : locale === 'zh' ? "/zh/about" : locale === 'hi' ? "/hi/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : locale === 'ru' ? "/ru/services" : locale === 'fr' ? "/fr/services" : locale === 'it' ? "/it/services" : locale === 'ar' ? "/ar/services" : locale === 'zh' ? "/zh/services" : locale === 'hi' ? "/hi/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : locale === 'ru' ? "/ru/contact" : locale === 'fr' ? "/fr/contact" : locale === 'it' ? "/it/contact" : locale === 'ar' ? "/ar/contact" : locale === 'zh' ? "/zh/contact" : locale === 'hi' ? "/hi/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : locale === 'ru' ? "/ru/about" : locale === 'fr' ? "/fr/about" : locale === 'it' ? "/it/about" : locale === 'ar' ? "/ar/about" : locale === 'zh' ? "/zh/about" : locale === 'hi' ? "/hi/about" : locale === 'es' ? "/es/about" : locale === 'pt' ? "/pt/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : locale === 'ru' ? "/ru/services" : locale === 'fr' ? "/fr/services" : locale === 'it' ? "/it/services" : locale === 'ar' ? "/ar/services" : locale === 'zh' ? "/zh/services" : locale === 'hi' ? "/hi/services" : locale === 'es' ? "/es/services" : locale === 'pt' ? "/pt/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : locale === 'ru' ? "/ru/contact" : locale === 'fr' ? "/fr/contact" : locale === 'it' ? "/it/contact" : locale === 'ar' ? "/ar/contact" : locale === 'zh' ? "/zh/contact" : locale === 'hi' ? "/hi/contact" : locale === 'es' ? "/es/contact" : locale === 'pt' ? "/pt/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
             </ul>
           </div>
 

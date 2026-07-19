@@ -171,6 +171,12 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/es/') === 0 || path === '/es') {
       document.documentElement.lang = 'es';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/pt/') === 0 || path === '/pt') {
+      document.documentElement.lang = 'pt';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/nl/') === 0 || path === '/nl') {
+      document.documentElement.lang = 'nl';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;
