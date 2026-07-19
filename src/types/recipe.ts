@@ -14,9 +14,20 @@ export interface Recipe {
   history: string; // Tarixi məlumat/Arxa plan
   servingSuggestions: string; // Təqdim təklifləri
   image: string; // Şəkil Linki
+  imageAlt?: string;
+  imageCredit?: string;
+  imageSourceUrl?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  sources?: Array<{ title?: string; url: string }>;
+  cuisine?: string; // Cuisine/country used by Recipe structured data
   tags: string[]; // Generated from categories, regions
   featured?: boolean;
   slug: string; // URL-friendly version of name
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface FilterOptions {

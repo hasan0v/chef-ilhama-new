@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('nl', 'terms', {
   title: 'Voorwaarden - Chef İlhamə',
   description: 'Gebruiksvoorwaarden van de website en de voorwaarden die van toepassing zijn op de boeking van onze privéchef- en cateringdiensten.',
-};
+});
 
 const sections = [
   {

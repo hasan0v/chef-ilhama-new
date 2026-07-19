@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ar', 'privacy', {
   title: 'سياسة الخصوصية - الشيف إلهامة',
   description: 'تفاصيل جمع ومعالجة وحماية البيانات الشخصية لزوار موقع الشيف إلهامة.',
-};
+});
 
 const sections = [
   {

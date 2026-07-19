@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('zh', 'terms', {
   title: '服务条款 - 主厨 İlhamə',
   description: '主厨 İlhamə 官方网站使用守则以及定制私厨、活动外烩预约条款。',
-};
+});
 
 const sections = [
   {

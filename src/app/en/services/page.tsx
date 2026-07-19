@@ -1,8 +1,9 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import { getServicePageSchema, getBreadcrumbSchema, getFAQSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'services', {
   title: 'Chef Services Baku — Private Chef & Catering',
   description:
     'The best private chef service in Baku. Wedding feasts, premium catering, banquet chef, and corporate events. 15+ years of professional experience. Baku, Sumqayıt, Abşeron.',
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
       en: 'https://chef-ilhama.food/en/services',
     },
   },
-};
+});
 
 const serviceFaqs = [
   {

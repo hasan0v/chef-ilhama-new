@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'contact', {
   title: 'संपर्क करें - शेफ इल्हामा',
   description: 'शेफ इल्हामा कुकिंग स्टूडियो से संपर्क करें। कैटरिंग, पर्सनल शेफ बुकिंग और सेवाएं।',
-};
+});
 
 export default function HindiContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

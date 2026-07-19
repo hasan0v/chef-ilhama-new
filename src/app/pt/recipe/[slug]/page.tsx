@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'pt');
-  
+
   if (!recipe) {
-    return {
-      title: 'Receita não encontrada - Chef İlhamə',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `Receita de ${recipe.name} - Chef İlhamə`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `Instruções de preparação passo a passo e ingredientes para cozinhar ${recipe.name}.`,
-  };
+  return getRecipeMetadata(recipe, 'pt');
 }
 
 export default async function PortugueseRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function PortugueseRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'pt');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Início', href: '/pt' },
     { name: 'Receitas', href: '/pt/recipes' },

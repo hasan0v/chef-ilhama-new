@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'tr');
-  
+
   if (!recipe) {
-    return {
-      title: 'Tarif Bulunamadı - Şef İlhame',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `${recipe.name} Tarifi - Şef İlhame`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `${recipe.name} yemeğinin detaylı tarifi ve malzemeleri.`,
-  };
+  return getRecipeMetadata(recipe, 'tr');
 }
 
 export default async function TurkishRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function TurkishRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'tr');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Ana Sayfa', href: '/tr' },
     { name: 'Tarifler', href: '/tr/recipes' },

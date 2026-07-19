@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'terms', {
   title: 'Terms of Service - Chef İlhamə',
   description: 'Main rules regarding the use of the Chef İlhamə website and chef services.',
-};
+});
 
 const sections = [
   {

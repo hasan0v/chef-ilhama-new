@@ -1,0 +1,292 @@
+[
+  {
+    "slug": "vori-vori-paraguayan-chicken-soup",
+    "name": "Vori-vori",
+    "origin": "Paraguay",
+    "region": "South America",
+    "category": "Soup",
+    "prepTime": "1 hour 30 minutes",
+    "difficulty": "Medium",
+    "servings": "6 servings",
+    "history": "Paraguay's comforting national soup pairs a deeply seasoned chicken broth with tiny cornmeal and cheese dumplings. The dumplings thicken the broth as they cook, giving vori-vori its characteristic body.",
+    "servingSuggestions": "Serve piping hot with chopped parsley, spring onion and lime wedges.",
+    "ingredients": [
+      "Bone-in chicken pieces – 1.2 kg",
+      "Fine cornmeal – 180 g",
+      "Paraguayan cheese or a mild firm cheese – 150 g",
+      "Onion – 1 large, diced",
+      "Tomatoes – 2, chopped",
+      "Carrot – 1, sliced",
+      "Red bell pepper – 1, diced",
+      "Oregano, parsley, salt and black pepper – to taste"
+    ],
+    "instructions": [
+      "Brown the seasoned chicken in a heavy pot, then add onion, tomato, pepper and carrot and cook until softened.",
+      "Cover with 1.8 litres of water, add oregano and simmer gently for 45 minutes until the chicken is cooked through.",
+      "Mix cornmeal and crumbled cheese; moisten gradually with hot broth until a soft dough forms, then roll marble-size balls.",
+      "Drop the dumplings into the simmering broth and cook for 12–15 minutes, stirring gently so they do not stick.",
+      "Adjust seasoning and finish with parsley before serving."
+    ]
+  },
+  {
+    "slug": "papadzules-yucatan-egg-tacos",
+    "name": "Papadzules",
+    "origin": "Mexico",
+    "region": "Yucatán",
+    "category": "Main course",
+    "prepTime": "50 minutes",
+    "difficulty": "Medium",
+    "servings": "4 servings",
+    "history": "Papadzules are a Yucatecan Maya dish of tortillas filled with hard-boiled egg and coated in a silky pumpkin-seed sauce. A fresh tomato and habanero sauce provides acidity and heat.",
+    "servingSuggestions": "Spoon both sauces over the filled tortillas and garnish with sliced egg and toasted pumpkin seeds.",
+    "ingredients": [
+      "Corn tortillas – 12",
+      "Eggs – 8",
+      "Hulled pumpkin seeds – 250 g",
+      "Epazote – 4 sprigs",
+      "Ripe tomatoes – 4",
+      "White onion – 1 small",
+      "Habanero chilli – 1, optional",
+      "Salt and neutral oil – as needed"
+    ],
+    "instructions": [
+      "Toast the pumpkin seeds until fragrant, cool, then blend with warm epazote-infused water and salt into a pourable sauce.",
+      "Roast tomatoes, onion and habanero; blend and simmer with a little oil until the red sauce thickens.",
+      "Hard-boil the eggs, reserve a few slices for garnish and finely chop the remainder.",
+      "Warm each tortilla, dip it briefly in pumpkin-seed sauce, fill with egg and roll.",
+      "Arrange seam-side down and cover with more seed sauce, tomato sauce and the reserved egg."
+    ]
+  },
+  {
+    "slug": "tave-kosi-albanian-lamb-yogurt-bake",
+    "name": "Tavë kosi",
+    "origin": "Albania",
+    "region": "Elbasan",
+    "category": "Main course",
+    "prepTime": "1 hour 40 minutes",
+    "difficulty": "Medium",
+    "servings": "6 servings",
+    "history": "Often associated with Elbasan, tavë kosi is Albania's celebrated lamb-and-yogurt casserole. The tangy egg-yogurt topping sets into a light savoury custard over tender meat and rice.",
+    "servingSuggestions": "Rest for 10 minutes and serve with a crisp cucumber, tomato and herb salad.",
+    "ingredients": [
+      "Boneless lamb shoulder – 900 g, cubed",
+      "Plain full-fat yogurt – 700 g",
+      "Eggs – 4",
+      "Long-grain rice – 80 g",
+      "Butter – 60 g",
+      "Plain flour – 2 tablespoons",
+      "Garlic – 2 cloves",
+      "Oregano, salt and black pepper – to taste"
+    ],
+    "instructions": [
+      "Season and brown the lamb in half the butter, add 250 ml water and bake covered at 180°C until nearly tender.",
+      "Scatter rinsed rice around the lamb and return to the oven for 15 minutes.",
+      "Cook flour in the remaining butter for one minute; cool slightly, then whisk with yogurt, eggs, garlic and seasoning.",
+      "Pour the yogurt mixture over the lamb and rice without stirring.",
+      "Bake uncovered for 35–40 minutes until puffed, golden and set in the centre."
+    ]
+  },
+  {
+    "slug": "sopa-de-mani-bolivian-peanut-soup",
+    "name": "Sopa de maní",
+    "origin": "Bolivia",
+    "region": "Andes",
+    "category": "Soup",
+    "prepTime": "1 hour 25 minutes",
+    "difficulty": "Medium",
+    "servings": "6 servings",
+    "history": "Bolivian sopa de maní turns raw peanuts into a creamy, savoury broth enriched with beef, vegetables and warming spices. Crisp potato matchsticks are a classic final contrast.",
+    "servingSuggestions": "Top with fried potato matchsticks, parsley and a spoonful of llajua chilli sauce.",
+    "ingredients": [
+      "Stewing beef – 600 g, cubed",
+      "Raw unsalted peanuts – 220 g",
+      "Potatoes – 3 medium",
+      "Carrot – 1, diced",
+      "Onion – 1, diced",
+      "Tomato – 1, chopped",
+      "Green peas – 120 g",
+      "Cumin, oregano, salt and black pepper – to taste"
+    ],
+    "instructions": [
+      "Soak the peanuts for 20 minutes, drain and blend with 400 ml fresh water until very smooth.",
+      "Brown the beef, then cook onion, tomato, carrot, cumin and oregano in the same pot.",
+      "Add 1.5 litres water and the peanut purée; simmer gently for 50 minutes, stirring often so the base does not catch.",
+      "Add diced potato and peas and cook until both the vegetables and beef are tender.",
+      "Cut the remaining potato into fine matchsticks, fry until crisp and use as the garnish."
+    ]
+  },
+  {
+    "slug": "llapingachos-ecuadorian-potato-cakes",
+    "name": "Llapingachos",
+    "origin": "Ecuador",
+    "region": "Andean highlands",
+    "category": "Main course",
+    "prepTime": "1 hour",
+    "difficulty": "Medium",
+    "servings": "4 servings",
+    "history": "Llapingachos are Ecuadorian potato cakes coloured with achiote and filled with melting cheese. Their crisp surface and soft centre are traditionally paired with peanut sauce and fresh garnishes.",
+    "servingSuggestions": "Serve with salsa de maní, avocado, fried egg, curtido and grilled sausage if desired.",
+    "ingredients": [
+      "Floury potatoes – 1 kg",
+      "White onion – 1 small, finely diced",
+      "Achiote oil – 2 tablespoons",
+      "Melting cheese – 200 g, grated",
+      "Roasted peanuts – 120 g",
+      "Milk – 250 ml",
+      "Ground cumin – 1 teaspoon",
+      "Salt and neutral oil – as needed"
+    ],
+    "instructions": [
+      "Boil the potatoes in salted water until tender, drain thoroughly and mash while hot.",
+      "Cook onion in achiote oil, mix into the potatoes with cumin and salt, then cool for 20 minutes.",
+      "Shape the mash into patties, place cheese in each centre and seal; chill briefly to firm.",
+      "Blend peanuts with milk, then simmer with a spoonful of the onion mixture until creamy.",
+      "Pan-fry the patties on a lightly oiled griddle until deeply golden on both sides."
+    ]
+  },
+  {
+    "slug": "lablabi-tunisian-chickpea-soup",
+    "name": "Lablabi",
+    "origin": "Tunisia",
+    "region": "North Africa",
+    "category": "Soup",
+    "prepTime": "45 minutes",
+    "difficulty": "Easy",
+    "servings": "4 servings",
+    "history": "Lablabi is a Tunisian chickpea soup assembled over torn day-old bread with garlic, cumin, harissa, lemon and olive oil. Its customisable garnishes make a humble bowl intensely aromatic.",
+    "servingSuggestions": "Let each diner add harissa, lemon, olive oil, capers and a soft egg to taste.",
+    "ingredients": [
+      "Cooked chickpeas – 700 g with 800 ml cooking liquid",
+      "Day-old crusty bread – 250 g, torn",
+      "Garlic – 4 cloves, crushed",
+      "Ground cumin – 2 teaspoons",
+      "Harissa – 2 tablespoons",
+      "Lemons – 2",
+      "Eggs – 4",
+      "Extra-virgin olive oil, salt and capers – to serve"
+    ],
+    "instructions": [
+      "Simmer the chickpeas and their liquid with garlic, cumin and salt for 20 minutes.",
+      "Poach the eggs separately until the whites set and the yolks remain soft.",
+      "Divide torn bread among deep bowls and ladle over enough hot chickpea broth to soften it.",
+      "Add chickpeas and an egg to each bowl, then season with harissa and lemon juice.",
+      "Finish generously with olive oil, extra cumin and capers."
+    ]
+  },
+  {
+    "slug": "piperade-basque-pepper-tomato-stew",
+    "name": "Piperade",
+    "origin": "France",
+    "region": "French Basque Country",
+    "category": "Breakfast",
+    "prepTime": "45 minutes",
+    "difficulty": "Easy",
+    "servings": "4 servings",
+    "history": "Piperade is a Basque mixture of slowly cooked peppers, tomatoes and onions seasoned with piment d'Espelette. Eggs are often folded in for a simple meal, while Bayonne ham is a common accompaniment.",
+    "servingSuggestions": "Serve with grilled country bread and, if desired, thin slices of Bayonne-style ham.",
+    "ingredients": [
+      "Red bell peppers – 2, sliced",
+      "Green bell peppers – 2, sliced",
+      "Ripe tomatoes – 500 g, peeled and chopped",
+      "Onions – 2, thinly sliced",
+      "Garlic – 2 cloves",
+      "Eggs – 6",
+      "Piment d'Espelette – 1 teaspoon",
+      "Olive oil and salt – as needed"
+    ],
+    "instructions": [
+      "Cook the onions and peppers slowly in olive oil with a pinch of salt until soft but not browned.",
+      "Add garlic, tomatoes and piment d'Espelette and simmer uncovered until thick and glossy.",
+      "Taste and adjust salt; the vegetable base can be held warm at this stage.",
+      "Beat the eggs lightly, pour them into the piperade and fold over low heat until softly set.",
+      "Remove from the heat while still creamy and serve immediately."
+    ]
+  },
+  {
+    "slug": "saltenas-bolivian-meat-pastries",
+    "name": "Salteñas",
+    "origin": "Bolivia",
+    "region": "South America",
+    "category": "Bread and pastry",
+    "prepTime": "2 hours 30 minutes",
+    "difficulty": "Hard",
+    "servings": "12 pastries",
+    "history": "Bolivian salteñas are golden, slightly sweet pastries packed with a juicy spiced stew. Chilling the gelatin-rich filling before shaping keeps the broth sealed inside until baking.",
+    "servingSuggestions": "Eat hot from the oven with a spoon and napkin; llajua chilli sauce is traditional alongside.",
+    "ingredients": [
+      "Beef chuck – 500 g, finely diced",
+      "Potatoes – 2, diced",
+      "Onion – 1 large, diced",
+      "Green peas – 120 g",
+      "Beef stock – 500 ml and powdered gelatin – 12 g",
+      "Plain flour – 600 g and butter – 120 g",
+      "Sugar – 50 g and achiote – 1 teaspoon",
+      "Hard-boiled eggs, olives, cumin and chilli – for filling"
+    ],
+    "instructions": [
+      "Cook onion, chilli and cumin, add beef and stock, then simmer until tender; add potato and peas near the end.",
+      "Stir gelatin into the hot filling, cool, fold in chopped egg and olives, then refrigerate until firmly set.",
+      "Make a supple dough with flour, butter, sugar, achiote, salt and warm water; rest for 30 minutes.",
+      "Roll twelve discs, mound chilled filling in each and seal upright with a tight braided edge.",
+      "Brush with egg and bake at 210°C for 18–22 minutes until deeply golden."
+    ]
+  },
+  {
+    "slug": "pakhala-bhata-odia-fermented-rice",
+    "name": "Pakhala bhata",
+    "origin": "India",
+    "region": "Odisha",
+    "category": "Main course",
+    "prepTime": "8 hours 20 minutes",
+    "difficulty": "Easy",
+    "servings": "4 servings",
+    "history": "Pakhala bhata is Odisha's cooling rice dish, in which cooked rice rests in water and is served lightly fermented or freshly soaked. Yogurt, ginger and a fragrant mustard-seed tempering make it especially refreshing in hot weather.",
+    "servingSuggestions": "Serve cold with roasted vegetables, fried fish, badi chura or a simple potato fry.",
+    "ingredients": [
+      "Cooked rice – 600 g, completely cooled",
+      "Boiled and cooled water – 750 ml",
+      "Plain yogurt – 200 g",
+      "Mustard seeds – 1 teaspoon",
+      "Curry leaves – 10",
+      "Fresh ginger – 15 g, grated",
+      "Green chillies – 2, slit",
+      "Salt and neutral oil – as needed"
+    ],
+    "instructions": [
+      "Combine the cooled rice with boiled cooled water in a clean covered container.",
+      "For a lightly fermented version, refrigerate for 8 hours; do not leave cooked rice warm at room temperature.",
+      "Stir in yogurt, ginger and salt until the soaking liquid becomes creamy.",
+      "Bloom mustard seeds, curry leaves and green chillies in hot oil and pour the tempering over the rice.",
+      "Mix gently and serve chilled with the chosen side dishes."
+    ]
+  },
+  {
+    "slug": "undhiyu-gujarati-winter-vegetable-stew",
+    "name": "Undhiyu",
+    "origin": "India",
+    "region": "Gujarat",
+    "category": "Main course",
+    "prepTime": "2 hours",
+    "difficulty": "Hard",
+    "servings": "8 servings",
+    "history": "Undhiyu is Gujarat's elaborate winter vegetable dish, traditionally cooked slowly with seasonal beans, roots, green masala and fenugreek dumplings. Its name refers to the old upside-down earthen-pot method.",
+    "servingSuggestions": "Serve hot with puri, shrikhand and a squeeze of lime for a festive Gujarati meal.",
+    "ingredients": [
+      "Surti papdi or flat beans – 350 g",
+      "Baby aubergines – 6 and baby potatoes – 8",
+      "Purple yam – 300 g and raw banana – 2",
+      "Fresh coconut – 100 g, grated",
+      "Coriander leaves – 1 large bunch",
+      "Peanuts and sesame seeds – 60 g each",
+      "Fenugreek leaves – 150 g and chickpea flour – 160 g",
+      "Ginger, garlic, green chilli, turmeric and garam masala – as needed"
+    ],
+    "instructions": [
+      "Mix coconut, coriander, peanuts, sesame, ginger, garlic, chilli and spices into a coarse green masala.",
+      "Combine fenugreek, chickpea flour and seasoning with a little oil and water; shape small muthiya and steam or shallow-fry.",
+      "Slit the aubergines and potatoes and pack with masala; cut yam and banana into large pieces.",
+      "Layer beans, roots and stuffed vegetables in a heavy pot with remaining masala, oil and a splash of water; cover tightly and cook gently.",
+      "When tender, fold in the muthiya without breaking the vegetables and cook for five more minutes."
+    ]
+  }
+]

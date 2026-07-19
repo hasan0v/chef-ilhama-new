@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('zh', 'home', {
   title: '主厨 İlhamə — 阿塞拜疆风味食谱、高端宴会外烩及私厨定制服务（巴库）',
   description:
     '跟随主厨 İlhamə 探索地道的阿塞拜疆美食。提供来自 25 个以上地区的传统食谱、高端宴会外烩（Catering）以及巴库、苏姆盖特和阿普歇伦的上门私厨服务。',
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
       'zh': `${siteConfig.url}/zh`,
     },
   },
-};
+});
 
 export default async function ChineseHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

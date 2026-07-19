@@ -39,6 +39,7 @@ import {
 } from '@/components/site/marketing';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedContactPath } from '@/lib/localeRoutes';
 
 export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const { t, locale } = useTranslation();
@@ -59,7 +60,7 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
     additionalNotes: '',
   });
 
-  const getContactUrl = () => isEn ? '/en/contact' : '/elaqe';
+  const getContactUrl = () => getLocalizedContactPath(locale);
 
   const serviceOptions = useMemo(() => [
     {

@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('pt', 'about', {
   title: 'Sobre - Chef İlhamə',
   description: 'A história por trás do estúdio culinário da Chef İlhamə, os nossos valores e visão sobre a hospitalidade de excelência.',
-};
+});
 
 export default function PortugueseAboutPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

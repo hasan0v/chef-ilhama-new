@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('zh', 'about', {
   title: '关于厨师 - 主厨 İlhamə',
   description: '主厨 İlhamə 烹饪工作室的故事、品牌理念与卓越服务愿景。',
-};
+});
 
 export default function ChineseAboutPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

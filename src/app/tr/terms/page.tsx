@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('tr', 'terms', {
   title: 'Kullanım Şartları - Şef İlhame',
   description: 'Şef İlhame web sitesinin kullanımı ve özel şef / catering hizmetlerine dair temel kurallar.',
-};
+});
 
 const sections = [
   {

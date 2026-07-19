@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'terms', {
   title: 'İstifadə Şərtləri - Chef İlhamə',
   description: 'Chef İlhamə saytının istifadəsi və aşpaz xidmətləri ilə bağlı əsas qaydalar.',
-};
+});
 
 const sections = [
   {

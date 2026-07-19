@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'ru');
-  
+
   if (!recipe) {
-    return {
-      title: 'Рецепт не найден - Шеф Ильхама',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `Рецепт: ${recipe.name} - Шеф Ильхама`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `Пошаговый рецепт приготовления блюда ${recipe.name}.`,
-  };
+  return getRecipeMetadata(recipe, 'ru');
 }
 
 export default async function RussianRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function RussianRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'ru');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Главная', href: '/ru' },
     { name: 'Рецепты', href: '/ru/recipes' },

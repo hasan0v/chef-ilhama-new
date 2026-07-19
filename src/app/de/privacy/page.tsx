@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('de', 'privacy', {
   title: 'Datenschutzerklärung - Chef İlhamə',
   description: 'Details zur Erhebung, Verarbeitung und zum Schutz Ihrer personenbezogenen Daten auf unserer Website.',
-};
+});
 
 const sections = [
   {

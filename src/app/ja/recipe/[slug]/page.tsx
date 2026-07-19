@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'ja');
-  
+
   if (!recipe) {
-    return {
-      title: 'レシピが見つかりません - Chef İlhamə',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `${recipe.name}のレシピ - Chef İlhamə`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `${recipe.name}を家庭で美味しく作るための詳しい作り方と必要な材料。`,
-  };
+  return getRecipeMetadata(recipe, 'ja');
 }
 
 export default async function JapaneseRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function JapaneseRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'ja');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'ホーム', href: '/ja' },
     { name: 'レシピ一覧', href: '/ja/recipes' },

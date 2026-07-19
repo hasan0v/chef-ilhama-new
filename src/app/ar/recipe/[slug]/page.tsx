@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'ar');
-  
+
   if (!recipe) {
-    return {
-      title: 'الوصفة غير موجودة - الشيف إلهامة',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `وصفة: ${recipe.name} - الشيف إلهامة`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `طريقة تحضير بالتفصيل والمكونات لطبق ${recipe.name}.`,
-  };
+  return getRecipeMetadata(recipe, 'ar');
 }
 
 export default async function ArabicRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function ArabicRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'ar');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'الرئيسية', href: '/ar' },
     { name: 'الوصفات', href: '/ar/recipes' },

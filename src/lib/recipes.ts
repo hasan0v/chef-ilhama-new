@@ -14,7 +14,9 @@ export async function getRecipes(locale?: string): Promise<Recipe[]> {
       return cached.data;
     }
     
-    const result = await recipeService.getAllRecipes({ locale: lang });
+    // The public catalog and sitemap must not silently inherit the service's
+    // paginated 50-row default. Client-side catalog filtering needs the full set.
+    const result = await recipeService.getAllRecipes({ locale: lang, limit: 500 });
     
     // Update cache
     recipesCache.set(lang, {

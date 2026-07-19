@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('tr', 'contact', {
   title: 'İletişim - Şef İlhame',
   description: 'Şef İlhame mutfak stüdyosuyla iletişime geçin. Rezervasyon, catering ve özel şef talepleri.',
-};
+});
 
 export default function TurkishContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

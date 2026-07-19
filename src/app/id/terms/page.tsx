@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('id', 'terms', {
   title: 'Syarat & Ketentuan - Chef İlhamə',
   description: 'Syarat penggunaan situs web dan ketentuan yang berlaku untuk pemesanan layanan privat chef dan catering.',
-};
+});
 
 const sections = [
   {

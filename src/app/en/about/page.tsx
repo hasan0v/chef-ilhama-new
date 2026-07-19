@@ -1,10 +1,11 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getAboutPageSchema, getAuthorSchema, getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'about', {
   title: 'About Chef İlhamə — Professional Azerbaijani Chef',
   description:
     'Chef İlhamə — professional Azerbaijani chef with 15+ years of culinary experience. Private chef, premium catering and menu curation in Baku, Sumqayıt & Abşeron. Regional recipes and culinary craft.',
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
       en: 'https://chef-ilhama.food/en/about',
     },
   },
-};
+});
 
 export default function EnglishAboutPage() {
   const aboutSchema = getAboutPageSchema();

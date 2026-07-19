@@ -11,37 +11,38 @@ datasource db {
 }
 
 model Recipe {
-  id                 String        @id @default(cuid())
-  yemeyinAdi         String
-  slug               String        @unique
-  hazirlanmaMuddeti  String
-  cetinlikDerecesi   String
-  porsiyaSayi        String
-  tarixiMelumat      String?       @db.Text
-  teqdimTeklifleri   String?       @db.Text
-  featured           Boolean       @default(false)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  id                String   @id @default(cuid())
+  yemeyinAdi        String
+  slug              String   @unique
+  hazirlanmaMuddeti String
+  cetinlikDerecesi  String
+  porsiyaSayi       String
+  tarixiMelumat     String?  @db.Text
+  teqdimTeklifleri  String?  @db.Text
+  featured          Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  kateqoriyaId        String
-  kateqoriya          Category      @relation(fields: [kateqoriyaId], references: [id])
+  kateqoriyaId String
+  kateqoriya   Category @relation(fields: [kateqoriyaId], references: [id])
 
-  menseId             String?
-  mense               Mense?        @relation(fields: [menseId], references: [id])
+  menseId String?
+  mense   Mense?  @relation(fields: [menseId], references: [id])
 
-  bolgeId             String?
-  bolge               Bolge?        @relation(fields: [bolgeId], references: [id])
+  bolgeId String?
+  bolge   Bolge?  @relation(fields: [bolgeId], references: [id])
 
   yemeyinAdiEn        String?
   hazirlanmaMuddetiEn String?
   cetinlikDerecesiEn  String?
   porsiyaSayiEn       String?
-  tarixiMelumatEn     String?       @db.Text
-  teqdimTeklifleriEn  String?       @db.Text
+  tarixiMelumatEn     String? @db.Text
+  teqdimTeklifleriEn  String? @db.Text
 
-  terkibHisseleri    Ingredient[]
-  addimlar           Step[]
-  sekiller           RecipeImage[]
+  terkibHisseleri Ingredient[]
+  addimlar        Step[]
+  sekiller        RecipeImage[]
+  sources         RecipeSource[]
 
   @@map("recipes")
 }
@@ -74,19 +75,19 @@ model Bolge {
 }
 
 model Cetinlik {
-  id   String @id @default(uuid()) @db.Uuid
-  ad   String @unique
+  id   String  @id @default(uuid()) @db.Uuid
+  ad   String  @unique
   adEn String?
-  sira Int    @default(0)
+  sira Int     @default(0)
 
   @@map("cetinlikler")
 }
 
 model Muddet {
-  id   String @id @default(uuid()) @db.Uuid
-  ad   String @unique
+  id   String  @id @default(uuid()) @db.Uuid
+  ad   String  @unique
   adEn String?
-  sira Int    @default(0)
+  sira Int     @default(0)
 
   @@map("muddetler")
 }
@@ -98,55 +99,75 @@ model Porsiya {
   miqdar String?
   sira   Int     @default(0)
 
-  @@map("porsiyalar")
   @@unique([ad, miqdar])
+  @@map("porsiyalar")
 }
 
 model Ingredient {
-  id       String  @id @default(cuid())
+  id       String              @id @default(cuid())
   ad       String
   adEn     String?
-  miqdarId String? @db.Uuid
+  miqdarId String?             @db.Uuid
   miqdar   IngredientQuantity? @relation(fields: [miqdarId], references: [id])
-  sira     Int     @default(0)
+  sira     Int                 @default(0)
   recipeId String
-  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipe   Recipe              @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  @@map("ingredients")
   @@index([recipeId])
   @@index([miqdarId])
+  @@map("ingredients")
 }
 
 model IngredientQuantity {
-  id          String   @id @default(uuid()) @db.Uuid
+  id          String       @id @default(uuid()) @db.Uuid
   ad          String
   adEn        String?
   miqdar      String?
   ingredients Ingredient[]
 
-  @@map("olculer")
   @@unique([ad, miqdar])
+  @@map("olculer")
 }
 
 model Step {
-  id       String @id @default(cuid())
-  metn     String @db.Text
-  metnEn   String? @db.Text
-  sira     Int    @default(0)
-  recipeId String
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-
-  @@map("steps")
-  @@index([recipeId])
-}
-
-model RecipeImage {
   id       String  @id @default(cuid())
-  url      String
-  isMain   Boolean @default(true)
+  metn     String  @db.Text
+  metnEn   String? @db.Text
+  sira     Int     @default(0)
   recipeId String
   recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
 
-  @@map("recipe_images")
   @@index([recipeId])
+  @@map("steps")
+}
+
+model RecipeImage {
+  id         String  @id @default(cuid())
+  url        String
+  isMain     Boolean @default(true)
+  altAz      String?
+  altEn      String?
+  credit     String? @db.Text
+  sourceUrl  String?
+  license    String?
+  licenseUrl String?
+  width      Int?
+  height     Int?
+  recipeId   String
+  recipe     Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([recipeId])
+  @@map("recipe_images")
+}
+
+model RecipeSource {
+  id       String  @id @default(cuid())
+  title    String?
+  url      String
+  recipeId String
+  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, url])
+  @@index([recipeId])
+  @@map("recipe_sources")
 }

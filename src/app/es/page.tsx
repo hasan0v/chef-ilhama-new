@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('es', 'home', {
   title: 'Chef İlhamə — Recetas de cocina azerbaiyana, catering prémium y chef privado (Bakú)',
   description:
     'Descubra la auténtica gastronomía azerbaiyana de la mano de la Chef İlhamə. Más de 25 regiones de recetas tradicionales, catering prémium y servicios de chef privado a domicilio.',
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
       'es': `${siteConfig.url}/es`,
     },
   },
-};
+});
 
 export default async function SpanishHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

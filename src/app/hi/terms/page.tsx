@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'terms', {
   title: 'नियम व शर्तें - शेफ इल्हामा',
   description: 'शेफ इल्हामा वेबसाइट के उपयोग के नियम और हमारी पर्सनल शेफ और कैटरिंग सर्विस की शर्तें।',
-};
+});
 
 const sections = [
   {

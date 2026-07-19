@@ -15,6 +15,7 @@ const recipeInclude = {
   },
   addimlar: { orderBy: { sira: 'asc' as const } },
   sekiller: true,
+  sources: true,
 } satisfies Prisma.RecipeInclude
 
 type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
@@ -55,11 +56,14 @@ function getDifficulty(value: string): Recipe['difficulty'] {
 }
 
 function transform(r: RecipeWithRelations, locale?: string): Recipe {
+  const localizedOrigin = getLocalizedField(r.mense, 'ad', locale);
+  const mainImage = r.sekiller.find(s => s.isMain) ?? r.sekiller[0];
   return {
     id: r.id,
     name: getLocalizedField(r, 'yemeyinAdi', locale),
     slug: r.slug,
-    origin: getLocalizedField(r.mense, 'ad', locale),
+    origin: localizedOrigin,
+    cuisine: localizedOrigin,
     region: getLocalizedField(r.bolge, 'ad', locale),
     category: getLocalizedField(r.kateqoriya, 'ad', locale),
     ingredients: r.terkibHisseleri.map(i => {
@@ -77,9 +81,19 @@ function transform(r: RecipeWithRelations, locale?: string): Recipe {
     servings: getLocalizedField(r, 'porsiyaSayi', locale),
     history: getLocalizedField(r, 'tarixiMelumat', locale),
     servingSuggestions: getLocalizedField(r, 'teqdimTeklifleri', locale),
-    image: r.sekiller.find(s => s.isMain)?.url ?? r.sekiller[0]?.url ?? '',
+    image: mainImage?.url ?? '',
+    imageAlt: locale === 'az' ? (mainImage?.altAz ?? undefined) : (mainImage?.altEn ?? mainImage?.altAz ?? undefined),
+    imageCredit: mainImage?.credit ?? undefined,
+    imageSourceUrl: mainImage?.sourceUrl ?? undefined,
+    imageLicense: mainImage?.license ?? undefined,
+    imageLicenseUrl: mainImage?.licenseUrl ?? undefined,
+    imageWidth: mainImage?.width ?? undefined,
+    imageHeight: mainImage?.height ?? undefined,
+    sources: r.sources.map(source => ({ title: source.title ?? undefined, url: source.url })),
     tags: [],
     featured: r.featured,
+    createdAt: r.createdAt.toISOString(),
+    updatedAt: r.updatedAt.toISOString(),
   }
 }
 

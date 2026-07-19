@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ar', 'services', {
   title: 'الخدمات - الشيف إلهامة',
   description: 'استوديو حجز الشيف الخاص، خدمات الضيافة والكاترينج الفاخر والتجمعات الحصرية في باكو.',
-};
+});
 
 export default function ArabicServicesPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

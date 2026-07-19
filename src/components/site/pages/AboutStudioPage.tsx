@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Award, BookOpenText, ChefHat, HeartHandshake, MapPin, UtensilsCrossed } from 'lucide-react';
+import { BookOpenText, HeartHandshake, UtensilsCrossed } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,13 +17,14 @@ import {
 } from '@/components/site/marketing';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
 
 export default function AboutStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
 
-  const getRecipesUrl = () => isEn ? '/en/recipes' : '/reseptler';
-  const getServicesUrl = () => isEn ? '/en/services' : '/xidmetler';
+  const getRecipesUrl = () => getLocalizedRecipesPath(locale);
+  const getServicesUrl = () => getLocalizedServicesPath(locale);
 
   const values = [
     {

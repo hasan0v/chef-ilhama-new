@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ja', 'home', {
   title: 'シェフ・イルハメ — アゼルバイジャン料理レシピ、プレミアムケータリング＆出張シェフサービス (バクー)',
   description:
     'シェフ・イルハメがお届けする本格アゼルバイジャン料理。25以上の地域に伝わる伝統レシピ、プレミアムケータリング、バクー、スムガイト、アプシェロンへの出張プライベートシェフサービス。',
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
       'ja': `${siteConfig.url}/ja`,
     },
   },
-};
+});
 
 export default async function JapaneseHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

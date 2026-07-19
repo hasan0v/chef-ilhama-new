@@ -35,6 +35,7 @@ import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats, recipeMatchesCategory } from '@/utils/categoryUtils';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedRecipePath } from '@/lib/localeRoutes';
 
 interface RecipeCatalogPageProps {
   initialRecipes: Recipe[];
@@ -63,7 +64,7 @@ export default function RecipeCatalogPage({ initialRecipes, categories, regions,
   const { t, locale } = useTranslation();
   const isEnglish = locale === 'en';
   
-  const getRecipeUrl = (slug: string) => isEnglish ? `/en/recipe/${slug}` : `/resept/${slug}`;
+  const getRecipeUrl = (slug: string) => getLocalizedRecipePath(locale, slug);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');

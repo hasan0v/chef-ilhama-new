@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'zh');
-  
+
   if (!recipe) {
-    return {
-      title: '未找到相关食谱 - 主厨 İlhamə',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `${recipe.name} 的制作食谱 - 主厨 İlhamə`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `详细的配料和烹饪步骤分析，教您如何制作正宗的 ${recipe.name}。`,
-  };
+  return getRecipeMetadata(recipe, 'zh');
 }
 
 export default async function ChineseRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function ChineseRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'zh');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: '首页', href: '/zh' },
     { name: '精品食谱', href: '/zh/recipes' },

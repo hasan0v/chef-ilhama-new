@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, Users, ChefHat, Eye } from 'lucide-react';
 import { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
+import { getLocalizedRecipePath, getSiteLocaleFromPathname } from '@/lib/localeRoutes';
 
 interface AnimatedRecipeCardProps {
   recipe: Recipe;
@@ -18,8 +19,7 @@ interface AnimatedRecipeCardProps {
 
 export default function AnimatedRecipeCard({ recipe, index = 0, priority = false }: AnimatedRecipeCardProps) {
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith('/en');
-  const recipeLink = isEnglish ? `/en/recipe/${recipe.slug}` : `/resept/${recipe.slug}`;
+  const recipeLink = getLocalizedRecipePath(getSiteLocaleFromPathname(pathname), recipe.slug);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {

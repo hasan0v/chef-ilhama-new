@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('nl', 'contact', {
   title: 'Contact - Chef İlhamə',
   description: 'Neem contact op met de culinaire studio van Chef İlhamə. Catering, privéchef-services en boekingen.',
-};
+});
 
 export default function DutchContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

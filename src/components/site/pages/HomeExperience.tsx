@@ -26,6 +26,11 @@ import {
   SectionLabel,
 } from '@/components/site/marketing';
 import { getWhatsAppHref } from '@/lib/site';
+import {
+  getLocalizedAboutPath,
+  getLocalizedRecipePath,
+  getLocalizedRecipesPath,
+} from '@/lib/localeRoutes';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats } from '@/utils/categoryUtils';
@@ -64,10 +69,9 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
   const [isHeroVideoPlaying, setIsHeroVideoPlaying] = useState(false);
   const isMobile = useSyncExternalStore(subscribeToMobileViewport, getMobileViewportSnapshot, () => false);
   const { t, locale } = useTranslation();
-  const isEn = locale === 'en';
   
-  const getRecipeUrl = (slug: string) => isEn ? `/en/recipe/${slug}` : `/resept/${slug}`;
-  const getRecipesUrl = () => isEn ? `/en/recipes` : `/reseptler`;
+  const getRecipeUrl = (slug: string) => getLocalizedRecipePath(locale, slug);
+  const getRecipesUrl = () => getLocalizedRecipesPath(locale);
   
   const highlightedRecipes = featuredRecipes.slice(0, 6);
 
@@ -385,7 +389,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 px-5 hover:bg-white">
-                    <Link href={isEn ? "/en/about" : "/haqqinda"}>{t.nav.about}</Link>
+                    <Link href={getLocalizedAboutPath(locale)}>{t.nav.about}</Link>
                   </Button>
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">

@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ja', 'privacy', {
   title: 'プライバシーポリシー - Chef İlhamə',
   description: '当サイトにおけるお客様の個人情報の収集、取り扱い、および保護に関する方針の詳細。',
-};
+});
 
 const sections = [
   {

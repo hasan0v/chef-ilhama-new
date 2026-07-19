@@ -1,8 +1,9 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import type { Metadata } from 'next';
 import { getServicePageSchema, getBreadcrumbSchema, getFAQSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'services', {
   title: 'Aşpaz Xidməti Bakı — Şəxsi Aşpaz və Katerinq',
   description: 'Bakının ən yaxşı şəxsi aşpaz xidməti. Toy yeməkləri, premium katerinq, banket aşpazı və şirkət tədbirləri. 15+ il professional təcrübə. Bakı, Sumqayıt, Abşeron.',
   keywords: 'aşpaz Bakı, şəxsi aşpaz, katerinq xidməti, toy yeməkləri, banket aşpazı, aşpaz evə, katerinq Baku, personal chef Baku, catering Azerbaijan, private chef Azerbaijan, wedding catering Baku',
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
       'en': 'https://chef-ilhama.food/en/services',
     },
   },
-};
+});
 
 const serviceFaqs = [
   {

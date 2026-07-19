@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -5,10 +6,10 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('zh', 'recipes', {
   title: '阿塞拜疆美食经典食谱档案 - 主厨 İlhamə',
   description: '汇聚阿塞拜疆丰富特色餐饮流派与地道地域美食烹饪方法。',
-};
+});
 
 export default async function ChineseRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([

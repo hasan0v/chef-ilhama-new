@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('it', 'terms', {
   title: 'Termini di Servizio - Chef İlhamə',
   description: 'Regole di utilizzo del sito della Chef İlhamə, condizioni per la prenotazione di servizi catering e chef a domicilio.',
-};
+});
 
 const sections = [
   {

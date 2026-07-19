@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'home', {
   title: 'शेफ इल्हामा — अज़रबैजानी व्यंजन रेसिपीज, प्रीमियम कैटरिंग और पर्सनल शेफ सेवाएं (बाकू)',
   description:
     'शेफ इल्हामा के साथ असली अज़रबैजानी व्यंजनों का स्वाद लें। 25 से अधिक क्षेत्रों की पारंपरिक रेसिपीज, प्रीमियम कैटरिंग और बाकू, सुमगयीत और अबशेरोन में पर्सनल शेफ सेवाएं।',
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
       'hi': `${siteConfig.url}/hi`,
     },
   },
-};
+});
 
 export default async function HindiHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ru', 'about', {
   title: 'О шефе - Шеф Ильхама',
   description: 'История кулинарной студии Шефа Ильхамы, ценности и видение сервиса.',
-};
+});
 
 export default function RussianAboutPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

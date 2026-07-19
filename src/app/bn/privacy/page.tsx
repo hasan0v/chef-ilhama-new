@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('bn', 'privacy', {
   title: 'গোপনীয়তা নীতি - Chef İlhamə',
   description: 'আমাদের ওয়েবসাইটে আপনার ব্যক্তিগত তথ্য সংগ্রহ, প্রক্রিয়াকরণ এবং সুরক্ষার বিস্তারিত নিয়মাবলী।',
-};
+});
 
 const sections = [
   {

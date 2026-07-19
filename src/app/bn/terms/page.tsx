@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('bn', 'terms', {
   title: 'ব্যবহারের শর্তাবলী - Chef İlhamə',
   description: 'ওয়েবসাইট ব্যবহারের নিয়মাবলী এবং আমাদের ক্যাটারিং ও পার্সোনাল শেফ সার্ভিসের বুকিংয়ের শর্তসমূহ।',
-};
+});
 
 const sections = [
   {

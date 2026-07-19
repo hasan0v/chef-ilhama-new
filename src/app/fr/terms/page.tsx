@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('fr', 'terms', {
   title: 'Conditions d\'utilisation - Chef İlhamə',
   description: 'Règles d\'utilisation du site de la Chef İlhamə, conditions de réservation de services traiteur et chef privé.',
-};
+});
 
 const sections = [
   {

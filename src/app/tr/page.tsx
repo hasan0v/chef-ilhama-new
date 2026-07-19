@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('tr', 'home', {
   title: 'Şef İlhame — Azerbaycan Yemek Tarifleri, Özel Şef ve Catering Hizmeti',
   description:
     'Şef İlhame ile otantik Azerbaycan mutfağını keşfedin. 25+ yöreden geleneksel tarifler, özel şef rezervasyonları ve Bakü, Sumgayıt, Abşeron genelinde catering hizmetleri.',
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
       'tr': `${siteConfig.url}/tr`,
     },
   },
-};
+});
 
 export default async function TurkishHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

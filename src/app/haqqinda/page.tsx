@@ -1,10 +1,11 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getAboutPageSchema, getAuthorSchema, getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'about', {
   title: 'Chef İlhamə haqqında — Peşəkar Azərbaycan Aşpazı',
   description: 'Chef İlhamə — 15+ il təcrübəsi olan professional Azərbaycan aşpazı. Bakı, Sumqayıt və Abşeronda şəxsi aşpaz, katerinq və menyu kurasiya xidməti. Bölgəvi reseptlər və kulinariya sənətkarlığı.',
   keywords: 'Chef İlhamə, Azərbaycan aşpazı, şəxsi aşpaz Bakı, professional chef Baku, Azerbaijani chef, kulinariya məsləhətçisi',
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
       'en': 'https://chef-ilhama.food/en/about',
     },
   },
-};
+});
 
 export default function AboutPage() {
   const aboutSchema = getAboutPageSchema();

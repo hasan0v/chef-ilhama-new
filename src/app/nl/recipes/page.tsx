@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -5,10 +6,10 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('nl', 'recipes', {
   title: 'Azerbeidzjaans receptenarchief - Chef İlhamə',
   description: 'Ontdek de rijke identiteit van de Azerbeidzjaanse keuken door middel van traditionele recepten.',
-};
+});
 
 export default async function DutchRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([

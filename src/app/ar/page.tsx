@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ar', 'home', {
   title: 'الشيف إلهامة — وصفات المطبخ الأذربيجاني، خدمات ضيافة وشيف خاص في باكو',
   description:
     'اكتشف المطبخ الأذربيجاني الأصيل مع الشيف إلهامة. وصفات تقليدية من أكثر من 25 منطقة، وخدمات ضيافة (كاترينج) فاخرة وحجز شيف خاص في باكو، سومقاييت وأبشيرون.',
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
       'ar': `${siteConfig.url}/ar`,
     },
   },
-};
+});
 
 export default async function ArabicHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

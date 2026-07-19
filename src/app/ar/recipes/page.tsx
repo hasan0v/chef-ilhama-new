@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -5,10 +6,10 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ar', 'recipes', {
   title: 'أرشيف وصفات المطبخ الأذربيجاني - الشيف إلهامة',
   description: 'وصفات تقليدية وإقليمية عريقة من المطبخ الأذربيجاني الغني بالنكهات الأصيلة.',
-};
+});
 
 export default async function ArabicRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([

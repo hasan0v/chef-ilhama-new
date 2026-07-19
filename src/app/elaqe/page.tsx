@@ -1,8 +1,9 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getContactPageSchema, getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'contact', {
   title: 'Əlaqə — Chef İlhamə',
   description: 'Chef İlhamə ilə əlaqə saxlayın. WhatsApp, telefon, email ilə şəxsi aşpaz və katerinq xidmət sorğusu göndərin. Bakı, Sumqayıt, Abşeron.',
   keywords: 'Chef İlhamə əlaqə, aşpaz sifariş, katerinq sifariş Bakı, contact chef Baku',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
       'en': 'https://chef-ilhama.food/en/contact',
     },
   },
-};
+});
 
 export default function ContactPage() {
   const contactSchema = getContactPageSchema();

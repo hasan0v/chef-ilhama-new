@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ru', 'privacy', {
   title: 'Политика конфиденциальности - Шеф Ильхама',
   description: 'Информация о сборе, использовании и защите персональных данных на сайте Шефа Ильхамы.',
-};
+});
 
 const sections = [
   {

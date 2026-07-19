@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -5,10 +6,10 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'recipes', {
   title: 'अज़रबैजानी व्यंजन रेसिपी संग्रह - शेफ इल्हामा',
   description: 'पारंपरिक और क्षेत्रीय अज़रबैजानी रेसिपीज का संग्रह। अपनी पसंद की रेसिपी ढूंढें।',
-};
+});
 
 export default async function HindiRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([

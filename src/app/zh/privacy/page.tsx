@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('zh', 'privacy', {
   title: '隐私政策 - 主厨 İlhamə',
   description: '主厨 İlhamə 官方网站关于个人数据收集、使用及安全保护的相关说明。',
-};
+});
 
 const sections = [
   {

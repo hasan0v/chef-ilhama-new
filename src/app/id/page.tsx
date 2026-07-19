@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('id', 'home', {
   title: 'Chef İlhamə — Resep Kuliner Azerbaijan, Catering Premium & Privat Chef (Baku)',
   description:
     'Temukan kuliner autentik Azerbaijan bersama Chef İlhamə. Lebih dari 25 wilayah resep tradisional, catering premium, dan layanan privat chef di Baku, Sumqayıt, dan Abşeron.',
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
       'id': `${siteConfig.url}/id`,
     },
   },
-};
+});
 
 export default async function IndonesianHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

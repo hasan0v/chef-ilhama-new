@@ -2,6 +2,13 @@
 
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
+import {
+  getLocalizedHomePath,
+  getSiteLocaleFromPathname,
+  isSiteLocale,
+  LOCALE_COOKIE_NAME,
+} from '@/lib/localeRoutes';
+import { persistLocalePreference } from '@/lib/localePreference';
 
 export default function LocaleManager() {
   const pathname = usePathname();
@@ -9,37 +16,21 @@ export default function LocaleManager() {
   useEffect(() => {
     if (!pathname) return;
 
-    const supported = ['en', 'tr', 'ru', 'fr', 'it', 'ar', 'zh', 'hi', 'es', 'pt', 'nl', 'de', 'ja', 'id', 'bn'];
+    const locale = getSiteLocaleFromPathname(pathname);
+    const isHomeRoute = pathname === getLocalizedHomePath(locale);
+    const hasLocaleCookie = document.cookie
+      .split('; ')
+      .some((cookie) => cookie.startsWith(`${LOCALE_COOKIE_NAME}=`));
+    const legacyLocale = window.localStorage.getItem('user-selected-locale');
 
-    // Automatic redirection logic at root page '/'
-    if (pathname === '/') {
-      const savedLocale = localStorage.getItem('user-selected-locale');
-      if (savedLocale && savedLocale !== 'az') {
-        if (supported.includes(savedLocale)) {
-          window.location.replace(`/${savedLocale}`);
-          return;
-        }
-      } else if (!savedLocale) {
-        // First time load: detect browser language
-        const browserLang = ((navigator.languages && navigator.languages[0]) || navigator.language || '').substring(0, 2).toLowerCase();
-        if (supported.includes(browserLang)) {
-          localStorage.setItem('user-selected-locale', browserLang);
-          window.location.replace(`/${browserLang}`);
-          return;
-        } else {
-          localStorage.setItem('user-selected-locale', 'az');
-        }
-      }
+    // Migrate preferences saved by the previous localStorage-only implementation.
+    if (isHomeRoute && !hasLocaleCookie && isSiteLocale(legacyLocale) && legacyLocale !== locale) {
+      persistLocalePreference(legacyLocale);
+      window.location.replace(getLocalizedHomePath(legacyLocale));
+      return;
     }
 
-    // Save locale preference when visiting a localized path
-    const pathParts = pathname.split('/');
-    const firstSegment = pathParts[1];
-    if (supported.includes(firstSegment)) {
-      localStorage.setItem('user-selected-locale', firstSegment);
-    } else if (pathname === '/') {
-      localStorage.setItem('user-selected-locale', 'az');
-    }
+    persistLocalePreference(locale);
 
     const isAr = pathname.startsWith('/ar/') || pathname === '/ar';
     const isEn = pathname.startsWith('/en/') || pathname === '/en';
@@ -57,7 +48,7 @@ export default function LocaleManager() {
     const isId = pathname.startsWith('/id/') || pathname === '/id';
     const isBn = pathname.startsWith('/bn/') || pathname === '/bn';
 
-    let lang = 'az';
+    let lang = locale;
     let dir = 'ltr';
 
     if (isAr) {

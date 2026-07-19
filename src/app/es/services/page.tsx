@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('es', 'services', {
   title: 'Servicios - Chef İlhamə',
   description: 'Servicio de reservas de chef privado a domicilio, catering de marca prémium y banquetes exclusivos en Bakú.',
-};
+});
 
 export default function SpanishServicesPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

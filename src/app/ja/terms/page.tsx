@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ja', 'terms', {
   title: '利用規約 - Chef İlhamə',
   description: '当サイトの利用条件、および出張シェフやケータリングサービスのご予約に適用される基本条件。',
-};
+});
 
 const sections = [
   {

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'fr');
-  
+
   if (!recipe) {
-    return {
-      title: 'Recette non trouvée - Chef İlhamə',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `Recette : ${recipe.name} - Chef İlhamə`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `Recette de cuisine détaillée pour le plat traditionnel ${recipe.name}.`,
-  };
+  return getRecipeMetadata(recipe, 'fr');
 }
 
 export default async function FrenchRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function FrenchRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'fr');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'Accueil', href: '/fr' },
     { name: 'Recettes', href: '/fr/recipes' },

@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import HomeExperience from '@/components/site/pages/HomeExperience';
 import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
@@ -6,7 +7,7 @@ import type { Metadata } from 'next';
 // Revalidate every 5 minutes
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'home', {
   title: 'Chef İlhamə — Azərbaycan Mətbəxi Reseptləri, Şəxsi Aşpaz və Katerinq',
   description:
     'Azərbaycan mətbəxinin bölgəvi dadlarını reseptlərlə kəşf edin. Chef İlhamənin seçilmiş resept kolleksiyası, Bakıda şəxsi aşpaz və katerinq xidmətləri. 15+ il professional təcrübə.',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
       'en': 'https://chef-ilhama.food/en',
     },
   },
-};
+});
 
 export default async function Home() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

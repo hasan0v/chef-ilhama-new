@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -6,7 +7,7 @@ import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'recipes', {
   title: 'Azerbaijani Recipes — Traditional Regional Dishes',
   description:
     'The most delicious traditional Azerbaijani recipes. 50+ recipes from 25+ regions: plov, dolma, kebab, soups, pastries and more. Step-by-step preparation instructions.',
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
       en: 'https://chef-ilhama.food/en/recipes',
     },
   },
-};
+});
 
 export default async function EnglishRecipesPage() {
   const [recipes, regions] = await Promise.all([getRecipes('en'), getRegions('en')]);

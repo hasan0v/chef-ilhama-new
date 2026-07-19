@@ -10,7 +10,12 @@
     "postinstall": "prisma generate",
     "db:migrate": "tsx scripts/migrate-to-supabase.ts",
     "db:reset": "npx prisma db push --force-reset",
-    "db:generate": "npx prisma generate"
+    "db:generate": "npx prisma generate",
+    "content:research": "node scripts/research-global-recipes.mjs && node scripts/select-global-recipes.mjs",
+    "content:prepare-images": "node scripts/prepare-global-recipe-images.mjs",
+    "content:qa": "node scripts/qa-global-recipe-content.mjs",
+    "content:import:dry-run": "tsx scripts/import-global-recipes.ts",
+    "content:import": "tsx scripts/import-global-recipes.ts --apply"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

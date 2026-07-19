@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'privacy', {
   title: 'Məxfilik Siyasəti - Chef İlhamə',
   description: 'Chef İlhamə saytında toplanan məlumatlar və onların necə qorunduğu barədə məlumat.',
-};
+});
 
 const sections = [
   {

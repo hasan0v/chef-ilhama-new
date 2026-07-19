@@ -1,8 +1,9 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getContactPageSchema, getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'contact', {
   title: 'Contact — Chef İlhamə',
   description:
     'Get in touch with Chef İlhamə. Send a private chef or catering service inquiry via WhatsApp, phone, or email. Baku, Sumqayıt, Abşeron.',
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
       en: 'https://chef-ilhama.food/en/contact',
     },
   },
-};
+});
 
 export default function EnglishContactPage() {
   const contactSchema = getContactPageSchema();

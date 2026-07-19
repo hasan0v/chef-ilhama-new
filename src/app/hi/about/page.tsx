@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'about', {
   title: 'शेफ के बारे में - शेफ इल्हामा',
   description: 'शेफ इल्हामा कुकिंग स्टूडियो की कहानी, हमारे सिद्धांत और सेवाएं।',
-};
+});
 
 export default function HindiAboutPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

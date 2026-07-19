@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('de', 'terms', {
   title: 'Allgemeine Geschäftsbedingungen - Chef İlhamə',
   description: 'Nutzungsbedingungen der Website und die Bedingungen für die Buchung unserer Privatkoch- und Catering-Services.',
-};
+});
 
 const sections = [
   {

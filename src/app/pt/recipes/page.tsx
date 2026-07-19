@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
@@ -5,10 +6,10 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('pt', 'recipes', {
   title: 'Arquivo de receitas clássicas do Azerbaijão - Chef İlhamə',
   description: 'Descubra a rica identidade da cozinha do Azerbaijão através de receitas clássicas e regionais.',
-};
+});
 
 export default async function PortugueseRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([

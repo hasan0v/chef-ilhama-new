@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('it', 'contact', {
   title: 'Contatti - Chef İlhamə',
   description: 'Contatta lo studio culinario della Chef İlhamə. Prenotazioni, catering e servizi di chef privato.',
-};
+});
 
 export default function ItalianContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

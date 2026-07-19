@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('hi', 'privacy', {
   title: 'गोपनीयता नीति - शेफ इल्हामा',
   description: 'शेफ इल्हामा वेबसाइट पर आपके डेटा के संग्रह, उपयोग और सुरक्षा से जुड़ी नीतियां।',
-};
+});
 
 const sections = [
   {

@@ -1,130 +1,56 @@
-import { MetadataRoute } from 'next'
-import { getRecipes } from '@/lib/recipes'
-import { Recipe } from '@/types/recipe'
+import type { MetadataRoute } from 'next';
+import { getRecipes } from '@/lib/recipes';
+import { SITE_LOCALES, type SiteLocale } from '@/lib/localeRoutes';
+import {
+  getAllLanguageAlternates,
+  getIndexableRecipeAlternates,
+  getLocalizedRecipePath,
+  getSeoPath,
+  type SeoPageKind,
+} from '@/lib/seoLocales';
+import { siteConfig } from '@/lib/site';
+
+// Keep the sitemap current as recipes are added and avoid opening another DB
+// session during Next's highly parallel static-generation phase.
+export const dynamic = 'force-dynamic';
+
+const staticPageSettings: Array<{
+  kind: SeoPageKind;
+  changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+  priority: number;
+}> = [
+  { kind: 'home', changeFrequency: 'weekly', priority: 1 },
+  { kind: 'recipes', changeFrequency: 'daily', priority: 0.9 },
+  { kind: 'services', changeFrequency: 'monthly', priority: 0.8 },
+  { kind: 'about', changeFrequency: 'monthly', priority: 0.7 },
+  { kind: 'contact', changeFrequency: 'monthly', priority: 0.6 },
+  { kind: 'privacy', changeFrequency: 'yearly', priority: 0.3 },
+  { kind: 'terms', changeFrequency: 'yearly', priority: 0.3 },
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://chef-ilhama.food'
-  
-  // Get all recipes for dynamic pages
-  let recipes: Recipe[] = [];
-  try {
-    recipes = await getRecipes();
-  } catch (error) {
-    console.log('Unable to fetch recipes for sitemap (this is expected during local build):', error);
-  }
-  
-  // Static pages — Azerbaijani
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date('2026-04-12'),
-      changeFrequency: 'weekly',
-      priority: 1,
-      alternates: {
-        languages: {
-          az: baseUrl,
-          en: `${baseUrl}/en`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/reseptler`,
-      lastModified: new Date('2026-04-12'),
-      changeFrequency: 'daily',
-      priority: 0.9,
-      alternates: {
-        languages: {
-          az: `${baseUrl}/reseptler`,
-          en: `${baseUrl}/en/recipes`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/xidmetler`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-      alternates: {
-        languages: {
-          az: `${baseUrl}/xidmetler`,
-          en: `${baseUrl}/en/services`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/haqqinda`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      alternates: {
-        languages: {
-          az: `${baseUrl}/haqqinda`,
-          en: `${baseUrl}/en/about`,
-        },
-      },
-    },
-    {
-      url: `${baseUrl}/elaqe`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-      alternates: {
-        languages: {
-          az: `${baseUrl}/elaqe`,
-          en: `${baseUrl}/en/contact`,
-        },
-      },
-    },
-  ]
+  const recipes = await getRecipes('az');
 
-  // English static pages
-  const enStaticPages: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/en`,
-      lastModified: new Date('2026-04-12'),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/en/recipes`,
-      lastModified: new Date('2026-04-12'),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/en/services`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/en/about`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/en/contact`,
-      lastModified: new Date('2026-04-01'),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-  ]
+  const staticPages: MetadataRoute.Sitemap = SITE_LOCALES.flatMap((locale) =>
+    staticPageSettings.map(({ kind, changeFrequency, priority }) => ({
+      url: `${siteConfig.url}${getSeoPath(locale, kind)}`,
+      changeFrequency,
+      priority: locale === 'az' ? priority : Math.max(0.2, priority - 0.1),
+      alternates: { languages: getAllLanguageAlternates(kind) },
+    })),
+  );
 
-  // Recipe pages with image sitemap data
-  const recipePages: MetadataRoute.Sitemap = recipes.map((recipe: Recipe) => ({
-    url: `${baseUrl}/resept/${recipe.slug}`,
-    lastModified: new Date('2026-04-12'),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-    images: recipe.image ? [recipe.image] : undefined,
-    alternates: {
-      languages: {
-        az: `${baseUrl}/resept/${recipe.slug}`,
-        en: `${baseUrl}/en/recipe/${recipe.slug}`,
-      },
-    },
-  }))
+  const indexableRecipeLocales: SiteLocale[] = ['az', 'en'];
+  const recipePages: MetadataRoute.Sitemap = recipes.flatMap((recipe) =>
+    indexableRecipeLocales.map((locale) => ({
+      url: `${siteConfig.url}${getLocalizedRecipePath(locale, recipe.slug)}`,
+      lastModified: recipe.updatedAt ? new Date(recipe.updatedAt) : undefined,
+      changeFrequency: 'weekly' as const,
+      priority: locale === 'az' ? 0.8 : 0.75,
+      images: recipe.image ? [recipe.image] : undefined,
+      alternates: { languages: getIndexableRecipeAlternates(recipe.slug) },
+    })),
+  );
 
-  return [...staticPages, ...enStaticPages, ...recipePages]
+  return [...staticPages, ...recipePages];
 }

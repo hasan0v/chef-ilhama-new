@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('bn', 'home', {
   title: 'শেফ ইলহামা — আজারবাইজানীয় খাবারের রেসিপি, প্রিমিয়াম ক্যাটারিং এবং পার্সোনাল শেফ সার্ভিস (বাকু)',
   description:
     'শেফ ইলহামার সাথে আজারবাইজানীয় খাবারের আঞ্চলিক স্বাদ আবিষ্কার করুন। ২৫টিরও বেশি অঞ্চলের ঐতিহ্যবাহী রেসিপি, প্রিমিয়াম ক্যাটারিং এবং বাকু, সুমগাইত এবং আবশেরনে পার্সোনাল শেফ বুকিং সার্ভিস।',
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
       'bn': `${siteConfig.url}/bn`,
     },
   },
-};
+});
 
 export default async function BengaliHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

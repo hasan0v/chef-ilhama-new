@@ -1,23 +1,25 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
   ArrowLeft,
+  Bookmark,
+  BookmarkCheck,
+  BookOpen,
   Check,
   CheckCircle2,
   ChefHat,
   Clock3,
   History,
+  ExternalLink,
   MapPin,
   Printer,
   Share2,
-  Sparkles,
   Users,
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
-import RecipeStructuredData from '@/components/recipe/RecipeStructuredData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,15 +29,36 @@ import {
   SectionHeading,
   SectionLabel,
 } from '@/components/site/marketing';
-import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
+import type { SiteLocale } from '@/lib/localeRoutes';
 
 interface RecipeStoryPageProps {
   recipe: Recipe;
   breadcrumbs?: import('@/lib/seo').BreadcrumbItem[];
 }
+
+const engagementLabels: Record<SiteLocale, { jump: string; save: string; saved: string; sources: string; photo: string }> = {
+  az: { jump: 'Reseptə keç', save: 'Saxla', saved: 'Saxlanıldı', sources: 'Mənbələr', photo: 'Şəkil' },
+  en: { jump: 'Jump to recipe', save: 'Save', saved: 'Saved', sources: 'Sources', photo: 'Photo' },
+  tr: { jump: 'Tarife geç', save: 'Kaydet', saved: 'Kaydedildi', sources: 'Kaynaklar', photo: 'Fotoğraf' },
+  ru: { jump: 'К рецепту', save: 'Сохранить', saved: 'Сохранено', sources: 'Источники', photo: 'Фото' },
+  fr: { jump: 'Voir la recette', save: 'Enregistrer', saved: 'Enregistré', sources: 'Sources', photo: 'Photo' },
+  it: { jump: 'Vai alla ricetta', save: 'Salva', saved: 'Salvata', sources: 'Fonti', photo: 'Foto' },
+  ar: { jump: 'انتقل إلى الوصفة', save: 'حفظ', saved: 'تم الحفظ', sources: 'المصادر', photo: 'الصورة' },
+  zh: { jump: '查看食谱', save: '收藏', saved: '已收藏', sources: '来源', photo: '图片' },
+  hi: { jump: 'रेसिपी पर जाएँ', save: 'सहेजें', saved: 'सहेजा गया', sources: 'स्रोत', photo: 'फ़ोटो' },
+  es: { jump: 'Ir a la receta', save: 'Guardar', saved: 'Guardada', sources: 'Fuentes', photo: 'Foto' },
+  pt: { jump: 'Ir para a receita', save: 'Guardar', saved: 'Guardada', sources: 'Fontes', photo: 'Foto' },
+  nl: { jump: 'Naar recept', save: 'Bewaren', saved: 'Bewaard', sources: 'Bronnen', photo: 'Foto' },
+  de: { jump: 'Zum Rezept', save: 'Speichern', saved: 'Gespeichert', sources: 'Quellen', photo: 'Foto' },
+  ja: { jump: 'レシピを見る', save: '保存', saved: '保存済み', sources: '出典', photo: '写真' },
+  id: { jump: 'Lihat resep', save: 'Simpan', saved: 'Tersimpan', sources: 'Sumber', photo: 'Foto' },
+  bn: { jump: 'রেসিপিতে যান', save: 'সংরক্ষণ', saved: 'সংরক্ষিত', sources: 'উৎস', photo: 'ছবি' },
+};
 
 function getDifficultyTone(difficulty: string) {
   switch (difficulty) {
@@ -56,11 +79,40 @@ function getDifficultyTone(difficulty: string) {
 export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPageProps) {
   const [checkedIngredients, setCheckedIngredients] = useState<Set<number>>(new Set());
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [saved, setSaved] = useState(false);
+  const [progressLoaded, setProgressLoaded] = useState(false);
   const { t, locale } = useTranslation();
-  const isEn = locale === 'en';
+  const labels = engagementLabels[locale];
+  const progressKey = `chef-recipe-progress:${recipe.slug}`;
 
-  const getRecipesUrl = () => isEn ? '/en/recipes' : '/reseptler';
-  const getServicesUrl = () => isEn ? '/en/services' : '/xidmetler';
+  useEffect(() => {
+    let cancelled = false;
+    try {
+      const storedProgress = JSON.parse(localStorage.getItem(progressKey) ?? '{}') as { ingredients?: number[]; steps?: number[] };
+      const savedRecipes = JSON.parse(localStorage.getItem('chef-saved-recipes') ?? '[]') as string[];
+      queueMicrotask(() => {
+        if (cancelled) return;
+        setCheckedIngredients(new Set((storedProgress.ingredients ?? []).filter((index) => index < recipe.ingredients.length)));
+        setCompletedSteps(new Set((storedProgress.steps ?? []).filter((index) => index < recipe.instructions.length)));
+        setSaved(savedRecipes.includes(recipe.slug));
+        setProgressLoaded(true);
+      });
+    } catch {
+      localStorage.removeItem(progressKey);
+      queueMicrotask(() => {
+        if (!cancelled) setProgressLoaded(true);
+      });
+    }
+    return () => { cancelled = true; };
+  }, [progressKey, recipe.ingredients.length, recipe.instructions.length, recipe.slug]);
+
+  useEffect(() => {
+    if (!progressLoaded) return;
+    localStorage.setItem(progressKey, JSON.stringify({ ingredients: [...checkedIngredients], steps: [...completedSteps] }));
+  }, [checkedIngredients, completedSteps, progressKey, progressLoaded]);
+
+  const getRecipesUrl = () => getLocalizedRecipesPath(locale);
+  const getServicesUrl = () => getLocalizedServicesPath(locale);
 
   const progress = useMemo(() => {
     const ingredientProgress = recipe.ingredients.length
@@ -99,10 +151,8 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
 
   async function handleShare() {
     const url = window.location.href;
-    const title = isEn ? `${recipe.name} recipe` : `${recipe.name} resepti`;
-    const text = isEn 
-      ? `I want to share the recipe for ${recipe.name} from the ${recipe.origin} region.` 
-      : `${recipe.origin} bölgəsindən ${recipe.name} reseptini paylaşmaq istəyirəm.`;
+    const title = `${recipe.name} · ${t.nav.recipes}`;
+    const text = `${recipe.name} · ${recipe.origin}`;
 
     if (navigator.share) {
       await navigator.share({ title, text, url });
@@ -114,16 +164,23 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
       return;
     }
 
-    window.prompt(isEn ? 'Copy link' : 'Linki kopyalayın', url);
+    window.prompt(t.recipeStory.layoutShare, url);
   }
 
   function handlePrint() {
     window.print();
   }
 
+  function toggleSaved() {
+    const savedRecipes = new Set<string>(JSON.parse(localStorage.getItem('chef-saved-recipes') ?? '[]'));
+    if (savedRecipes.has(recipe.slug)) savedRecipes.delete(recipe.slug);
+    else savedRecipes.add(recipe.slug);
+    localStorage.setItem('chef-saved-recipes', JSON.stringify([...savedRecipes]));
+    setSaved(savedRecipes.has(recipe.slug));
+  }
+
   return (
     <PageLayout breadcrumbs={breadcrumbs}>
-      <RecipeStructuredData recipe={recipe} />
       <div className="space-y-12 lg:space-y-16">
         <section className="px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10">
           <div className="mx-auto max-w-7xl">
@@ -148,12 +205,10 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                   </div>
 
                   <div className="space-y-4">
-                    <SectionLabel>{recipe.category || (isEn ? 'Azerbaijani cuisine' : 'Azərbaycan mətbəxi')}</SectionLabel>
+                    <SectionLabel>{recipe.category || t.nav.recipes}</SectionLabel>
                     <h1 className="display-title text-[clamp(2rem,6vw,5rem)] leading-[0.92] text-foreground">{recipe.name}</h1>
                     <p className="max-w-2xl text-base leading-8 text-[rgba(57,44,35,0.76)] sm:text-lg">
-                      {recipe.history || (isEn 
-                        ? `This recipe from the ${recipe.origin} region is presented with a cleaner and more convenient preparation flow while preserving its traditional taste character.`
-                        : `${recipe.origin} bölgəsindən gələn bu resept ənənəvi dad xarakterini qoruyaraq daha oxunaqlı və rahat hazırlanma axını ilə təqdim olunur.`)}
+                      {recipe.history || `${recipe.name} · ${recipe.origin}`}
                     </p>
                   </div>
 
@@ -177,6 +232,16 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                   </div>
 
                   <div className="flex flex-wrap gap-3">
+                    <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 hover:bg-white">
+                      <a href="#recipe-content">
+                        <BookOpen className="h-4 w-4" />
+                        {labels.jump}
+                      </a>
+                    </Button>
+                    <Button onClick={toggleSaved} aria-pressed={saved} variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 hover:bg-white cursor-pointer">
+                      {saved ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+                      {saved ? labels.saved : labels.save}
+                    </Button>
                     <Button onClick={handleShare} className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)] cursor-pointer">
                       <Share2 className="h-4 w-4" />
                       {t.recipeStory.layoutShare}
@@ -191,7 +256,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                 <div className="relative min-h-[280px] overflow-hidden rounded-[1.25rem] border border-white/60 shadow-[0_24px_64px_rgba(52,34,22,0.12)] sm:min-h-[400px] sm:rounded-[2rem]">
                   <Image
                     src={getValidImageUrl(recipe.image)}
-                    alt={recipe.name}
+                    alt={recipe.imageAlt || recipe.name}
                     fill
                     priority
                     fetchPriority="high"
@@ -207,12 +272,21 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                     </div>
                   </div>
                 </div>
+                {recipe.imageCredit || recipe.imageLicense ? (
+                  <p className="text-right text-xs leading-5 text-[rgba(57,44,35,0.62)] lg:col-start-2">
+                    {labels.photo}: {recipe.imageCredit || recipe.name}
+                    {recipe.imageLicense ? ` · ${recipe.imageLicense}` : ''}
+                    {recipe.imageSourceUrl ? (
+                      <> · <a className="underline underline-offset-2 hover:text-foreground" href={recipe.imageSourceUrl} target="_blank" rel="noopener noreferrer">{labels.sources}</a></>
+                    ) : null}
+                  </p>
+                ) : null}
               </div>
             </EditorialPanel>
           </div>
         </section>
 
-        <section className="px-4 sm:px-6 lg:px-8">
+        <section id="recipe-content" className="scroll-mt-28 px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl space-y-8">
             <SectionHeading
               eyebrow={<SectionLabel>{t.recipeStory.progressLabel}</SectionLabel>}
@@ -310,7 +384,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                                 {completed ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
                               </button>
                               <div className="space-y-2 min-w-0 flex-1">
-                                <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{isEn ? 'Step' : 'Addım'} {index + 1}</div>
+                                <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{t.recipeStory.instructionsLabel} · {index + 1}</div>
                                 <p className={`text-sm leading-8 sm:text-base ${completed ? 'text-[rgba(53,84,65,0.96)]' : 'text-[rgba(57,44,35,0.82)]'}`}>
                                   {instruction}
                                 </p>
@@ -354,9 +428,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                     <CardContent className="space-y-4 p-6">
                       <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{t.recipeStory.servingSuggestionLabel}</div>
                       <p className="text-sm leading-8 text-[rgba(57,44,35,0.76)] sm:text-base">
-                        {recipe.servingSuggestions || (isEn 
-                          ? `${recipe.name} is best presented with a simple, light service and balanced side options.`
-                          : `${recipe.name} sadə, işıqlı servis və balanslı yan əlavələrlə təqdim edildikdə daha yaxşı açılır.`)}
+                        {recipe.servingSuggestions || `${recipe.name} · ${t.recipeStory.servingSuggestionLabel}`}
                       </p>
                     </CardContent>
                   </Card>
@@ -366,16 +438,36 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
           </div>
         </section>
 
+        {recipe.sources?.length ? (
+          <section className="px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl">
+              <Card className="border-white/60 bg-white/76 shadow-[0_20px_56px_rgba(52,34,22,0.08)] backdrop-blur-sm">
+                <CardContent className="p-6 sm:p-7">
+                  <h2 className="text-xl font-semibold tracking-[-0.02em] text-foreground">{labels.sources}</h2>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                    {recipe.sources.map((source) => (
+                      <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-4 rounded-2xl border border-[rgba(98,67,45,0.1)] bg-[rgba(247,239,226,0.7)] px-4 py-3 text-sm text-[rgba(57,44,35,0.78)] transition-colors hover:bg-white">
+                        <span>{source.title || new URL(source.url).hostname}</span>
+                        <ExternalLink className="h-4 w-4 shrink-0" />
+                      </a>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        ) : null}
+
         <section className="px-4 pb-2 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <CtaBand
-              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">Chef service</SectionLabel>}
-              title={<>{isEn ? "If you wish to experience these flavors with professional service, the next step is event planning." : "Bu dadları peşəkar servis ilə yaşamaq istəyirsinizsə, növbəti addım tədbir planlamasıdır."}</>}
-              description={isEn ? "Bring these flavors to your event with our culinary services." : "Xidmətlərimizlə bu dadları tədbirinizdə yaşadın."}
+              eyebrow={<SectionLabel className="border-white/20 bg-white/10 text-white">{t.about.ctaContactLabel}</SectionLabel>}
+              title={<>{t.about.ctaContactTitle}</>}
+              description={t.about.ctaContactDesc}
               actions={
                 <>
                   <Button asChild className="rounded-full bg-white px-6 text-[rgba(34,27,23,0.94)] hover:bg-white/90">
-                    <Link href={getServicesUrl()}>{isEn ? "View Services" : "Xidmətləri gör"}</Link>
+                    <Link href={getServicesUrl()}>{t.about.ctaContactBtn}</Link>
                   </Button>
                   <Button asChild variant="outline" className="rounded-full border-white/24 bg-transparent px-6 text-white hover:bg-white/10 hover:text-white">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">WhatsApp</a>

@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ar', 'terms', {
   title: 'شروط الاستخدام - الشيف إلهامة',
   description: 'القواعد العامة لاستخدام موقع الشيف إلهامة وشروط طلب خدمات الشيف الخاص والضيافة.',
-};
+});
 
 const sections = [
   {

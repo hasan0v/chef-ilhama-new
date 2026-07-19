@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { getRecipeBySlug } from '@/lib/recipes';
 import RecipeStoryPage from '@/components/site/pages/RecipeStoryPage';
 import { getRecipeSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeMetadata } from '@/lib/recipeMetadata';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -13,17 +14,12 @@ export const revalidate = 300;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const recipe = await getRecipeBySlug(slug, 'bn');
-  
+
   if (!recipe) {
-    return {
-      title: 'রেসিপি খুঁজে পাওয়া যায়নি - Chef İlhamə',
-    };
+    return { title: 'Recipe not found', robots: { index: false, follow: false } };
   }
 
-  return {
-    title: `${recipe.name} রেসিপি - Chef İlhamə`,
-    description: recipe.history ? recipe.history.substring(0, 160) : `${recipe.name} কীভাবে বাড়িতে সুস্বাদুভাবে রান্না করবেন তার বিস্তারিত রেসিপি ও উপকরণ।`,
-  };
+  return getRecipeMetadata(recipe, 'bn');
 }
 
 export default async function BengaliRecipePage({ params }: Props) {
@@ -34,7 +30,7 @@ export default async function BengaliRecipePage({ params }: Props) {
     notFound();
   }
 
-  const recipeSchema = getRecipeSchema(recipe);
+  const recipeSchema = getRecipeSchema(recipe, 'bn');
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: 'হোম', href: '/bn' },
     { name: 'রেসিপি', href: '/bn/recipes' },

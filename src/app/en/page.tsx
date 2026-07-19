@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('en', 'home', {
   title: 'Chef İlhamə — Azerbaijani Recipes, Private Chef & Catering in Baku',
   description:
     'Discover authentic Azerbaijani cuisine with Chef İlhamə. Traditional recipes from 25+ regions, private chef services, and premium catering in Baku, Sumqayıt & Abşeron.',
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
       'en': `${siteConfig.url}/en`,
     },
   },
-};
+});
 
 export default async function EnglishHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
+import { persistLocalePreference } from '@/lib/localePreference';
 
 const languages = [
   { code: 'az', label: 'Azərbaycanca' },
@@ -377,9 +378,7 @@ export default function Header() {
                           key={lang.code}
                           href={getLocalizedPath(pathname || '/', lang.code)}
                           onClick={() => {
-                            if (typeof window !== 'undefined') {
-                              localStorage.setItem('user-selected-locale', lang.code);
-                            }
+                            persistLocalePreference(lang.code);
                           }}
                           className={`flex items-center justify-between rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
                             isActive
@@ -437,9 +436,7 @@ export default function Header() {
                           key={lang.code}
                           href={getLocalizedPath(pathname || '/', lang.code)}
                           onClick={() => {
-                            if (typeof window !== 'undefined') {
-                              localStorage.setItem('user-selected-locale', lang.code);
-                            }
+                            persistLocalePreference(lang.code);
                           }}
                           className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
                             isActive

@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import { getRecipes, getRegions } from '@/lib/recipes';
 import RecipeCatalogPage from '@/components/site/pages/RecipeCatalogPage';
 import type { Metadata } from 'next';
@@ -7,7 +8,7 @@ import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
 // Cache for 5 minutes
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('az', 'recipes', {
   title: 'Azərbaycan Reseptləri — Ənənəvi Bölgəvi Yeməklər',
   description: 'Azərbaycan mətbəxinin ən dadlı və ənənəvi reseptləri. 25+ bölgədən 50+ resept: plov, dolma, kabab, şorba, şirniyyat və daha çox. Addım-addım hazırlanma qaydası.',
   keywords: 'Azərbaycan reseptləri, Azerbaijani recipes, ənənəvi yeməklər, plov resepti, dolma resepti, kabab resepti, Azerbaijani food recipes, traditional Azerbaijani dishes',
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
       'en': 'https://chef-ilhama.food/en/recipes',
     },
   },
-};
+});
 
 export default async function RecipesPage() {
   const [recipes, regions] = await Promise.all([

@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ru', 'contact', {
   title: 'Контакты - Шеф Ильхама',
   description: 'Свяжитесь с кулинарной студией Шефа Ильхамы. Заказы, кейтеринг и услуги личного шеф-повара.',
-};
+});
 
 export default function RussianContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

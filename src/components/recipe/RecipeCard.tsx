@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Recipe } from '@/types/recipe';
 import { useState } from 'react';
 import { getValidImageUrl } from '@/utils/imageUtils';
+import { getLocalizedRecipePath, getSiteLocaleFromPathname } from '@/lib/localeRoutes';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -19,8 +20,7 @@ interface RecipeCardProps {
 export default function RecipeCard({ recipe, className = '', priority = false }: RecipeCardProps) {
   const [imageError, setImageError] = useState(false);
   const pathname = usePathname();
-  const isEnglish = pathname?.startsWith('/en');
-  const recipeLink = isEnglish ? `/en/recipe/${recipe.slug}` : `/resept/${recipe.slug}`;
+  const recipeLink = getLocalizedRecipePath(getSiteLocaleFromPathname(pathname), recipe.slug);
   
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {

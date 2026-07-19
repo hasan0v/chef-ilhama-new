@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('nl', 'home', {
   title: 'Chef İlhamə — Recepten uit de Azerbeidzjaanse keuken, premium catering en privéchef-services (Bakoe)',
   description:
     'Ontdek de authentieke Azerbeidzjaanse keuken met Chef İlhamə. Meer dan 25 regio\'s aan traditionele recepten, premium catering en privéchef-services in Bakoe, Sumqayıt en Abşeron.',
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
       'nl': `${siteConfig.url}/nl`,
     },
   },
-};
+});
 
 export default async function DutchHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

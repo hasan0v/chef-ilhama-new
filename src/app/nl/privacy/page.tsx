@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import LegalPage from '@/components/site/pages/LegalPage';
 import { siteConfig } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('nl', 'privacy', {
   title: 'Privacybeleid - Chef İlhamə',
   description: 'Details over het verzamelen, verwerken en beschermen van uw persoonsgegevens op onze website.',
-};
+});
 
 const sections = [
   {

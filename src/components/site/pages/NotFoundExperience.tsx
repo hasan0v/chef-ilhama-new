@@ -7,15 +7,21 @@ import { Button } from '@/components/ui/button';
 import { CtaBand, EditorialPanel, PageHero, SectionLabel } from '@/components/site/marketing';
 import { getWhatsAppHref } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
+import {
+  getLocalizedContactPath,
+  getLocalizedHomePath,
+  getLocalizedRecipesPath,
+  getLocalizedServicesPath,
+} from '@/lib/localeRoutes';
 
 export default function NotFoundExperience() {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
 
-  const getHomeUrl = () => isEn ? '/en' : '/';
-  const getRecipesUrl = () => isEn ? '/en/recipes' : '/reseptler';
-  const getServicesUrl = () => isEn ? '/en/services' : '/xidmetler';
-  const getContactUrl = () => isEn ? '/en/contact' : '/elaqe';
+  const getHomeUrl = () => getLocalizedHomePath(locale);
+  const getRecipesUrl = () => getLocalizedRecipesPath(locale);
+  const getServicesUrl = () => getLocalizedServicesPath(locale);
+  const getContactUrl = () => getLocalizedContactPath(locale);
 
   return (
     <PageLayout>

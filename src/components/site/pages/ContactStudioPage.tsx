@@ -15,12 +15,13 @@ import {
 } from '@/components/site/marketing';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
+import { getLocalizedServicesPath } from '@/lib/localeRoutes';
 
 export default function ContactStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
 
-  const getServicesUrl = () => isEn ? '/en/services' : '/xidmetler';
+  const getServicesUrl = () => getLocalizedServicesPath(locale);
 
   return (
     <PageLayout breadcrumbs={breadcrumbs}>

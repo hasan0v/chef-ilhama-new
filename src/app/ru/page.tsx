@@ -1,3 +1,4 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import { siteConfig } from '@/lib/site';
@@ -6,7 +7,7 @@ import HomeExperience from '@/components/site/pages/HomeExperience';
 
 export const revalidate = 300;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ru', 'home', {
   title: 'Шеф Ильхама — Рецепты азербайджанской кухни, Кейтеринг и Личный Шеф в Баку',
   description:
     'Откройте для себя оригинальную азербайджанскую кухню с шеф-поваром Ильхамой. Традиционные рецепты из 25+ регионов, премиальный кейтеринг и услуги личного шефа в Баку, Сумгаите и на Абшероне.',
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
       'ru': `${siteConfig.url}/ru`,
     },
   },
-};
+});
 
 export default async function RussianHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([

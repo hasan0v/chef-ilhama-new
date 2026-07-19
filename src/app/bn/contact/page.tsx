@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('bn', 'contact', {
   title: 'যোগাযোগ - Chef İlhamə',
   description: 'শেফ ইলহামার স্টুডিওর সাথে যোগাযোগের মাধ্যমসমূহ। ক্যাটারিং, পার্সোনাল শেফ এবং রিজার্ভেশন।',
-};
+});
 
 export default function BengaliContactPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

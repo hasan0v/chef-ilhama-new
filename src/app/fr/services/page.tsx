@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import ServicesExperience from '@/components/site/pages/ServicesExperience';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('fr', 'services', {
   title: 'Services - Chef İlhamə',
   description: 'Réservation de chef privé, dîners gastronomiques intimistes et services traiteur premium.',
-};
+});
 
 export default function FrenchServicesPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

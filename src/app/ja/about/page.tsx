@@ -1,11 +1,12 @@
+import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
 import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withLocaleAlternates('ja', 'about', {
   title: 'シェフについて - Chef İlhamə',
   description: 'シェフ・イルハメの料理スタジオの背景にある歩み、私たちが重んじる価値観、そしてもてなしの美学。',
-};
+});
 
 export default function JapaneseAboutPage() {
   const breadcrumbSchema = getBreadcrumbSchema([

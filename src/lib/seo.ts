@@ -1,5 +1,7 @@
 import { siteConfig, getWhatsAppHref } from './site';
 import type { Recipe } from '@/types/recipe';
+import { getLocalizedRecipePath, SEO_LOCALE_CONFIG } from '@/lib/seoLocales';
+import { normalizeSiteLocale, SITE_LOCALES } from '@/lib/localeRoutes';
 
 const BASE_URL = siteConfig.url;
 
@@ -12,11 +14,13 @@ export function parseIsoDuration(timeStr: string): string {
   if (!nums) return 'PT30M';
 
   const lower = timeStr.toLowerCase();
-  if (lower.includes('saat') && lower.includes('dəqiqə')) {
+  const hasHours = /saat|hour|hr\b|heure|stunde|ora\b|hora|uur|час|小时|時間|jam\b|घंट|ঘণ্টা|ساعة/.test(lower);
+  const hasMinutes = /dəqiqə|minute|min\b|dakika|minuto|minuut|мину|分钟|分\b|menit|मिनट|মিনিট|دقيقة/.test(lower);
+  if (hasHours && hasMinutes) {
     return `PT${nums[0]}H${nums[1] || 0}M`;
   }
-  if (lower.includes('saat')) return `PT${nums[0]}H`;
-  if (lower.includes('dəqiqə')) return `PT${nums[0]}M`;
+  if (hasHours) return `PT${nums[0]}H`;
+  if (hasMinutes) return `PT${nums[0]}M`;
   return `PT${nums[0]}M`;
 }
 
@@ -70,7 +74,7 @@ export function getWebSiteSchema() {
     url: BASE_URL,
     description: siteConfig.description,
     publisher: { '@id': `${BASE_URL}/#organization` },
-    inLanguage: ['az', 'en'],
+    inLanguage: [...SITE_LOCALES],
     potentialAction: {
       '@type': 'SearchAction',
       target: {
@@ -212,7 +216,9 @@ export function getBreadcrumbSchema(items: BreadcrumbItem[]) {
 
 // ─── Recipe schema ───────────────────────────────────────────────────────────
 
-export function getRecipeSchema(recipe: Recipe) {
+export function getRecipeSchema(recipe: Recipe, locale = 'az') {
+  const normalizedLocale = normalizeSiteLocale(locale);
+  const localeConfig = SEO_LOCALE_CONFIG[normalizedLocale];
   const prepDuration = parseIsoDuration(recipe.prepTime);
   // Estimate cook time as roughly equal to prep or 30min default
   const cookDuration = 'PT30M';
@@ -224,10 +230,10 @@ export function getRecipeSchema(recipe: Recipe) {
     name: recipe.name,
     image: [recipe.image || `${BASE_URL}/placeholder-food.svg`],
     author: { '@id': `${BASE_URL}/#person` },
-    description: `${recipe.name} — ${recipe.origin} bölgəsinin ənənəvi Azərbaycan yeməyi. ${recipe.history ? recipe.history.slice(0, 200) : ''}`.trim(),
-    recipeCuisine: 'Azerbaijani',
+    description: recipe.history?.trim() || localeConfig.recipeDescription(recipe.name, recipe.origin),
+    recipeCuisine: recipe.cuisine || recipe.origin,
     recipeCategory: recipe.category,
-    keywords: `${recipe.name}, azərbaycan mətbəxi, ${recipe.origin}, ${recipe.category}, ənənəvi resept`,
+    keywords: [recipe.name, recipe.origin, recipe.category, ...(recipe.tags ?? [])].filter(Boolean),
     recipeYield: recipe.servings,
     prepTime: prepDuration,
     cookTime: cookDuration,
@@ -235,11 +241,12 @@ export function getRecipeSchema(recipe: Recipe) {
     recipeIngredient: recipe.ingredients,
     recipeInstructions: recipe.instructions.map((instruction, index) => ({
       '@type': 'HowToStep',
-      name: `Addım ${index + 1}`,
+      name: `${localeConfig.stepLabel} ${index + 1}`,
       text: instruction,
       position: index + 1,
     })),
-    url: `${BASE_URL}/resept/${recipe.slug}`,
+    url: `${BASE_URL}${getLocalizedRecipePath(normalizedLocale, recipe.slug)}`,
+    inLanguage: normalizedLocale,
     isPartOf: { '@id': `${BASE_URL}/#website` },
   };
 }
