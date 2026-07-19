@@ -7,14 +7,19 @@ import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Footer() {
   const { t, locale } = useTranslation();
-  const isEn = locale === 'en';
 
-  const navigation = isEn ? [
+  const navigation = locale === 'en' ? [
     { name: t.nav.home, href: '/en' },
     { name: t.nav.recipes, href: '/en/recipes' },
     { name: t.nav.services, href: '/en/services' },
     { name: t.nav.about, href: '/en/about' },
     { name: t.nav.contact, href: '/en/contact' },
+  ] : locale === 'tr' ? [
+    { name: t.nav.home, href: '/tr' },
+    { name: t.nav.recipes, href: '/tr/recipes' },
+    { name: t.nav.services, href: '/tr/services' },
+    { name: t.nav.about, href: '/tr/about' },
+    { name: t.nav.contact, href: '/tr/contact' },
   ] : [
     { name: t.nav.home, href: '/' },
     { name: t.nav.recipes, href: '/reseptler' },
@@ -23,9 +28,12 @@ export default function Footer() {
     { name: t.nav.contact, href: '/elaqe' },
   ];
 
-  const legalNav = isEn ? [
+  const legalNav = locale === 'en' ? [
     { name: t.nav.privacy, href: '/en/privacy' },
     { name: t.nav.terms, href: '/en/terms' },
+  ] : locale === 'tr' ? [
+    { name: t.nav.privacy, href: '/tr/privacy' },
+    { name: t.nav.terms, href: '/tr/terms' },
   ] : [
     { name: t.nav.privacy, href: '/privacy' },
     { name: t.nav.terms, href: '/terms' },
@@ -81,10 +89,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.discover}</h3>
             <ul className="space-y-2">
-              <li><Link href={isEn ? "/en/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
-              <li><Link href={isEn ? "/en/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
-              <li><Link href={isEn ? "/en/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
-              <li><Link href={isEn ? "/en/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
             </ul>
           </div>
 
@@ -106,7 +114,7 @@ export default function Footer() {
               <div className="flex items-start gap-3">
                 <MapPin className="mt-1 h-4 w-4 text-[rgba(255,220,181,0.88)]" />
                 <span className="text-sm text-white/68 sm:text-base">
-                  {siteConfig.serviceAreas.map(area => area === 'Bakı' && isEn ? 'Baku' : area).join(', ')}
+                  {siteConfig.serviceAreas.map(area => area === 'Bakı' && locale === 'en' ? 'Baku' : area).join(', ')}
                 </span>
               </div>
               <div className="pt-3">
