@@ -8,6 +8,9 @@ import { ru } from '@/dictionaries/ru';
 import { fr } from '@/dictionaries/fr';
 import { it } from '@/dictionaries/it';
 import { ar } from '@/dictionaries/ar';
+import { zh } from '@/dictionaries/zh';
+import { hi } from '@/dictionaries/hi';
+import { es } from '@/dictionaries/es';
 
 export function useTranslation() {
   const pathname = usePathname();
@@ -28,6 +31,15 @@ export function useTranslation() {
   }
   if (pathname?.startsWith('/ar/') || pathname === '/ar') {
     return { t: ar, locale: 'ar' as const };
+  }
+  if (pathname?.startsWith('/zh/') || pathname === '/zh') {
+    return { t: zh, locale: 'zh' as const };
+  }
+  if (pathname?.startsWith('/hi/') || pathname === '/hi') {
+    return { t: hi, locale: 'hi' as const };
+  }
+  if (pathname?.startsWith('/es/') || pathname === '/es') {
+    return { t: es, locale: 'es' as const };
   }
   return { t: az, locale: 'az' as const };
 }

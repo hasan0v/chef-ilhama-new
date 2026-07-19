@@ -1,0 +1,28 @@
+import type { Metadata } from 'next';
+import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
+import { getBreadcrumbSchema } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: '联系我们 - 主厨 İlhamə',
+  description: '联系主厨 İlhamə 工作室。定制预约、高端外烩及私厨咨询。',
+};
+
+export default function ChineseContactPage() {
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: '首页', href: '/zh' },
+    { name: '联系我们', href: '/zh/contact' },
+  ]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <ContactStudioPage breadcrumbs={[
+        { name: '首页', href: '/zh' },
+        { name: '联系我们', href: '/zh/contact' },
+      ]} />
+    </>
+  );
+}

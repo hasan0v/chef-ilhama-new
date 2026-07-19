@@ -162,6 +162,15 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/it/') === 0 || path === '/it') {
       document.documentElement.lang = 'it';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/zh/') === 0 || path === '/zh') {
+      document.documentElement.lang = 'zh';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/hi/') === 0 || path === '/hi') {
+      document.documentElement.lang = 'hi';
+      document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/es/') === 0 || path === '/es') {
+      document.documentElement.lang = 'es';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;
