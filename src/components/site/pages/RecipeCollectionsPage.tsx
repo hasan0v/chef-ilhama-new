@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Compass, MapPin, Search, Sparkles } from 'lucide-react';
+import { ArrowRight, BookOpen, Compass, MapPin, Search, Sparkles } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,6 +12,7 @@ import {
 } from '@/lib/recipeCollections';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
+import { getGuidePath } from '@/lib/underrepresentedDishesGuide';
 
 interface RecipeCollectionsPageProps {
   locale: CollectionLocale;
@@ -90,6 +91,23 @@ export default function RecipeCollectionsPage({ locale, recipes, breadcrumbs }: 
               </div>
             </EditorialPanel>
           </div>
+        </section>
+
+        <section className="px-4 sm:px-6 lg:px-8">
+          <Link href={getGuidePath(locale)} className="group mx-auto grid max-w-7xl overflow-hidden rounded-[1.5rem] bg-[rgba(36,28,24,0.97)] text-white shadow-[0_28px_90px_rgba(36,28,24,0.2)] sm:rounded-[2rem] lg:grid-cols-[0.22fr_1fr_auto] lg:items-center">
+            <div className="relative flex min-h-[150px] items-center justify-center overflow-hidden bg-[rgba(227,173,100,0.92)] text-[rgba(36,28,24,0.96)] lg:min-h-[190px]">
+              <span className="display-title text-8xl leading-none transition-transform duration-500 group-hover:scale-105">50</span>
+              <BookOpen className="absolute bottom-4 right-4 h-5 w-5 opacity-50" />
+            </div>
+            <div className="p-6 sm:p-8">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[rgba(227,173,100,0.9)]">{isAz ? 'Yeni əsas bələdçi' : 'New flagship guide'}</div>
+              <h2 className="display-title mt-3 text-4xl leading-[0.94] sm:text-5xl">{isAz ? 'Kəşf etməyə dəyər 50 nadir regional yemək' : '50 underrepresented regional dishes worth discovering'}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-white/62 sm:text-base">{isAz ? '39 ölkə, 6 marşrut və internetdə az görünən 50 bişirilə bilən resept.' : 'Thirty-nine countries, six routes and 50 cookable recipes the wider web tends to overlook.'}</p>
+            </div>
+            <div className="flex items-center gap-2 px-6 pb-7 text-sm font-semibold text-[rgba(227,173,100,0.96)] lg:px-9 lg:pb-0">
+              {isAz ? 'Atlası aç' : 'Open the atlas'} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
         </section>
 
         <section className="px-4 sm:px-6 lg:px-8">

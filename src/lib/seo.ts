@@ -252,13 +252,19 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
 
 // ─── CollectionPage / ItemList schema ────────────────────────────────────────
 
-export function getRecipeCollectionSchema(recipes: Recipe[], title: string, description: string, url: string) {
+export function getRecipeCollectionSchema(
+  recipes: Recipe[],
+  title: string,
+  description: string,
+  url: string,
+  locale?: 'az' | 'en',
+) {
   const firstPathSegment = url.split('/').filter(Boolean)[0];
-  const collectionLocale = firstPathSegment === 'az' || !firstPathSegment
+  const collectionLocale = locale ?? (firstPathSegment === 'az' || !firstPathSegment
     ? 'az'
     : firstPathSegment === 'en'
       ? 'en'
-      : 'en';
+      : 'en');
 
   return {
     '@context': 'https://schema.org',
@@ -280,6 +286,48 @@ export function getRecipeCollectionSchema(recipes: Recipe[], title: string, desc
           : undefined,
       })),
     },
+  };
+}
+
+export function getEditorialGuideSchema({
+  title,
+  description,
+  url,
+  image,
+  locale,
+  datePublished,
+  dateModified,
+}: {
+  title: string;
+  description: string;
+  url: string;
+  image: string;
+  locale: 'az' | 'en';
+  datePublished: string;
+  dateModified: string;
+}) {
+  const absoluteUrl = url.startsWith('http') ? url : `${BASE_URL}${url}`;
+  const absoluteImage = image.startsWith('http') ? image : `${BASE_URL}${image}`;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description,
+    url: absoluteUrl,
+    mainEntityOfPage: absoluteUrl,
+    image: {
+      '@type': 'ImageObject',
+      url: absoluteImage,
+      width: 1200,
+      height: 630,
+    },
+    datePublished,
+    dateModified,
+    inLanguage: locale === 'az' ? 'az-AZ' : 'en-US',
+    author: { '@id': `${BASE_URL}/#person` },
+    publisher: { '@id': `${BASE_URL}/#organization` },
+    isPartOf: { '@id': `${BASE_URL}/#website` },
   };
 }
 

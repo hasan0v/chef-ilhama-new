@@ -36,7 +36,15 @@ Chef İlhamə is a professional Azerbaijani chef with 15+ years of experience, s
 
 ### Recipe Collection
 - https://chef-ilhama.food/reseptler
-  Description: Full searchable archive of ${recipes.length}+ traditional Azerbaijani recipes with filters by region, category, and difficulty.
+  Description: Full searchable archive of ${recipes.length}+ Azerbaijani and global regional recipes with filters by region, category, and difficulty.
+
+### Global Food Field Guide
+- https://chef-ilhama.food/en/guides/underrepresented-regional-dishes
+  Description: An editorial, source-linked guide to 50 underrepresented regional dishes from 39 countries, organized across six culinary routes.
+
+### Taste Collections
+- https://chef-ilhama.food/en/collections
+  Description: Substantial recipe collections organized by search intent, technique and flavour, including rare dishes, cold noodles, fermented foods and world comfort soups.
 
 ### Services
 - https://chef-ilhama.food/xidmetler
@@ -76,6 +84,8 @@ ${recipeLines}
 - Catering for events in Azerbaijan
 - Azerbaijani wedding food traditions
 - Ingredients used in Azerbaijani cooking
+- Underrepresented regional dishes and lesser-known global food traditions
+- Global cooking techniques, ingredient substitutions, storage and common mistakes
 `;
 
   return new NextResponse(content, {

@@ -172,6 +172,102 @@ const recipeInsights: Record<string, RecipeInsight> = {
       storage: 'Soyuducuda 3 gün saxlayın. Bir qaşıq su ilə yavaş qızdırın; güclü istilik tərəvəzi dağıda və kokos qarışığını dibə yapışdıra bilər.',
     },
   },
+  'musakhan-palestinian-sumac-chicken': {
+    en: {
+      taste: 'Musakhan is savoury, fruity-tart and deeply aromatic: sumac brightens roasted chicken while olive-oil-softened onions soak into the flatbread below.',
+      technique: 'Cook the onions slowly until completely collapsed but not crisp. Their oil becomes the seasoning for the bread, so softness and sweetness matter more than browning.',
+      substitution: 'A sturdy large flatbread can replace taboon when necessary. Warm it first so it absorbs onion oil without splitting or turning brittle.',
+      avoid: 'Do not assemble too early. Layer the warm bread, onions and chicken shortly before the final bake so the base stays rich rather than wet and heavy.',
+      storage: 'Refrigerate chicken and onion mixture for up to 3 days. Store bread separately and rebuild the layers before reheating in the oven.',
+    },
+    az: {
+      taste: 'Musakhan duzlu, meyvəvari turş və ətirlidir: sumaq qızarmış toyuğu parlaqlaşdırır, zeytun yağında yumşalmış soğan altdakı çörəyə hopur.',
+      technique: 'Soğanı xırtıldatmadan tam çökənə qədər zəif odda bişirin. Onun yağı çörəyin ədviyyatına çevrildiyi üçün qızarmaqdan çox yumşaqlıq və şirinlik vacibdir.',
+      substitution: 'Taboon tapılmırsa, möhkəm böyük yastı çörək istifadə edin. Yağı çatlamadan çəkməsi üçün əvvəlcə azca qızdırın.',
+      avoid: 'Çox erkən yığmayın. Çörək, soğan və toyuğu son sobadan az əvvəl qatlayın ki, baza ağır və yaş olmasın.',
+      storage: 'Toyuq-soğan qarışığını 3 gün soyuducuda, çörəyi ayrı saxlayın. Sobada qızdırmazdan əvvəl qatları yenidən yığın.',
+    },
+  },
+  'fregola-con-arselle-sardinian-clam-pasta': {
+    en: {
+      taste: 'Toasted fregola brings a nutty chew to briny clam liquor, sweet collapsed tomatoes, garlic and a fresh lift of parsley and lemon zest.',
+      technique: 'Strain the clam liquor carefully, then add it and hot stock gradually. Fregola should finish al dente and slightly brothy rather than dry like a pilaf.',
+      substitution: 'Small toasted pasta or Israeli couscous can imitate the shape, but toast it lightly first; the result is practical rather than traditionally Sardinian.',
+      avoid: 'Discard clams that remain closed after cooking and do not return the opened clams too early. Two final minutes are enough to warm them without toughness.',
+      storage: 'Seafood pasta is best served immediately. Refrigerate leftovers promptly for no more than 1 day and reheat gently with a little stock.',
+    },
+    az: {
+      taste: 'Qovrulmuş fregola qozlu teksturanı duzlu midiya suyu, yumşalmış şirin pomidor, sarımsaq, cəfəri və limon qabığı ilə birləşdirir.',
+      technique: 'Midiya suyunu diqqətlə süzün, sonra isti bulyonla birlikdə mərhələli əlavə edin. Fregola plov kimi quru deyil, al dente və azca sulu bitməlidir.',
+      substitution: 'Kiçik qovrulmuş pasta və ya İsrail kuskusu formanı təqlid edə bilər; əvvəlcə yüngül qovurun. Nəticə praktikdir, amma ənənəvi Sardiniya versiyası deyil.',
+      avoid: 'Bişəndən sonra bağlı qalan midiyaları atın və açılmış midiyaları tez qaytarmayın. Sərtləşmədən isinməsi üçün son iki dəqiqə kifayətdir.',
+      storage: 'Dəniz məhsullu pasta dərhal servis ediləndə ən yaxşıdır. Qalığı tez soyudub ən çox 1 gün saxlayın və az bulyonla yumşaq qızdırın.',
+    },
+  },
+  'strapatsada-greek-tomato-eggs': {
+    en: {
+      taste: 'Strapatsada is juicy and savoury, with concentrated ripe tomato, softly set eggs, salty feta and the herbal edge of oregano.',
+      technique: 'Reduce the grated tomatoes until their watery phase has mostly disappeared before adding eggs. This keeps the finished scramble creamy, not soupy.',
+      substitution: 'Use well-drained canned whole tomatoes outside tomato season. Crush them finely and allow extra reduction time before the eggs go in.',
+      avoid: 'Do not cook the eggs until they look fully dry in the pan. Fold slowly over low heat and stop while glossy; residual heat completes the set.',
+      storage: 'The tomato base can be refrigerated for 3 days. For the best texture, reheat the base and add fresh eggs only when serving.',
+    },
+    az: {
+      taste: 'Strapatsada qatılaşmış yetişmiş pomidor, yumşaq yumurta, duzlu feta və mərzənin ot ətrini birləşdirən şirəli gündəlik yeməkdir.',
+      technique: 'Yumurta əlavə etməzdən əvvəl sürtgəcdən keçirilmiş pomidorun sulu hissəsini əsasən buxarlandırın. Beləliklə nəticə sulu yox, kremli qalır.',
+      substitution: 'Pomidor mövsümü deyilsə, yaxşı süzülmüş bütöv konserv pomidor istifadə edin. Xırda əzin və yumurtadan əvvəl daha uzun qatılaşdırın.',
+      avoid: 'Yumurtanı tavada tam quru görünənə qədər bişirməyin. Zəif odda yavaş qatlayın və hələ parlaq ikən dayandırın; qalıq istilik bişirməni tamamlayır.',
+      storage: 'Pomidor bazasını 3 gün soyuducuda saxlamaq olar. Ən yaxşı tekstura üçün bazanı qızdırıb yumurtanı yalnız servis zamanı əlavə edin.',
+    },
+  },
+  'shiro-wat-ethiopian-chickpea-stew': {
+    en: {
+      taste: 'Shiro wat is smooth, earthy and warmly spiced, with chickpea flour carrying the heat of berbere and the round richness of niter kibbeh.',
+      technique: 'Whisk the flour with cool water first, then stream the slurry into the onion base. Frequent stirring during the simmer prevents lumps and scorching.',
+      substitution: 'Finely milled plain chickpea flour works when a seasoned shiro blend is unavailable; adjust berbere and salt gradually because blends vary widely.',
+      avoid: 'Do not rush the flour. A raw pulse taste means it needs more gentle simmering, while very high heat can catch the thick stew on the base of the pot.',
+      storage: 'Refrigerate for up to 4 days. It thickens substantially when cold, so loosen slowly with hot water while reheating and stir from the bottom.',
+    },
+    az: {
+      taste: 'Shiro wat hamar, torpaqvari və isti ədviyyatlıdır; noxud unu berberenin acısını və niter kibbeh yağının yumşaq zənginliyini daşıyır.',
+      technique: 'Unu əvvəlcə soyuq su ilə çalın, sonra məhlulu soğan bazasına nazik axınla əlavə edin. Bişmə zamanı tez-tez qarışdırmaq topaq və yanmanın qarşısını alır.',
+      substitution: 'Hazır ədviyyatlı shiro qarışığı yoxdursa, incə çəkilmiş sadə noxud unu işləyir; qarışıqlar çox fərqləndiyi üçün berbere və duzu tədricən artırın.',
+      avoid: 'Unu tələsdirməyin. Çiy paxla dadı daha çox zəif qaynama tələb edir, çox güclü istilik isə qatı güveci qazanın dibində yandıra bilər.',
+      storage: 'Soyuducuda 4 gün saxlayın. Soyuyanda xeyli qatılaşır; qızdırarkən isti suyu yavaş əlavə edib dibdən qarışdırın.',
+    },
+  },
+  'acorda-alentejana-portuguese-bread-soup': {
+    en: {
+      taste: 'Açorda alentejana is garlic-forward, grassy with coriander and rich with olive oil, while vinegar and a soft poached egg keep the bread broth lively.',
+      technique: 'Pound garlic, coriander stems and salt into a paste directly for the bowls. Pouring very hot broth over it releases aroma without dulling the fresh herb character.',
+      substitution: 'A day-old open-crumb country loaf is ideal. If using fresh bread, dry the slices briefly in a low oven so they absorb broth without dissolving immediately.',
+      avoid: 'Do not boil the herb paste for a long time or flood every bowl at once. Assemble to order so the bread softens but retains a little structure.',
+      storage: 'Store broth and herb paste separately for up to 2 days. Poach fresh eggs and add bread only when serving; assembled açorda does not reheat well.',
+    },
+    az: {
+      taste: 'Açorda alentejana sarımsaq önlü, keşnişdən yaşıl ətirli və zeytun yağı ilə zəngindir; sirkə və yumşaq poşe yumurta çörəkli bulyonu canlı saxlayır.',
+      technique: 'Sarımsaq, keşniş saplağı və duzu kasalar üçün əzmə halına gətirin. Çox isti bulyonu üstünə tökmək təzə ot dadını öldürmədən ətri açır.',
+      substitution: 'Bir günlük məsaməli kənd çörəyi idealdır. Təzə çörəkdirsə, bulyonu dərhal dağılmadan çəkməsi üçün dilimləri zəif sobada azca qurudun.',
+      avoid: 'Göyərti əzməsini uzun qaynatmayın və bütün kasaları əvvəlcədən doldurmayın. Çörəyin yumşalıb bir qədər quruluş saxlaması üçün sifarişlə yığın.',
+      storage: 'Bulyon və göyərti əzməsini ayrı-ayrı 2 gün saxlayın. Yumurta və çörəyi yalnız servisdə əlavə edin; yığılmış açorda yaxşı qızmır.',
+    },
+  },
+  'hiyashi-chuka-japanese-cold-noodles': {
+    en: {
+      taste: 'Hiyashi chūka balances springy chilled noodles with sweet-sour soy dressing, sesame aroma and clean bands of cucumber, tomato, egg and chicken.',
+      technique: 'Rinse the cooked noodles very thoroughly in cold water, rubbing gently to remove surface starch, then drain well so the dressing stays bright rather than diluted.',
+      substitution: 'Fresh ramen gives the intended bounce; thin wheat noodles can work if cooked just firm and chilled immediately, though the texture will differ.',
+      avoid: 'Do not dress the noodles long before eating. Keep dressing, noodles and toppings chilled separately and combine at the table to prevent softness and pooling liquid.',
+      storage: 'Prepare dressing and toppings up to 2 days ahead. Cooked noodles are best the same day; toss with a trace of neutral oil if they must wait briefly.',
+    },
+    az: {
+      taste: 'Hiyashi chūka elastik soyuq əriştəni şirin-turş soya sousu, küncüt ətri və xiyar, pomidor, yumurta, toyuğun təmiz zolaqları ilə balanslaşdırır.',
+      technique: 'Bişmiş əriştəni səth nişastası çıxana qədər soyuq suda yaxşı yuyun, sonra tam süzün ki, sous durulmasın və parlaq qalsın.',
+      substitution: 'Təzə ramen nəzərdə tutulan elastikliyi verir; nazik buğda əriştəsi bərk bişirilib dərhal soyudularsa işləyə bilər, amma tekstura fərqli olacaq.',
+      avoid: 'Əriştəni yeməkdən çox əvvəl souslamayın. Yumşalma və qabda su yığılmaması üçün sous, əriştə və qarniri ayrı soyudub masada birləşdirin.',
+      storage: 'Sous və qarnirləri 2 gün əvvəl hazırlamaq olar. Bişmiş əriştə həmin gün daha yaxşıdır; qısa gözləyəcəksə, çox az neytral yağla qarışdırın.',
+    },
+  },
 };
 
 export function getRecipeInsight(slug: string) {

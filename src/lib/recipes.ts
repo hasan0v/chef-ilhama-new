@@ -6,6 +6,11 @@ import { recipeService } from '@/database/services';
 const recipesCache = new Map<string, { data: Recipe[]; timestamp: number }>();
 const recipesInFlight = new Map<string, Promise<Recipe[]>>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const DATABASE_RETRY_DELAYS = [350, 900];
+
+function waitForDatabaseRetry(delay: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, delay));
+}
 
 export async function getRecipes(locale?: string): Promise<Recipe[]> {
   try {
@@ -21,13 +26,21 @@ export async function getRecipes(locale?: string): Promise<Recipe[]> {
     const pending = recipesInFlight.get(lang);
     if (pending) return pending;
 
-    const request = recipeService
-      .getAllRecipes({ locale: lang, limit: 500 })
-      .then((result) => {
-        recipesCache.set(lang, { data: result.recipes, timestamp: Date.now() });
-        return result.recipes;
-      })
-      .finally(() => recipesInFlight.delete(lang));
+    const request = (async () => {
+      for (let attempt = 0; attempt <= DATABASE_RETRY_DELAYS.length; attempt += 1) {
+        const result = await recipeService.getAllRecipes({ locale: lang, limit: 500 });
+        if (result.recipes.length > 0 || result.total > 0) {
+          recipesCache.set(lang, { data: result.recipes, timestamp: Date.now() });
+          return result.recipes;
+        }
+
+        const delay = DATABASE_RETRY_DELAYS[attempt];
+        if (delay) await waitForDatabaseRetry(delay);
+      }
+
+      // Never overwrite a known-good cache with a transient empty response.
+      return recipesCache.get(lang)?.data ?? [];
+    })().finally(() => recipesInFlight.delete(lang));
 
     recipesInFlight.set(lang, request);
     return await request;
@@ -50,7 +63,13 @@ export async function getRecipeBySlug(slug: string, locale?: string): Promise<Re
       return cached.data;
     }
     
-    const recipe = await recipeService.getRecipeBySlug(slug, lang);
+    let recipe: Recipe | null = null;
+    for (let attempt = 0; attempt <= DATABASE_RETRY_DELAYS.length; attempt += 1) {
+      recipe = await recipeService.getRecipeBySlug(slug, lang);
+      if (recipe) break;
+      const delay = DATABASE_RETRY_DELAYS[attempt];
+      if (delay) await waitForDatabaseRetry(delay);
+    }
     
     if (recipe) {
       // Update cache

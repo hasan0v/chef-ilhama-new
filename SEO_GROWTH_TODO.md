@@ -21,8 +21,9 @@ Updated: 2026-07-20
 
 - [ ] Photograph or film the ten priority recipes with original process images in 1:1, 4:3 and 16:9 formats.
 - [ ] Have Chef İlhamə test the ten cooking briefs and add a dated first-person note only after verification.
-- [ ] Expand cook’s briefs to Musakhan, Fregola con arselle, Pakhala bhata, Strapatsada, Shiro wat, Açorda, Hiyashi chūka, Salteñas, Piperade and Undhiyu.
-- [ ] Publish one original “50 underrepresented regional dishes” visual report as a linkable data asset.
+- [x] Expand cook’s briefs to Musakhan, Fregola con arselle, Pakhala bhata, Strapatsada, Shiro wat, Açorda, Hiyashi chūka, Salteñas, Piperade and Undhiyu.
+- [x] Publish one original “50 underrepresented regional dishes” visual report as a linkable data asset.
+- [x] Add bilingual 1200×630 social previews and share tracking for the flagship guide.
 - [ ] Produce one vertical cooking clip and three Pinterest pins per verified priority recipe.
 - [ ] Add an email capture only after a concrete promise exists, such as a weekly “one hidden dish” briefing.
 

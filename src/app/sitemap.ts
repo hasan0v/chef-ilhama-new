@@ -10,6 +10,7 @@ import {
 } from '@/lib/seoLocales';
 import { siteConfig } from '@/lib/site';
 import { getCollectionPath, getCollectionsPath, recipeCollections } from '@/lib/recipeCollections';
+import { getGuidePath } from '@/lib/underrepresentedDishesGuide';
 
 // Keep the sitemap current as recipes are added and avoid opening another DB
 // session during Next's highly parallel static-generation phase.
@@ -82,5 +83,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   );
 
-  return [...staticPages, ...collectionIndexes, ...collectionPages, ...recipePages];
+  const editorialGuides: MetadataRoute.Sitemap = (['az', 'en'] as const).map((locale) => ({
+    url: `${siteConfig.url}${getGuidePath(locale)}`,
+    changeFrequency: 'monthly' as const,
+    priority: 0.9,
+    images: [`${siteConfig.url}/images/recipes/global/vori-vori-paraguayan-chicken-soup.webp`],
+    alternates: {
+      languages: {
+        az: `${siteConfig.url}${getGuidePath('az')}`,
+        en: `${siteConfig.url}${getGuidePath('en')}`,
+        'x-default': `${siteConfig.url}${getGuidePath('en')}`,
+      },
+    },
+  }));
+
+  return [...staticPages, ...editorialGuides, ...collectionIndexes, ...collectionPages, ...recipePages];
 }
