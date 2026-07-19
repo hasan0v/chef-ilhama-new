@@ -61,6 +61,7 @@ function getMobileViewportSnapshot() {
 export default function HomeExperience({ featuredRecipes, allRecipes, stats }: HomeExperienceProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [scrollY, setScrollY] = useState(0);
+  const [isHeroVideoPlaying, setIsHeroVideoPlaying] = useState(false);
   const isMobile = useSyncExternalStore(subscribeToMobileViewport, getMobileViewportSnapshot, () => false);
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
@@ -135,16 +136,36 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
             style={heroStyle}
             className="relative overflow-hidden bg-black shadow-[0_24px_70px_rgba(32,22,14,0.18)] flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16"
           >
+            {/* Poster remains visible when mobile autoplay or decoding is unavailable. */}
+            <Image
+              src="/video/bg-video-poster.webp"
+              alt=""
+              fill
+              priority
+              aria-hidden="true"
+              className="pointer-events-none select-none object-cover"
+              sizes="100vw"
+            />
+
             {/* Background Video */}
             <video
+              key={isMobile ? 'mobile-hero-video' : 'desktop-hero-video'}
+              src={isMobile ? '/video/bg-video-mobile.mp4' : '/video/bg-video.mp4'}
               autoPlay
               loop
               muted
               playsInline
-              className="absolute inset-0 h-full w-full object-cover opacity-85 select-none pointer-events-none"
-            >
-              <source src="/video/bg-video.mp4" type="video/mp4" />
-            </video>
+              preload="metadata"
+              poster="/video/bg-video-poster.webp"
+              aria-hidden="true"
+              disablePictureInPicture
+              onLoadStart={() => setIsHeroVideoPlaying(false)}
+              onPlaying={() => setIsHeroVideoPlaying(true)}
+              onError={() => setIsHeroVideoPlaying(false)}
+              className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 select-none pointer-events-none ${
+                isHeroVideoPlaying ? 'opacity-85' : 'opacity-0'
+              }`}
+            />
 
             {/* Dark cinematic gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />

@@ -1,5 +1,5 @@
 // Enhanced Service Worker for Chef İlhamə website
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3-mobile-hero';
 const STATIC_CACHE = `chef-ilhame-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `chef-ilhame-dynamic-${CACHE_VERSION}`;
 const IMAGE_CACHE = `chef-ilhame-images-${CACHE_VERSION}`;

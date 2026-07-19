@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useSyncExternalStore } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { ChefHat, Clock3, Menu, Search, X, Globe, ChevronDown } from 'lucide-react';
@@ -27,6 +27,19 @@ const languages = [
   { code: 'hi', label: 'हिन्दी' },
   { code: 'bn', label: 'বাংলা' }
 ] as const;
+
+function subscribeToNavbarScroll(onStoreChange: () => void) {
+  window.addEventListener('scroll', onStoreChange, { passive: true });
+  return () => window.removeEventListener('scroll', onStoreChange);
+}
+
+function getNavbarScrollSnapshot() {
+  return window.scrollY > 80;
+}
+
+function getServerNavbarScrollSnapshot() {
+  return false;
+}
 
 function getLocalizedPath(currentPath: string, targetLocale: string): string {
   let cleanPath = currentPath;
@@ -121,18 +134,12 @@ export default function Header() {
                  pathname === '/id' || 
                  pathname === '/bn';
 
-  const [isHomeScrolled, setIsHomeScrolled] = useState(false);
+  const isHomeScrolled = useSyncExternalStore(
+    subscribeToNavbarScroll,
+    getNavbarScrollSnapshot,
+    getServerNavbarScrollSnapshot,
+  );
   const showNavbar = !isHome || isHomeScrolled;
-
-  useEffect(() => {
-    if (!isHome) return;
-
-    const handleScroll = () => {
-      setIsHomeScrolled(window.scrollY > 80);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isHome]);
 
   // Close dropdowns on outside clicks
   useEffect(() => {
@@ -248,11 +255,16 @@ export default function Header() {
   ];
 
   return (
-    <header className={`z-50 transition-all duration-500 ease-in-out px-4 pt-4 sm:px-6 lg:px-8 ${
+    <header
+      aria-hidden={isHome && !showNavbar}
+      inert={isHome && !showNavbar ? true : undefined}
+      style={isHome ? { transform: showNavbar ? 'translateY(0)' : 'translateY(calc(-100% - 1rem))' } : undefined}
+      className={`z-50 px-4 pt-4 transition-[transform,opacity] duration-500 ease-out sm:px-6 lg:px-8 ${
       isHome 
-        ? (showNavbar ? 'sticky top-0 opacity-100 translate-y-0' : 'absolute top-0 left-0 right-0 bg-transparent border-transparent shadow-none')
+        ? `fixed inset-x-0 top-0 ${showNavbar ? 'opacity-100' : 'pointer-events-none opacity-0'}`
         : 'sticky top-0 opacity-100 translate-y-0'
-    }`}>
+    }`}
+    >
       <div className={`mx-auto max-w-7xl rounded-[2rem] border transition-colors duration-300 ${
         isHome && !showNavbar 
           ? 'border-transparent bg-transparent shadow-none' 
