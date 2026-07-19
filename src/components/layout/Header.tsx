@@ -104,6 +104,45 @@ export default function Header() {
   const pathname = usePathname();
   const { t, locale } = useTranslation();
 
+  const isHome = pathname === '/' || 
+                 pathname === '/en' || 
+                 pathname === '/tr' || 
+                 pathname === '/ru' || 
+                 pathname === '/fr' || 
+                 pathname === '/it' || 
+                 pathname === '/ar' || 
+                 pathname === '/zh' || 
+                 pathname === '/hi' || 
+                 pathname === '/es' || 
+                 pathname === '/pt' || 
+                 pathname === '/nl' || 
+                 pathname === '/de' || 
+                 pathname === '/ja' || 
+                 pathname === '/id' || 
+                 pathname === '/bn';
+
+  const [showNavbar, setShowNavbar] = useState(!isHome);
+
+  useEffect(() => {
+    if (!isHome) {
+      setShowNavbar(true);
+      return;
+    }
+    
+    // Set initial scroll value
+    setShowNavbar(window.scrollY > 80);
+
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setShowNavbar(true);
+      } else {
+        setShowNavbar(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isHome]);
+
   // Close dropdowns on outside clicks
   useEffect(() => {
     if (!isLangOpen) return;
@@ -218,7 +257,11 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+    <header className={`z-50 transition-all duration-500 ease-in-out px-4 pt-4 sm:px-6 lg:px-8 ${
+      isHome 
+        ? (showNavbar ? 'sticky top-0 opacity-100 translate-y-0' : 'absolute top-0 left-0 right-0 opacity-0 -translate-y-10 pointer-events-none')
+        : 'sticky top-0 opacity-100 translate-y-0'
+    }`}>
       <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/60 bg-[rgba(255,251,246,0.82)] shadow-[0_18px_60px_rgba(52,34,22,0.12)] backdrop-blur-xl">
         <div className="hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] text-[rgba(95,59,37,0.72)] md:flex">
           <div className="flex items-center gap-3">

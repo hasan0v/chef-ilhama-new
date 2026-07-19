@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -13,6 +13,7 @@ import {
   Star,
   Users,
   Utensils,
+  ChevronDown,
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
@@ -48,6 +49,7 @@ interface HomeExperienceProps {
 
 export default function HomeExperience({ featuredRecipes, allRecipes, categories, stats }: HomeExperienceProps) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [scrollY, setScrollY] = useState(0);
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
   
@@ -55,6 +57,14 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
   const getRecipesUrl = () => isEn ? `/en/recipes` : `/reseptler`;
   
   const highlightedRecipes = featuredRecipes.slice(0, 6);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const categoryStats = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -87,98 +97,122 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
     return allRecipes.slice(0, 4);
   }, [allRecipes]);
 
+  // Interpolated parallax scroll metrics
+  const progress = Math.min(scrollY / 400, 1); // 0 to 1 over first 400px of scroll
+
+  // Calculate dynamic dimensions
+  const heroStyle = {
+    width: progress > 0 ? `calc(100% - ${progress * 3}rem)` : '100%',
+    maxWidth: progress > 0 ? `${1280 + (1 - progress) * 600}px` : '100%',
+    height: progress > 0 ? `calc(100vh - ${progress * 25}vh)` : '100vh',
+    minHeight: '520px',
+    borderRadius: progress > 0 ? `${progress * 2.5}rem` : '0px',
+    marginTop: progress > 0 ? `${progress * 2.5}rem` : '0px',
+    transition: 'width 0.2s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.2s cubic-bezier(0.16, 1, 0.3, 1), margin-top 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+  };
+
   return (
     <PageLayout>
       <div className="space-y-10 sm:space-y-14 lg:space-y-16">
 
-        {/* ── Hero: Recipe discovery focus with background video ── */}
-        <section className="px-4 pt-6 sm:px-6 sm:pt-8 lg:px-8 lg:pt-10">
-          <div className="mx-auto max-w-7xl">
-            <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-black shadow-[0_24px_70px_rgba(32,22,14,0.18)] min-h-[500px] sm:min-h-[550px] lg:min-h-[620px] flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16">
+        {/* ── Hero: Dynamic scroll background video ── */}
+        <section className="relative w-full flex justify-center z-10">
+          <div 
+            style={heroStyle}
+            className="relative overflow-hidden bg-black shadow-[0_24px_70px_rgba(32,22,14,0.18)] flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16"
+          >
+            {/* Background Video */}
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover opacity-85 select-none pointer-events-none"
+            >
+              <source src="/video/bg-video.mp4" type="video/mp4" />
+            </video>
+
+            {/* Dark cinematic gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
+
+            {/* Content overlay */}
+            <div className="relative z-10 mx-auto max-w-3xl space-y-6 text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                {t.home.subtitle}
+              </span>
               
-              {/* Background Video */}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover opacity-85 select-none pointer-events-none"
-              >
-                <source src="/video/bg-video.mp4" type="video/mp4" />
-              </video>
+              <h1 className="display-title text-[clamp(2.4rem,6.5vw,5.2rem)] font-extrabold leading-[0.92] text-white whitespace-pre-line tracking-[-0.04em] drop-shadow-md">
+                {t.home.title}
+              </h1>
+              
+              <p className="mx-auto max-w-xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8 drop-shadow-sm">
+                {t.home.description}
+              </p>
 
-              {/* Dark cinematic gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
-
-              {/* Content overlay */}
-              <div className="relative z-10 mx-auto max-w-3xl space-y-6 text-center">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
-                  {t.home.subtitle}
-                </span>
-                
-                <h1 className="display-title text-[clamp(2.4rem,6.5vw,5.2rem)] font-extrabold leading-[0.92] text-white whitespace-pre-line tracking-[-0.04em] drop-shadow-md">
-                  {t.home.title}
-                </h1>
-                
-                <p className="mx-auto max-w-xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8 drop-shadow-sm">
-                  {t.home.description}
-                </p>
-
-                {/* Premium Glassmorphic Search bar */}
-                <div className="relative mx-auto max-w-lg">
-                  <Search className="pointer-events-none absolute left-4.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
-                  <Input
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder={t.home.searchPlaceholder}
-                    className="h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0"
-                  />
-                  {searchResults.length > 0 && (
-                    <div className="absolute left-0 right-0 top-full z-20 mt-2.5 overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
-                      {searchResults.map((recipe) => (
-                        <Link
-                          key={recipe.id}
-                          href={getRecipeUrl(recipe.slug)}
-                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/10"
-                          onClick={() => setSearchTerm('')}
-                        >
-                          <div className="relative h-10 w-10 overflow-hidden rounded-lg">
-                            <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="40px" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="truncate text-sm font-semibold text-white text-left">{recipe.name}</div>
-                            <div className="text-xs text-white/60 text-left">{recipe.category} · {recipe.origin}</div>
-                          </div>
-                        </Link>
-                      ))}
+              {/* Premium Glassmorphic Search bar */}
+              <div className="relative mx-auto max-w-lg">
+                <Search className="pointer-events-none absolute left-4.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+                <Input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder={t.home.searchPlaceholder}
+                  className="h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0"
+                />
+                {searchResults.length > 0 && (
+                  <div className="absolute left-0 right-0 top-full z-20 mt-2.5 overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+                    {searchResults.map((recipe) => (
                       <Link
-                        href={getRecipesUrl()}
-                        className="block border-t border-white/10 px-4 py-3 text-center text-sm font-semibold text-[rgba(255,220,181,0.92)] transition-colors hover:bg-white/5"
+                        key={recipe.id}
+                        href={getRecipeUrl(recipe.slug)}
+                        className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/10"
                         onClick={() => setSearchTerm('')}
                       >
-                        {t.home.viewAllRecipes}
+                        <div className="relative h-10 w-10 overflow-hidden rounded-lg">
+                          <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="40px" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="truncate text-sm font-semibold text-white text-left">{recipe.name}</div>
+                          <div className="text-xs text-white/60 text-left">{recipe.category} · {recipe.origin}</div>
+                        </div>
                       </Link>
-                    </div>
-                  )}
-                </div>
+                    ))}
+                    <Link
+                      href={getRecipesUrl()}
+                      className="block border-t border-white/10 px-4 py-3 text-center text-sm font-semibold text-[rgba(255,220,181,0.92)] transition-colors hover:bg-white/5"
+                      onClick={() => setSearchTerm('')}
+                    >
+                      {t.home.viewAllRecipes}
+                    </Link>
+                  </div>
+                )}
+              </div>
 
-                {/* Glassmorphic Stats */}
-                <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-white/70">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                    <BookOpenText className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
-                    {stats.totalRecipes}+ {t.home.recipesStat}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                    <MapPin className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
-                    {stats.totalRegions} {t.home.regionsStat}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                    <Utensils className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
-                    {stats.totalCategories} {t.home.categoriesStat}
-                  </span>
-                </div>
+              {/* Glassmorphic Stats */}
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-white/70">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                  <BookOpenText className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+                  {stats.totalRecipes}+ {t.home.recipesStat}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                  <MapPin className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+                  {stats.totalRegions} {t.home.regionsStat}
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                  <Utensils className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+                  {stats.totalCategories} {t.home.categoriesStat}
+                </span>
               </div>
             </div>
+
+            {/* Scroll Down bounces when at top */}
+            {scrollY < 40 && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 text-white/50 select-none animate-bounce">
+                <span className="text-[9px] font-bold uppercase tracking-[0.25em]">
+                  {locale === 'az' ? 'Aşağı sürüşdürün' : locale === 'tr' ? 'Aşağı kaydırın' : locale === 'ru' ? 'Прокрутите вниз' : 'Scroll Down'}
+                </span>
+                <ChevronDown className="h-3.5 w-3.5" />
+              </div>
+            )}
           </div>
         </section>
 
