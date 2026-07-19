@@ -50,6 +50,7 @@ interface HomeExperienceProps {
 export default function HomeExperience({ featuredRecipes, allRecipes, categories, stats }: HomeExperienceProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
   
@@ -59,11 +60,21 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
   const highlightedRecipes = featuredRecipes.slice(0, 6);
 
   useEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const categoryStats = useMemo(() => {
@@ -97,17 +108,27 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
     return allRecipes.slice(0, 4);
   }, [allRecipes]);
 
-  // Interpolated parallax scroll metrics
-  const progress = Math.min(scrollY / 400, 1); // 0 to 1 over first 400px of scroll
+  // Start shrinking after scrolling past 20px to prevent jitter at y=0 due to subpixel rendering
+  const progress = typeof window !== 'undefined' ? Math.max(0, Math.min((scrollY - 20) / 400, 1)) : 0;
 
-  // Calculate dynamic dimensions
+  // Calculate dynamic dimensions based on screen size
   const heroStyle = {
-    width: progress > 0 ? `calc(100% - ${progress * 3}rem)` : '100%',
-    maxWidth: progress > 0 ? `${1280 + (1 - progress) * 600}px` : '100%',
-    height: progress > 0 ? `calc(100vh - ${progress * 25}vh)` : '100vh',
-    minHeight: '520px',
-    borderRadius: progress > 0 ? `${progress * 2.5}rem` : '0px',
-    marginTop: progress > 0 ? `${progress * 2.5}rem` : '0px',
+    width: progress > 0 
+      ? `calc(100% - ${progress * (isMobile ? 1 : 3)}rem)` 
+      : '100%',
+    maxWidth: progress > 0 
+      ? `${1280 + (1 - progress) * 600}px` 
+      : '100%',
+    height: progress > 0 
+      ? `calc(100dvh - ${progress * (isMobile ? 35 : 25)}dvh)` 
+      : '100dvh',
+    minHeight: isMobile ? '460px' : '520px',
+    borderRadius: progress > 0 
+      ? `${progress * (isMobile ? 1.25 : 2.5)}rem` 
+      : '0px',
+    marginTop: progress > 0 
+      ? `${progress * (isMobile ? 1 : 2.5)}rem` 
+      : '0px',
     transition: 'width 0.2s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.2s cubic-bezier(0.16, 1, 0.3, 1), height 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.2s cubic-bezier(0.16, 1, 0.3, 1), margin-top 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
   };
 
@@ -136,30 +157,30 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
             <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
 
             {/* Content overlay */}
-            <div className="relative z-10 mx-auto max-w-3xl space-y-6 text-center">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
+            <div className="relative z-10 mx-auto max-w-3xl space-y-5 sm:space-y-6 text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 sm:px-4 sm:py-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
                 {t.home.subtitle}
               </span>
               
-              <h1 className="display-title text-[clamp(2.4rem,6.5vw,5.2rem)] font-extrabold leading-[0.92] text-white whitespace-pre-line tracking-[-0.04em] drop-shadow-md">
+              <h1 className="display-title text-[clamp(2rem,6vw,5rem)] font-extrabold leading-[0.94] text-white whitespace-pre-line tracking-[-0.04em] drop-shadow-md px-2">
                 {t.home.title}
               </h1>
               
-              <p className="mx-auto max-w-xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8 drop-shadow-sm">
+              <p className="mx-auto max-w-xl text-xs sm:text-base leading-6 sm:leading-8 text-white/80 drop-shadow-sm px-4">
                 {t.home.description}
               </p>
 
               {/* Premium Glassmorphic Search bar */}
-              <div className="relative mx-auto max-w-lg">
-                <Search className="pointer-events-none absolute left-4.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
+              <div className="relative mx-auto max-w-lg px-4 sm:px-0">
+                <Search className="pointer-events-none absolute left-8 sm:left-4.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
                 <Input
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder={t.home.searchPlaceholder}
-                  className="h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0"
+                  className="h-11 sm:h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0 text-sm"
                 />
                 {searchResults.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full z-20 mt-2.5 overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
+                  <div className="absolute left-4 right-4 sm:left-0 sm:right-0 top-full z-20 mt-2.5 overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
                     {searchResults.map((recipe) => (
                       <Link
                         key={recipe.id}
@@ -188,17 +209,17 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
               </div>
 
               {/* Glassmorphic Stats */}
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-white/70">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                  <BookOpenText className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 pt-1 sm:pt-2 text-xs sm:text-sm text-white/70 px-2">
+                <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full bg-white/5 px-2.5 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm text-[11px] sm:text-xs">
+                  <BookOpenText className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[rgba(255,220,181,0.92)]" />
                   {stats.totalRecipes}+ {t.home.recipesStat}
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                  <MapPin className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+                <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full bg-white/5 px-2.5 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm text-[11px] sm:text-xs">
+                  <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[rgba(255,220,181,0.92)]" />
                   {stats.totalRegions} {t.home.regionsStat}
                 </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
-                  <Utensils className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
+                <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full bg-white/5 px-2.5 py-1 sm:px-3 sm:py-1.5 backdrop-blur-sm text-[11px] sm:text-xs">
+                  <Utensils className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[rgba(255,220,181,0.92)]" />
                   {stats.totalCategories} {t.home.categoriesStat}
                 </span>
               </div>

@@ -259,11 +259,17 @@ export default function Header() {
   return (
     <header className={`z-50 transition-all duration-500 ease-in-out px-4 pt-4 sm:px-6 lg:px-8 ${
       isHome 
-        ? (showNavbar ? 'sticky top-0 opacity-100 translate-y-0' : 'absolute top-0 left-0 right-0 opacity-0 -translate-y-10 pointer-events-none')
+        ? (showNavbar ? 'sticky top-0 opacity-100 translate-y-0' : 'absolute top-0 left-0 right-0 bg-transparent border-transparent shadow-none')
         : 'sticky top-0 opacity-100 translate-y-0'
     }`}>
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/60 bg-[rgba(255,251,246,0.82)] shadow-[0_18px_60px_rgba(52,34,22,0.12)] backdrop-blur-xl">
-        <div className="hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] text-[rgba(95,59,37,0.72)] md:flex">
+      <div className={`mx-auto max-w-7xl rounded-[2rem] border transition-colors duration-300 ${
+        isHome && !showNavbar 
+          ? 'border-transparent bg-transparent shadow-none' 
+          : 'border-white/60 bg-[rgba(255,251,246,0.82)] shadow-[0_18px_60px_rgba(52,34,22,0.12)] backdrop-blur-xl'
+      }`}>
+        <div className={`hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] transition-all duration-300 md:flex ${
+          isHome && !showNavbar ? 'opacity-0 h-0 py-0 overflow-hidden border-none' : 'opacity-100 text-[rgba(95,59,37,0.72)]'
+        }`}>
           <div className="flex items-center gap-3">
             <Clock3 className="h-3.5 w-3.5" />
             <span>{locale === 'en' ? 'Daily 08:00 - 22:00' : locale === 'tr' ? 'Her Gün 08:00 - 22:00' : locale === 'ru' ? 'Ежедневно 08:00 - 22:00' : locale === 'fr' ? 'Tous les jours 08:00 - 22:00' : locale === 'it' ? 'Tutti i giorni 08:00 - 22:00' : locale === 'ar' ? 'يوميًا 08:00 - 22:00' : locale === 'zh' ? '每日 08:00 - 22:00' : locale === 'hi' ? 'रोजाना 08:00 - 22:00' : locale === 'es' ? 'Todos los días 08:00 - 22:00' : locale === 'pt' ? 'Todos os dias 08:00 - 22:00' : locale === 'nl' ? 'Dagelijks 08:00 - 22:00' : locale === 'de' ? 'Täglich 08:00 - 22:00' : locale === 'ja' ? '営業時間 08:00 - 22:00' : locale === 'id' ? 'Setiap Hari 08:00 - 22:00' : locale === 'bn' ? 'প্রতিদিন ০৮:০০ - ২২:০০' : 'Hər gün 08:00 - 22:00'}</span>
@@ -283,8 +289,8 @@ export default function Header() {
               <ChefHat className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             <div>
-              <div className="display-title text-xl sm:text-2xl lg:text-3xl leading-none text-foreground">{siteConfig.name}</div>
-              <div className="mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] text-white/45">
+              <div className={`display-title text-xl sm:text-2xl lg:text-3xl leading-none transition-colors duration-300 ${isHome && !showNavbar ? 'text-white' : 'text-foreground'}`}>{siteConfig.name}</div>
+              <div className={`mt-0.5 text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.3em] transition-colors duration-300 ${isHome && !showNavbar ? 'text-white/60' : 'text-white/45'}`}>
                 {t.header.recipesSub}
               </div>
             </div>
@@ -299,9 +305,9 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                    isActive
-                      ? 'bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]'
-                      : 'text-[rgba(57,44,35,0.76)] hover:bg-white/70 hover:text-foreground'
+                    isHome && !showNavbar
+                      ? (isActive ? 'bg-white/18 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white')
+                      : (isActive ? 'bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]' : 'text-[rgba(57,44,35,0.76)] hover:bg-white/70 hover:text-foreground')
                   }`}
                 >
                   {item.name}
@@ -311,13 +317,21 @@ export default function Header() {
           </nav>
 
           <div className="hidden items-center gap-3 lg:flex">
-            <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-5 text-[rgba(57,44,35,0.82)] hover:bg-white">
+            <Button asChild variant="outline" className={`rounded-full px-5 transition-all duration-300 ${
+              isHome && !showNavbar
+                ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                : 'border-[rgba(98,67,45,0.14)] bg-white/70 text-[rgba(57,44,35,0.82)] hover:bg-white'
+            }`}>
               <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : locale === 'nl' ? "/nl/recipes" : locale === 'de' ? "/de/recipes" : locale === 'ja' ? "/ja/recipes" : locale === 'id' ? "/id/recipes" : locale === 'bn' ? "/bn/recipes" : "/reseptler"}>
                 <Search className="h-4 w-4" />
                 {t.nav.recipes}
               </Link>
             </Button>
-            <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] px-5 text-white shadow-[0_12px_30px_rgba(141,58,36,0.28)] hover:bg-[rgba(141,58,36,0.9)]">
+            <Button asChild className={`rounded-full px-5 shadow-[0_12px_30px_rgba(141,58,36,0.28)] transition-all duration-300 ${
+              isHome && !showNavbar
+                ? 'bg-white text-[rgba(34,27,23,0.94)] hover:bg-white/90 shadow-md'
+                : 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]'
+            }`}>
               <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
                 {t.header.contactBtn}
               </a>
@@ -331,7 +345,11 @@ export default function Header() {
                   e.stopPropagation();
                   setIsLangOpen(!isLangOpen);
                 }}
-                className="h-10 rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-4 text-sm font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.82)] hover:bg-white flex items-center gap-2"
+                className={`h-10 rounded-full px-4 text-sm font-semibold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 ${
+                  isHome && !showNavbar
+                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                    : 'border-[rgba(98,67,45,0.14)] bg-white/70 text-[rgba(57,44,35,0.82)] hover:bg-white'
+                }`}
               >
                 <Globe className="h-4 w-4 text-[rgba(141,58,36,0.8)]" />
                 <span>{locale}</span>
@@ -384,7 +402,11 @@ export default function Header() {
                   e.stopPropagation();
                   setIsMobileLangOpen(!isMobileLangOpen);
                 }}
-                className="h-8 rounded-full border-[rgba(98,67,45,0.12)] bg-white/70 px-2.5 text-xs font-bold uppercase tracking-wider text-[rgba(57,44,35,0.82)] hover:bg-white flex items-center gap-1.5"
+                className={`h-8 rounded-full px-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-300 ${
+                  isHome && !showNavbar
+                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                    : 'border-[rgba(98,67,45,0.12)] bg-white/70 text-[rgba(57,44,35,0.82)] hover:bg-white'
+                }`}
               >
                 <Globe className="h-3.5 w-3.5 text-[rgba(141,58,36,0.8)]" />
                 <span>{locale}</span>
@@ -429,7 +451,7 @@ export default function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="rounded-full"
+              className={`rounded-full transition-colors duration-300 ${isHome && !showNavbar ? 'text-white hover:bg-white/10' : 'text-foreground hover:bg-black/5'}`}
               onClick={() => setIsMenuOpen((value) => !value)}
               aria-label={isMenuOpen ? t.header.mobileMenuClose : t.header.mobileMenuOpen}
             >
