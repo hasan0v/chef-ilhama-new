@@ -246,10 +246,10 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                                 : 'border-[rgba(98,67,45,0.1)] bg-[rgba(247,239,226,0.7)] hover:bg-white/80'
                             }`}
                           >
-                            <span className={`flex h-8 w-8 items-center justify-center rounded-full ${checked ? 'bg-[rgba(53,84,65,0.96)] text-white' : 'bg-white text-[rgba(112,83,59,0.72)]'}`}>
+                            <span className={`flex h-8 w-8 items-center justify-center rounded-full shrink-0 ${checked ? 'bg-[rgba(53,84,65,0.96)] text-white' : 'bg-white text-[rgba(112,83,59,0.72)]'}`}>
                               {checked ? <Check className="h-4 w-4" /> : index + 1}
                             </span>
-                            <span className={`text-sm leading-7 sm:text-base ${checked ? 'text-[rgba(53,84,65,0.96)] line-through' : 'text-[rgba(57,44,35,0.82)]'}`}>
+                            <span className={`text-sm leading-7 sm:text-base min-w-0 flex-1 ${checked ? 'text-[rgba(53,84,65,0.96)] line-through' : 'text-[rgba(57,44,35,0.82)]'}`}>
                               {ingredient}
                             </span>
                           </button>
@@ -301,7 +301,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                               <button
                                 type="button"
                                 onClick={() => toggleStep(index)}
-                                className={`mt-0.5 flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-colors cursor-pointer ${
+                                className={`mt-0.5 flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold transition-colors cursor-pointer shrink-0 ${
                                   completed
                                     ? 'bg-[rgba(53,84,65,0.96)] text-white'
                                     : 'bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]'
@@ -309,7 +309,7 @@ export default function RecipeStoryPage({ recipe, breadcrumbs }: RecipeStoryPage
                               >
                                 {completed ? <CheckCircle2 className="h-5 w-5" /> : index + 1}
                               </button>
-                              <div className="space-y-2">
+                              <div className="space-y-2 min-w-0 flex-1">
                                 <div className="text-xs font-semibold uppercase tracking-[0.24em] text-[rgba(112,83,59,0.72)]">{isEn ? 'Step' : 'Addım'} {index + 1}</div>
                                 <p className={`text-sm leading-8 sm:text-base ${completed ? 'text-[rgba(53,84,65,0.96)]' : 'text-[rgba(57,44,35,0.82)]'}`}>
                                   {instruction}
