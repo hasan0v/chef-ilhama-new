@@ -91,49 +91,69 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
     <PageLayout>
       <div className="space-y-10 sm:space-y-14 lg:space-y-16">
 
-        {/* ── Hero: Recipe discovery focus ── */}
+        {/* ── Hero: Recipe discovery focus with background video ── */}
         <section className="px-4 pt-6 sm:px-6 sm:pt-8 lg:px-8 lg:pt-10">
           <div className="mx-auto max-w-7xl">
-            <EditorialPanel className="mesh-surface px-5 py-8 sm:px-8 sm:py-12 lg:px-12 lg:py-14">
-              <div className="mx-auto max-w-3xl space-y-6 text-center">
-                <SectionLabel>{t.home.subtitle}</SectionLabel>
-                <h1 className="display-title text-[clamp(2.2rem,6vw,5rem)] leading-[0.94] text-foreground whitespace-pre-line">
+            <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-black shadow-[0_24px_70px_rgba(32,22,14,0.18)] min-h-[500px] sm:min-h-[550px] lg:min-h-[620px] flex items-center justify-center px-6 py-12 sm:px-12 lg:px-16">
+              
+              {/* Background Video */}
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover opacity-85 select-none pointer-events-none"
+              >
+                <source src="/video/bg-video.mp4" type="video/mp4" />
+              </video>
+
+              {/* Dark cinematic gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
+
+              {/* Content overlay */}
+              <div className="relative z-10 mx-auto max-w-3xl space-y-6 text-center">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md">
+                  {t.home.subtitle}
+                </span>
+                
+                <h1 className="display-title text-[clamp(2.4rem,6.5vw,5.2rem)] font-extrabold leading-[0.92] text-white whitespace-pre-line tracking-[-0.04em] drop-shadow-md">
                   {t.home.title}
                 </h1>
-                <p className="mx-auto max-w-xl text-sm leading-7 text-[rgba(57,44,35,0.76)] sm:text-base sm:leading-8">
+                
+                <p className="mx-auto max-w-xl text-sm leading-7 text-white/80 sm:text-base sm:leading-8 drop-shadow-sm">
                   {t.home.description}
                 </p>
 
-                {/* Search bar */}
+                {/* Premium Glassmorphic Search bar */}
                 <div className="relative mx-auto max-w-lg">
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(112,83,59,0.72)]" />
+                  <Search className="pointer-events-none absolute left-4.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/60" />
                   <Input
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder={t.home.searchPlaceholder}
-                    className="h-12 rounded-full border-[rgba(98,67,45,0.14)] bg-white/84 pl-11 pr-4 shadow-sm"
+                    className="h-12 rounded-full border-white/20 bg-white/12 text-white placeholder:text-white/55 pl-11 pr-4 shadow-inner backdrop-blur-md transition-all duration-300 focus:border-white/40 focus:bg-white/18 focus:ring-0"
                   />
                   {searchResults.length > 0 && (
-                    <div className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-2xl border border-white/60 bg-white/95 shadow-xl backdrop-blur-lg">
+                    <div className="absolute left-0 right-0 top-full z-20 mt-2.5 overflow-hidden rounded-2xl border border-white/10 bg-black/90 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
                       {searchResults.map((recipe) => (
                         <Link
                           key={recipe.id}
                           href={getRecipeUrl(recipe.slug)}
-                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-[rgba(247,239,226,0.7)]"
+                          className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-white/10"
                           onClick={() => setSearchTerm('')}
                         >
                           <div className="relative h-10 w-10 overflow-hidden rounded-lg">
                             <Image src={getValidImageUrl(recipe.image)} alt={recipe.name} fill className="object-cover" sizes="40px" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <div className="truncate text-sm font-semibold text-foreground text-left">{recipe.name}</div>
-                            <div className="text-xs text-[rgba(57,44,35,0.6)] text-left">{recipe.category} · {recipe.origin}</div>
+                            <div className="truncate text-sm font-semibold text-white text-left">{recipe.name}</div>
+                            <div className="text-xs text-white/60 text-left">{recipe.category} · {recipe.origin}</div>
                           </div>
                         </Link>
                       ))}
                       <Link
                         href={getRecipesUrl()}
-                        className="block border-t border-[rgba(98,67,45,0.08)] px-4 py-3 text-center text-sm font-medium text-[rgba(141,58,36,0.96)] transition-colors hover:bg-[rgba(247,239,226,0.5)]"
+                        className="block border-t border-white/10 px-4 py-3 text-center text-sm font-semibold text-[rgba(255,220,181,0.92)] transition-colors hover:bg-white/5"
                         onClick={() => setSearchTerm('')}
                       >
                         {t.home.viewAllRecipes}
@@ -142,25 +162,23 @@ export default function HomeExperience({ featuredRecipes, allRecipes, categories
                   )}
                 </div>
 
-                {/* Quick stats */}
-                <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-[rgba(57,44,35,0.72)]">
-                  <span className="inline-flex items-center gap-1.5">
-                    <BookOpenText className="h-4 w-4 text-[rgba(141,58,36,0.96)]" />
+                {/* Glassmorphic Stats */}
+                <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-sm text-white/70">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                    <BookOpenText className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
                     {stats.totalRecipes}+ {t.home.recipesStat}
                   </span>
-                  <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
-                  <span className="inline-flex items-center gap-1.5">
-                    <MapPin className="h-4 w-4 text-[rgba(53,84,65,0.96)]" />
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                    <MapPin className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
                     {stats.totalRegions} {t.home.regionsStat}
                   </span>
-                  <span className="h-1 w-1 rounded-full bg-[rgba(141,58,36,0.4)]" />
-                  <span className="inline-flex items-center gap-1.5">
-                    <Utensils className="h-4 w-4 text-[rgba(201,150,69,0.96)]" />
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-3 py-1.5 backdrop-blur-sm">
+                    <Utensils className="h-4 w-4 text-[rgba(255,220,181,0.92)]" />
                     {stats.totalCategories} {t.home.categoriesStat}
                   </span>
                 </div>
               </div>
-            </EditorialPanel>
+            </div>
           </div>
         </section>
 
