@@ -183,6 +183,9 @@ const htmlLocaleScript = `
     } else if (path.indexOf('/ja/') === 0 || path === '/ja') {
       document.documentElement.lang = 'ja';
       document.documentElement.dir = 'ltr';
+    } else if (path.indexOf('/id/') === 0 || path === '/id') {
+      document.documentElement.lang = 'id';
+      document.documentElement.dir = 'ltr';
     }
   })();
 `;

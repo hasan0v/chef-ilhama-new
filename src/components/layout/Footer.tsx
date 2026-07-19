@@ -86,6 +86,12 @@ export default function Footer() {
     { name: t.nav.services, href: '/ja/services' },
     { name: t.nav.about, href: '/ja/about' },
     { name: t.nav.contact, href: '/ja/contact' },
+  ] : locale === 'id' ? [
+    { name: t.nav.home, href: '/id' },
+    { name: t.nav.recipes, href: '/id/recipes' },
+    { name: t.nav.services, href: '/id/services' },
+    { name: t.nav.about, href: '/id/about' },
+    { name: t.nav.contact, href: '/id/contact' },
   ] : [
     { name: t.nav.home, href: '/' },
     { name: t.nav.recipes, href: '/reseptler' },
@@ -133,6 +139,9 @@ export default function Footer() {
   ] : locale === 'ja' ? [
     { name: t.nav.privacy, href: '/ja/privacy' },
     { name: t.nav.terms, href: '/ja/terms' },
+  ] : locale === 'id' ? [
+    { name: t.nav.privacy, href: '/id/privacy' },
+    { name: t.nav.terms, href: '/id/terms' },
   ] : [
     { name: t.nav.privacy, href: '/privacy' },
     { name: t.nav.terms, href: '/terms' },
@@ -140,7 +149,7 @@ export default function Footer() {
 
   return (
     <footer className="px-4 pb-6 pt-10 sm:px-6 lg:px-8 lg:pb-8 lg:pt-14">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.25rem] sm:rounded-[2.2rem] border border-[rgba(98,67,45,0.1)] bg-[linear-gradient(135deg,rgba(34,27,23,0.98),rgba(59,40,28,0.96))] text-white shadow-[0_28px_90px_rgba(26,18,12,0.34)]">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.25rem] sm:rounded-[2.2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(34,27,23,0.98),rgba(59,40,28,0.96))] text-white shadow-[0_28px_90px_rgba(26,18,12,0.34)]">
         <div className="grid gap-10 px-6 py-10 sm:px-8 lg:grid-cols-[1.15fr_0.85fr_0.8fr_1fr] lg:px-12 lg:py-14">
           <div className="space-y-6">
             <div className="flex items-center gap-3">
@@ -188,10 +197,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-white/45">{t.footer.discover}</h3>
             <ul className="space-y-2">
-              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : locale === 'nl' ? "/nl/recipes" : locale === 'de' ? "/de/recipes" : locale === 'ja' ? "/ja/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : locale === 'ru' ? "/ru/about" : locale === 'fr' ? "/fr/about" : locale === 'it' ? "/it/about" : locale === 'ar' ? "/ar/about" : locale === 'zh' ? "/zh/about" : locale === 'hi' ? "/hi/about" : locale === 'es' ? "/es/about" : locale === 'pt' ? "/pt/about" : locale === 'nl' ? "/nl/about" : locale === 'de' ? "/de/about" : locale === 'ja' ? "/ja/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : locale === 'ru' ? "/ru/services" : locale === 'fr' ? "/fr/services" : locale === 'it' ? "/it/services" : locale === 'ar' ? "/ar/services" : locale === 'zh' ? "/zh/services" : locale === 'hi' ? "/hi/services" : locale === 'es' ? "/es/services" : locale === 'pt' ? "/pt/services" : locale === 'nl' ? "/nl/services" : locale === 'de' ? "/de/services" : locale === 'ja' ? "/ja/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
-              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : locale === 'ru' ? "/ru/contact" : locale === 'fr' ? "/fr/contact" : locale === 'it' ? "/it/contact" : locale === 'ar' ? "/ar/contact" : locale === 'zh' ? "/zh/contact" : locale === 'hi' ? "/hi/contact" : locale === 'es' ? "/es/contact" : locale === 'pt' ? "/pt/contact" : locale === 'nl' ? "/nl/contact" : locale === 'de' ? "/de/contact" : locale === 'ja' ? "/ja/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : locale === 'nl' ? "/nl/recipes" : locale === 'de' ? "/de/recipes" : locale === 'ja' ? "/ja/recipes" : locale === 'id' ? "/id/recipes" : "/reseptler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.recipes}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/about" : locale === 'tr' ? "/tr/about" : locale === 'ru' ? "/ru/about" : locale === 'fr' ? "/fr/about" : locale === 'it' ? "/it/about" : locale === 'ar' ? "/ar/about" : locale === 'zh' ? "/zh/about" : locale === 'hi' ? "/hi/about" : locale === 'es' ? "/es/about" : locale === 'pt' ? "/pt/about" : locale === 'nl' ? "/nl/about" : locale === 'de' ? "/de/about" : locale === 'ja' ? "/ja/about" : locale === 'id' ? "/id/about" : "/haqqinda"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.about}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/services" : locale === 'tr' ? "/tr/services" : locale === 'ru' ? "/ru/services" : locale === 'fr' ? "/fr/services" : locale === 'it' ? "/it/services" : locale === 'ar' ? "/ar/services" : locale === 'zh' ? "/zh/services" : locale === 'hi' ? "/hi/services" : locale === 'es' ? "/es/services" : locale === 'pt' ? "/pt/services" : locale === 'nl' ? "/nl/services" : locale === 'de' ? "/de/services" : locale === 'ja' ? "/ja/services" : locale === 'id' ? "/id/services" : "/xidmetler"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.services}</Link></li>
+              <li><Link href={locale === 'en' ? "/en/contact" : locale === 'tr' ? "/tr/contact" : locale === 'ru' ? "/ru/contact" : locale === 'fr' ? "/fr/contact" : locale === 'it' ? "/it/contact" : locale === 'ar' ? "/ar/contact" : locale === 'zh' ? "/zh/contact" : locale === 'hi' ? "/hi/contact" : locale === 'es' ? "/es/contact" : locale === 'pt' ? "/pt/contact" : locale === 'nl' ? "/nl/contact" : locale === 'de' ? "/de/contact" : locale === 'ja' ? "/ja/contact" : locale === 'id' ? "/id/contact" : "/elaqe"} className="text-sm text-white/68 transition-colors hover:text-white sm:text-base">{t.nav.contact}</Link></li>
             </ul>
           </div>
 
