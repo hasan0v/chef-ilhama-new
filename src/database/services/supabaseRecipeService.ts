@@ -29,7 +29,7 @@ const recipeInclude = {
 type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
 
 function transform(r: RecipeWithRelations, locale?: string): Recipe {
-  const isEn = locale === 'en';
+  const isEn = locale && locale !== 'az';
   return {
     id: r.id,
     name: (isEn && r.yemeyinAdiEn) ? r.yemeyinAdiEn : r.yemeyinAdi,
@@ -165,7 +165,8 @@ export class SupabaseRecipeService {
   async getCategories(locale?: string): Promise<string[]> {
     try {
       const cats = await prisma.category.findMany({ orderBy: { ad: 'asc' } })
-      return cats.map(c => (locale === 'en' && c.adEn) ? c.adEn : c.ad)
+      const isEn = locale && locale !== 'az';
+      return cats.map(c => (isEn && c.adEn) ? c.adEn : c.ad)
     } catch (error) {
       console.error('Error fetching categories:', error)
       return []
@@ -178,7 +179,7 @@ export class SupabaseRecipeService {
         prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
         prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
       ])
-      const isEn = locale === 'en';
+      const isEn = locale && locale !== 'az';
       const all = new Set([
         ...menseler.map(m => (isEn && m.adEn) ? m.adEn : m.ad),
         ...bolgeler.map(b => (isEn && b.adEn) ? b.adEn : b.ad)
@@ -212,4 +213,3 @@ export class SupabaseRecipeService {
 
 export const supabaseRecipeService = new SupabaseRecipeService()
 export default supabaseRecipeService
-

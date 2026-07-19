@@ -8,6 +8,39 @@ export default function LocaleManager() {
 
   useEffect(() => {
     if (!pathname) return;
+
+    const supported = ['en', 'tr', 'ru', 'fr', 'it', 'ar', 'zh', 'hi', 'es', 'pt', 'nl', 'de', 'ja', 'id', 'bn'];
+
+    // Automatic redirection logic at root page '/'
+    if (pathname === '/') {
+      const savedLocale = localStorage.getItem('user-selected-locale');
+      if (savedLocale && savedLocale !== 'az') {
+        if (supported.includes(savedLocale)) {
+          window.location.replace(`/${savedLocale}`);
+          return;
+        }
+      } else if (!savedLocale) {
+        // First time load: detect browser language
+        const browserLang = ((navigator.languages && navigator.languages[0]) || navigator.language || '').substring(0, 2).toLowerCase();
+        if (supported.includes(browserLang)) {
+          localStorage.setItem('user-selected-locale', browserLang);
+          window.location.replace(`/${browserLang}`);
+          return;
+        } else {
+          localStorage.setItem('user-selected-locale', 'az');
+        }
+      }
+    }
+
+    // Save locale preference when visiting a localized path
+    const pathParts = pathname.split('/');
+    const firstSegment = pathParts[1];
+    if (supported.includes(firstSegment)) {
+      localStorage.setItem('user-selected-locale', firstSegment);
+    } else if (pathname === '/') {
+      localStorage.setItem('user-selected-locale', 'az');
+    }
+
     const isAr = pathname.startsWith('/ar/') || pathname === '/ar';
     const isEn = pathname.startsWith('/en/') || pathname === '/en';
     const isTr = pathname.startsWith('/tr/') || pathname === '/tr';

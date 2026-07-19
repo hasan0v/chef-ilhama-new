@@ -1,15 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { ChefHat, Clock3, Menu, Search, X } from 'lucide-react';
+import { ChefHat, Clock3, Menu, Search, X, Globe, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { usePathname } from 'next/navigation';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
 
-function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' | 'ru' | 'fr' | 'it' | 'ar' | 'zh' | 'hi' | 'es' | 'pt' | 'nl' | 'de' | 'ja' | 'id' | 'bn'): string {
+const languages = [
+  { code: 'az', label: 'Azərbaycanca' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'en', label: 'English' },
+  { code: 'ar', label: 'العربية' },
+  { code: 'tr', label: 'Türkçe' },
+  { code: 'zh', label: '中文' },
+  { code: 'de', label: 'Deutsch' },
+  { code: 'fr', label: 'Français' },
+  { code: 'it', label: 'Italiano' },
+  { code: 'es', label: 'Español' },
+  { code: 'pt', label: 'Português' },
+  { code: 'nl', label: 'Nederlands' },
+  { code: 'ja', label: '日本語' },
+  { code: 'id', label: 'Bahasa Indonesia' },
+  { code: 'hi', label: 'हिन्दी' },
+  { code: 'bn', label: 'বাংলা' }
+] as const;
+
+function getLocalizedPath(currentPath: string, targetLocale: string): string {
   let cleanPath = currentPath;
   if (currentPath.startsWith('/en/') || currentPath === '/en') {
     cleanPath = currentPath === '/en' ? '/' : currentPath.substring(3);
@@ -53,7 +72,7 @@ function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' 
     slug = cleanPath.substring(8);
   }
 
-  const paths: Record<string, Record<'az' | 'en' | 'tr' | 'ru' | 'fr' | 'it' | 'ar' | 'zh' | 'hi' | 'es' | 'pt' | 'nl' | 'de' | 'ja' | 'id' | 'bn', string>> = {
+  const paths: Record<string, Record<string, string>> = {
     '/': { az: '/', en: '/', tr: '/', ru: '/', fr: '/', it: '/', ar: '/', zh: '/', hi: '/', es: '/', pt: '/', nl: '/', de: '/', ja: '/', id: '/', bn: '/' },
     '/reseptler': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes', fr: '/recipes', it: '/recipes', ar: '/recipes', zh: '/recipes', hi: '/recipes', es: '/recipes', pt: '/recipes', nl: '/recipes', de: '/recipes', ja: '/recipes', id: '/recipes', bn: '/recipes' },
     '/recipes': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes', fr: '/recipes', it: '/recipes', ar: '/recipes', zh: '/recipes', hi: '/recipes', es: '/recipes', pt: '/recipes', nl: '/recipes', de: '/recipes', ja: '/recipes', id: '/recipes', bn: '/recipes' },
@@ -80,8 +99,25 @@ function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' 
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isMobileLangOpen, setIsMobileLangOpen] = useState(false);
   const pathname = usePathname();
   const { t, locale } = useTranslation();
+
+  // Close dropdowns on outside clicks
+  useEffect(() => {
+    if (!isLangOpen) return;
+    const handleClose = () => setIsLangOpen(false);
+    window.addEventListener('click', handleClose);
+    return () => window.removeEventListener('click', handleClose);
+  }, [isLangOpen]);
+
+  useEffect(() => {
+    if (!isMobileLangOpen) return;
+    const handleClose = () => setIsMobileLangOpen(false);
+    window.addEventListener('click', handleClose);
+    return () => window.removeEventListener('click', handleClose);
+  }, [isMobileLangOpen]);
 
   const navigation = locale === 'en' ? [
     { name: t.nav.home, href: '/en' },
@@ -244,46 +280,107 @@ export default function Header() {
               </a>
             </Button>
             
-            {/* Language Switcher */}
-            <div className="flex items-center gap-1 rounded-full border border-[rgba(98,67,45,0.1)] bg-white/72 p-0.5">
-              {(['az', 'en', 'tr', 'ru', 'fr', 'it', 'ar', 'zh', 'hi', 'es', 'pt', 'nl', 'de', 'ja', 'id', 'bn'] as const).map((lang) => {
-                const isActive = locale === lang;
-                return (
-                  <Link
-                    key={lang}
-                    href={getLocalizedPath(pathname || '/', lang)}
-                    className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-150 ${
-                      isActive
-                        ? 'bg-[rgba(141,58,36,0.92)] text-white shadow-sm'
-                        : 'text-[rgba(57,44,35,0.68)] hover:text-foreground hover:bg-white/50'
-                    }`}
+            {/* Desktop Language Switcher Dropdown */}
+            <div className="relative">
+              <Button
+                variant="outline"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsLangOpen(!isLangOpen);
+                }}
+                className="h-10 rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-4 text-sm font-semibold uppercase tracking-wider text-[rgba(57,44,35,0.82)] hover:bg-white flex items-center gap-2"
+              >
+                <Globe className="h-4 w-4 text-[rgba(141,58,36,0.8)]" />
+                <span>{locale}</span>
+                <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
+              </Button>
+              <AnimatePresence>
+                {isLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/95 p-1.5 shadow-[0_12px_40px_rgba(52,34,22,0.16)] backdrop-blur-md z-50 max-h-80 overflow-y-auto"
                   >
-                    {lang}
-                  </Link>
-                );
-              })}
+                    {languages.map((lang) => {
+                      const isActive = locale === lang.code;
+                      return (
+                        <Link
+                          key={lang.code}
+                          href={getLocalizedPath(pathname || '/', lang.code)}
+                          onClick={() => {
+                            if (typeof window !== 'undefined') {
+                              localStorage.setItem('user-selected-locale', lang.code);
+                            }
+                          }}
+                          className={`flex items-center justify-between rounded-xl px-4 py-2 text-sm font-medium transition-colors ${
+                            isActive
+                              ? 'bg-[rgba(141,58,36,0.1)] text-[rgba(141,58,36,0.96)] font-semibold'
+                              : 'text-[rgba(57,44,35,0.76)] hover:bg-[rgba(98,67,45,0.05)] hover:text-foreground'
+                          }`}
+                        >
+                          <span>{lang.label}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{lang.code}</span>
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
-            {/* Mobile Language Selector */}
-            <div className="flex items-center gap-1 rounded-full border border-[rgba(98,67,45,0.1)] bg-white/72 p-0.5">
-              {(['az', 'en', 'tr', 'ru', 'fr', 'it', 'ar', 'zh', 'hi', 'es', 'pt', 'nl', 'de', 'ja', 'id', 'bn'] as const).map((lang) => {
-                const isActive = locale === lang;
-                return (
-                  <Link
-                    key={lang}
-                    href={getLocalizedPath(pathname || '/', lang)}
-                    className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider transition-all duration-150 ${
-                      isActive
-                        ? 'bg-[rgba(141,58,36,0.92)] text-white shadow-sm'
-                        : 'text-[rgba(57,44,35,0.68)] hover:text-foreground hover:bg-white/50'
-                    }`}
+            {/* Mobile Language Switcher Dropdown */}
+            <div className="relative">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMobileLangOpen(!isMobileLangOpen);
+                }}
+                className="h-8 rounded-full border-[rgba(98,67,45,0.12)] bg-white/70 px-2.5 text-xs font-bold uppercase tracking-wider text-[rgba(57,44,35,0.82)] hover:bg-white flex items-center gap-1.5"
+              >
+                <Globe className="h-3.5 w-3.5 text-[rgba(141,58,36,0.8)]" />
+                <span>{locale}</span>
+                <ChevronDown className={`h-2.5 w-2.5 transition-transform duration-200 ${isMobileLangOpen ? 'rotate-180' : ''}`} />
+              </Button>
+              <AnimatePresence>
+                {isMobileLangOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.12, ease: 'easeOut' }}
+                    className="absolute right-0 mt-1.5 w-48 overflow-hidden rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/95 p-1 shadow-[0_10px_30px_rgba(52,34,22,0.16)] backdrop-blur-md z-50 max-h-64 overflow-y-auto"
                   >
-                    {lang}
-                  </Link>
-                );
-              })}
+                    {languages.map((lang) => {
+                      const isActive = locale === lang.code;
+                      return (
+                        <Link
+                          key={lang.code}
+                          href={getLocalizedPath(pathname || '/', lang.code)}
+                          onClick={() => {
+                            if (typeof window !== 'undefined') {
+                              localStorage.setItem('user-selected-locale', lang.code);
+                            }
+                          }}
+                          className={`flex items-center justify-between rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
+                            isActive
+                              ? 'bg-[rgba(141,58,36,0.1)] text-[rgba(141,58,36,0.96)]'
+                              : 'text-[rgba(57,44,35,0.76)] hover:bg-[rgba(98,67,45,0.05)] hover:text-foreground'
+                          }`}
+                        >
+                          <span>{lang.label}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">{lang.code}</span>
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <Button
@@ -328,7 +425,7 @@ export default function Header() {
                 })}
                 <div className="grid gap-2 pt-2">
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white">
-                    <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : locale === 'nl' ? "/nl/recipes" : locale === 'de' ? "/de/recipes" : locale === 'ja' ? "/ja/recipes" : locale === 'id' ? "/id/recipes" : locale === 'bn' ? "/bn/recipes" : "/reseptler" onClick={() => setIsMenuOpen(false)}>{t.header.viewRecipes}</Link>
+                    <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : locale === 'it' ? "/it/recipes" : locale === 'ar' ? "/ar/recipes" : locale === 'zh' ? "/zh/recipes" : locale === 'hi' ? "/hi/recipes" : locale === 'es' ? "/es/recipes" : locale === 'pt' ? "/pt/recipes" : locale === 'nl' ? "/nl/recipes" : locale === 'de' ? "/de/recipes" : locale === 'ja' ? "/ja/recipes" : locale === 'id' ? "/id/recipes" : locale === 'bn' ? "/bn/recipes" : "/reseptler"} onClick={() => setIsMenuOpen(false)}>{t.header.viewRecipes}</Link>
                   </Button>
                   <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
