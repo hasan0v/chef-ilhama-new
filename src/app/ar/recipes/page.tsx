@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 export default async function ArabicRecipesPage() {
   const [recipes, categories, regions] = await Promise.all([
-    getRecipes(),
-    getCategories(),
-    getRegions(),
+    getRecipes('ar'),
+    getCategories('ar'),
+    getRegions('ar'),
   ]);
 
   const breadcrumbSchema = getBreadcrumbSchema([

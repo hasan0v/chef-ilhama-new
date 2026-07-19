@@ -9,7 +9,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const recipes = await getRecipes();
+  const recipes = await getRecipes('nl');
   return recipes.map((recipe) => ({
     slug: recipe.slug,
   }));
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const recipe = await getRecipeBySlug(slug);
+  const recipe = await getRecipeBySlug(slug, 'nl');
   
   if (!recipe) {
     return {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DutchRecipePage({ params }: Props) {
   const { slug } = await params;
-  const recipe = await getRecipeBySlug(slug);
+  const recipe = await getRecipeBySlug(slug, 'nl');
 
   if (!recipe) {
     notFound();

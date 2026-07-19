@@ -42,10 +42,10 @@ export const metadata: Metadata = {
 
 export default async function ItalianHomePage() {
   const [featuredRecipes, allRecipes, categories, stats] = await Promise.all([
-    getFeaturedRecipes(),
-    getRecipes(),
-    getCategories(),
-    getRecipeStats(),
+    getFeaturedRecipes('it'),
+    getRecipes('it'),
+    getCategories('it'),
+    getRecipeStats('it'),
   ]);
 
   const collectionSchema = getRecipeCollectionSchema(
