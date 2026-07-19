@@ -28,30 +28,53 @@ const recipeInclude = {
 
 type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>
 
+function getLocalizedField(obj: any, baseField: string, locale?: string): string {
+  if (!obj) return '';
+  const isAz = !locale || locale === 'az';
+  if (isAz) return obj[baseField] ?? '';
+
+  // E.g. yemeyinAdi -> yemeyinAdi + Locale (capitalized: En, Ru, Tr, etc.)
+  const capLocale = locale.charAt(0).toUpperCase() + locale.slice(1);
+  const localizedKey = `${baseField}${capLocale}`;
+
+  // If the localized field exists and is not empty, use it
+  if (obj[localizedKey] !== undefined && obj[localizedKey] !== null && obj[localizedKey] !== '') {
+    return obj[localizedKey];
+  }
+
+  // Fallback to English (En suffix)
+  const enKey = `${baseField}En`;
+  if (obj[enKey] !== undefined && obj[enKey] !== null && obj[enKey] !== '') {
+    return obj[enKey];
+  }
+
+  // Fallback to Azerbaijani (base field)
+  return obj[baseField] ?? '';
+}
+
 function transform(r: RecipeWithRelations, locale?: string): Recipe {
-  const isEn = locale && locale !== 'az';
   return {
     id: r.id,
-    name: (isEn && r.yemeyinAdiEn) ? r.yemeyinAdiEn : r.yemeyinAdi,
+    name: getLocalizedField(r, 'yemeyinAdi', locale),
     slug: r.slug,
-    origin: isEn ? (r.mense?.adEn ?? r.mense?.ad ?? '') : (r.mense?.ad ?? ''),
-    region: isEn ? (r.bolge?.adEn ?? r.bolge?.ad ?? '') : (r.bolge?.ad ?? ''),
-    category: isEn ? (r.kateqoriya.adEn ?? r.kateqoriya.ad) : r.kateqoriya.ad,
+    origin: getLocalizedField(r.mense, 'ad', locale),
+    region: getLocalizedField(r.bolge, 'ad', locale),
+    category: getLocalizedField(r.kateqoriya, 'ad', locale),
     ingredients: r.terkibHisseleri.map(i => {
-      const ingName = (isEn && i.adEn) ? i.adEn : i.ad;
+      const ingName = getLocalizedField(i, 'ad', locale);
       if (i.miqdar) {
         const qtyVal = i.miqdar.miqdar;
-        const unitName = (isEn && i.miqdar.adEn) ? i.miqdar.adEn : i.miqdar.ad;
+        const unitName = getLocalizedField(i.miqdar, 'ad', locale);
         return qtyVal ? `${ingName} – ${qtyVal} ${unitName}` : `${ingName} – ${unitName}`;
       }
       return ingName;
     }),
-    instructions: r.addimlar.map(s => (isEn && s.metnEn) ? s.metnEn : s.metn),
-    prepTime: (isEn && r.hazirlanmaMuddetiEn) ? r.hazirlanmaMuddetiEn : r.hazirlanmaMuddeti,
-    difficulty: (isEn && r.cetinlikDerecesiEn) ? r.cetinlikDerecesiEn as any : r.cetinlikDerecesi as any,
-    servings: (isEn && r.porsiyaSayiEn) ? r.porsiyaSayiEn : r.porsiyaSayi,
-    history: isEn ? (r.tarixiMelumatEn ?? r.tarixiMelumat ?? '') : (r.tarixiMelumat ?? ''),
-    servingSuggestions: isEn ? (r.teqdimTeklifleriEn ?? r.teqdimTeklifleri ?? '') : (r.teqdimTeklifleri ?? ''),
+    instructions: r.addimlar.map(s => getLocalizedField(s, 'metn', locale)),
+    prepTime: getLocalizedField(r, 'hazirlanmaMuddeti', locale),
+    difficulty: getLocalizedField(r, 'cetinlikDerecesi', locale) as any,
+    servings: getLocalizedField(r, 'porsiyaSayi', locale),
+    history: getLocalizedField(r, 'tarixiMelumat', locale),
+    servingSuggestions: getLocalizedField(r, 'teqdimTeklifleri', locale),
     image: r.sekiller.find(s => s.isMain)?.url ?? r.sekiller[0]?.url ?? '',
     tags: [],
     featured: r.featured,
@@ -165,8 +188,7 @@ export class SupabaseRecipeService {
   async getCategories(locale?: string): Promise<string[]> {
     try {
       const cats = await prisma.category.findMany({ orderBy: { ad: 'asc' } })
-      const isEn = locale && locale !== 'az';
-      return cats.map(c => (isEn && c.adEn) ? c.adEn : c.ad)
+      return cats.map(c => getLocalizedField(c, 'ad', locale))
     } catch (error) {
       console.error('Error fetching categories:', error)
       return []
@@ -179,10 +201,9 @@ export class SupabaseRecipeService {
         prisma.mense.findMany({ orderBy: { ad: 'asc' } }),
         prisma.bolge.findMany({ orderBy: { ad: 'asc' } }),
       ])
-      const isEn = locale && locale !== 'az';
       const all = new Set([
-        ...menseler.map(m => (isEn && m.adEn) ? m.adEn : m.ad),
-        ...bolgeler.map(b => (isEn && b.adEn) ? b.adEn : b.ad)
+        ...menseler.map(m => getLocalizedField(m, 'ad', locale)),
+        ...bolgeler.map(b => getLocalizedField(b, 'ad', locale))
       ])
       return Array.from(all).sort()
     } catch (error) {
