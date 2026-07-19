@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
 
-function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' | 'ru'): string {
+function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' | 'ru' | 'fr'): string {
   let cleanPath = currentPath;
   if (currentPath.startsWith('/en/') || currentPath === '/en') {
     cleanPath = currentPath === '/en' ? '/' : currentPath.substring(3);
@@ -17,6 +17,8 @@ function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' 
     cleanPath = currentPath === '/tr' ? '/' : currentPath.substring(3);
   } else if (currentPath.startsWith('/ru/') || currentPath === '/ru') {
     cleanPath = currentPath === '/ru' ? '/' : currentPath.substring(3);
+  } else if (currentPath.startsWith('/fr/') || currentPath === '/fr') {
+    cleanPath = currentPath === '/fr' ? '/' : currentPath.substring(3);
   }
 
   let routeKey = cleanPath;
@@ -29,19 +31,19 @@ function getLocalizedPath(currentPath: string, targetLocale: 'az' | 'en' | 'tr' 
     slug = cleanPath.substring(8);
   }
 
-  const paths: Record<string, Record<'az' | 'en' | 'tr' | 'ru', string>> = {
-    '/': { az: '/', en: '/', tr: '/', ru: '/' },
-    '/reseptler': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes' },
-    '/recipes': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes' },
-    '/haqqinda': { az: '/haqqinda', en: '/about', tr: '/about', ru: '/about' },
-    '/about': { az: '/haqqinda', en: '/about', tr: '/about', ru: '/about' },
-    '/xidmetler': { az: '/xidmetler', en: '/services', tr: '/services', ru: '/services' },
-    '/services': { az: '/xidmetler', en: '/services', tr: '/services', ru: '/services' },
-    '/elaqe': { az: '/elaqe', en: '/contact', tr: '/contact', ru: '/contact' },
-    '/contact': { az: '/elaqe', en: '/contact', tr: '/contact', ru: '/contact' },
-    '/privacy': { az: '/privacy', en: '/privacy', tr: '/privacy', ru: '/privacy' },
-    '/terms': { az: '/terms', en: '/terms', tr: '/terms', ru: '/terms' },
-    '/resept': { az: `/resept/${slug}`, en: `/recipe/${slug}`, tr: `/recipe/${slug}`, ru: `/recipe/${slug}` }
+  const paths: Record<string, Record<'az' | 'en' | 'tr' | 'ru' | 'fr', string>> = {
+    '/': { az: '/', en: '/', tr: '/', ru: '/', fr: '/' },
+    '/reseptler': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes', fr: '/recipes' },
+    '/recipes': { az: '/reseptler', en: '/recipes', tr: '/recipes', ru: '/recipes', fr: '/recipes' },
+    '/haqqinda': { az: '/haqqinda', en: '/about', tr: '/about', ru: '/about', fr: '/about' },
+    '/about': { az: '/haqqinda', en: '/about', tr: '/about', ru: '/about', fr: '/about' },
+    '/xidmetler': { az: '/xidmetler', en: '/services', tr: '/services', ru: '/services', fr: '/services' },
+    '/services': { az: '/xidmetler', en: '/services', tr: '/services', ru: '/services', fr: '/services' },
+    '/elaqe': { az: '/elaqe', en: '/contact', tr: '/contact', ru: '/contact', fr: '/contact' },
+    '/contact': { az: '/elaqe', en: '/contact', tr: '/contact', ru: '/contact', fr: '/contact' },
+    '/privacy': { az: '/privacy', en: '/privacy', tr: '/privacy', ru: '/privacy', fr: '/privacy' },
+    '/terms': { az: '/terms', en: '/terms', tr: '/terms', ru: '/terms', fr: '/terms' },
+    '/resept': { az: `/resept/${slug}`, en: `/recipe/${slug}`, tr: `/recipe/${slug}`, ru: `/recipe/${slug}`, fr: `/recipe/${slug}` }
   };
 
   const matched = paths[routeKey];
@@ -77,6 +79,12 @@ export default function Header() {
     { name: t.nav.services, href: '/ru/services' },
     { name: t.nav.about, href: '/ru/about' },
     { name: t.nav.contact, href: '/ru/contact' },
+  ] : locale === 'fr' ? [
+    { name: t.nav.home, href: '/fr' },
+    { name: t.nav.recipes, href: '/fr/recipes' },
+    { name: t.nav.services, href: '/fr/services' },
+    { name: t.nav.about, href: '/fr/about' },
+    { name: t.nav.contact, href: '/fr/contact' },
   ] : [
     { name: t.nav.home, href: '/' },
     { name: t.nav.recipes, href: '/reseptler' },
@@ -91,7 +99,7 @@ export default function Header() {
         <div className="hidden items-center justify-between border-b border-[rgba(98,67,45,0.08)] px-6 py-3 text-xs font-medium uppercase tracking-[0.22em] text-[rgba(95,59,37,0.72)] md:flex">
           <div className="flex items-center gap-3">
             <Clock3 className="h-3.5 w-3.5" />
-            <span>{locale === 'en' ? 'Daily 08:00 - 22:00' : locale === 'tr' ? 'Her Gün 08:00 - 22:00' : locale === 'ru' ? 'Ежедневно 08:00 - 22:00' : 'Hər gün 08:00 - 22:00'}</span>
+            <span>{locale === 'en' ? 'Daily 08:00 - 22:00' : locale === 'tr' ? 'Her Gün 08:00 - 22:00' : locale === 'ru' ? 'Ежедневно 08:00 - 22:00' : locale === 'fr' ? 'Tous les jours 08:00 - 22:00' : 'Hər gün 08:00 - 22:00'}</span>
           </div>
           <div className="flex items-center gap-3">
             <span>{siteConfig.serviceAreas.map(area => area === 'Bakı' && locale === 'en' ? 'Baku' : area).join(' · ')}</span>
@@ -103,7 +111,7 @@ export default function Header() {
         </div>
 
         <div className="flex items-center justify-between px-5 py-4 sm:px-6">
-          <Link href={locale === 'en' ? "/en" : locale === 'tr' ? "/tr" : locale === 'ru' ? "/ru" : "/"} className="flex items-center gap-2.5 group">
+          <Link href={locale === 'en' ? "/en" : locale === 'tr' ? "/tr" : locale === 'ru' ? "/ru" : locale === 'fr' ? "/fr" : "/"} className="flex items-center gap-2.5 group">
             <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-xl sm:rounded-2xl bg-[linear-gradient(135deg,rgba(141,58,36,0.14),rgba(201,150,69,0.18))] text-[rgba(141,58,36,0.96)] transition-transform duration-300 group-hover:-rotate-6">
               <ChefHat className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
@@ -117,7 +125,7 @@ export default function Header() {
 
           <nav className="hidden items-center gap-1 lg:flex">
             {navigation.map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && item.href !== '/tr' && item.href !== '/ru' && pathname?.startsWith(item.href));
+              const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && item.href !== '/tr' && item.href !== '/ru' && item.href !== '/fr' && pathname?.startsWith(item.href));
 
               return (
                 <Link
@@ -137,7 +145,7 @@ export default function Header() {
 
           <div className="hidden items-center gap-3 lg:flex">
             <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70 px-5 text-[rgba(57,44,35,0.82)] hover:bg-white">
-              <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : "/reseptler"}>
+              <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : "/reseptler"}>
                 <Search className="h-4 w-4" />
                 {t.nav.recipes}
               </Link>
@@ -150,7 +158,7 @@ export default function Header() {
             
             {/* Language Switcher */}
             <div className="flex items-center gap-1 rounded-full border border-[rgba(98,67,45,0.1)] bg-white/72 p-0.5">
-              {(['az', 'en', 'tr', 'ru'] as const).map((lang) => {
+              {(['az', 'en', 'tr', 'ru', 'fr'] as const).map((lang) => {
                 const isActive = locale === lang;
                 return (
                   <Link
@@ -172,7 +180,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:hidden">
             {/* Mobile Language Selector */}
             <div className="flex items-center gap-1 rounded-full border border-[rgba(98,67,45,0.1)] bg-white/72 p-0.5">
-              {(['az', 'en', 'tr', 'ru'] as const).map((lang) => {
+              {(['az', 'en', 'tr', 'ru', 'fr'] as const).map((lang) => {
                 const isActive = locale === lang;
                 return (
                   <Link
@@ -213,7 +221,7 @@ export default function Header() {
             >
               <div className="space-y-2 px-4 py-4">
                 {navigation.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && item.href !== '/tr' && item.href !== '/ru' && pathname?.startsWith(item.href));
+                  const isActive = pathname === item.href || (item.href !== '/' && item.href !== '/en' && item.href !== '/tr' && item.href !== '/ru' && item.href !== '/fr' && pathname?.startsWith(item.href));
 
                   return (
                     <Link
@@ -232,7 +240,7 @@ export default function Header() {
                 })}
                 <div className="grid gap-2 pt-2">
                   <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white">
-                    <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : "/reseptler"} onClick={() => setIsMenuOpen(false)}>{t.header.viewRecipes}</Link>
+                    <Link href={locale === 'en' ? "/en/recipes" : locale === 'tr' ? "/tr/recipes" : locale === 'ru' ? "/ru/recipes" : locale === 'fr' ? "/fr/recipes" : "/reseptler"} onClick={() => setIsMenuOpen(false)}>{t.header.viewRecipes}</Link>
                   </Button>
                   <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/70">
                     <a href={getWhatsAppHref()} target="_blank" rel="noopener noreferrer">
