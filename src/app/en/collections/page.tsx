@@ -9,18 +9,18 @@ export const metadata: Metadata = {
   title: 'Global Recipe Collections — Rare Dishes, Cold Noodles & More',
   description: 'Explore editor-curated global recipe trails: rare traditional dishes, world comfort soups, Asian cold noodles, fermented flavours and fast regional cooking.',
   alternates: {
-    canonical: 'https://chef-ilhama.food/en/collections',
+    canonical: 'https://www.chef-ilhama.food/en/collections',
     languages: {
-      az: 'https://chef-ilhama.food/kolleksiyalar',
-      en: 'https://chef-ilhama.food/en/collections',
-      'x-default': 'https://chef-ilhama.food/en/collections',
+      az: 'https://www.chef-ilhama.food/kolleksiyalar',
+      en: 'https://www.chef-ilhama.food/en/collections',
+      'x-default': 'https://www.chef-ilhama.food/en/collections',
     },
   },
   openGraph: {
     title: 'Global Recipe Collections — Chef İlhamə',
     description: 'Choose a cooking trail by flavour, technique and curiosity—not only by country.',
     type: 'website',
-    url: 'https://chef-ilhama.food/en/collections',
+    url: 'https://www.chef-ilhama.food/en/collections',
     images: [{ url: '/images/recipes/global/vori-vori-paraguayan-chicken-soup.webp', width: 1200, height: 900, alt: 'Global recipe discovery collections' }],
   },
 };

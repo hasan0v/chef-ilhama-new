@@ -15,11 +15,11 @@ export const metadata: Metadata = withLocaleAlternates('en', 'contact', {
     type: 'website',
     locale: 'en_US',
     alternateLocale: 'az_AZ',
-    url: 'https://chef-ilhama.food/en/contact',
+    url: 'https://www.chef-ilhama.food/en/contact',
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə — Contact',
@@ -30,13 +30,13 @@ export const metadata: Metadata = withLocaleAlternates('en', 'contact', {
     card: 'summary_large_image',
     title: 'Contact — Chef İlhamə',
     description: 'Contact Chef İlhamə. WhatsApp, phone, email.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/en/contact',
+    canonical: 'https://www.chef-ilhama.food/en/contact',
     languages: {
-      az: 'https://chef-ilhama.food/elaqe',
-      en: 'https://chef-ilhama.food/en/contact',
+      az: 'https://www.chef-ilhama.food/elaqe',
+      en: 'https://www.chef-ilhama.food/en/contact',
     },
   },
 });

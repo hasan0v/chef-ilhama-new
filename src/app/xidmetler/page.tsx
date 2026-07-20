@@ -24,11 +24,11 @@ export const metadata: Metadata = withLocaleAlternates('az', 'services', {
     type: 'website',
     locale: 'az_AZ',
     alternateLocale: 'en_US',
-    url: 'https://chef-ilhama.food/xidmetler',
+    url: 'https://www.chef-ilhama.food/xidmetler',
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə - Aşpaz Xidməti Bakı',
@@ -39,13 +39,13 @@ export const metadata: Metadata = withLocaleAlternates('az', 'services', {
     card: 'summary_large_image',
     title: 'Aşpaz Xidməti Bakı — Şəxsi Aşpaz | Chef İlhamə',
     description: 'Bakının ən yaxşı şəxsi aşpaz xidməti. Toy yeməkləri, katerinq, banket aşpazı.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/xidmetler',
+    canonical: 'https://www.chef-ilhama.food/xidmetler',
     languages: {
-      'az': 'https://chef-ilhama.food/xidmetler',
-      'en': 'https://chef-ilhama.food/en/services',
+      'az': 'https://www.chef-ilhama.food/xidmetler',
+      'en': 'https://www.chef-ilhama.food/en/services',
     },
   },
 });

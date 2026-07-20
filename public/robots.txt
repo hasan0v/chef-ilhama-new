@@ -1,4 +1,4 @@
-# Chef Ilhama - https://chef-ilhama.food
+# Chef Ilhama - https://www.chef-ilhama.food
 # Azerbaijani recipe publisher, private chef & catering service
 # Last updated: 2026-07-20
 
@@ -110,9 +110,9 @@ Allow: /
 # =====================================================================
 # SITEMAP
 # =====================================================================
-Sitemap: https://chef-ilhama.food/sitemap.xml
+Sitemap: https://www.chef-ilhama.food/sitemap.xml
 
 # =====================================================================
 # AI DISCOVERABILITY
 # =====================================================================
-# llms.txt: https://chef-ilhama.food/llms.txt
+# llms.txt: https://www.chef-ilhama.food/llms.txt

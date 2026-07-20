@@ -13,21 +13,21 @@ export const metadata: Metadata = withLocaleAlternates('az', 'contact', {
     type: 'website',
     locale: 'az_AZ',
     alternateLocale: 'en_US',
-    url: 'https://chef-ilhama.food/elaqe',
+    url: 'https://www.chef-ilhama.food/elaqe',
     siteName: 'Chef İlhamə',
-    images: [{ url: 'https://chef-ilhama.food/ilhama.png', width: 1200, height: 630, alt: 'Chef İlhamə əlaqə' }],
+    images: [{ url: 'https://www.chef-ilhama.food/ilhama.png', width: 1200, height: 630, alt: 'Chef İlhamə əlaqə' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Əlaqə — Chef İlhamə',
     description: 'Chef İlhamə ilə əlaqə. WhatsApp, telefon, email.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/elaqe',
+    canonical: 'https://www.chef-ilhama.food/elaqe',
     languages: {
-      'az': 'https://chef-ilhama.food/elaqe',
-      'en': 'https://chef-ilhama.food/en/contact',
+      'az': 'https://www.chef-ilhama.food/elaqe',
+      'en': 'https://www.chef-ilhama.food/en/contact',
     },
   },
 });

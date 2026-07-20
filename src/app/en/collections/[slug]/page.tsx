@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const { slug } = await params;
   const collection = getRecipeCollection(slug);
   if (!collection) return {};
-  const canonical = `https://chef-ilhama.food${getCollectionPath('en', slug)}`;
+  const canonical = `https://www.chef-ilhama.food${getCollectionPath('en', slug)}`;
   const coverImage = getRecipeImageVariantUrl(collection.recipeSlugs[0], '16x9');
 
   return {
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
     alternates: {
       canonical,
       languages: {
-        az: `https://chef-ilhama.food${getCollectionPath('az', slug)}`,
+        az: `https://www.chef-ilhama.food${getCollectionPath('az', slug)}`,
         en: canonical,
         'x-default': canonical,
       },

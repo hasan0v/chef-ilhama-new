@@ -15,11 +15,11 @@ export const metadata: Metadata = withLocaleAlternates('az', 'about', {
     type: 'profile',
     locale: 'az_AZ',
     alternateLocale: 'en_US',
-    url: 'https://chef-ilhama.food/haqqinda',
+    url: 'https://www.chef-ilhama.food/haqqinda',
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə — Peşəkar Azərbaycan aşpazı',
@@ -30,13 +30,13 @@ export const metadata: Metadata = withLocaleAlternates('az', 'about', {
     card: 'summary_large_image',
     title: 'Chef İlhamə haqqında',
     description: '15+ il təcrübəsi olan professional Azərbaycan aşpazı. Bölgəvi reseptlər və katerinq xidməti.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/haqqinda',
+    canonical: 'https://www.chef-ilhama.food/haqqinda',
     languages: {
-      'az': 'https://chef-ilhama.food/haqqinda',
-      'en': 'https://chef-ilhama.food/en/about',
+      'az': 'https://www.chef-ilhama.food/haqqinda',
+      'en': 'https://www.chef-ilhama.food/en/about',
     },
   },
 });

@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import ChefBookingLanding from '@/components/site/pages/ChefBookingLanding';
 import { getBreadcrumbSchema, getFAQSchema } from '@/lib/seo';
 
-const pageUrl = 'https://chef-ilhama.food/aspaz-xidmeti-baki';
-const heroImage = 'https://chef-ilhama.food/ilhama.png';
+const pageUrl = 'https://www.chef-ilhama.food/aspaz-xidmeti-baki';
+const heroImage = 'https://www.chef-ilhama.food/ilhama.png';
 
 export const metadata: Metadata = {
   title: 'Aşpaz Axtarırsınız? Şəxsi Aşpaz və Katerinq Bakı',
@@ -50,7 +50,7 @@ const serviceSchema = {
   description: 'Chef İlhamə ilə Bakıda ev qonaqlığı, private dinner, toy, ailə şənliyi və korporativ tədbir üçün şəxsi aşpaz və katerinq xidməti.',
   url: pageUrl,
   image: heroImage,
-  provider: { '@id': 'https://chef-ilhama.food/#business' },
+  provider: { '@id': 'https://www.chef-ilhama.food/#business' },
   areaServed: [
     { '@type': 'City', name: 'Bakı' },
     { '@type': 'City', name: 'Sumqayıt' },

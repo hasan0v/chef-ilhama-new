@@ -6,7 +6,10 @@ export const siteConfig = {
   title: "Chef İlhamə - Azərbaycan Mətbəxi Reseptləri",
   description:
     "Azərbaycan mətbəxinin bölgəvi dadlarını reseptlərlə kəşf edin. Chef İlhamənin seçilmiş resept kolleksiyası, catering və şəxsi aşpaz xidmətləri.",
-  url: "https://chef-ilhama.food",
+  // Vercel currently serves the www host as the primary domain. Keeping every
+  // canonical URL on that host prevents the apex/www redirect loop that would
+  // otherwise make pages unavailable to users and crawlers.
+  url: "https://www.chef-ilhama.food",
   email: "info@chef-ilhama.food",
   phoneDisplay: "+994 77 614 11 74",
   phoneHref: "tel:+994776141174",

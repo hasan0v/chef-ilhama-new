@@ -12,10 +12,10 @@ export const metadata: Metadata = withLocaleAlternates('az', 'home', {
   description:
     'Azərbaycan mətbəxinin bölgəvi dadlarını reseptlərlə kəşf edin. Chef İlhamənin seçilmiş resept kolleksiyası, Bakıda şəxsi aşpaz və katerinq xidmətləri. 15+ il professional təcrübə.',
   alternates: {
-    canonical: 'https://chef-ilhama.food',
+    canonical: 'https://www.chef-ilhama.food',
     languages: {
-      'az': 'https://chef-ilhama.food',
-      'en': 'https://chef-ilhama.food/en',
+      'az': 'https://www.chef-ilhama.food',
+      'en': 'https://www.chef-ilhama.food/en',
     },
   },
 });

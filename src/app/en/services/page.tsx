@@ -27,11 +27,11 @@ export const metadata: Metadata = withLocaleAlternates('en', 'services', {
     type: 'website',
     locale: 'en_US',
     alternateLocale: 'az_AZ',
-    url: 'https://chef-ilhama.food/en/services',
+    url: 'https://www.chef-ilhama.food/en/services',
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə — Chef Services Baku',
@@ -42,13 +42,13 @@ export const metadata: Metadata = withLocaleAlternates('en', 'services', {
     card: 'summary_large_image',
     title: 'Chef Services Baku — Private Chef | Chef İlhamə',
     description: 'The best private chef service in Baku. Wedding feasts, catering, banquet chef.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/en/services',
+    canonical: 'https://www.chef-ilhama.food/en/services',
     languages: {
-      az: 'https://chef-ilhama.food/xidmetler',
-      en: 'https://chef-ilhama.food/en/services',
+      az: 'https://www.chef-ilhama.food/xidmetler',
+      en: 'https://www.chef-ilhama.food/en/services',
     },
   },
 });

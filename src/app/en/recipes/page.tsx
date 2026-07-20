@@ -20,11 +20,11 @@ export const metadata: Metadata = withLocaleAlternates('en', 'recipes', {
     type: 'website',
     locale: 'en_US',
     alternateLocale: 'az_AZ',
-    url: 'https://chef-ilhama.food/en/recipes',
+    url: 'https://www.chef-ilhama.food/en/recipes',
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/ilhama.png',
         width: 1200,
         height: 630,
         alt: 'Global and Azerbaijani recipe collection',
@@ -35,13 +35,13 @@ export const metadata: Metadata = withLocaleAlternates('en', 'recipes', {
     card: 'summary_large_image',
     title: 'Global & Azerbaijani Recipes — Chef İlhamə',
     description: 'Rare regional recipes with clear steps and sources.',
-    images: ['https://chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/ilhama.png'],
   },
   alternates: {
-    canonical: 'https://chef-ilhama.food/en/recipes',
+    canonical: 'https://www.chef-ilhama.food/en/recipes',
     languages: {
-      az: 'https://chef-ilhama.food/reseptler',
-      en: 'https://chef-ilhama.food/en/recipes',
+      az: 'https://www.chef-ilhama.food/reseptler',
+      en: 'https://www.chef-ilhama.food/en/recipes',
     },
   },
 });
