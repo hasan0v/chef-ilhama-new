@@ -1,5 +1,9 @@
 export const chefSearchAliasGroups = [
   {
+    label: 'Bakı üçün aşpaz',
+    aliases: ['Bakı aşpaz', 'Bakı aşbaz', 'Baki aspaz', 'Baki asbaz', 'aşpaz Bakı'],
+  },
+  {
     label: 'Aşpaz xidməti',
     aliases: ['aşpaz', 'aşbaz', 'aspaz', 'asbaz', 'ashpaz', 'ashbaz', 'awpaz', 'awbaz'],
   },

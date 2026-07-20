@@ -53,8 +53,8 @@ const services = [
 
 const faqs = [
   {
-    q: '“Aşpaz”, “aspaz” və ya “asbaz” axtarıram — bu xidmət mənim üçündür?',
-    a: 'Bəli. Bu sözlər eyni ehtiyacı ifadə edir: ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.',
+    q: '“Bakı aşpaz”, “baki aspaz” və ya “aşpaz Bakı” axtarıram — bu xidmət mənim üçündür?',
+    a: 'Bəli — əgər iş elanı deyil, ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi axtarırsınızsa. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.',
   },
   {
     q: 'Toy yeməkləri və ya “toy yemekleri” üçün aşpaz sifariş etmək olar?',
@@ -127,11 +127,11 @@ export default function ChefBookingLanding() {
               <MapPinned className="h-3.5 w-3.5" /> Bakı · Sumqayıt · Abşeron
             </div>
             <h1 className="display-title max-w-xl text-5xl leading-[0.91] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
-              Aşpaz axtarırsınız?<br />
+              Bakıda aşpaz axtarırsınız?<br />
               <span className="text-[#f2c974]">Süfrəniz üçün</span> doğru başlanğıc.
             </h1>
             <p className="mt-7 max-w-xl text-base leading-8 text-white/76 sm:text-lg">
-              Chef İlhamə ilə şəxsi aşpaz, ailə süfrəsi, toy və katerinq xidmətini birbaşa planlayın. Menyu, porsiya və servis tədbirinizə uyğun qurulur.
+              Bakı aşpaz axtarışında ev qonaqlığı, toy və ya tədbir üçün Chef İlhamə ilə birbaşa planlayın. Menyu, porsiya və servis sizin tədbirinizə uyğun qurulur.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-12 rounded-full bg-[#f4d18a] px-6 text-[#18372c] shadow-[0_14px_34px_rgba(0,0,0,0.18)] hover:bg-[#ffe2a4]">
@@ -171,6 +171,19 @@ export default function ChefBookingLanding() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#fffdf9] px-4 py-11 sm:px-6 sm:py-14 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-7 rounded-[2rem] border border-[#e8ddcf] bg-[#fbf7ef] p-6 shadow-[0_20px_55px_rgba(91,57,35,0.06)] sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-xs font-bold tracking-[0.16em] text-[#a15a2d] uppercase">Bakı üçün şəxsi xidmət</p>
+            <h2 className="display-title mt-3 max-w-xl text-4xl leading-[0.96] tracking-[-0.045em] text-[#35251e] sm:text-5xl">Bakı aşpaz axtarışında, süfrənizə uyğun birbaşa planlama.</h2>
+          </div>
+          <div className="max-w-2xl text-sm leading-7 text-[#6b5c51] sm:text-base sm:leading-8">
+            <p>“Bakı aşpaz”, “baki aspaz” və ya “aşpaz Bakı” yazıb iş elanı deyil, tədbiriniz üçün aşpaz sifarişi axtarırsınızsa, Chef İlhamə ilə birbaşa əlaqə saxlayın.</p>
+            <p className="mt-4">Ev qonaqlığı, ailə bayramı, toy və korporativ süfrə üçün menyu, qonaq sayı, hazırlıq və servis axını birlikdə dəqiqləşdirilir.</p>
           </div>
         </div>
       </section>

@@ -7,9 +7,14 @@ const pageUrl = 'https://www.chef-ilhama.food/aspaz-xidmeti-baki';
 const heroImage = 'https://www.chef-ilhama.food/images/chef-ilhama-social.jpg';
 
 export const metadata: Metadata = {
-  title: 'Aşpaz Axtarırsınız? Şəxsi Aşpaz və Katerinq Bakı',
-  description: 'Bakıda şəxsi aşpaz, ev qonaqlığı, toy və katerinq xidməti axtarırsınız? Chef İlhamə ilə menyu, porsiya və tədbir süfrəsini birbaşa planlayın.',
+  title: 'Bakı Aşpaz — Şəxsi Aşpaz və Katerinq | Chef İlhamə',
+  description: 'Bakı aşpaz axtarışında ev qonaqlığı, toy və tədbir üçün Chef İlhamə ilə birbaşa planlayın. Şəxsi aşpaz, menyu, porsiya və servis bir yerdə.',
   keywords: [
+    'Bakı aşpaz',
+    'Bakı aşbaz',
+    'Baki aspaz',
+    'Baki asbaz',
+    'aşpaz Bakı',
     'aşpaz axtarıram',
     'aşpaz axtarırsınız',
     'aşpaz xidməti Bakı',
@@ -25,20 +30,20 @@ export const metadata: Metadata = {
     locale: 'az_AZ',
     url: pageUrl,
     siteName: 'Chef İlhamə',
-    title: 'Aşpaz Axtarırsınız? Şəxsi Aşpaz və Katerinq Bakı',
-    description: 'Evdə qonaqlıqdan böyük tədbirə qədər aşpaz xidməti. Chef İlhamə ilə birbaşa planlayın.',
+    title: 'Bakı Aşpaz — Şəxsi Aşpaz və Katerinq | Chef İlhamə',
+    description: 'Bakı aşpaz axtarışında ev qonaqlığı, toy və tədbir üçün birbaşa planlama.',
     images: [{ url: heroImage, width: 1200, height: 630, alt: 'Chef İlhamə — Bakı şəxsi aşpaz və katerinq xidməti' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Aşpaz Axtarırsınız? | Chef İlhamə',
+    title: 'Bakı Aşpaz | Chef İlhamə',
     description: 'Bakı, Sumqayıt və Abşeronda şəxsi aşpaz və katerinq xidməti.',
     images: [heroImage],
   },
 };
 
 const faqs = [
-  { question: '“Aşpaz”, “aspaz” və ya “asbaz” axtarıram — bu xidmət mənim üçündür?', answer: 'Bəli. Bu sözlər eyni ehtiyacı ifadə edir: ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.' },
+  { question: '“Bakı aşpaz”, “baki aspaz” və ya “aşpaz Bakı” axtarıram — bu xidmət mənim üçündür?', answer: 'Bəli — əgər iş elanı deyil, ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi axtarırsınızsa. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.' },
   { question: 'Toy yeməkləri və ya “toy yemekleri” üçün aşpaz sifariş etmək olar?', answer: 'Bəli. Toy, nişan və ailə mərasimi üçün menyu, porsiya, hazırlıq və servis axını qonaq sayınıza uyğun qurulur.' },
   { question: '“Evə aşpaz”, “eve aspaz” və “şəxsi aşpaz” eyni xidmətdir?', answer: 'Bəli. Ev qonaqlığı və private dinner üçün yerində hazırlıq, menyu və servis planı şəxsi aşpaz formatında təqdim olunur.' },
   { question: 'Katerinq, keyterinq və katering xidməti üçün müraciət edə bilərəm?', answer: 'Bəli. Fərqli yazılışlardan asılı olmayaraq, qonaq sayı, məkan, tarix və tədbir formatı ilə yazın; uyğun katerinq planı hazırlanacaq.' },
@@ -51,8 +56,8 @@ const faqs = [
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  name: 'Bakı Şəxsi Aşpaz və Katerinq Xidməti',
-  description: 'Chef İlhamə ilə Bakıda ev qonaqlığı, private dinner, toy, ailə şənliyi və korporativ tədbir üçün şəxsi aşpaz və katerinq xidməti.',
+  name: 'Bakı Aşpaz — Şəxsi Aşpaz və Katerinq Xidməti',
+  description: 'Bakı aşpaz axtarışında ev qonaqlığı, private dinner, toy, ailə şənliyi və korporativ tədbir üçün Chef İlhamənin şəxsi aşpaz və katerinq xidməti.',
   url: pageUrl,
   image: heroImage,
   alternateName: chefSearchAliases,
@@ -65,7 +70,7 @@ const serviceSchema = {
   availableChannel: [
     { '@type': 'ServiceChannel', servicePhone: '+994 77 614 11 74', availableLanguage: ['az', 'en', 'ru', 'tr'] },
   ],
-  serviceType: ['Şəxsi aşpaz', 'Katerinq', 'Toy və tədbir süfrəsi'],
+  serviceType: ['Bakı aşpaz xidməti', 'Şəxsi aşpaz', 'Katerinq', 'Toy və tədbir süfrəsi'],
 };
 
 export default function ChefServiceSearchPage() {
