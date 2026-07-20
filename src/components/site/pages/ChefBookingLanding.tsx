@@ -18,6 +18,7 @@ import {
 import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
+import { chefSearchAliasGroups } from '@/lib/chefSearchAliases';
 
 const occasions = [
   'Evdə qonaqlıq',
@@ -248,12 +249,7 @@ export default function ChefBookingLanding() {
               <p className="mt-4 max-w-md text-sm leading-7 text-[#6b5c51]">Bu ifadələr eyni sifariş niyyətinin fərqli yazılışlarıdır. Vacib olan tədbiriniz və qonaq sayınızdır.</p>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              {[
-                ['Aşpaz xidməti', 'aşpaz · aspaz · asbaz · aşbaz'],
-                ['Toy süfrəsi', 'toy yeməkləri · toy yemekleri · toy yemeyleri'],
-                ['Evdə aşpaz', 'evə aşpaz · eve aspaz · ev asbazi'],
-                ['Katerinq', 'katerinq · keyterinq · katering'],
-              ].map(([label, aliases]) => <div key={label} className="rounded-2xl border border-[#ebe1d5] bg-[#fbf7ef] px-5 py-4"><p className="text-sm font-semibold text-[#35251e]">{label}</p><p className="mt-1 text-xs leading-5 text-[#816f63]">{aliases}</p></div>)}
+              {chefSearchAliasGroups.map((group) => <div key={group.label} className="rounded-2xl border border-[#ebe1d5] bg-[#fbf7ef] px-5 py-4"><p className="text-sm font-semibold text-[#35251e]">{group.label}</p><p className="mt-2 text-xs leading-5 text-[#816f63]">{group.aliases.join(' · ')}</p></div>)}
             </div>
           </div>
         </div>

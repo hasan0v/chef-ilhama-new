@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ChefBookingLanding from '@/components/site/pages/ChefBookingLanding';
+import { chefSearchAliases } from '@/lib/chefSearchAliases';
 import { getBreadcrumbSchema, getFAQSchema } from '@/lib/seo';
 
 const pageUrl = 'https://www.chef-ilhama.food/aspaz-xidmeti-baki';
@@ -54,16 +55,7 @@ const serviceSchema = {
   description: 'Chef İlhamə ilə Bakıda ev qonaqlığı, private dinner, toy, ailə şənliyi və korporativ tədbir üçün şəxsi aşpaz və katerinq xidməti.',
   url: pageUrl,
   image: heroImage,
-  alternateName: [
-    'Aşpaz xidməti Bakı',
-    'Aspaz xidməti Bakı',
-    'Asbaz xidməti Bakı',
-    'Toy yeməkləri',
-    'Toy yemekleri',
-    'Evə aşpaz',
-    'Eve aspaz',
-    'Keyterinq',
-  ],
+  alternateName: chefSearchAliases,
   provider: { '@id': 'https://www.chef-ilhama.food/#business' },
   areaServed: [
     { '@type': 'City', name: 'Bakı' },
