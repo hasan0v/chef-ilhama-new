@@ -220,6 +220,14 @@ export default function ServicesExperience({ breadcrumbs }: { breadcrumbs?: impo
                     </div>
                   </div>
                 </div>
+                {locale === 'az' ? (
+                  <Link
+                    href="/aspaz-xidmeti-baki"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[rgba(141,58,36,0.96)] transition hover:text-[rgba(104,49,30,0.96)]"
+                  >
+                    Aşpaz axtarırsınız? Sürətli brifə keçin <span aria-hidden="true">→</span>
+                  </Link>
+                ) : null}
               </div>
             </EditorialPanel>
           }

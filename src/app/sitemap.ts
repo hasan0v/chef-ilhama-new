@@ -103,5 +103,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   }));
 
-  return [...staticPages, ...editorialGuides, ...collectionIndexes, ...collectionPages, ...recipePages];
+  // A focused local-service landing page for people who are ready to book a
+  // chef. It intentionally has one Azerbaijani canonical instead of thin
+  // locale clones, because its audience and booking flow are local.
+  const localChefServiceLanding: MetadataRoute.Sitemap = [{
+    url: `${siteConfig.url}/aspaz-xidmeti-baki`,
+    changeFrequency: 'monthly',
+    priority: 0.88,
+    images: [`${siteConfig.url}/ilhama.png`],
+  }];
+
+  return [
+    ...staticPages,
+    ...localChefServiceLanding,
+    ...editorialGuides,
+    ...collectionIndexes,
+    ...collectionPages,
+    ...recipePages,
+  ];
 }
