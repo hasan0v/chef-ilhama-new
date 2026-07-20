@@ -12,6 +12,7 @@ import { siteConfig } from '@/lib/site';
 import { getCollectionPath, getCollectionsPath, recipeCollections } from '@/lib/recipeCollections';
 import { getGuidePath } from '@/lib/underrepresentedDishesGuide';
 import { getRecipeImageVariantUrl } from '@/lib/recipeImageVariants';
+import { RECIPE_SLUG_FALLBACK } from '@/lib/recipeSlugFallback';
 
 // Keep the sitemap current as recipes are added and avoid opening another DB
 // session during Next's highly parallel static-generation phase.
@@ -33,6 +34,9 @@ const staticPageSettings: Array<{
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const recipes = await getRecipes('az');
+  const recipeIndex = recipes.length > 0
+    ? recipes.map((recipe) => ({ slug: recipe.slug, updatedAt: recipe.updatedAt }))
+    : RECIPE_SLUG_FALLBACK.map((slug) => ({ slug, updatedAt: undefined }));
 
   const staticPages: MetadataRoute.Sitemap = SITE_LOCALES.flatMap((locale) =>
     staticPageSettings.map(({ kind, changeFrequency, priority }) => ({
@@ -44,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
 
   const indexableRecipeLocales: SiteLocale[] = ['az', 'en'];
-  const recipePages: MetadataRoute.Sitemap = recipes.flatMap((recipe) =>
+  const recipePages: MetadataRoute.Sitemap = recipeIndex.flatMap((recipe) =>
     indexableRecipeLocales.map((locale) => ({
       url: `${siteConfig.url}${getLocalizedRecipePath(locale, recipe.slug)}`,
       lastModified: recipe.updatedAt ? new Date(recipe.updatedAt) : undefined,

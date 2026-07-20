@@ -69,7 +69,8 @@ export function getAllLanguageAlternates(kind: SeoPageKind): Record<string, stri
   const languages = Object.fromEntries(
     SITE_LOCALES.map((locale) => [locale, `${siteConfig.url}${getSeoPath(locale, kind)}`]),
   );
-  return { ...languages, 'x-default': siteConfig.url };
+  const defaultPath = kind === 'home' ? getSeoPath('az', kind) : getSeoPath('en', kind);
+  return { ...languages, 'x-default': `${siteConfig.url}${defaultPath}` };
 }
 
 export function withLocaleAlternates(
@@ -79,24 +80,63 @@ export function withLocaleAlternates(
 ): Metadata {
   const normalizedLocale = normalizeSiteLocale(locale);
   const canonical = `${siteConfig.url}${getSeoPath(normalizedLocale, kind)}`;
+  const title = typeof metadata.title === 'string'
+    ? { absolute: metadata.title }
+    : metadata.title;
+  const description = metadata.description ?? siteConfig.description;
+  const socialTitle = typeof metadata.openGraph?.title === 'string'
+    ? metadata.openGraph.title
+    : typeof metadata.title === 'string'
+      ? metadata.title
+      : siteConfig.name;
+  const socialDescription = metadata.openGraph?.description ?? description;
+  const socialImage = {
+    url: `${siteConfig.url}/ilhama.png`,
+    width: 1200,
+    height: 630,
+    alt: `${siteConfig.name} — Azerbaijani cuisine`,
+  };
 
   return {
     ...metadata,
+    title,
+    description,
+    robots: metadata.robots ?? {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     alternates: {
       ...metadata.alternates,
       canonical,
       languages: getAllLanguageAlternates(kind),
     },
-    openGraph: metadata.openGraph
-      ? {
-          ...metadata.openGraph,
-          locale: SEO_LOCALE_CONFIG[normalizedLocale].ogLocale,
-          alternateLocale: SITE_LOCALES
-            .filter((item) => item !== normalizedLocale)
-            .map((item) => SEO_LOCALE_CONFIG[item].ogLocale),
-          url: canonical,
-        }
-      : undefined,
+    openGraph: {
+      ...metadata.openGraph,
+      title: socialTitle,
+      description: socialDescription,
+      type: 'website',
+      siteName: metadata.openGraph?.siteName ?? siteConfig.name,
+      images: metadata.openGraph?.images ?? [socialImage],
+      locale: SEO_LOCALE_CONFIG[normalizedLocale].ogLocale,
+      alternateLocale: SITE_LOCALES
+        .filter((item) => item !== normalizedLocale)
+        .map((item) => SEO_LOCALE_CONFIG[item].ogLocale),
+      url: canonical,
+    } as Metadata['openGraph'],
+    twitter: {
+      ...metadata.twitter,
+      card: 'summary_large_image',
+      title: metadata.twitter?.title ?? socialTitle,
+      description: metadata.twitter?.description ?? description,
+      images: metadata.twitter?.images ?? [socialImage.url],
+    } as Metadata['twitter'],
   };
 }
 

@@ -205,6 +205,17 @@ Search Console query cədvəli anonim və aşağı həcmli sorğuları tam göst
 - Düşbərə Recipe JSON-LD: 6/6 addımda `url` və 4:3 `image`, 11 təmiz ingredient, 3 əsas image ratio
 - Canlı Search Console: Recipes 45 valid / 0 invalid; Breadcrumbs 54 valid / 0 invalid
 
+## Bütün dillər üzrə yekun SEO hardening
+
+- 16 dilin 112 əsas route-u və AZ/EN editorial route-ları eyni canonical/hreflang generatoruna bağlandı.
+- `x-default` artıq recipes, services, about, contact, privacy və terms səhifələrində səhvən ana səhifəyə deyil, həmin səhifənin ingilis ekvivalentinə işarə edir.
+- Locale səhifələrinin Open Graph və Twitter metadata-sında şəkil boşluğu qalmır; xüsusi şəkil verilmədikdə 1200×630 brand preview avtomatik əlavə olunur.
+- Statik locale title-ları root template ilə ikinci dəfə brand suffix almır; SERP title duplication aradan qaldırılıb.
+- Sitemap DB-nin qısa fasiləsində reseptləri itirmir: canlı DB əsas mənbədir, boş cavabda 85 mövcud recipe slug üçün etibarlı fallback işləyir.
+- `scripts/audit-seo.mjs` və `npm run seo:audit` əlavə edildi. Audit sitemap URL-lərində status, title, description, indexability, canonical, hreflang/x-default, Open Graph, JSON-LD və Recipe HowToStep sahələrini yoxlayır.
+- Lokal production build-də 130 indexable statik sitemap səhifəsi yoxlanıldı: **0 error, 0 warning**.
+- Məhdud lokal şəbəkədə Supabase və Google Fonts çıxışı olmadığı üçün build testində font response-u lokal mock edildi; source kod dəyişdirilmədən webpack production build 145/145 səhifə ilə keçdi. Vercel build-i real şəbəkə və production DB ilə ayrıca yoxlanmalıdır.
+
 ## İstinad prinsipləri
 
 İmplementasiya Google-un Recipe structured data, snippet, image SEO, crawlable links və people-first content sənədlərinə uyğun qurulub:
