@@ -77,7 +77,9 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000, // 1 year
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    dangerouslyAllowSVG: true,
+    // The site does not need externally optimized SVG files. Keeping this off
+    // prevents an uploaded or remote SVG from becoming an executable surface.
+    dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
@@ -172,7 +174,9 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=300, s-maxage=300'
+            // API routes include authentication and mutable analytics. Public
+            // caching here can leak a response between visitors.
+            value: 'private, no-store, max-age=0, must-revalidate'
           }
         ]
       },

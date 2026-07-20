@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ArrowUpRight,
   CalendarDays,
@@ -19,6 +19,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/button';
 import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { chefSearchAliasGroups } from '@/lib/chefSearchAliases';
+import { trackEvent } from '@/lib/analytics';
 
 const occasions = [
   'Evdə qonaqlıq',
@@ -89,6 +90,17 @@ export default function ChefBookingLanding() {
   const [occasion, setOccasion] = useState(occasions[0]);
   const [guests, setGuests] = useState(guestOptions[0]);
   const [dateHint, setDateHint] = useState('');
+  const [hasStartedBrief, setHasStartedBrief] = useState(false);
+
+  useEffect(() => {
+    trackEvent('booking_landing_view', { landing: 'aspaz-xidmeti-baki' });
+  }, []);
+
+  const markBriefStarted = () => {
+    if (hasStartedBrief) return;
+    setHasStartedBrief(true);
+    trackEvent('booking_brief_started', { landing: 'aspaz-xidmeti-baki' });
+  };
 
   const whatsappHref = useMemo(() => {
     const dateLine = dateHint ? `\nTarix: ${dateHint}` : '';
@@ -123,12 +135,12 @@ export default function ChefBookingLanding() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-12 rounded-full bg-[#f4d18a] px-6 text-[#18372c] shadow-[0_14px_34px_rgba(0,0,0,0.18)] hover:bg-[#ffe2a4]">
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('booking_whatsapp_opened', { location: 'hero', occasion, guests, has_date: Boolean(dateHint) })}>
                   WhatsApp ilə planla <ArrowUpRight className="h-4 w-4" />
                 </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-white/25 bg-white/5 px-6 text-white hover:bg-white/10 hover:text-white">
-                <a href={siteConfig.phoneHref}><Phone className="h-4 w-4" /> Birbaşa zəng</a>
+                <a href={siteConfig.phoneHref} onClick={() => trackEvent('booking_phone_clicked', { location: 'hero' })}><Phone className="h-4 w-4" /> Birbaşa zəng</a>
               </Button>
             </div>
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 border-t border-white/12 pt-6">
@@ -142,7 +154,7 @@ export default function ChefBookingLanding() {
             <div className="absolute -inset-3 rounded-[2.5rem] border border-white/14 bg-white/5" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[2rem] bg-[#dac29f] shadow-[0_30px_70px_rgba(0,0,0,0.32)]">
               <Image
-                src="/ilhama.png"
+                src="/images/chef-ilhama-portrait.webp"
                 alt="Chef İlhamə — Bakı şəxsi aşpaz və katerinq xidməti"
                 width={1024}
                 height={1024}
@@ -177,20 +189,20 @@ export default function ChefBookingLanding() {
               <fieldset>
                 <legend className="text-sm font-semibold text-[#35251e]"><span className="mr-2 text-[#b26736]">01</span>Tədbir nə üçündür?</legend>
                 <div className="mt-4 flex flex-wrap gap-2.5">
-                  {occasions.map((item) => <button key={item} type="button" onClick={() => setOccasion(item)} className={`rounded-full border px-4 py-2.5 text-sm font-medium transition ${occasion === item ? 'border-[#a24e2d] bg-[#a24e2d] text-white shadow-sm' : 'border-[#e5d8c5] bg-[#fffaf3] text-[#65554b] hover:border-[#bd7b56]'}`}>{occasion === item && <Check className="mr-1.5 inline h-3.5 w-3.5" />}{item}</button>)}
+                  {occasions.map((item) => <button key={item} type="button" aria-pressed={occasion === item} onClick={() => { markBriefStarted(); setOccasion(item); trackEvent('booking_occasion_selected', { occasion: item }); }} className={`rounded-full border px-4 py-2.5 text-sm font-medium transition ${occasion === item ? 'border-[#a24e2d] bg-[#a24e2d] text-white shadow-sm' : 'border-[#e5d8c5] bg-[#fffaf3] text-[#65554b] hover:border-[#bd7b56]'}`}>{occasion === item && <Check className="mr-1.5 inline h-3.5 w-3.5" />}{item}</button>)}
                 </div>
               </fieldset>
               <fieldset>
                 <legend className="text-sm font-semibold text-[#35251e]"><span className="mr-2 text-[#b26736]">02</span>Təxminən neçə qonaq?</legend>
                 <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                  {guestOptions.map((item) => <button key={item} type="button" onClick={() => setGuests(item)} className={`rounded-2xl border px-3 py-3 text-sm font-medium transition ${guests === item ? 'border-[#355441] bg-[#355441] text-white shadow-sm' : 'border-[#e5d8c5] bg-[#fffaf3] text-[#65554b] hover:border-[#73927d]'}`}>{item}</button>)}
+                  {guestOptions.map((item) => <button key={item} type="button" aria-pressed={guests === item} onClick={() => { markBriefStarted(); setGuests(item); trackEvent('booking_guest_count_selected', { guest_range: item }); }} className={`rounded-2xl border px-3 py-3 text-sm font-medium transition ${guests === item ? 'border-[#355441] bg-[#355441] text-white shadow-sm' : 'border-[#e5d8c5] bg-[#fffaf3] text-[#65554b] hover:border-[#73927d]'}`}>{item}</button>)}
                 </div>
               </fieldset>
               <label className="block">
                 <span className="text-sm font-semibold text-[#35251e]"><span className="mr-2 text-[#b26736]">03</span>Tarix (istəyə bağlı)</span>
-                <input value={dateHint} onChange={(event) => setDateHint(event.target.value)} placeholder="Məsələn: 18 avqust" className="mt-4 h-12 w-full rounded-2xl border border-[#e5d8c5] bg-[#fffaf3] px-4 text-sm text-[#35251e] outline-none transition placeholder:text-[#a9988d] focus:border-[#a24e2d] focus:ring-4 focus:ring-[#a24e2d]/10" />
+                <input type="date" min={new Date().toISOString().slice(0, 10)} value={dateHint} onFocus={markBriefStarted} onChange={(event) => { setDateHint(event.target.value); trackEvent('booking_date_selected', { has_date: Boolean(event.target.value) }); }} className="mt-4 h-12 w-full rounded-2xl border border-[#e5d8c5] bg-[#fffaf3] px-4 text-sm text-[#35251e] outline-none transition placeholder:text-[#a9988d] focus:border-[#a24e2d] focus:ring-4 focus:ring-[#a24e2d]/10" />
               </label>
-              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[#18372c] px-5 text-center text-sm font-semibold text-white transition hover:bg-[#234a3b]">
+              <a href={whatsappHref} target="_blank" rel="noopener noreferrer" onClick={() => trackEvent('booking_whatsapp_opened', { location: 'brief', occasion, guests, has_date: Boolean(dateHint) })} className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-[#18372c] px-5 text-center text-sm font-semibold text-white transition hover:bg-[#234a3b]">
                 <MessageCircle className="h-5 w-5 text-[#f4d18a]" /> Məlumatla WhatsApp-a keç <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>

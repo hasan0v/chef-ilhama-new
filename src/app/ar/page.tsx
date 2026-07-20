@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('ar', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/ar`,
     siteName: 'الشيف إلهامة',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'الشيف إلهامة — المطبخ الأذربيجاني' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'الشيف إلهامة — المطبخ الأذربيجاني' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'الشيف إلهامة — وصفات المطبخ الأذربيجاني',
     description: 'وصفات المطبخ الأذربيجاني من 25+ منطقة. خدمات ضيافة وشيف خاص.',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/ar`,

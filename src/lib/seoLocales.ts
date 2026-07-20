@@ -91,7 +91,7 @@ export function withLocaleAlternates(
       : siteConfig.name;
   const socialDescription = metadata.openGraph?.description ?? description;
   const socialImage = {
-    url: `${siteConfig.url}/ilhama.png`,
+    url: `${siteConfig.url}/images/chef-ilhama-social.jpg`,
     width: 1200,
     height: 630,
     alt: `${siteConfig.name} — Azerbaijani cuisine`,

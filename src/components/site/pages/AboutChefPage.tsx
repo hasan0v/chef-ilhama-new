@@ -91,7 +91,7 @@ export default function AboutChefPage({ breadcrumbs }: { breadcrumbs?: import('@
             <EditorialPanel className="overflow-hidden p-3 sm:p-4">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[1.6rem]">
                 <Image
-                  src="/ilhama.png"
+                  src="/images/chef-ilhama-portrait.webp"
                   alt="Chef İlhamə"
                   fill
                   sizes="(max-width: 1024px) 100vw, 32vw"

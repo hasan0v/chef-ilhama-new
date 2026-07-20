@@ -12,7 +12,7 @@ const STATIC_CACHE_URLS = [
   '/elaqe',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/ilhama.png',
+  '/images/chef-ilhama-social.jpg',
   '/placeholder-food.svg'
 ];
 

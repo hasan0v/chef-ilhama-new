@@ -96,7 +96,7 @@ export default function VisitCard() {
             <div className="absolute -inset-1.5 animate-[spin_12s_linear_infinite] rounded-full bg-gradient-to-tr from-[#8d3a24] via-[#c99645] to-[#355441] opacity-60 blur-sm" />
             <div className="relative h-28 w-28 overflow-hidden rounded-full border-[3px] border-[#f7efe2] shadow-xl">
               <Image
-                src="/ilhama.png"
+                src="/images/chef-ilhama-portrait.webp"
                 alt="Chef İlhamə"
                 fill
                 className="object-cover"

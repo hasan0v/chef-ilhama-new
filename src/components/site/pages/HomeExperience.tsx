@@ -31,12 +31,14 @@ import {
   getLocalizedAboutPath,
   getLocalizedRecipePath,
   getLocalizedRecipesPath,
+  getLocalizedServicesPath,
 } from '@/lib/localeRoutes';
 import { getCollectionsPath } from '@/lib/recipeCollections';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats } from '@/utils/categoryUtils';
 import { useTranslation } from '@/hooks/useTranslation';
+import { trackEvent } from '@/lib/analytics';
 
 interface HomeExperienceProps {
   featuredRecipes: Recipe[];
@@ -70,6 +72,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
   const [searchTerm, setSearchTerm] = useState('');
   const [scrollY, setScrollY] = useState(0);
   const [isHeroVideoPlaying, setIsHeroVideoPlaying] = useState(false);
+  const [shouldLoadHeroVideo, setShouldLoadHeroVideo] = useState(false);
   const isMobile = useSyncExternalStore(subscribeToMobileViewport, getMobileViewportSnapshot, () => false);
   const { t, locale } = useTranslation();
   
@@ -79,14 +82,38 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
   const highlightedRecipes = featuredRecipes.slice(0, 6);
 
   useEffect(() => {
+    let frameId: number | null = null;
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      if (frameId !== null) return;
+      frameId = window.requestAnimationFrame(() => {
+        // Only the first 420px affects the hero. Quantizing avoids rerendering
+        // the full homepage on every single mobile scroll event.
+        const next = Math.round(Math.min(window.scrollY, 420) / 12) * 12;
+        setScrollY((current) => current === next ? current : next);
+        frameId = null;
+      });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
     };
+  }, []);
+
+  useEffect(() => {
+    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion || connection.connection?.saveData) return;
+
+    const loadVideo = () => setShouldLoadHeroVideo(true);
+    if (typeof window.requestIdleCallback === 'function') {
+      const idleId = window.requestIdleCallback(loadVideo, { timeout: 1800 });
+      return () => window.cancelIdleCallback?.(idleId);
+    }
+
+    const timeoutId = window.setTimeout(loadVideo, 700);
+    return () => window.clearTimeout(timeoutId);
   }, []);
 
   const categoryStats = useMemo(() => getCategoryStats(allRecipes), [allRecipes]);
@@ -155,14 +182,14 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
             />
 
             {/* Background Video */}
-            <video
+            {shouldLoadHeroVideo ? <video
               key={isMobile ? 'mobile-hero-video' : 'desktop-hero-video'}
               src={isMobile ? '/video/bg-video-mobile.mp4' : '/video/bg-video.mp4'}
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               poster="/video/bg-video-poster.webp"
               aria-hidden="true"
               disablePictureInPicture
@@ -172,7 +199,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
               className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 select-none pointer-events-none ${
                 isHeroVideoPlaying ? 'opacity-85' : 'opacity-0'
               }`}
-            />
+            /> : null}
 
             {/* Dark cinematic gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65" />
@@ -256,6 +283,29 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
                 <ChevronDown className="h-3.5 w-3.5" />
               </div>
             )}
+          </div>
+        </section>
+
+        <section className="px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <EditorialPanel className="overflow-hidden border-[rgba(141,58,36,0.14)] bg-[linear-gradient(112deg,rgba(255,251,246,0.98),rgba(246,231,207,0.84))] p-5 sm:p-7">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-start gap-4 text-left">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[rgba(141,58,36,0.12)] text-[rgba(141,58,36,0.96)]"><ChefHat className="h-6 w-6" /></div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[rgba(141,58,36,0.82)]">Chef İlhamə</p>
+                    <h2 className="mt-1 text-xl font-semibold tracking-[-0.03em] text-foreground sm:text-2xl">{t.nav.services}</h2>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-[rgba(57,44,35,0.72)]">{locale === 'az' ? 'Tədbir tarixini və qonaq sayını seçin — menyu, hazırlıq və servis planı birbaşa Chef İlhamə ilə qurulsun.' : 'Share your event date and guest count, then plan the menu and service directly with Chef İlhamə.'}</p>
+                  </div>
+                </div>
+                <Button asChild className="shrink-0 rounded-full bg-[rgba(141,58,36,0.96)] px-5 text-white hover:bg-[rgba(141,58,36,0.9)]">
+                  <Link href={locale === 'az' ? '/aspaz-xidmeti-baki' : getLocalizedServicesPath(locale)} onClick={() => trackEvent('home_service_cta_opened', { locale })}>
+                    {locale === 'az' ? 'Sifarişi planla' : t.nav.services}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            </EditorialPanel>
           </div>
         </section>
 

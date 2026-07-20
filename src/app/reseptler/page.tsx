@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('az', 'recipes', {
     alternateLocale: 'en_US',
     url: 'https://www.chef-ilhama.food/reseptler',
     siteName: 'Chef İlhamə',
-    images: [{ url: 'https://www.chef-ilhama.food/ilhama.png', width: 1200, height: 630, alt: 'Azərbaycan və dünya reseptləri kolleksiyası' }],
+    images: [{ url: 'https://www.chef-ilhama.food/images/chef-ilhama-social.jpg', width: 1200, height: 630, alt: 'Azərbaycan və dünya reseptləri kolleksiyası' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Azərbaycan və Dünya Reseptləri — Chef İlhamə',
     description: 'Az tanınan bölgəvi yeməklər və Azərbaycan klassikləri.',
-    images: ['https://www.chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/images/chef-ilhama-social.jpg'],
   },
   alternates: {
     canonical: 'https://www.chef-ilhama.food/reseptler',

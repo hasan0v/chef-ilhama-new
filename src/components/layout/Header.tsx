@@ -157,6 +157,17 @@ export default function Header() {
     return () => window.removeEventListener('click', handleClose);
   }, [isMobileLangOpen]);
 
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setIsLangOpen(false);
+      setIsMobileLangOpen(false);
+      setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
+
   const navigation = locale === 'en' ? [
     { name: t.nav.home, href: '/en' },
     { name: t.nav.recipes, href: '/en/recipes' },
@@ -352,6 +363,7 @@ export default function Header() {
                 aria-label="Choose language"
                 aria-haspopup="menu"
                 aria-expanded={isLangOpen}
+                aria-controls="desktop-language-menu"
                 className={`h-10 rounded-full px-4 text-sm font-semibold uppercase tracking-wider flex items-center gap-2 transition-all duration-300 ${
                   isHome && !showNavbar
                     ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
@@ -369,6 +381,8 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
+                    id="desktop-language-menu"
+                    role="menu"
                     className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-[rgba(98,67,45,0.1)] bg-white/95 p-1.5 shadow-[0_12px_40px_rgba(52,34,22,0.16)] backdrop-blur-md z-50 max-h-80 overflow-y-auto"
                   >
                     {languages.map((lang) => {
@@ -377,6 +391,7 @@ export default function Header() {
                         <Link
                           key={lang.code}
                           href={getLocalizedPath(pathname || '/', lang.code)}
+                          role="menuitem"
                           onClick={() => {
                             persistLocalePreference(lang.code);
                           }}
@@ -410,6 +425,7 @@ export default function Header() {
                 aria-label="Choose language"
                 aria-haspopup="menu"
                 aria-expanded={isMobileLangOpen}
+                aria-controls="mobile-language-menu"
                 className={`h-10 rounded-full px-3 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all duration-300 ${
                   isHome && !showNavbar
                     ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
@@ -427,6 +443,8 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 8, scale: 0.95 }}
                     transition={{ duration: 0.12, ease: 'easeOut' }}
+                    id="mobile-language-menu"
+                    role="menu"
                     className="absolute right-0 mt-1.5 w-48 overflow-hidden rounded-xl border border-[rgba(98,67,45,0.1)] bg-white/95 p-1 shadow-[0_10px_30px_rgba(52,34,22,0.16)] backdrop-blur-md z-50 max-h-64 overflow-y-auto"
                   >
                     {languages.map((lang) => {
@@ -435,6 +453,7 @@ export default function Header() {
                         <Link
                           key={lang.code}
                           href={getLocalizedPath(pathname || '/', lang.code)}
+                          role="menuitem"
                           onClick={() => {
                             persistLocalePreference(lang.code);
                           }}
@@ -461,6 +480,7 @@ export default function Header() {
               onClick={() => setIsMenuOpen((value) => !value)}
               aria-label={isMenuOpen ? t.header.mobileMenuClose : t.header.mobileMenuOpen}
               aria-expanded={isMenuOpen}
+              aria-controls="mobile-main-menu"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
@@ -471,6 +491,7 @@ export default function Header() {
           {isMenuOpen && (
             <motion.div
               className="overflow-hidden border-t border-[rgba(98,67,45,0.08)] lg:hidden"
+              id="mobile-main-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}

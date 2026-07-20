@@ -110,7 +110,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${siteConfig.url}/aspaz-xidmeti-baki`,
     changeFrequency: 'monthly',
     priority: 0.88,
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   }];
 
   return [

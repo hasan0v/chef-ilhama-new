@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('zh', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/zh`,
     siteName: '主厨 İlhamə',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: '主厨 İlhamə — 阿塞拜疆美食' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: '主厨 İlhamə — 阿塞拜疆美食' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: '主厨 İlhamə — 阿塞拜疆风味食谱',
     description: '源自 25+ 产区的地道阿塞拜疆食谱。外烩及私厨预约。',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/zh`,

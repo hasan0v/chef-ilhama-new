@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('bn', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/bn`,
     siteName: 'Chef İlhamə',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'শেফ ইলহামা — আজারবাইজানীয় খাবার' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'শেফ ইলহামা — আজারবাইজানীয় খাবার' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'শেফ ইলহামা — আজারবাইজানীয় খাবারের রেসিপি',
     description: '২৫টিরও বেশি অঞ্চলের আজারবাইজানীয় রেসিপি সংগ্রহ। ক্যাটারিং এবং পার্সোনাল শেফ।',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/bn`,

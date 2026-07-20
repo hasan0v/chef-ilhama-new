@@ -25,7 +25,8 @@ export default function ContactForm() {
 
   const contactSchema = useMemo(() => z.object({
     name: z.string().min(2, t.contactForm.valNameError),
-    email: z.string().email(t.contactForm.valEmailError),
+    // The form opens WhatsApp, so forcing an email address only adds friction.
+    email: z.union([z.literal(''), z.string().email(t.contactForm.valEmailError)]),
     subject: z.string().min(5, t.contactForm.valSubjectError),
     message: z.string().min(10, t.contactForm.valMessageError),
   }), [t]);
@@ -44,7 +45,7 @@ export default function ContactForm() {
       locale === 'az' ? 'Salam, sayt vasitəsilə əlaqə saxlayıram.' : 'Hello, I am contacting you through the website.',
       '',
       `${t.contactForm.formFieldName}: ${data.name}`,
-      `${t.contactForm.formFieldEmail}: ${data.email}`,
+      ...(data.email ? [`${t.contactForm.formFieldEmail}: ${data.email}`] : []),
       `${t.contactForm.formFieldSubject}: ${data.subject}`,
       `${t.contactForm.formFieldMessage}: ${data.message}`,
     ].join('\n');
@@ -72,12 +73,13 @@ export default function ContactForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">{t.contactForm.formFieldEmail}</Label>
+              <Label htmlFor="email">{t.contactForm.formFieldEmail} <span className="font-normal text-muted-foreground">({locale === 'az' ? 'istəyə bağlı' : 'optional'})</span></Label>
               <Input
                 id="email"
                 type="email"
                 {...register('email')}
                 placeholder="email@example.com"
+                aria-invalid={Boolean(errors.email)}
                 className={`h-12 rounded-2xl border-[rgba(98,67,45,0.14)] bg-white/84 ${errors.email ? 'border-red-500' : ''}`}
               />
               {errors.email && (

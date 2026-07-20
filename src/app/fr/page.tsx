@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('fr', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/fr`,
     siteName: 'Chef İlhamə',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'Chef İlhamə — cuisine azerbaïdjanaise' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'Chef İlhamə — cuisine azerbaïdjanaise' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Chef İlhamə — Recettes de cuisine azerbaïdjanaise',
     description: 'Recettes d\'Azerbaïdjan issues de 25+ régions. Service traiteur & chef privé.',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/fr`,

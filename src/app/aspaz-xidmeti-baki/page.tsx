@@ -4,7 +4,7 @@ import { chefSearchAliases } from '@/lib/chefSearchAliases';
 import { getBreadcrumbSchema, getFAQSchema } from '@/lib/seo';
 
 const pageUrl = 'https://www.chef-ilhama.food/aspaz-xidmeti-baki';
-const heroImage = 'https://www.chef-ilhama.food/ilhama.png';
+const heroImage = 'https://www.chef-ilhama.food/images/chef-ilhama-social.jpg';
 
 export const metadata: Metadata = {
   title: 'Aşpaz Axtarırsınız? Şəxsi Aşpaz və Katerinq Bakı',
@@ -56,7 +56,7 @@ const serviceSchema = {
   url: pageUrl,
   image: heroImage,
   alternateName: chefSearchAliases,
-  provider: { '@id': 'https://www.chef-ilhama.food/#business' },
+  provider: { '@id': 'https://www.chef-ilhama.food/#person' },
   areaServed: [
     { '@type': 'City', name: 'Bakı' },
     { '@type': 'City', name: 'Sumqayıt' },

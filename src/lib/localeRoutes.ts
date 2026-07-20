@@ -36,7 +36,7 @@ export function getSiteLocaleFromPathname(pathname: string | null | undefined): 
   return normalizeSiteLocale(firstSegment);
 }
 
-function getLocalizedPath(locale: string, azerbaijaniPath: string, translatedPath: string): string {
+export function getLocalizedPath(locale: string, azerbaijaniPath: string, translatedPath: string): string {
   const normalizedLocale = normalizeSiteLocale(locale);
   return normalizedLocale === 'az' ? azerbaijaniPath : `/${normalizedLocale}${translatedPath}`;
 }

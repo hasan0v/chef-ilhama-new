@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Chef İlhamə — Visit Card',
     description: 'Chef İlhamə ilə əlaqə saxlayın. WhatsApp, Instagram, TikTok, zəng və daha çox.',
     type: 'website',
-    images: [{ url: '/ilhama.png', width: 600, height: 600 }],
+    images: [{ url: '/images/chef-ilhama-social.jpg', width: 1200, height: 630 }],
   },
 };
 

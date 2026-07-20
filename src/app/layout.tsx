@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Manrope } from 'next/font/google';
 import { siteConfig } from '@/lib/site';
-import { getWebSiteSchema, getOrganizationSchema, getFoodEstablishmentSchema, getAuthorSchema } from '@/lib/seo';
+import { getWebSiteSchema, getChefServiceSchema, getAuthorSchema } from '@/lib/seo';
 import LocaleManager from '@/components/layout/LocaleManager';
 import GoogleAnalytics from '@/components/Analytics/GoogleAnalytics';
+import CookieConsent from '@/components/Analytics/CookieConsent';
 import './globals.css';
 
 const manrope = Manrope({
@@ -56,7 +57,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: `${siteConfig.url}/ilhama.png`,
+        url: `${siteConfig.url}/images/chef-ilhama-social.jpg`,
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə - Professional Aşpaz Xidməti Bakı',
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: siteConfig.url,
@@ -84,9 +85,8 @@ export const metadata: Metadata = {
 
 const siteSchemas = [
   getWebSiteSchema(),
-  getOrganizationSchema(),
+  getChefServiceSchema(),
   { '@context': 'https://schema.org', ...getAuthorSchema() },
-  getFoodEstablishmentSchema(),
 ];
 
 const serviceWorkerScript = `
@@ -216,6 +216,7 @@ export default function RootLayout({
       </head>
       <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
         <GoogleAnalytics />
+        <CookieConsent />
         <LocaleManager />
         {children}
         <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />

@@ -19,7 +19,7 @@ export const metadata: Metadata = withLocaleAlternates('az', 'about', {
     siteName: 'Chef İlhamə',
     images: [
       {
-        url: 'https://www.chef-ilhama.food/ilhama.png',
+        url: 'https://www.chef-ilhama.food/images/chef-ilhama-social.jpg',
         width: 1200,
         height: 630,
         alt: 'Chef İlhamə — Peşəkar Azərbaycan aşpazı',
@@ -30,7 +30,7 @@ export const metadata: Metadata = withLocaleAlternates('az', 'about', {
     card: 'summary_large_image',
     title: 'Chef İlhamə haqqında',
     description: '15+ il təcrübəsi olan professional Azərbaycan aşpazı. Bölgəvi reseptlər və katerinq xidməti.',
-    images: ['https://www.chef-ilhama.food/ilhama.png'],
+    images: ['https://www.chef-ilhama.food/images/chef-ilhama-social.jpg'],
   },
   alternates: {
     canonical: 'https://www.chef-ilhama.food/haqqinda',

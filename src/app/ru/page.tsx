@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('ru', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/ru`,
     siteName: 'Шеф Ильхама',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'Шеф Ильхама — азербайджанская кухня' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'Шеф Ильхама — азербайджанская кухня' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Шеф Ильхама — Рецепты азербайджанской кухни',
     description: 'Рецепты азербайджанской кухни из 25+ регионов. Кейтеринг и услуги личного шеф-повара.',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/ru`,

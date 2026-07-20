@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('tr', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/tr`,
     siteName: 'Şef İlhame',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'Şef İlhame — Azerbaycan mutfağı' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'Şef İlhame — Azerbaycan mutfağı' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Şef İlhame — Azerbaycan Yemek Tarifleri',
     description: '25+ yöreden otantik Azerbaycan yemek tarifleri. Özel şef & catering hizmetleri.',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/tr`,

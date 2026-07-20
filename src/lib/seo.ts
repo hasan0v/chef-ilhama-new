@@ -1,4 +1,4 @@
-import { siteConfig, getWhatsAppHref } from './site';
+import { siteConfig } from './site';
 import type { Recipe } from '@/types/recipe';
 import { getLocalizedRecipePath, SEO_LOCALE_CONFIG } from '@/lib/seoLocales';
 import { normalizeSiteLocale, SITE_LOCALES } from '@/lib/localeRoutes';
@@ -33,7 +33,7 @@ export function getAuthorSchema() {
     '@id': `${BASE_URL}/#person`,
     name: 'Chef İlhamə',
     url: `${BASE_URL}/haqqinda`,
-    image: `${BASE_URL}/ilhama.png`,
+    image: `${BASE_URL}/images/chef-ilhama-social.jpg`,
     jobTitle: 'Professional Chef',
     description:
       'Azərbaycan mətbəxinin bölgəvi dadlarını müasir yanaşma ilə təqdim edən peşəkar aşpaz. 15+ il təcrübə ilə Bakı, Sumqayıt və Abşeron bölgəsində fəaliyyət göstərir.',
@@ -59,7 +59,7 @@ export function getWebSiteSchema() {
     alternateName: 'Chef Ilhama',
     url: BASE_URL,
     description: siteConfig.description,
-    publisher: { '@id': `${BASE_URL}/#organization` },
+    publisher: { '@id': `${BASE_URL}/#person` },
     inLanguage: [...SITE_LOCALES],
     potentialAction: {
       '@type': 'SearchAction',
@@ -72,110 +72,29 @@ export function getWebSiteSchema() {
   };
 }
 
-// ─── Organization schema ─────────────────────────────────────────────────────
-
-export function getOrganizationSchema() {
+// Chef İlhamə works independently, with assistants when an event needs them.
+// This intentionally describes an independent personal service.
+export function getChefServiceSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    '@id': `${BASE_URL}/#organization`,
-    name: siteConfig.name,
-    url: BASE_URL,
-    logo: {
-      '@type': 'ImageObject',
-      url: `${BASE_URL}/ilhama.png`,
-      width: 512,
-      height: 512,
-    },
-    image: `${BASE_URL}/ilhama.png`,
-    description: siteConfig.description,
-    email: siteConfig.email,
-    telephone: siteConfig.phoneDisplay,
-    founder: { '@id': `${BASE_URL}/#person` },
+    '@type': 'Service',
+    '@id': `${BASE_URL}/#private-chef-service`,
+    name: 'Chef İlhamə — şəxsi aşpaz və tədbir süfrəsi xidməti',
+    description: 'Chef İlhamə ev qonaqlığı, ailə mərasimi və tədbir süfrəsi üçün menyu, hazırlıq və servis planını şəxsən qurur.',
+    provider: { '@id': `${BASE_URL}/#person` },
+    url: `${BASE_URL}/aspaz-xidmeti-baki`,
+    serviceType: ['Şəxsi aşpaz', 'Katerinq', 'Tədbir süfrəsi'],
     areaServed: [
       { '@type': 'City', name: 'Bakı' },
       { '@type': 'City', name: 'Sumqayıt' },
       { '@type': 'AdministrativeArea', name: 'Abşeron rayonu' },
     ],
-    sameAs: [siteConfig.instagram, siteConfig.facebook],
-    contactPoint: {
+    availableChannel: {
       '@type': 'ContactPoint',
       telephone: siteConfig.phoneDisplay,
-      contactType: 'customer service',
+      contactType: 'service inquiries',
       availableLanguage: ['Azerbaijani', 'English', 'Russian', 'Turkish'],
       areaServed: 'AZ',
-    },
-  };
-}
-
-// ─── FoodEstablishment schema (for layout) ───────────────────────────────────
-
-export function getFoodEstablishmentSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': ['FoodEstablishment', 'LocalBusiness'],
-    '@id': `${BASE_URL}/#business`,
-    name: siteConfig.name,
-    description: 'Professional şəxsi aşpaz və katerinq xidməti Bakıda. Azərbaycan mətbəxinin bölgəvi dadlarını peşəkar servis ilə təqdim edirik.',
-    url: BASE_URL,
-    telephone: siteConfig.phoneDisplay,
-    email: siteConfig.email,
-    logo: `${BASE_URL}/ilhama.png`,
-    image: [
-      `${BASE_URL}/ilhama.png`,
-    ],
-    founder: { '@id': `${BASE_URL}/#person` },
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Bakı',
-      addressCountry: 'AZ',
-      addressRegion: 'Bakı şəhəri',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 40.4093,
-      longitude: 49.8671,
-    },
-    areaServed: [
-      { '@type': 'City', name: 'Bakı' },
-      { '@type': 'City', name: 'Sumqayıt' },
-      { '@type': 'AdministrativeArea', name: 'Abşeron rayonu' },
-    ],
-    servesCuisine: ['Azerbaijani', 'Turkish', 'Middle Eastern'],
-    priceRange: '$$-$$$',
-    openingHours: 'Mo-Su 08:00-22:00',
-    paymentAccepted: 'Cash, Credit Card, Bank Transfer',
-    currenciesAccepted: 'AZN',
-    sameAs: [siteConfig.instagram, siteConfig.facebook, getWhatsAppHref()],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Chef İlhamə Xidmətləri',
-      itemListElement: [
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Şəxsi Aşpaz Xidməti',
-            description: 'Evdə və ya xüsusi məkanda private dining və butik servis.',
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Premium Katerinq',
-            description: 'Brend tədbiri, təqdimat və qapalı məclislər üçün catering.',
-          },
-        },
-        {
-          '@type': 'Offer',
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Toy Masası Planlaması',
-            description: 'Klassik Azərbaycan süfrəsini daha zərif axınla qururuq.',
-          },
-        },
-      ],
     },
   };
 }
@@ -326,7 +245,7 @@ export function getEditorialGuideSchema({
     dateModified,
     inLanguage: locale === 'az' ? 'az-AZ' : 'en-US',
     author: { '@id': `${BASE_URL}/#person` },
-    publisher: { '@id': `${BASE_URL}/#organization` },
+    publisher: { '@id': `${BASE_URL}/#person` },
     isPartOf: { '@id': `${BASE_URL}/#website` },
   };
 }
@@ -355,7 +274,7 @@ export function getContactPageSchema() {
     name: 'Əlaqə — Chef İlhamə',
     description: 'Chef İlhamə ilə əlaqə saxlayın. WhatsApp, telefon və ya email.',
     url: `${BASE_URL}/elaqe`,
-    mainEntity: { '@id': `${BASE_URL}/#business` },
+    mainEntity: { '@id': `${BASE_URL}/#person` },
     isPartOf: { '@id': `${BASE_URL}/#website` },
   };
 }
@@ -381,7 +300,7 @@ export function getServicePageSchema() {
             '@type': 'Service',
             name: 'Şəxsi Aşpaz Xidməti',
             description: 'Evdə və ya xüsusi məkanda private dining və butik servis.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            provider: { '@id': `${BASE_URL}/#person` },
             areaServed: [
               { '@type': 'City', name: 'Bakı' },
               { '@type': 'City', name: 'Sumqayıt' },
@@ -395,8 +314,8 @@ export function getServicePageSchema() {
           item: {
             '@type': 'Service',
             name: 'Premium Katerinq',
-            description: 'Brend tədbiri, təqdimat və qapalı məclislər üçün catering.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            description: 'Təqdimat və qapalı məclis üçün Chef İlhamənin qurduğu katerinq formatı.',
+            provider: { '@id': `${BASE_URL}/#person` },
             areaServed: [
               { '@type': 'City', name: 'Bakı' },
               { '@type': 'City', name: 'Sumqayıt' },
@@ -410,8 +329,8 @@ export function getServicePageSchema() {
           item: {
             '@type': 'Service',
             name: 'Toy Masası Planlaması',
-            description: 'Klassik Azərbaycan süfrəsini daha zərif axınla qururuq.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            description: 'Chef İlhamənin klassik Azərbaycan süfrəsini zərif axınla planladığı format.',
+            provider: { '@id': `${BASE_URL}/#person` },
             areaServed: [
               { '@type': 'City', name: 'Bakı' },
               { '@type': 'City', name: 'Sumqayıt' },
@@ -426,7 +345,7 @@ export function getServicePageSchema() {
             '@type': 'Service',
             name: 'Korporativ Tədbirlər',
             description: 'İşgüzar gathering və lounge servis üçün yığcam menyular.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            provider: { '@id': `${BASE_URL}/#person` },
           },
         },
         {
@@ -436,7 +355,7 @@ export function getServicePageSchema() {
             '@type': 'Service',
             name: 'Nişan və Ailə Şənlikləri',
             description: 'Ev atmosferi ilə peşəkar servis intizamını birləşdirir.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            provider: { '@id': `${BASE_URL}/#person` },
           },
         },
         {
@@ -445,8 +364,8 @@ export function getServicePageSchema() {
           item: {
             '@type': 'Service',
             name: 'Master-klass və Workshop',
-            description: 'Brend tədbirləri və qapalı öyrənmə sessiyaları üçün format.',
-            provider: { '@id': `${BASE_URL}/#business` },
+            description: 'Qapalı öyrənmə sessiyası üçün Chef İlhamənin master-klass formatı.',
+            provider: { '@id': `${BASE_URL}/#person` },
           },
         },
       ],

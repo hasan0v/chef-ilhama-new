@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('ja', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/ja`,
     siteName: 'Chef İlhamə',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'シェフ・イルハメ — アゼルバイジャン料理' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'シェフ・イルハメ — アゼルバイジャン料理' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'シェフ・イルハメ — アゼルバイジャン料理レシピ',
     description: '25以上の地域に伝わるアゼルバイジャン料理レシピ。ケータリング＆出張シェフ。',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/ja`,

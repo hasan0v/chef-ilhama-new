@@ -20,13 +20,13 @@ export const metadata: Metadata = withLocaleAlternates('hi', 'home', {
     alternateLocale: 'az_AZ',
     url: `${siteConfig.url}/hi`,
     siteName: 'शेफ इल्हामा',
-    images: [{ url: `${siteConfig.url}/ilhama.png`, width: 1200, height: 630, alt: 'शेफ इल्हामा — अज़रबैजानी व्यंजन' }],
+    images: [{ url: `${siteConfig.url}/images/chef-ilhama-social.jpg`, width: 1200, height: 630, alt: 'शेफ इल्हामा — अज़रबैजानी व्यंजन' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'शेफ इल्हामा — अज़रबैजानी व्यंजन रेसिपीज',
     description: '25+ क्षेत्रों की पारंपरिक अज़रबैजानी रेसिपीज। कैटरिंग और पर्सनल शेफ सेवाएं।',
-    images: [`${siteConfig.url}/ilhama.png`],
+    images: [`${siteConfig.url}/images/chef-ilhama-social.jpg`],
   },
   alternates: {
     canonical: `${siteConfig.url}/hi`,
