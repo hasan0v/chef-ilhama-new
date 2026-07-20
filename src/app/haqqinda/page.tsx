@@ -1,6 +1,6 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
+import AboutChefPage from '@/components/site/pages/AboutChefPage';
 import { getAboutPageSchema, getAuthorSchema, getBreadcrumbSchema } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -63,7 +63,7 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <AboutStudioPage breadcrumbs={[
+      <AboutChefPage breadcrumbs={[
         { name: 'Ana Səhifə', href: '/' },
         { name: 'Haqqında', href: '/haqqinda' },
       ]} />

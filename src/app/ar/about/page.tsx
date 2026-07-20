@@ -1,6 +1,6 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
+import AboutChefPage from '@/components/site/pages/AboutChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('ar', 'about', {
@@ -20,7 +20,7 @@ export default function ArabicAboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <AboutStudioPage breadcrumbs={[
+      <AboutChefPage breadcrumbs={[
         { name: 'الرئيسية', href: '/ar' },
         { name: 'عن الشيف', href: '/ar/about' },
       ]} />

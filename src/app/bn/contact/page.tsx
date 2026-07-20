@@ -1,6 +1,6 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
+import ContactChefPage from '@/components/site/pages/ContactChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('bn', 'contact', {
@@ -20,7 +20,7 @@ export default function BengaliContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ContactStudioPage breadcrumbs={[
+      <ContactChefPage breadcrumbs={[
         { name: 'হোম', href: '/bn' },
         { name: 'যোগাযোগ', href: '/bn/contact' },
       ]} />

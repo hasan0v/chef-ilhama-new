@@ -46,7 +46,7 @@ const sections = [
       <>
         <p>Setiap permintaan perubahan tanggal atau pembatalan layanan yang telah dipesan harus diajukan secepat mungkin.</p>
         <ul className="prose-list list-disc">
-          <li>Perubahan tanggal acara bergantung pada ketersediaan jadwal pada kalender studio kami</li>
+          <li>Perubahan tanggal acara bergantung pada ketersediaan jadwal Chef İlhamə</li>
           <li>Pembatalan yang sangat dekat dengan tanggal acara dapat dikenakan biaya untuk bahan baku yang telah dibeli</li>
           <li>Pembatalan acara dengan konsep dekorasi atau tata letak khusus akan dievaluasi secara independen</li>
         </ul>

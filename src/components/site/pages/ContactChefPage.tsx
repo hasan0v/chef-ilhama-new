@@ -17,7 +17,7 @@ import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getLocalizedServicesPath } from '@/lib/localeRoutes';
 
-export default function ContactStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
+export default function ContactChefPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
 

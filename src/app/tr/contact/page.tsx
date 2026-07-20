@@ -1,6 +1,6 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
+import ContactChefPage from '@/components/site/pages/ContactChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('tr', 'contact', {
@@ -20,7 +20,7 @@ export default function TurkishContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ContactStudioPage breadcrumbs={[
+      <ContactChefPage breadcrumbs={[
         { name: 'Ana Sayfa', href: '/tr' },
         { name: 'İletişim', href: '/tr/contact' },
       ]} />

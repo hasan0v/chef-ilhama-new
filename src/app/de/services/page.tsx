@@ -5,7 +5,7 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('de', 'services', {
   title: 'Dienstleistungen - Chef İlhamə',
-  description: 'Reservierungsstudio für Privatköche zu Hause, Business-Premium-Catering und Hochzeitstafeln in Baku.',
+  description: 'Chef İlhamə für private Köche zu Hause, Premium-Catering und Hochzeitstafeln in Baku buchen.',
 });
 
 export default function GermanServicesPage() {

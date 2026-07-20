@@ -1,11 +1,11 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
+import AboutChefPage from '@/components/site/pages/AboutChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('it', 'about', {
   title: 'Chi Siamo - Chef İlhamə',
-  description: 'La storia dello studio culinario della Chef İlhamə, i suoi valori e la sua visione del servizio.',
+  description: 'La storia di Chef İlhamə, i suoi valori e la sua visione del servizio.',
 });
 
 export default function ItalianAboutPage() {
@@ -20,7 +20,7 @@ export default function ItalianAboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <AboutStudioPage breadcrumbs={[
+      <AboutChefPage breadcrumbs={[
         { name: 'Home', href: '/it' },
         { name: 'Chi Siamo', href: '/it/about' },
       ]} />

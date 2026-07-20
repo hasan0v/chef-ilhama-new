@@ -1,11 +1,11 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
+import ContactChefPage from '@/components/site/pages/ContactChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('id', 'contact', {
   title: 'Kontak - Chef İlhamə',
-  description: 'Hubungi studio kuliner Chef İlhamə. Catering, privat chef, dan reservasi.',
+  description: 'Hubungi Chef İlhamə untuk catering, privat chef, dan reservasi.',
 });
 
 export default function IndonesianContactPage() {
@@ -20,7 +20,7 @@ export default function IndonesianContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ContactStudioPage breadcrumbs={[
+      <ContactChefPage breadcrumbs={[
         { name: 'Beranda', href: '/id' },
         { name: 'Kontak', href: '/id/contact' },
       ]} />

@@ -1,11 +1,11 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import ContactStudioPage from '@/components/site/pages/ContactStudioPage';
+import ContactChefPage from '@/components/site/pages/ContactChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('de', 'contact', {
   title: 'Kontakt - Chef İlhamə',
-  description: 'Treten Sie mit dem kulinarischen Atelier von Chef İlhamə in Verbindung. Catering, Privatkoch und Buchungen.',
+  description: 'Kontaktieren Sie Chef İlhamə für Catering, Privatkoch-Service und Buchungen.',
 });
 
 export default function GermanContactPage() {
@@ -20,7 +20,7 @@ export default function GermanContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <ContactStudioPage breadcrumbs={[
+      <ContactChefPage breadcrumbs={[
         { name: 'Startseite', href: '/de' },
         { name: 'Kontakt', href: '/de/contact' },
       ]} />

@@ -114,7 +114,7 @@ export default function VisitCard() {
             Chef İlhamə
           </h1>
           <p className="mt-1.5 text-[13px] font-medium uppercase tracking-[0.22em] text-[#8d3a24]">
-            Private Chef Atelier
+            Şəxsi Aşpaz
           </p>
           <p className="mt-3 max-w-[260px] text-sm leading-6 text-[rgba(57,44,35,0.68)]">
             Bakıda premium şəxsi aşpaz xidməti. Toy, tədbir və private dining.

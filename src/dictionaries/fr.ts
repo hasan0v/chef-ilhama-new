@@ -52,7 +52,7 @@ export const fr = {
   about: {
     brandStoryLabel: "Histoire de la marque",
     heroTitle: "Chef İlhamə est bien plus qu'un nom : c'est la curation d'une table azerbaïdjanaise d'exception.",
-    heroDesc: "La singularité de ce studio ne réside pas dans la simple répétition de la tradition, mais dans la réinterprétation des saveurs, du rythme et de l'art de recevoir dans un langage plus raffiné.",
+    heroDesc: "L'approche de Chef İlhamə ne consiste pas à répéter simplement la tradition, mais à réinterpréter les saveurs, le rythme et l'art de recevoir dans un langage plus raffiné.",
     experienceLabel: "ans d'expérience",
     selectedRecipesLabel: "recettes exclusives",
     clientsLabel: "clients satisfaits",
@@ -75,15 +75,15 @@ export const fr = {
     value3Title: "Rigueur de l'accueil",
     value3Desc: "Le sentiment de convivialité et de sincérité est préservé, tandis que le service est orchestré avec un professionnalisme millimétré.",
     value3Meta: "Culture du service",
-    positioningLabel: "Positionnement du studio",
+    positioningLabel: "L'approche de Chef İlhamə",
     positioningTitle: "Une vision culinaire née à Bakou, embrassant la richesse de la carte gastronomique régionale.",
-    positioningDesc: "Présent à Bakou, Soumgaït et Abchéron, notre studio ne se contente pas de servir des plats. Il démontre à quel point la cuisine azerbaïdjanaise peut se révéler élégante, rythmée et contemporaine.",
+    positioningDesc: "À Bakou, Soumgaït et Abchéron, Chef İlhamə montre à quel point la cuisine azerbaïdjanaise peut être élégante, rythmée et contemporaine.",
     positioningHighlight: "Peu importe l'envergure de l'événement, chaque projet commence par la même question : quel souvenir cette table doit-elle laisser dans l'esprit de vos convives ?",
     timeline1Title: "Les débuts en cuisine professionnelle",
     timeline1Desc: "La rencontre entre les recettes familiales traditionnelles et les exigences de la haute cuisine professionnelle.",
     timeline2Title: "Lancement du service traiteur et chef privé",
     timeline2Desc: "Structuration d'une offre sur mesure, des dîners intimistes aux banquets de mariage prestigieux.",
-    timeline3Title: "Atelier digital et archivage des recettes",
+    timeline3Title: "Archive numérique de recettes",
     timeline3Desc: "Création d'un site web réunissant notre approche du service et nos recettes régionales au sein d'une expérience numérique unique.",
     ctaContactLabel: "Contactez-nous",
     ctaContactTitle: "Pour inviter cette excellence à votre table, l'étape suivante est la planification de votre service.",
@@ -91,7 +91,7 @@ export const fr = {
     ctaContactBtn: "Planifier le service",
   },
   services: {
-    heroLabel: "Studio de réservation de chefs privés",
+    heroLabel: "Réserver Chef İlhamə directement",
     heroTitle: "Ne planifiez pas votre événement avec une formule standard, mais selon un scénario qui vous ressemble.",
     heroDesc: "Définissez le lieu, le nombre d'invités et l'ambiance du menu en un seul endroit.",
     bookingNoteLabel: "Note de réservation",
@@ -156,7 +156,7 @@ export const fr = {
       { id: "wedding", label: "Organisation de Banquets de Mariage", desc: "Nous réinterprétons la table traditionnelle azerbaïdjanaise avec un déroulement plus contemporain." },
       { id: "corporate", label: "Événements d'Entreprise", desc: "Menus compacts et cocktails pour réunions d'affaires et espaces lounge." },
       { id: "party", label: "Fiançailles & Réceptions Familiales", desc: "L'alliance d'une atmosphère chaleureuse et d'un service professionnel rigoureux." },
-      { id: "masterclass", label: "Masterclass & Ateliers", desc: "Un format interactif idéal pour le team-building ou les sessions d'apprentissage privées." }
+      { id: "masterclass", label: "Masterclass & sessions culinaires", desc: "Un format interactif idéal pour le team-building ou les sessions d'apprentissage privées." }
     ],
     eventTypes: [
       "Mariage",

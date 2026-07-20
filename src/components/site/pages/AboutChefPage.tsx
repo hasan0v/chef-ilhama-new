@@ -19,7 +19,7 @@ import { getWhatsAppHref, siteConfig } from '@/lib/site';
 import { useTranslation } from '@/hooks/useTranslation';
 import { getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
 
-export default function AboutStudioPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
+export default function AboutChefPage({ breadcrumbs }: { breadcrumbs?: import('@/lib/seo').BreadcrumbItem[] } = {}) {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
 
@@ -100,7 +100,7 @@ export default function AboutStudioPage({ breadcrumbs }: { breadcrumbs?: import(
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 rounded-full bg-white/18 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm">
-                  Chef İlhamə atelier
+                  Chef İlhamə
                 </div>
               </div>
             </EditorialPanel>

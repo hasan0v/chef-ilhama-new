@@ -1,11 +1,11 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import type { Metadata } from 'next';
-import AboutStudioPage from '@/components/site/pages/AboutStudioPage';
+import AboutChefPage from '@/components/site/pages/AboutChefPage';
 import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('nl', 'about', {
   title: 'Over mij - Chef İlhamə',
-  description: 'Het verhaal achter de culinaire studio van Chef İlhamə, onze waarden en visie op gastvrijheid.',
+  description: 'Het verhaal van Chef İlhamə, haar waarden en visie op gastvrijheid.',
 });
 
 export default function DutchAboutPage() {
@@ -20,7 +20,7 @@ export default function DutchAboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <AboutStudioPage breadcrumbs={[
+      <AboutChefPage breadcrumbs={[
         { name: 'Home', href: '/nl' },
         { name: 'Over mij', href: '/nl/about' },
       ]} />

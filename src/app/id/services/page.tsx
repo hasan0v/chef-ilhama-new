@@ -5,7 +5,7 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('id', 'services', {
   title: 'Layanan - Chef İlhamə',
-  description: 'Studio pemesanan privat chef di rumah, catering premium untuk korporasi, dan perencanaan jamuan pernikahan di Baku.',
+  description: 'Pesan Chef İlhamə untuk privat chef di rumah, catering premium, dan jamuan pernikahan di Baku.',
 });
 
 export default function IndonesianServicesPage() {

@@ -5,7 +5,7 @@ import { getBreadcrumbSchema } from '@/lib/seo';
 
 export const metadata: Metadata = withLocaleAlternates('nl', 'services', {
   title: 'Diensten - Chef İlhamə',
-  description: 'Boekingsstudio voor privéchefs aan huis, zakelijke premium catering en bruiloftsbanketten in Bakoe.',
+  description: 'Boek Chef İlhamə voor privéchef-service aan huis, premium catering en bruiloftsbanketten in Bakoe.',
 });
 
 export default function DutchServicesPage() {

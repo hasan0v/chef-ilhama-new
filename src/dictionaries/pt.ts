@@ -84,7 +84,7 @@ export const pt = {
     timeline1Desc: "As receitas familiares tradicionais começaram a fundir-se com a experiência da produção profissional.",
     timeline2Title: "Criação das linhas de catering e chef privado",
     timeline2Desc: "Estruturou-se a oferta de serviços, desde pequenas reuniões exclusivas até grandes banquetes de casamentos.",
-    timeline3Title: "Arquivo de receitas e atelier digital",
+    timeline3Title: "Arquivo digital de receitas",
     timeline3Desc: "Foi criado um website que unifica as receitas regionais e a abordagem do serviço numa experiência digital única.",
     ctaContactLabel: "Entre em contacto",
     ctaContactTitle: "Se deseja sentir esta qualidade na sua mesa, o próximo passo é o planeamento do serviço.",
