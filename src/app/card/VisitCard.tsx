@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { ChefHat, Globe, Instagram, Mail, Phone, ArrowUpRight } from 'lucide-react';
 import { siteConfig, getWhatsAppHref } from '@/lib/site';
 
@@ -80,12 +79,6 @@ const navLinks = [
 ];
 
 export default function VisitCard() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <div className="relative min-h-[100dvh] overflow-hidden bg-[#f7efe2]">
       {/* Animated background orbs */}
@@ -97,14 +90,7 @@ export default function VisitCard() {
 
       <div className="relative mx-auto flex min-h-[100dvh] max-w-md flex-col px-5 py-10 sm:py-14">
         {/* Profile Section */}
-        <div
-          className="flex flex-col items-center text-center"
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(24px)',
-            transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
-          }}
-        >
+        <div className="flex flex-col items-center text-center">
           <div className="relative mb-5">
             {/* Animated ring */}
             <div className="absolute -inset-1.5 animate-[spin_12s_linear_infinite] rounded-full bg-gradient-to-tr from-[#8d3a24] via-[#c99645] to-[#355441] opacity-60 blur-sm" />
@@ -137,18 +123,13 @@ export default function VisitCard() {
 
         {/* Links */}
         <div className="mt-8 flex flex-col gap-3">
-          {links.map((link, i) => (
+          {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
               target={link.href.startsWith('/') ? undefined : '_blank'}
               rel={link.href.startsWith('/') ? undefined : 'noopener noreferrer'}
               className={`group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-white/60 bg-white/70 p-4 shadow-[0_2px_20px_rgba(52,34,22,0.06)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(52,34,22,0.12)] active:scale-[0.98] ${link.ring} hover:ring-2`}
-              style={{
-                opacity: mounted ? 1 : 0,
-                transform: mounted ? 'translateY(0)' : 'translateY(20px)',
-                transition: `opacity 0.6s cubic-bezier(0.16,1,0.3,1) ${150 + i * 80}ms, transform 0.6s cubic-bezier(0.16,1,0.3,1) ${150 + i * 80}ms, box-shadow 0.3s, translate 0.3s`,
-              }}
             >
               {/* Icon */}
               <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${link.color} text-white shadow-sm transition-transform duration-300 group-hover:scale-110`}>
@@ -171,14 +152,7 @@ export default function VisitCard() {
         </div>
 
         {/* Quick nav to site pages */}
-        <div
-          className="mt-8 flex flex-wrap items-center justify-center gap-2"
-          style={{
-            opacity: mounted ? 1 : 0,
-            transform: mounted ? 'translateY(0)' : 'translateY(16px)',
-            transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s, transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s',
-          }}
-        >
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
           {navLinks.map((n) => (
             <a
               key={n.href}
@@ -191,13 +165,7 @@ export default function VisitCard() {
         </div>
 
         {/* Footer */}
-        <div
-          className="mt-auto pt-10 text-center"
-          style={{
-            opacity: mounted ? 1 : 0,
-            transition: 'opacity 0.6s cubic-bezier(0.16,1,0.3,1) 1s',
-          }}
-        >
+        <div className="mt-auto pt-10 text-center">
           <div className="mx-auto mb-3 h-px w-12 bg-[rgba(98,67,45,0.12)]" />
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[rgba(57,44,35,0.36)]">
             {siteConfig.serviceAreas.join(' · ')}

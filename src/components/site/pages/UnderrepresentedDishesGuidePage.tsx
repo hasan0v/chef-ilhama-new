@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   BookOpen,
@@ -11,6 +12,7 @@ import {
   MapPin,
   Search,
   Share2,
+  Shuffle,
   Sparkles,
 } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
@@ -40,6 +42,7 @@ export default function UnderrepresentedDishesGuidePage({
   recipes,
   breadcrumbs,
 }: UnderrepresentedDishesGuidePageProps) {
+  const router = useRouter();
   const isAz = locale === 'az';
   const [activeRegion, setActiveRegion] = useState('all');
   const [query, setQuery] = useState('');
@@ -67,6 +70,20 @@ export default function UnderrepresentedDishesGuidePage({
   const handleRegionChange = (key: string) => {
     setActiveRegion(key);
     trackEvent('guide_region_filter', { region: key, locale });
+  };
+
+  const handleSurpriseDish = () => {
+    const pool = visibleRecipes.length ? visibleRecipes : recipes;
+    if (!pool.length) return;
+
+    const recipe = pool[Math.floor(Math.random() * pool.length)];
+    trackEvent('guide_surprise_recipe', {
+      slug: recipe.slug,
+      region: activeRegion,
+      has_query: Boolean(query.trim()),
+      locale,
+    });
+    router.push(getLocalizedRecipePath(locale, recipe.slug));
   };
 
   const handleShare = async () => {
@@ -212,15 +229,26 @@ export default function UnderrepresentedDishesGuidePage({
             />
 
             <div className="sticky top-20 z-20 rounded-[1.5rem] border border-white/70 bg-[rgba(247,239,226,0.88)] p-3 shadow-[0_18px_55px_rgba(52,34,22,0.1)] backdrop-blur-xl sm:p-4">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(112,83,59,0.58)]" />
-                <Input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder={isAz ? 'Yemək, ölkə və ya inqrediyent axtar…' : 'Search a dish, country or ingredient…'}
-                  aria-label={isAz ? 'Bələdçidə axtar' : 'Search within the guide'}
-                  className="h-12 rounded-full border-[rgba(98,67,45,0.12)] bg-white/84 pl-11 shadow-none"
-                />
+              <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[rgba(112,83,59,0.58)]" />
+                  <Input
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder={isAz ? 'Yemək, ölkə və ya inqrediyent axtar…' : 'Search a dish, country or ingredient…'}
+                    aria-label={isAz ? 'Bələdçidə axtar' : 'Search within the guide'}
+                    className="h-12 rounded-full border-[rgba(98,67,45,0.12)] bg-white/84 pl-11 shadow-none"
+                  />
+                </div>
+                <Button
+                  type="button"
+                  onClick={handleSurpriseDish}
+                  disabled={!recipes.length}
+                  className="h-12 rounded-full bg-[rgba(36,28,24,0.96)] px-5 text-white shadow-[0_10px_26px_rgba(36,28,24,0.18)] hover:bg-[rgba(141,58,36,0.96)] sm:min-w-[11rem]"
+                >
+                  <Shuffle className="h-4 w-4" />
+                  {isAz ? 'Məni təəccübləndir' : 'Surprise me'}
+                </Button>
               </div>
               <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <button

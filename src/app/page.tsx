@@ -1,7 +1,7 @@
 import { withLocaleAlternates } from '@/lib/seoLocales';
 import { getCategories, getFeaturedRecipes, getRecipes, getRecipeStats } from '@/lib/recipes';
 import HomeExperience from '@/components/site/pages/HomeExperience';
-import { getRecipeCollectionSchema, getBreadcrumbSchema } from '@/lib/seo';
+import { getRecipeCollectionSchema } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 // Revalidate every 5 minutes
