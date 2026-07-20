@@ -2,6 +2,7 @@ import { siteConfig, getWhatsAppHref } from './site';
 import type { Recipe } from '@/types/recipe';
 import { getLocalizedRecipePath, SEO_LOCALE_CONFIG } from '@/lib/seoLocales';
 import { normalizeSiteLocale, SITE_LOCALES } from '@/lib/localeRoutes';
+import { getRecipeImageObjects } from '@/lib/recipeImageVariants';
 
 const BASE_URL = siteConfig.url;
 
@@ -206,25 +207,19 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
   const localeConfig = SEO_LOCALE_CONFIG[normalizedLocale];
   const totalDuration = parseIsoDuration(recipe.prepTime);
   const recipeUrl = `${BASE_URL}${getLocalizedRecipePath(normalizedLocale, recipe.slug)}`;
-  const imageUrl = recipe.image
-    ? recipe.image.startsWith('http') ? recipe.image : `${BASE_URL}${recipe.image}`
-    : `${BASE_URL}/placeholder-food.svg`;
+  const imageCaption = recipe.imageAlt || `${recipe.name} — ${recipe.origin}`;
+  const recipeImages = getRecipeImageObjects(recipe.slug, imageCaption).map((image) => ({
+    ...image,
+    ...(recipe.imageCredit ? { creditText: recipe.imageCredit } : {}),
+    ...(recipe.imageLicenseUrl ? { license: recipe.imageLicenseUrl } : {}),
+    ...(recipe.imageSourceUrl ? { acquireLicensePage: recipe.imageSourceUrl } : {}),
+  }));
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Recipe',
     name: recipe.name,
-    image: [{
-      '@type': 'ImageObject',
-      url: imageUrl,
-      contentUrl: imageUrl,
-      caption: recipe.imageAlt || `${recipe.name} — ${recipe.origin}`,
-      ...(recipe.imageCredit ? { creditText: recipe.imageCredit } : {}),
-      ...(recipe.imageLicenseUrl ? { license: recipe.imageLicenseUrl } : {}),
-      ...(recipe.imageSourceUrl ? { acquireLicensePage: recipe.imageSourceUrl } : {}),
-      ...(recipe.imageWidth ? { width: recipe.imageWidth } : {}),
-      ...(recipe.imageHeight ? { height: recipe.imageHeight } : {}),
-    }],
+    image: recipeImages,
     author: { '@id': `${BASE_URL}/#person` },
     datePublished: recipe.createdAt,
     dateModified: recipe.updatedAt || recipe.createdAt,
@@ -281,9 +276,7 @@ export function getRecipeCollectionSchema(
         position: index + 1,
         url: `${BASE_URL}${getLocalizedRecipePath(collectionLocale, recipe.slug)}`,
         name: recipe.name,
-        image: recipe.image
-          ? recipe.image.startsWith('http') ? recipe.image : `${BASE_URL}${recipe.image}`
-          : undefined,
+        image: getRecipeImageObjects(recipe.slug, recipe.imageAlt || recipe.name)[2].url,
       })),
     },
   };

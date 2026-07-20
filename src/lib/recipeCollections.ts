@@ -16,6 +16,59 @@ export interface RecipeCollectionDefinition {
 
 export const recipeCollections: RecipeCollectionDefinition[] = [
   {
+    slug: 'azerbaijani-classic-recipes',
+    title: {
+      en: '12 Classic Azerbaijani Recipes to Cook at Home',
+      az: 'Evdə bişirmək üçün 12 klassik Azərbaycan resepti',
+    },
+    shortTitle: { en: 'Azerbaijani classics', az: 'Azərbaycan klassikləri' },
+    description: {
+      en: 'A practical route through Azerbaijan’s most searched home-cooking traditions, from dolma and piti to dough dishes and pilaf.',
+      az: 'Dolma və pitidən xəmir yeməkləri ilə plova qədər ən çox axtarılan Azərbaycan mətbəxi klassiklərinə praktik bələdçi.',
+    },
+    introduction: {
+      en: [
+        'Azerbaijani food is shaped by slow-cooked broths, herb-filled dough, carefully seasoned meat and rice dishes built in distinct layers. This collection brings those techniques together instead of treating the cuisine as a list of disconnected names.',
+        'Begin with the dish you already recognise, then follow its technique into a less familiar recipe. Each page includes measured ingredients, a clear cooking sequence and an interactive checklist designed for use beside the stove.',
+      ],
+      az: [
+        'Azərbaycan mətbəxi asta bişən bulyonlar, göyərtili xəmir, düzgün yoğrulmuş ət və ayrı-ayrı qatlarla qurulan plov texnikaları ilə seçilir. Bu kolleksiya yeməkləri sadəcə ad siyahısı kimi deyil, bir-birinə bağlı bişirmə üsulları kimi təqdim edir.',
+        'Tanıdığınız yeməkdən başlayın, sonra həmin texnikanı daha az bişirdiyiniz reseptdə sınayın. Hər səhifədə dəqiq ərzaq siyahısı, aydın addımlar və mətbəxdə istifadə üçün interaktiv yoxlama siyahısı var.',
+      ],
+    },
+    eyebrow: { en: 'Azerbaijani cooking guide', az: 'Azərbaycan mətbəxi bələdçisi' },
+    searchIntent: { en: 'traditional Azerbaijani food recipes', az: 'Azərbaycan yeməkləri reseptləri' },
+    accent: 'terracotta',
+    recipeSlugs: [
+      'yarpaq-dolmasi',
+      'piti',
+      'lule-kabab',
+      'gurze',
+      'dusbere',
+      'sudlu-as',
+      'fisincan-plov',
+      'goyerti-qutabi-kete',
+      'yarpaq-xengeli-quru-xengelsuzme-xengel',
+      'qatlama',
+      'qovurma',
+      'bozbas',
+    ],
+    highlights: {
+      en: [{ label: 'Traditions', value: '6' }, { label: 'Recipes', value: '12' }, { label: 'Format', value: 'Step by step' }],
+      az: [{ label: 'Texnika', value: '6' }, { label: 'Resept', value: '12' }, { label: 'Format', value: 'Addım-addım' }],
+    },
+    faqs: {
+      en: [
+        { question: 'Which Azerbaijani recipe is best for a first attempt?', answer: 'Start with qovurma or göyərti qutabı if you want a straightforward method. Piti, dolma and dough dishes reward more preparation time.' },
+        { question: 'Does the collection include exact measurements?', answer: 'Yes. Open any recipe for its measured ingredient list, time estimate, serving yield and step-by-step cooking method.' },
+      ],
+      az: [
+        { question: 'İlk dəfə hansı Azərbaycan reseptindən başlamaq daha rahatdır?', answer: 'Sadə üsul istəyirsinizsə qovurma və ya göyərti qutabından başlayın. Piti, dolma və xəmir yeməkləri daha çox hazırlıq vaxtı tələb edir.' },
+        { question: 'Kolleksiyadakı reseptlərdə dəqiq ölçülər varmı?', answer: 'Bəli. Hər resept səhifəsində ölçülü ərzaq siyahısı, vaxt, porsiya sayı və addım-addım bişirmə qaydası göstərilir.' },
+      ],
+    },
+  },
+  {
     slug: 'rare-traditional-dishes',
     title: {
       en: 'Rare Traditional Dishes Worth Discovering',

@@ -4,6 +4,7 @@ import RecipeCollectionDetailPage from '@/components/site/pages/RecipeCollection
 import { getBreadcrumbSchema, getRecipeCollectionSchema } from '@/lib/seo';
 import { getCollectionPath, getRecipeCollection, recipeCollections } from '@/lib/recipeCollections';
 import { getRecipes } from '@/lib/recipes';
+import { getRecipeImageVariantUrl } from '@/lib/recipeImageVariants';
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const collection = getRecipeCollection(slug);
   if (!collection) return {};
   const canonical = `https://chef-ilhama.food${getCollectionPath('en', slug)}`;
+  const coverImage = getRecipeImageVariantUrl(collection.recipeSlugs[0], '16x9');
 
   return {
     title: collection.title.en,
@@ -38,9 +40,9 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
       description: collection.description.en,
       type: 'article',
       url: canonical,
-      images: [{ url: `/images/recipes/global/${collection.recipeSlugs[0]}.webp`, alt: collection.title.en }],
+      images: [{ url: coverImage, width: 1200, height: 675, alt: collection.title.en }],
     },
-    twitter: { card: 'summary_large_image', title: collection.title.en, description: collection.description.en, images: [`/images/recipes/global/${collection.recipeSlugs[0]}.webp`] },
+    twitter: { card: 'summary_large_image', title: collection.title.en, description: collection.description.en, images: [coverImage] },
   };
 }
 

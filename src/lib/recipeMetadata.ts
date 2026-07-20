@@ -8,6 +8,11 @@ import {
   SEO_LOCALE_CONFIG,
 } from '@/lib/seoLocales';
 import { siteConfig } from '@/lib/site';
+import { getRecipeImageVariantUrl } from '@/lib/recipeImageVariants';
+import {
+  getSearchFocusedRecipeDescription,
+  getSearchFocusedRecipeTitle,
+} from '@/lib/recipeSearchDemand';
 
 const INDEXABLE_RECIPE_LOCALES = new Set<SiteLocale>(['az', 'en']);
 
@@ -18,11 +23,9 @@ export function getRecipeMetadata(recipe: Recipe, locale: string): Metadata {
   const indexLocale: SiteLocale = isIndexable ? normalizedLocale : 'en';
   const canonical = `${siteConfig.url}${getLocalizedRecipePath(indexLocale, recipe.slug)}`;
   const pageUrl = `${siteConfig.url}${getLocalizedRecipePath(normalizedLocale, recipe.slug)}`;
-  const description = (recipe.history?.trim() || config.recipeDescription(recipe.name, recipe.origin))
-    .replace(/\s+/g, ' ')
-    .slice(0, 160);
-  const title = `${recipe.name} ${config.recipeLabel} — ${recipe.origin}`;
-  const image = recipe.image || `${siteConfig.url}/ilhama.png`;
+  const description = getSearchFocusedRecipeDescription(recipe, normalizedLocale);
+  const title = getSearchFocusedRecipeTitle(recipe, normalizedLocale);
+  const image = getRecipeImageVariantUrl(recipe.slug, '16x9');
 
   return {
     title,
@@ -57,8 +60,8 @@ export function getRecipeMetadata(recipe: Recipe, locale: string): Metadata {
       siteName: siteConfig.name,
       images: [{
         url: image,
-        ...(recipe.imageWidth ? { width: recipe.imageWidth } : {}),
-        ...(recipe.imageHeight ? { height: recipe.imageHeight } : {}),
+        width: 1200,
+        height: 675,
         alt: `${recipe.name} — ${recipe.origin}`,
       }],
       section: recipe.category,

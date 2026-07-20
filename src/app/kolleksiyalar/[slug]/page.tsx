@@ -4,6 +4,7 @@ import RecipeCollectionDetailPage from '@/components/site/pages/RecipeCollection
 import { getBreadcrumbSchema, getRecipeCollectionSchema } from '@/lib/seo';
 import { getCollectionPath, getRecipeCollection, recipeCollections } from '@/lib/recipeCollections';
 import { getRecipes } from '@/lib/recipes';
+import { getRecipeImageVariantUrl } from '@/lib/recipeImageVariants';
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
@@ -20,6 +21,7 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
   const collection = getRecipeCollection(slug);
   if (!collection) return {};
   const canonical = `https://chef-ilhama.food${getCollectionPath('az', slug)}`;
+  const coverImage = getRecipeImageVariantUrl(collection.recipeSlugs[0], '16x9');
 
   return {
     title: collection.title.az,
@@ -38,9 +40,9 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
       description: collection.description.az,
       type: 'article',
       url: canonical,
-      images: [{ url: `/images/recipes/global/${collection.recipeSlugs[0]}.webp`, alt: collection.title.az }],
+      images: [{ url: coverImage, width: 1200, height: 675, alt: collection.title.az }],
     },
-    twitter: { card: 'summary_large_image', title: collection.title.az, description: collection.description.az, images: [`/images/recipes/global/${collection.recipeSlugs[0]}.webp`] },
+    twitter: { card: 'summary_large_image', title: collection.title.az, description: collection.description.az, images: [coverImage] },
   };
 }
 
@@ -61,7 +63,7 @@ export default async function AzerbaijaniCollectionDetailPage({ params }: Collec
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getRecipeCollectionSchema(recipes, collection.title.az, collection.description.az, path)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getRecipeCollectionSchema(recipes, collection.title.az, collection.description.az, path, 'az')) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(getBreadcrumbSchema(breadcrumbs)) }} />
       <RecipeCollectionDetailPage locale="az" collection={collection} recipes={recipes} breadcrumbs={breadcrumbs} />
     </>

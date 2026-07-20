@@ -37,7 +37,12 @@ import { getWhatsAppHref } from '@/lib/site';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { useTranslation } from '@/hooks/useTranslation';
-import { getLocalizedRecipePath, getLocalizedRecipesPath, getLocalizedServicesPath } from '@/lib/localeRoutes';
+import {
+  getLocalizedAboutPath,
+  getLocalizedRecipePath,
+  getLocalizedRecipesPath,
+  getLocalizedServicesPath,
+} from '@/lib/localeRoutes';
 import type { SiteLocale } from '@/lib/localeRoutes';
 import { trackEvent } from '@/lib/analytics';
 import { getRecipeInsight } from '@/lib/recipeInsights';
@@ -130,6 +135,11 @@ export default function RecipeStoryPage({ recipe, relatedRecipes = [], breadcrum
 
   const getRecipesUrl = () => getLocalizedRecipesPath(locale);
   const getServicesUrl = () => getLocalizedServicesPath(locale);
+  const quickAnswer = locale === 'az'
+    ? `${recipe.name} ${recipe.ingredients.length} ərzaqla, ${recipe.instructions.length} aydın addımda hazırlanır. Ümumi vaxt ${recipe.prepTime}, nəticə isə ${recipe.servings} üçündür. Ərzaqları işarələyin və addımları bişirdikcə tamamlayın.`
+    : locale === 'en'
+      ? `${recipe.name} uses ${recipe.ingredients.length} ingredients and ${recipe.instructions.length} clear steps. Allow ${recipe.prepTime}; the recipe yields ${recipe.servings}. Check off ingredients and steps as you cook.`
+      : null;
 
   const progress = useMemo(() => {
     const ingredientProgress = recipe.ingredients.length
@@ -249,6 +259,15 @@ export default function RecipeStoryPage({ recipe, relatedRecipes = [], breadcrum
                     <p className="max-w-2xl text-base leading-8 text-[rgba(57,44,35,0.76)] sm:text-lg">
                       {recipe.history || `${recipe.name} · ${recipe.origin}`}
                     </p>
+                    {(locale === 'az' || locale === 'en') ? (
+                      <Link
+                        href={getLocalizedAboutPath(locale)}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-[rgba(112,83,59,0.76)] underline decoration-[rgba(141,58,36,0.28)] underline-offset-4 hover:text-[rgba(141,58,36,0.96)]"
+                      >
+                        <ChefHat className="h-4 w-4" />
+                        {locale === 'az' ? 'Chef İlhamənin resept kolleksiyasından' : 'From Chef Ilhama’s recipe collection'}
+                      </Link>
+                    ) : null}
                   </div>
 
                   <div className="flex flex-wrap gap-2 text-sm text-[rgba(57,44,35,0.72)]">
@@ -271,8 +290,11 @@ export default function RecipeStoryPage({ recipe, relatedRecipes = [], breadcrum
                   </div>
 
                   <div className="flex flex-wrap gap-3">
-                    <Button asChild variant="outline" className="rounded-full border-[rgba(98,67,45,0.14)] bg-white/72 hover:bg-white">
-                      <a href="#recipe-content">
+                    <Button asChild className="rounded-full bg-[rgba(53,84,65,0.96)] text-white hover:bg-[rgba(53,84,65,0.9)]">
+                      <a
+                        href="#recipe-content"
+                        onClick={() => trackEvent('recipe_jump_to_method', { recipe_slug: recipe.slug, locale, location: 'hero' })}
+                      >
                         <BookOpen className="h-4 w-4" />
                         {labels.jump}
                       </a>
@@ -324,6 +346,42 @@ export default function RecipeStoryPage({ recipe, relatedRecipes = [], breadcrum
             </EditorialPanel>
           </div>
         </section>
+
+        {quickAnswer ? (
+          <section className="px-4 sm:px-6 lg:px-8" aria-labelledby="recipe-quick-answer">
+            <div className="mx-auto max-w-7xl">
+              <EditorialPanel className="overflow-hidden p-0">
+                <div className="grid md:grid-cols-[0.72fr_1.28fr] md:items-stretch">
+                  <div className="flex flex-col justify-center bg-[rgba(36,28,24,0.96)] p-6 text-white sm:p-8">
+                    <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
+                      <BookOpen className="h-5 w-5" />
+                    </div>
+                    <div className="mt-5 text-xs font-semibold uppercase tracking-[0.22em] text-white/54">
+                      {locale === 'az' ? 'Qısa cavab' : 'Quick answer'}
+                    </div>
+                    <h2 id="recipe-quick-answer" className="display-title mt-3 text-4xl leading-[0.96] sm:text-5xl">
+                      {locale === 'az' ? `${recipe.name} necə hazırlanır?` : `How do you make ${recipe.name}?`}
+                    </h2>
+                  </div>
+                  <div className="mesh-surface flex flex-col justify-center gap-5 p-6 sm:p-8">
+                    <p className="text-base leading-8 text-[rgba(57,44,35,0.78)] sm:text-lg">{quickAnswer}</p>
+                    <div>
+                      <Button asChild className="rounded-full bg-[rgba(141,58,36,0.96)] text-white hover:bg-[rgba(141,58,36,0.9)]">
+                        <a
+                          href="#recipe-content"
+                          onClick={() => trackEvent('recipe_jump_to_method', { recipe_slug: recipe.slug, locale, location: 'quick_answer' })}
+                        >
+                          <BookOpen className="h-4 w-4" />
+                          {labels.jump}
+                        </a>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </EditorialPanel>
+            </div>
+          </section>
+        ) : null}
 
         {recipeInsight ? (
           <section className="px-4 sm:px-6 lg:px-8">

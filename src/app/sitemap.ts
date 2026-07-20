@@ -11,6 +11,7 @@ import {
 import { siteConfig } from '@/lib/site';
 import { getCollectionPath, getCollectionsPath, recipeCollections } from '@/lib/recipeCollections';
 import { getGuidePath } from '@/lib/underrepresentedDishesGuide';
+import { getRecipeImageVariantUrl } from '@/lib/recipeImageVariants';
 
 // Keep the sitemap current as recipes are added and avoid opening another DB
 // session during Next's highly parallel static-generation phase.
@@ -49,7 +50,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: recipe.updatedAt ? new Date(recipe.updatedAt) : undefined,
       changeFrequency: 'weekly' as const,
       priority: locale === 'az' ? 0.8 : 0.75,
-      images: recipe.image ? [recipe.image] : undefined,
+      images: (['1x1', '4x3', '16x9'] as const).map((variant) =>
+        getRecipeImageVariantUrl(recipe.slug, variant)),
       alternates: { languages: getIndexableRecipeAlternates(recipe.slug) },
     })),
   );
@@ -72,7 +74,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${siteConfig.url}${getCollectionPath(locale, collection.slug)}`,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
-      images: [`${siteConfig.url}/images/recipes/global/${collection.recipeSlugs[0]}.webp`],
+      images: [getRecipeImageVariantUrl(collection.recipeSlugs[0], '16x9')],
       alternates: {
         languages: {
           az: `${siteConfig.url}${getCollectionPath('az', collection.slug)}`,
