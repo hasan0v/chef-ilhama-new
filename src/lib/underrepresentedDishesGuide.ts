@@ -75,7 +75,7 @@ export const guideRegions: GuideRegion[] = [
       'sklandrausis-latvian-carrot-potato-tarts',
       'acorda-alentejana-portuguese-bread-soup',
       'mulgipuder-estonian-potato-barley-mash',
-      'jingalov-hats-armenian-herb-flatbread',
+      'qirxbugum-ketesi',
       'cepelinai-lithuanian-potato-dumplings',
       'fregola-con-arselle-sardinian-clam-pasta',
       'strapatsada-greek-tomato-eggs',

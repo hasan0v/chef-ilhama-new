@@ -29,7 +29,7 @@ const originAz = {
   Tunisia: 'Tunis', France: 'Fransa', India: 'Hindistan', Greece: 'Yunanıstan', Palestine: 'Fələstin',
   Italy: 'İtaliya', Peru: 'Peru', China: 'Çin', Lebanon: 'Livan', Chile: 'Çili', Lithuania: 'Litva',
   "Côte d'Ivoire": 'Kot-d’İvuar', 'South Korea': 'Cənubi Koreya', Japan: 'Yaponiya', Morocco: 'Mərakeş',
-  Guatemala: 'Qvatemala', Laos: 'Laos', Armenia: 'Ermənistan', Brazil: 'Braziliya', Tajikistan: 'Tacikistan',
+  Guatemala: 'Qvatemala', Laos: 'Laos', Brazil: 'Braziliya', Tajikistan: 'Tacikistan',
   Thailand: 'Tailand', Vanuatu: 'Vanuatu', 'Trinidad and Tobago': 'Trinidad və Tobaqo', Estonia: 'Estoniya',
   Ethiopia: 'Efiopiya', Portugal: 'Portuqaliya', Malaysia: 'Malayziya', Latvia: 'Latviya', Nepal: 'Nepal',
   Ukraine: 'Ukrayna', Cambodia: 'Kamboca', Cameroon: 'Kamerun', Eritrea: 'Eritreya', Indonesia: 'İndoneziya',

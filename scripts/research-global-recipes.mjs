@@ -26,7 +26,6 @@ const candidates = [
   ['Ciorbă rădăuțeană', 'Romania', 'Ciorbă rădăuțeană', 'europe'],
   ['Strapatsada', 'Greece', 'Strapatsada', 'europe'],
   ['Hünkar beğendi', 'Türkiye', 'Hünkar beğendi', 'west-asia'],
-  ['Jingalov hats', 'Armenia', 'Jingalov hats', 'west-asia'],
   ['Chkmeruli', 'Georgia', 'Chkmeruli', 'west-asia'],
   ['Qurutob', 'Tajikistan', 'Qurutob', 'central-asia'],
   ['Mastava', 'Uzbekistan', 'Mastava', 'central-asia'],

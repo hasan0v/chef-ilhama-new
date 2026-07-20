@@ -8,7 +8,7 @@ const selectedDishes = [
   'Conchitas a la parmesana', 'Liangpi', 'Sayadieh', 'Carapulcra', 'Charquicán',
   'Fanesca', 'Cepelinai', 'Kedjenou', 'Kongguksu', 'Hiyashi chūka',
   'Rfissa', 'Ochazuke', 'Eromba', 'Pepián', 'Nam khao',
-  'Jingalov hats', 'Baião de dois', 'Yakgwa', 'Qurutob', 'Sai ua',
+  'Baião de dois', 'Yakgwa', 'Qurutob', 'Sai ua',
   'Laplap', 'Pelau', 'Mulgipuder', 'Shiro wat', 'Açorda alentejana',
   'Otak-otak', 'Sklandrausis', 'Yomari', 'Canederli', 'Banosh',
   'Num banh chok', 'Ndolé', 'Zigni', 'Asam pedas', 'Mie Aceh',

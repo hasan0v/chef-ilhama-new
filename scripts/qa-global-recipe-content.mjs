@@ -67,7 +67,7 @@ for (const recipe of data.recipes) {
   const publicDomain = /public domain|cc0/i.test(recipe.image?.license ?? '');
   if (!recipe.image?.sourceUrl || !recipe.image?.license || (!publicDomain && !recipe.image?.licenseUrl)) problems.push(`${recipe.slug}: incomplete image attribution`);
 }
-if (data.recipes.length !== 50) problems.push(`Expected 50 recipes, got ${data.recipes.length}`);
+if (data.recipes.length !== 49) problems.push(`Expected 49 global import recipes, got ${data.recipes.length}`);
 if (problems.length) throw new Error(`Content QA failed:\n${problems.join('\n')}`);
 
 data.reviewedAt = new Date().toISOString();

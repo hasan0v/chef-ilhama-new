@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-07-19T21:42:26.457Z",
-  "count": 50,
+  "count": 49,
   "selectionMethod": "Balanced 50-dish shortlist from the measured 70-candidate opportunity set, with geographic diversity and exact-image review.",
   "recipes": [
     {
@@ -1297,36 +1297,6 @@
       "exactRecipeResultCount": 190000,
       "exactRecipeResultCountLabel": "About 190,000 results",
       "opportunityScore": 35.5
-    },
-    {
-      "dish": "Jingalov hats",
-      "country": "Armenia",
-      "wikiTitle": "Jingalov hats",
-      "region": "west-asia",
-      "resolvedWikipediaTitle": "Zhingyalov hats",
-      "wikipediaUrl": "https://en.wikipedia.org/wiki/Zhingyalov_hats",
-      "description": "Armenian flatbread",
-      "extract": "Zhingyalov hats is a type of flatbread stuffed with finely diced herbs and green vegetables. It is a traditional dish of Armenians from Artsakh and Syunik and has traditionally been a staple in times of scarcity, such as famine and war.",
-      "annualWikipediaViews": 11523,
-      "image": {
-        "title": "File:Jengyal_roll_—_Ժենգյալով_հաց.jpg",
-        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg/1920px-Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "width": 1600,
-        "height": 2128,
-        "author": "GeoO",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-        "credit": "Own work"
-      },
-      "suggestions": [
-        "jingalov hats"
-      ],
-      "recipeIntentSuggestions": [],
-      "exactRecipeResultCount": 198,
-      "exactRecipeResultCountLabel": "About 198 results",
-      "opportunityScore": 35.4
     },
     {
       "dish": "Baião de dois",

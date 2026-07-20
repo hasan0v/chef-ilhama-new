@@ -2748,94 +2748,6 @@
       }
     },
     {
-      "slug": "jingalov-hats-armenian-herb-flatbread",
-      "en": {
-        "slug": "jingalov-hats-armenian-herb-flatbread",
-        "name": "Jingalov hats",
-        "origin": "Armenia",
-        "region": "Artsakh and Syunik",
-        "category": "Bread and pastry",
-        "prepTime": "1 hour 20 minutes",
-        "difficulty": "Medium",
-        "servings": "8 flatbreads",
-        "history": "Jingalov hats is a paper-thin Armenian flatbread packed with a large mixture of fresh herbs and leafy greens. The balance of mild, aromatic and slightly bitter leaves defines the filling.",
-        "servingSuggestions": "Serve warm or at room temperature with yogurt, lemon and fresh vegetables.",
-        "ingredients": [
-          "Plain flour – 500 g",
-          "Warm water – 300 ml",
-          "Spinach – 200 g",
-          "Parsley and coriander – 1 bunch each",
-          "Spring onions – 1 bunch",
-          "Dill and mint – 1 small bunch each",
-          "Beet greens or chard – 150 g",
-          "Olive oil, paprika, salt and pepper – as needed"
-        ],
-        "instructions": [
-          "Knead flour, water and salt into a smooth dough; cover and rest for 30 minutes.",
-          "Wash and dry all greens thoroughly, chop finely and season only just before filling.",
-          "Roll dough balls into very thin rounds and mound the herb mixture on one half.",
-          "Fold, press out air and seal the edges firmly.",
-          "Cook on a dry hot griddle for two to three minutes per side and brush lightly with oil."
-        ]
-      },
-      "az": {
-        "name": "Jingalov hats",
-        "origin": "Ermənistan",
-        "region": "Artsax və Syunik",
-        "category": "Çörək və xəmir",
-        "prepTime": "1 saat 20 dəqiqə",
-        "difficulty": "Orta",
-        "servings": "8 yastı çörək",
-        "history": "Jingalov papaqları təzə otlar və yarpaqlı göyərtilərin böyük qarışığı ilə qablaşdırılan kağız nazik erməni xörəyidir. Yumşaq, aromatik və bir qədər acı yarpaqların balansı içliyi müəyyən edir.",
-        "servingSuggestions": "İsti və ya otaq temperaturunda qatıq, limon və təzə tərəvəzlərlə xidmət edin.",
-        "ingredients": [
-          "Adi un – 500 q",
-          "İsti su – 300 ml",
-          "İspanaq – 200 q",
-          "Cəfəri və keşniş – hər biri 1 dəstə",
-          "Baş soğan – 1 dəstə",
-          "Şüyüd və nanə – hər biri 1 kiçik dəstə",
-          "Çuğundur göyərti və ya pazı – 150 q",
-          "Zeytun yağı, paprika, duz və istiot – lazım olduqda"
-        ],
-        "instructions": [
-          "Un, su və duzu hamar bir xəmir yoğurun; örtün və 30 dəqiqə istirahət edin.",
-          "Bütün göyərtiləri yaxşıca yuyun və qurudun, incə doğrayın və yalnız doldurmadan əvvəl ədviyyat edin.",
-          "Xəmir toplarını çox incə yuvarlaqlara yuvarlayın və ot qarışığını yarısına tökün.",
-          "Qatlayın, havanı sıxın və kənarlarını möhkəm bağlayın.",
-          "Hər tərəfə iki-üç dəqiqə quru isti tavada bişirin və yüngülcə yağla fırçalayın."
-        ]
-      },
-      "image": {
-        "title": "File:Jengyal_roll_—_Ժենգյալով_հաց.jpg",
-        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg/1920px-Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg",
-        "width": 1600,
-        "height": 2128,
-        "author": "GeoO",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-        "credit": "Own work"
-      },
-      "sources": [
-        {
-          "title": "Jingalov hats cultural background",
-          "url": "https://en.wikipedia.org/wiki/Zhingyalov_hats"
-        },
-        {
-          "title": "Jingalov hats image and license",
-          "url": "https://commons.wikimedia.org/wiki/File:Jengyal_roll_%E2%80%94_%D4%BA%D5%A5%D5%B6%D5%A3%D5%B5%D5%A1%D5%AC%D5%B8%D5%BE_%D5%B0%D5%A1%D6%81.jpg"
-        }
-      ],
-      "research": {
-        "annualWikipediaViews": 11523,
-        "recipeIntentSuggestions": [],
-        "exactRecipeResultCount": 198,
-        "opportunityScore": 35.4
-      }
-    },
-    {
       "slug": "baiao-de-dois-brazilian-rice-beans",
       "en": {
         "slug": "baiao-de-dois-brazilian-rice-beans",
@@ -4539,5 +4451,5 @@
       }
     }
   ],
-  "reviewedAt": "2026-07-19T21:42:26.848Z"
+  "reviewedAt": "2026-07-20T00:32:39.495Z"
 }
