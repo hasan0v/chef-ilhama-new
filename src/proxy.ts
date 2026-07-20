@@ -6,6 +6,18 @@ import { getLocalizedHomePath, LOCALE_COOKIE_NAME } from '@/lib/localeRoutes';
 const BOT_USER_AGENT = /(?:bot|crawler|spider|slurp|bingpreview|facebookexternalhit|whatsapp|telegrambot|discordbot|linkedinbot)/i;
 
 export function proxy(request: NextRequest) {
+  const isRecipeCatalog = request.nextUrl.pathname === '/reseptler'
+    || /^\/[a-z]{2}\/recipes$/.test(request.nextUrl.pathname);
+
+  // Search, category, region and difficulty states are useful UI views, not
+  // standalone landing pages. Keep their links followable while preventing
+  // parameter combinations from competing with the canonical catalog URL.
+  if (isRecipeCatalog && request.nextUrl.search) {
+    const response = NextResponse.next();
+    response.headers.set('X-Robots-Tag', 'noindex, follow');
+    return response;
+  }
+
   if (
     request.nextUrl.pathname !== '/' ||
     !['GET', 'HEAD'].includes(request.method) ||
@@ -34,5 +46,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/'],
+  matcher: ['/', '/reseptler', '/:locale/recipes'],
 };

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   BookOpenText,
@@ -65,6 +66,7 @@ function getMobileViewportSnapshot() {
 }
 
 export default function HomeExperience({ featuredRecipes, allRecipes, stats }: HomeExperienceProps) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [scrollY, setScrollY] = useState(0);
   const [isHeroVideoPlaying, setIsHeroVideoPlaying] = useState(false);
@@ -268,13 +270,14 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
             </div>
             <div className="flex flex-wrap gap-2">
               {categoryStats.slice(0, 10).map((cat) => (
-                <Link
+                <button
                   key={cat.name}
-                  href={`${getRecipesUrl()}?category=${encodeURIComponent(cat.name)}`}
+                  type="button"
+                  onClick={() => router.push(`${getRecipesUrl()}?category=${encodeURIComponent(cat.name)}`)}
                   className="rounded-full border border-[rgba(98,67,45,0.1)] bg-white/80 px-4 py-2 text-sm font-medium text-[rgba(57,44,35,0.82)] transition-colors hover:border-transparent hover:bg-[rgba(141,58,36,0.96)] hover:text-white"
                 >
                   {cat.name} <span className="ml-1 text-xs opacity-60">({cat.count})</span>
-                </Link>
+                </button>
               ))}
             </div>
           </div>

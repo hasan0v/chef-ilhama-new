@@ -124,6 +124,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.chef-ilhama.food' }],
+        destination: 'https://chef-ilhama.food/:path*',
+        permanent: true,
+      },
+      {
+        source: '/resept/sorqogal-1',
+        destination: '/resept/sorqogal',
+        permanent: true,
+      },
+    ];
+  },
   
   // Headers for better caching
   async headers() {

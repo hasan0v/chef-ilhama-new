@@ -1,6 +1,6 @@
 # Chef Ilhama - https://chef-ilhama.food
 # Azerbaijani recipe publisher, private chef & catering service
-# Last updated: 2026-04-12
+# Last updated: 2026-07-20
 
 # =====================================================================
 # DEFAULT: Allow all search/retrieval bots
@@ -9,7 +9,6 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-Disallow: /_next/
 Disallow: /private/
 
 # =====================================================================
@@ -63,11 +62,12 @@ Disallow: /
 User-agent: GPTBot
 Disallow: /
 
+# User-requested ChatGPT fetches are retrieval, not model training.
+User-agent: ChatGPT-User
+Allow: /
+
 # Common crawl / other training-focused crawlers
 User-agent: CCBot
-Disallow: /
-
-User-agent: ChatGPT-User
 Disallow: /
 
 User-agent: anthropic-ai

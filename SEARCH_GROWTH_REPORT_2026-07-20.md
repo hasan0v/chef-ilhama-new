@@ -63,6 +63,31 @@ Recipe Gallery ən aydın texniki fürsətdir: görünürlük var, klik çevrilm
 
 Search Console query cədvəli anonim və aşağı həcmli sorğuları tam göstərmir; query cəmlərinin chart cəmi ilə eyni olmaması normaldır.
 
+## Coverage və rich-result audit əlavəsi
+
+20 iyul Coverage export-u və giriş edilmiş canlı Search Console paneli birlikdə yoxlanıldı. Export-un son Page Indexing yenilənməsi 10 iyul, Recipe/Breadcrumb enhancement yenilənməsi 18 iyuldur.
+
+### Page indexing səbəbləri
+
+| Səbəb | Say | Canlı nümunələrin real mənası | Qərar |
+|---|---:|---|---|
+| Alternate page with proper canonical | 73 | `www.chef-ilhama.food/...` dublikatları | `www` host-u apex domain-ə 308 redirect edilir |
+| Blocked by robots.txt | 2 | `/_next/static/media/*.woff2` fontları | render asset-ləri üçün `/_next/` bloku silindi |
+| Not found (404) | 1 | köhnə `/resept/sorqogal-1` | mövcud `/resept/sorqogal` səhifəsinə 308 redirect əlavə edildi |
+| Page with redirect | 1 | `http://chef-ilhama.food/` | düzgün HTTP→HTTPS davranışıdır, dəyişdirilmədi |
+| Crawled — currently not indexed | 11 | 7 köhnə `?category=` filter URL-si, 3 font/favicon asset-i, 1 əlavə filter URL-si | crawlable filter linkləri düymə əsaslı client navigation-a çevrildi; bütün parametrli recipe kataloqları `X-Robots-Tag: noindex, follow` alır |
+
+73 canonical səhifə müxtəlif dillərin problemi deyil; canlı nümunələr hamısının `www` host dublikatı olduğunu göstərdi. Buna görə locale səhifələrini kor-koranə silmək və ya index açmaq əvəzinə host səviyyəli konsolidasiya seçildi.
+
+### Recipe və Breadcrumb enhancement
+
+- Breadcrumbs: 54 valid, 0 invalid, son 90 gündə problem yoxdur.
+- Recipes: 45 valid, 0 critical invalid.
+- 45 recipe üçün addım şəkli/video tövsiyəsi var idi. Hər `HowToStep`-ə 4:3 ölçülü crawlable recipe image əlavə edildi.
+- `HowToStep.url` artıq hər addım anchor-u ilə verilir; Search Console-un 18 iyul snapshot-u bu deploy-dan əvvəlki versiyanı göstərir.
+- 6 köhnə ingredient-length xəbərdarlığı üçün schema ingredient və instruction mətnlərini trim edir, boş və bir simvolluq dəyərləri çıxarır.
+- `aggregateRating`, `video` və `nutrition` məlumatları real data olmadığı üçün saxta şəkildə yaradılmadı.
+
 ## Implementasiya olunmuş dəyişikliklər
 
 ### 1. Axtarış niyyətli title və description sistemi
@@ -174,6 +199,11 @@ Search Console query cədvəli anonim və aşağı həcmli sorğuları tam göst
 - `/media/recipes/yarpaq-dolmasi/1x1.jpg`: 200, image/jpeg, 1200×1200
 - `/media/recipes/yarpaq-dolmasi/4x3.jpg`: 200, image/jpeg, 1200×900
 - `/media/recipes/yarpaq-dolmasi/16x9.jpg`: 200, image/jpeg, 1200×675
+- `www.chef-ilhama.food/resept/piti`: lokal production smoke test-də 308 → apex URL
+- `/resept/sorqogal-1`: 308 → `/resept/sorqogal`
+- `/reseptler?category=Şorba`: 200 və `X-Robots-Tag: noindex, follow`
+- Düşbərə Recipe JSON-LD: 6/6 addımda `url` və 4:3 `image`, 11 təmiz ingredient, 3 əsas image ratio
+- Canlı Search Console: Recipes 45 valid / 0 invalid; Breadcrumbs 54 valid / 0 invalid
 
 ## İstinad prinsipləri
 

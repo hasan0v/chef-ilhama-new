@@ -214,6 +214,12 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
     ...(recipe.imageLicenseUrl ? { license: recipe.imageLicenseUrl } : {}),
     ...(recipe.imageSourceUrl ? { acquireLicensePage: recipe.imageSourceUrl } : {}),
   }));
+  const recipeIngredients = recipe.ingredients
+    .map((ingredient) => ingredient.replace(/\s+/g, ' ').trim())
+    .filter((ingredient) => ingredient.length >= 2);
+  const recipeInstructions = recipe.instructions
+    .map((instruction) => instruction.replace(/\s+/g, ' ').trim())
+    .filter((instruction) => instruction.length >= 2);
 
   return {
     '@context': 'https://schema.org',
@@ -229,13 +235,14 @@ export function getRecipeSchema(recipe: Recipe, locale = 'az') {
     keywords: [recipe.name, recipe.origin, recipe.category, ...(recipe.tags ?? [])].filter(Boolean),
     recipeYield: recipe.servings,
     totalTime: totalDuration,
-    recipeIngredient: recipe.ingredients,
-    recipeInstructions: recipe.instructions.map((instruction, index) => ({
+    recipeIngredient: recipeIngredients,
+    recipeInstructions: recipeInstructions.map((instruction, index) => ({
       '@type': 'HowToStep',
       name: `${localeConfig.stepLabel} ${index + 1}`,
       text: instruction,
       position: index + 1,
       url: `${recipeUrl}#step-${index + 1}`,
+      image: recipeImages[1],
     })),
     url: recipeUrl,
     mainEntityOfPage: recipeUrl,
