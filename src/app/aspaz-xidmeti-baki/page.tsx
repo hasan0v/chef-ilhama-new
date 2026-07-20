@@ -37,6 +37,10 @@ export const metadata: Metadata = {
 };
 
 const faqs = [
+  { question: '“Aşpaz”, “aspaz” və ya “asbaz” axtarıram — bu xidmət mənim üçündür?', answer: 'Bəli. Bu sözlər eyni ehtiyacı ifadə edir: ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.' },
+  { question: 'Toy yeməkləri və ya “toy yemekleri” üçün aşpaz sifariş etmək olar?', answer: 'Bəli. Toy, nişan və ailə mərasimi üçün menyu, porsiya, hazırlıq və servis axını qonaq sayınıza uyğun qurulur.' },
+  { question: '“Evə aşpaz”, “eve aspaz” və “şəxsi aşpaz” eyni xidmətdir?', answer: 'Bəli. Ev qonaqlığı və private dinner üçün yerində hazırlıq, menyu və servis planı şəxsi aşpaz formatında təqdim olunur.' },
+  { question: 'Katerinq, keyterinq və katering xidməti üçün müraciət edə bilərəm?', answer: 'Bəli. Fərqli yazılışlardan asılı olmayaraq, qonaq sayı, məkan, tarix və tədbir formatı ilə yazın; uyğun katerinq planı hazırlanacaq.' },
   { question: 'Aşpaz xidməti hansı ərazilərdə göstərilir?', answer: 'Chef İlhamə Bakı, Sumqayıt və Abşeron üzrə şəxsi aşpaz, katerinq və tədbir xidməti planlayır. Məkan və logistika sorğu zamanı dəqiqləşdirilir.' },
   { question: 'Qiymət necə müəyyənləşir?', answer: 'Qiymət qonaq sayı, tədbir tarixi, menyu, məkan və servis formatına görə hazırlanır. Qısa brif göndərin, sizə uyğun plan qurulsun.' },
   { question: 'Kiçik ev qonaqlığı üçün də sifariş mümkündür?', answer: 'Bəli. Şəxsi aşpaz formatı ev qonaqlığı və private dinner üçün də uyğundur; qonaq sayı və istədiyiniz dad istiqaməti ilə yazın.' },
@@ -50,6 +54,16 @@ const serviceSchema = {
   description: 'Chef İlhamə ilə Bakıda ev qonaqlığı, private dinner, toy, ailə şənliyi və korporativ tədbir üçün şəxsi aşpaz və katerinq xidməti.',
   url: pageUrl,
   image: heroImage,
+  alternateName: [
+    'Aşpaz xidməti Bakı',
+    'Aspaz xidməti Bakı',
+    'Asbaz xidməti Bakı',
+    'Toy yeməkləri',
+    'Toy yemekleri',
+    'Evə aşpaz',
+    'Eve aspaz',
+    'Keyterinq',
+  ],
   provider: { '@id': 'https://www.chef-ilhama.food/#business' },
   areaServed: [
     { '@type': 'City', name: 'Bakı' },

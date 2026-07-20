@@ -11,6 +11,7 @@ import {
   MapPinned,
   MessageCircle,
   Phone,
+  Search,
   Sparkles,
   UtensilsCrossed,
 } from 'lucide-react';
@@ -49,6 +50,22 @@ const services = [
 ];
 
 const faqs = [
+  {
+    q: '“Aşpaz”, “aspaz” və ya “asbaz” axtarıram — bu xidmət mənim üçündür?',
+    a: 'Bəli. Bu sözlər eyni ehtiyacı ifadə edir: ev qonaqlığı, ailə şənliyi və ya tədbir üçün peşəkar aşpaz sifarişi. Tədbir növünü və qonaq sayını yazın, uyğun formatı birlikdə planlayaq.',
+  },
+  {
+    q: 'Toy yeməkləri və ya “toy yemekleri” üçün aşpaz sifariş etmək olar?',
+    a: 'Bəli. Toy, nişan və ailə mərasimi üçün menyu, porsiya, hazırlıq və servis axını qonaq sayınıza uyğun qurulur.',
+  },
+  {
+    q: '“Evə aşpaz”, “eve aspaz” və “şəxsi aşpaz” eyni xidmətdir?',
+    a: 'Bəli. Ev qonaqlığı və private dinner üçün yerində hazırlıq, menyu və servis planı şəxsi aşpaz formatında təqdim olunur.',
+  },
+  {
+    q: 'Katerinq, keyterinq və katering xidməti üçün müraciət edə bilərəm?',
+    a: 'Bəli. Fərqli yazılışlardan asılı olmayaraq, qonaq sayı, məkan, tarix və tədbir formatı ilə yazın; uyğun katerinq planı hazırlanacaq.',
+  },
   {
     q: 'Aşpaz xidməti hansı ərazilərdə göstərilir?',
     a: 'Chef İlhamə Bakı, Sumqayıt və Abşeron üzrə şəxsi aşpaz, katerinq və tədbir xidməti planlayır. Məkan və logistika sorğu zamanı dəqiqləşdirilir.',
@@ -217,6 +234,27 @@ export default function ChefBookingLanding() {
           </div>
           <div className="divide-y divide-[#d9c7b4] border-y border-[#d9c7b4]">
             {faqs.map((faq) => <article key={faq.q} className="py-5 first:pt-0 last:pb-0"><h3 className="text-base font-semibold tracking-[-0.02em] text-[#35251e]">{faq.q}</h3><p className="mt-2 text-sm leading-7 text-[#6b5c51]">{faq.a}</p></article>)}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-[2rem] border border-[#e8ddcf] bg-[#fffdf9] p-6 shadow-[0_20px_55px_rgba(91,57,35,0.06)] sm:p-9">
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#355441]/10 text-[#355441]"><Search className="h-5 w-5" /></div>
+              <p className="mt-5 text-xs font-bold tracking-[0.16em] text-[#a15a2d] uppercase">Sizin yazılışınızla</p>
+              <h2 className="display-title mt-3 text-4xl leading-[0.96] tracking-[-0.045em] text-[#35251e]">Düzgün aşpaz xidmətini tapın.</h2>
+              <p className="mt-4 max-w-md text-sm leading-7 text-[#6b5c51]">Bu ifadələr eyni sifariş niyyətinin fərqli yazılışlarıdır. Vacib olan tədbiriniz və qonaq sayınızdır.</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                ['Aşpaz xidməti', 'aşpaz · aspaz · asbaz · aşbaz'],
+                ['Toy süfrəsi', 'toy yeməkləri · toy yemekleri · toy yemeyleri'],
+                ['Evdə aşpaz', 'evə aşpaz · eve aspaz · ev asbazi'],
+                ['Katerinq', 'katerinq · keyterinq · katering'],
+              ].map(([label, aliases]) => <div key={label} className="rounded-2xl border border-[#ebe1d5] bg-[#fbf7ef] px-5 py-4"><p className="text-sm font-semibold text-[#35251e]">{label}</p><p className="mt-1 text-xs leading-5 text-[#816f63]">{aliases}</p></div>)}
+            </div>
           </div>
         </div>
       </section>
