@@ -12,49 +12,44 @@ function subscribeToAnalyticsConsent(onStoreChange: () => void) {
   return () => window.removeEventListener(ANALYTICS_CONSENT_EVENT, onStoreChange);
 }
 
-function getCanonicalHostSnapshot() {
-  return window.location.hostname === 'www.chef-ilhama.food';
+function getConsentUpdate(consent: 'granted' | 'denied' | null) {
+  const value = consent === 'granted' ? 'granted' : 'denied';
+
+  return {
+    analytics_storage: value,
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  } as const;
 }
 
 export default function GoogleAnalytics() {
   const pathname = usePathname();
   const consent = useSyncExternalStore(subscribeToAnalyticsConsent, getAnalyticsConsent, () => null);
-  const isCanonicalHost = useSyncExternalStore(
-    () => () => undefined,
-    getCanonicalHostSnapshot,
-    () => false,
-  );
-
   const sendPageView = useCallback(() => {
-    if (!pathname || consent !== 'granted') return;
+    if (!pathname) return;
     window.gtag?.('event', 'page_view', {
       page_path: pathname,
       page_location: window.location.href,
       page_title: document.title,
     });
-  }, [consent, pathname]);
+  }, [pathname]);
+
+  useEffect(() => {
+    // The bootstrap in the root layout defines the denied default before the
+    // Google tag loads. This update records an explicit visitor choice (or
+    // keeps the privacy-safe default while the banner is undecided).
+    window.gtag?.('consent', 'update', getConsentUpdate(consent));
+  }, [consent]);
 
   useEffect(() => {
     sendPageView();
   }, [sendPageView]);
 
-  if (consent !== 'granted' || !isCanonicalHost) return null;
-
   return (
-    <>
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', '${measurementId}', {
-            send_page_view: false,
-            anonymize_ip: true
-          });
-        `}
-      </Script>
-      <Script src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`} strategy="afterInteractive" onLoad={sendPageView} />
-    </>
+    <Script
+      src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
+      strategy="afterInteractive"
+    />
   );
 }

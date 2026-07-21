@@ -24,6 +24,36 @@ const cormorant = Cormorant_Garamond({
   adjustFontFallback: false,
 });
 
+const googleMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-0DZ2LRYK9J';
+const googleConsentBootstrap = `
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+  (function() {
+    var storedConsent = null;
+    try { storedConsent = window.localStorage.getItem('chef-analytics-consent'); } catch (error) {}
+    window.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    if (storedConsent === 'granted') {
+      window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied'
+      });
+    }
+    window.gtag('js', new Date());
+    window.gtag('config', '${googleMeasurementId}', {
+      send_page_view: false,
+      anonymize_ip: true
+    });
+  })();
+`;
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.title,
@@ -206,6 +236,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://flavorsofbaku.com" />
         <link rel="dns-prefetch" href="https://azcookbook.com" />
         <script dangerouslySetInnerHTML={{ __html: htmlLocaleScript }} />
+        <script dangerouslySetInnerHTML={{ __html: googleConsentBootstrap }} />
         {siteSchemas.map((schema, i) => (
           <script
             key={`schema-${i}`}
