@@ -57,6 +57,9 @@ interface HomeExperienceProps {
   };
 }
 
+const HOME_NAVBAR_SCROLL_THRESHOLD = 80;
+const HOME_HERO_TRANSFORM_END = 420;
+
 function subscribeToMobileViewport(onStoreChange: () => void) {
   const mediaQuery = window.matchMedia('(max-width: 639px)');
   mediaQuery.addEventListener('change', onStoreChange);
@@ -88,12 +91,13 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
       frameId = window.requestAnimationFrame(() => {
         // Only the first 420px affects the hero. Quantizing avoids rerendering
         // the full homepage on every single mobile scroll event.
-        const next = Math.round(Math.min(window.scrollY, 420) / 12) * 12;
+        const next = Math.round(Math.min(window.scrollY, HOME_HERO_TRANSFORM_END) / 12) * 12;
         setScrollY((current) => current === next ? current : next);
         frameId = null;
       });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -136,8 +140,17 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
     return allRecipes.slice(0, 4);
   }, [allRecipes]);
 
-  // Start shrinking after scrolling past 20px to prevent jitter at y=0 due to subpixel rendering
-  const progress = typeof window !== 'undefined' ? Math.max(0, Math.min((scrollY - 20) / 400, 1)) : 0;
+  // Keep the video truly full-bleed for as long as the home navbar is hidden.
+  // Starting both transitions at the same threshold prevents the page
+  // background from appearing as a thin gold strip above the hero.
+  const progress = Math.max(
+    0,
+    Math.min(
+      (scrollY - HOME_NAVBAR_SCROLL_THRESHOLD)
+        / (HOME_HERO_TRANSFORM_END - HOME_NAVBAR_SCROLL_THRESHOLD),
+      1,
+    ),
+  );
 
   // Calculate dynamic dimensions based on screen size
   const heroStyle = {
