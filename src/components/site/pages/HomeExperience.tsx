@@ -34,6 +34,7 @@ import {
   getLocalizedServicesPath,
 } from '@/lib/localeRoutes';
 import { getCollectionsPath } from '@/lib/recipeCollections';
+import { getHomepageLatestRecipes } from '@/lib/recipeCuration';
 import type { Recipe } from '@/types/recipe';
 import { getValidImageUrl } from '@/utils/imageUtils';
 import { getCategoryStats } from '@/utils/categoryUtils';
@@ -82,7 +83,7 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
   const getRecipeUrl = (slug: string) => getLocalizedRecipePath(locale, slug);
   const getRecipesUrl = () => getLocalizedRecipesPath(locale);
   
-  const highlightedRecipes = featuredRecipes.slice(0, 6);
+  const highlightedRecipes = useMemo(() => featuredRecipes.slice(0, 6), [featuredRecipes]);
 
   useEffect(() => {
     let frameId: number | null = null;
@@ -136,9 +137,13 @@ export default function HomeExperience({ featuredRecipes, allRecipes, stats }: H
       .slice(0, 5);
   }, [allRecipes, searchTerm]);
 
-  const latestRecipes = useMemo(() => {
-    return allRecipes.slice(0, 4);
-  }, [allRecipes]);
+  const latestRecipes = useMemo(
+    () => getHomepageLatestRecipes(
+      allRecipes,
+      new Set(highlightedRecipes.map((recipe) => recipe.id)),
+    ),
+    [allRecipes, highlightedRecipes],
+  );
 
   // Keep the video truly full-bleed for as long as the home navbar is hidden.
   // Starting both transitions at the same threshold prevents the page

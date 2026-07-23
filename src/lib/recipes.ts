@@ -1,5 +1,6 @@
 import { Recipe } from '@/types/recipe';
 import { recipeService } from '@/database/services';
+import { getHomepageFeaturedRecipes } from '@/lib/recipeCuration';
 
 // Cache recipes for 5 minutes
 // Cache recipes by locale
@@ -99,7 +100,7 @@ export async function getFeaturedRecipes(locale?: string): Promise<Recipe[]> {
       return cached.data;
     }
     
-    const recipes = (await getRecipes(lang)).filter((recipe) => recipe.featured).slice(0, 6);
+    const recipes = getHomepageFeaturedRecipes(await getRecipes(lang));
     
     // Update cache
     featuredCache.set(lang, {
