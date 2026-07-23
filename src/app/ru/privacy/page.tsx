@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="Политика конфиденциальности"
       title={<>Здесь подробно и прозрачно описано, как собирается, используется и защищается ваша личная информация.</>}
       description="Юридические тексты также были адаптированы под новый стиль сайта: информация разбита на понятные структурированные карточки."
       sections={sections}
-      updatedAt="09.04.2026"
+      updatedAt="23.07.2026"
     />
   );
 }

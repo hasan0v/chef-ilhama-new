@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="Kebijakan Privasi"
       title={<>Kami menjelaskan secara transparan bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadi Anda.</>}
       description="Teks hukum telah disesuaikan dengan estetika modern situs web, mengelompokkan informasi ke dalam kartu-kartu yang jelas daripada paragraf panjang yang membingungkan."
       sections={sections}
-      updatedAt="9 April 2026"
+      updatedAt="23 Juli 2026"
     />
   );
 }

@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="隐私政策"
       title={<>在此，我们以极其透明的方式说明我们如何收集、使用和保护您的个人信息。</>}
       description="法律声明文件亦融入了网站的现代设计语言：我们将长篇大论的条款化繁为简，整理成清晰、易读的板块信息。"
       sections={sections}
-      updatedAt="2026年04月09日"
+      updatedAt="2026年07月23日"
     />
   );
 }

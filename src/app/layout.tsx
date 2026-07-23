@@ -4,7 +4,7 @@ import { siteConfig } from '@/lib/site';
 import { getWebSiteSchema, getChefServiceSchema, getAuthorSchema } from '@/lib/seo';
 import LocaleManager from '@/components/layout/LocaleManager';
 import GoogleAnalytics from '@/components/Analytics/GoogleAnalytics';
-import CookieConsent from '@/components/Analytics/CookieConsent';
+import PrivacyNotice from '@/components/Analytics/PrivacyNotice';
 import './globals.css';
 
 const manrope = Manrope({
@@ -29,27 +29,20 @@ const googleConsentBootstrap = `
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
   (function() {
-    var storedConsent = null;
-    try { storedConsent = window.localStorage.getItem('chef-analytics-consent'); } catch (error) {}
     window.gtag('consent', 'default', {
       analytics_storage: 'denied',
       ad_storage: 'denied',
       ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      wait_for_update: 500
+      ad_personalization: 'denied'
     });
-    if (storedConsent === 'granted') {
-      window.gtag('consent', 'update', {
-        analytics_storage: 'granted',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
-    }
+    window.gtag('set', 'ads_data_redaction', true);
     window.gtag('js', new Date());
     window.gtag('config', '${googleMeasurementId}', {
       send_page_view: false,
-      anonymize_ip: true
+      anonymize_ip: true,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+      restricted_data_processing: true
     });
   })();
 `;
@@ -247,7 +240,7 @@ export default function RootLayout({
       </head>
       <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased`}>
         <GoogleAnalytics />
-        <CookieConsent />
+        <PrivacyNotice />
         <LocaleManager />
         {children}
         <script dangerouslySetInnerHTML={{ __html: serviceWorkerScript }} />

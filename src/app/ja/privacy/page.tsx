@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="プライバシーポリシー"
       title={<>お預かりする個人情報の収集目的、取り扱い、および安全な保護について透明性を持って説明します。</>}
       description="法的なドキュメントもサイトのモダンな美意識に調和するよう、難解な長文ではなく、視覚的で分かりやすいカード形式に整理して記載しています。"
       sections={sections}
-      updatedAt="2026年4月9日"
+      updatedAt="2026年7月23日"
     />
   );
 }

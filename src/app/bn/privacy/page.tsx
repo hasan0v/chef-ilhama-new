@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="গোপনীয়তা নীতি"
       title={<>আমরা কীভাবে আপনার ব্যক্তিগত তথ্য সংগ্রহ, ব্যবহার এবং সুরক্ষিত রাখি তা এখানে স্বচ্ছভাবে জানানো হয়েছে।</>}
       description="আইনি বিবরণগুলোকে আরও সহজ ও বোধগম্য করতে আমরা সাধারণ দীর্ঘ প্যারাগ্রাফের পরিবর্তে কার্ড ডিজাইনে সাজিয়েছি যা আমাদের আধুনিক সাইটের সাথে সামঞ্জস্যপূর্ণ।"
       sections={sections}
-      updatedAt="৯ এপ্রিল ২০২৬"
+      updatedAt="২৩ জুলাই ২০২৬"
     />
   );
 }

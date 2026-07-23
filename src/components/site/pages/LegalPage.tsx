@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import { LegalBlock, PageHero, SectionLabel } from '@/components/site/marketing';
 import { useTranslation } from '@/hooks/useTranslation';
+import AnalyticsPrivacyDetails, { getAnalyticsPrivacyTitle } from '@/components/Analytics/AnalyticsPrivacyDetails';
 
 interface LegalSectionItem {
   index: string;
@@ -17,11 +18,13 @@ interface LegalPageProps {
   description: ReactNode;
   sections: LegalSectionItem[];
   updatedAt: string;
+  showAnalyticsDisclosure?: boolean;
 }
 
-export default function LegalPage({ eyebrow, title, description, sections, updatedAt }: LegalPageProps) {
+export default function LegalPage({ eyebrow, title, description, sections, updatedAt, showAnalyticsDisclosure = false }: LegalPageProps) {
   const { t, locale } = useTranslation();
   const isEn = locale === 'en';
+  const visibleSectionCount = sections.length + (showAnalyticsDisclosure ? 1 : 0);
 
   return (
     <PageLayout>
@@ -31,7 +34,7 @@ export default function LegalPage({ eyebrow, title, description, sections, updat
           title={title}
           description={description}
           stats={[
-            { value: `${sections.length}`, label: isEn ? 'sections' : 'bölmə' },
+            { value: `${visibleSectionCount}`, label: isEn ? 'sections' : 'bölmə' },
             { value: updatedAt, label: t.legal.lastUpdated },
             { value: 'AZ / EN', label: isEn ? 'language' : 'dil' },
           ]}
@@ -44,6 +47,11 @@ export default function LegalPage({ eyebrow, title, description, sections, updat
                 {section.content}
               </LegalBlock>
             ))}
+            {showAnalyticsDisclosure && (
+              <LegalBlock index={`${visibleSectionCount}`.padStart(2, '0')} title={getAnalyticsPrivacyTitle(locale)}>
+                <AnalyticsPrivacyDetails locale={locale} />
+              </LegalBlock>
+            )}
           </div>
         </section>
       </div>

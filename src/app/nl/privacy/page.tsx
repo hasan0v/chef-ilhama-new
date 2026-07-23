@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="Privacybeleid"
       title={<>We leggen op transparante wijze uit hoe we uw persoonsgegevens verwerken en beschermen.</>}
       description="De juridische teksten zijn aangepast aan de moderne esthetiek van de website. De informatie is ingedeeld in overzichtelijke kaarten in plaats van lange lappen tekst."
       sections={sections}
-      updatedAt="09.04.2026"
+      updatedAt="23.07.2026"
     />
   );
 }

@@ -104,11 +104,12 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <LegalPage
+      showAnalyticsDisclosure
       eyebrow="Məxfilik siyasəti"
       title={<>Şəxsi məlumatların necə toplandığı, istifadə edildiyi və qorunduğu burada aydın şəkildə izah olunur.</>}
       description="Bu səhifə də saytın yeni dizayn sistemi ilə uyğunlaşdırılıb: hüquqi məzmun daha oxunaqlı bloklara bölünüb və kontakt informasiyası daha aydın təqdim olunur."
       sections={sections}
-      updatedAt="09.04.2026"
+      updatedAt="23.07.2026"
     />
   );
 }
