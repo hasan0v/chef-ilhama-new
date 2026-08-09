@@ -1,8 +1,17 @@
-# Chef İlhamə - Azərbaycan Mətbəxi
+# Chef Ilhama
 
-Professional Azerbaijani chef services and authentic recipe platform built with Next.js 15, Prisma, and PostgreSQL.
+An Azerbaijani recipe and professional chef platform built with Next.js, Prisma, and PostgreSQL.
 
-## 🎯 Features
+| Field | Value |
+| --- | --- |
+| Focus | Full-stack product engineering |
+| Status | Active portfolio project |
+
+## Overview
+
+An Azerbaijani recipe and professional chef platform built with Next.js, Prisma, and PostgreSQL.
+
+## Features
 
 - **Recipe Database**: 100+ authentic Azerbaijani recipes with detailed instructions
 - **Professional Chef Services**: Personal chef and katerinq services
@@ -11,7 +20,7 @@ Professional Azerbaijani chef services and authentic recipe platform built with 
 - **Performance**: Optimized with caching, lazy loading, and code splitting
 - **Multi-language Support**: Azerbaijani language interface
 
-## 🛠️ Tech Stack
+## Technology
 
 - **Framework**: Next.js 15 (App Router)
 - **Database**: PostgreSQL with Prisma ORM
@@ -21,21 +30,17 @@ Professional Azerbaijani chef services and authentic recipe platform built with 
 - **Deployment**: Vercel
 - **Backend**: Supabase (PostgreSQL)
 
-## 🚀 Getting Started
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 - PostgreSQL database (Supabase recommended)
 
-### Installation
+### Getting started
 
 1. Clone the repository:
-```bash
-git clone https://github.com/hasan0v/chef-ilhama-new.git
-cd chef-ilhama-new
-```
 
 2. Install dependencies:
 ```bash
@@ -74,34 +79,34 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-## 📦 Project Structure
+## Architecture
 
 ```
 src/
-├── app/                    # Next.js app router pages
-│   ├── reseptler/         # Recipes listing page
-│   ├── resept/[slug]/     # Individual recipe pages
-│   ├── xidmetler/         # Services page
-│   ├── elaqe/             # Contact page
-│   └── api/               # API routes
-├── components/            # React components
-│   ├── home/             # Homepage components
-│   ├── recipe/           # Recipe-related components
-│   ├── layout/           # Layout components
-│   └── ui/               # Reusable UI components
-├── database/             # Database services
-│   └── services/         # Prisma service layer
-├── lib/                  # Utilities and helpers
-├── types/                # TypeScript types
-└── utils/                # Utility functions
+ app/                    # Next.js app router pages
+    reseptler/         # Recipes listing page
+    resept/[slug]/     # Individual recipe pages
+    xidmetler/         # Services page
+    elaqe/             # Contact page
+    api/               # API routes
+ components/            # React components
+    home/             # Homepage components
+    recipe/           # Recipe-related components
+    layout/           # Layout components
+    ui/               # Reusable UI components
+ database/             # Database services
+    services/         # Prisma service layer
+ lib/                  # Utilities and helpers
+ types/                # TypeScript types
+ utils/                # Utility functions
 
 prisma/
-└── schema.prisma         # Database schema
+ schema.prisma         # Database schema
 
 public/                   # Static assets
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 The application uses Prisma with PostgreSQL. Main model:
 
@@ -121,7 +126,7 @@ model Recipe {
 }
 ```
 
-## 🔧 Available Scripts
+## Available Scripts
 
 ```bash
 npm run dev          # Start development server
@@ -131,7 +136,7 @@ npm run db:generate  # Generate Prisma client
 npm run db:reset     # Reset database
 ```
 
-## 🚀 Deployment
+## Deployment
 
 ### Deploy to Vercel
 
@@ -152,7 +157,7 @@ Set these in your Vercel project settings:
 
 See `DEPLOYMENT_CHECKLIST.md` for detailed deployment instructions.
 
-## 📝 Key Features Implementation
+## Key Features Implementation
 
 ### Recipe System
 - Dynamic recipe pages with SEO optimization
@@ -173,15 +178,15 @@ See `DEPLOYMENT_CHECKLIST.md` for detailed deployment instructions.
 - Sitemap generation
 - robots.txt configuration
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+## License
 
 This project is private and proprietary.
 
-## 📞 Contact
+## Contact
 
 Chef İlhamə
 - WhatsApp: +994 77 614 11 74
@@ -189,4 +194,13 @@ Chef İlhamə
 
 ---
 
-Built with ❤️ using Next.js 15
+## Repository
+
+```bash
+git clone https://github.com/hasan0v/chef-ilhama.git
+cd chef-ilhama
+```
+
+## Status
+
+Active portfolio project.
